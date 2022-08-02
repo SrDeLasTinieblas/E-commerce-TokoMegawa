@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="188dp"
+    android:layout_height="297dp"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="167dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/card_background"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/ImgView_Recently"
+            android:layout_width="110dp"
+            android:layout_height="114dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/frame_headphone" />
+
+        <ImageButton
+            android:id="@+id/imageButton"
+            android:layout_width="24dp"
+            android:layout_height="18dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="1dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/vector_ilike" />
+        <!--<ImageButton
+            android:id="@+id/imageButton"
+            android:layout_width="26dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="-35dp"
+            android:background="@drawable/vector_ilike" />-->
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textTitulo_recently_viewd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="171dp"
+        android:text="Titulo"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/textViewDescripcion"
+        android:layout_width="177dp"
+        android:layout_height="40dp"
+        android:layout_below="@+id/textTitulo_recently_viewd"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="4dp"
+        android:text="Decripcion"
+        android:textSize="12sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/textViewPrecio_recently"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="14dp"
+        android:layout_marginBottom="29dp"
+        android:text="$ 3000"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+</RelativeLayout>
+

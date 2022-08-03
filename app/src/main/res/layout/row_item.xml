@@ -22,7 +22,7 @@
             android:scaleType="centerCrop"
             android:src="@drawable/macbook_air_m1" />
 
-        <ImageButton
+        <!--<ImageButton
             android:id="@+id/imageButton"
             android:layout_width="24dp"
             android:layout_height="18dp"
@@ -30,7 +30,7 @@
             android:layout_marginStart="100dp"
             android:layout_marginTop="26dp"
             android:layout_marginBottom="10dp"
-            android:background="@drawable/vector_ilike" />
+            android:background="@drawable/vector_ilike" />-->
 
     </RelativeLayout>
 

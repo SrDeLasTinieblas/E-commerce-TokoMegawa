@@ -9,15 +9,17 @@
         <entry key="..\:/Users/master/AndroidStudioProjects/TokoMegawa/app/src/main/res/drawable/ic_baseline_search_24.xml" value="0.1" />
         <entry key="..\:/Users/master/AndroidStudioProjects/TokoMegawa/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1" />
         <entry key="..\:/Users/master/AndroidStudioProjects/TokoMegawa/app/src/main/res/drawable/search.xml" value="0.1" />
-        <entry key="..\:/Users/master/AndroidStudioProjects/TokoMegawa/app/src/main/res/layout/activity_card_filter.xml" value="0.18125" />
+        <entry key="..\:/Users/master/AndroidStudioProjects/TokoMegawa/app/src/main/res/layout/activity_card_filter.xml" value="0.33" />
         <entry key="..\:/Users/master/AndroidStudioProjects/TokoMegawa/app/src/main/res/layout/activity_details_products.xml" value="0.1841880341880342" />
-        <entry key="..\:/Users/master/AndroidStudioProjects/TokoMegawa/app/src/main/res/layout/activity_main.xml" value="0.25" />
-        <entry key="..\:/Users/master/AndroidStudioProjects/TokoMegawa/app/src/main/res/layout/activity_my_cart.xml" value="0.1" />
+        <entry key="..\:/Users/master/AndroidStudioProjects/TokoMegawa/app/src/main/res/layout/activity_main.xml" value="0.33" />
+        <entry key="..\:/Users/master/AndroidStudioProjects/TokoMegawa/app/src/main/res/layout/activity_my_cart.xml" value="0.22" />
         <entry key="..\:/Users/master/AndroidStudioProjects/TokoMegawa/app/src/main/res/layout/content_details_products.xml" value="0.1841880341880342" />
-        <entry key="..\:/Users/master/AndroidStudioProjects/TokoMegawa/app/src/main/res/layout/fragment_home.xml" value="0.1841880341880342" />
-        <entry key="..\:/Users/master/AndroidStudioProjects/TokoMegawa/app/src/main/res/layout/grid_view_card_filter.xml" value="0.19407265774378585" />
+        <entry key="..\:/Users/master/AndroidStudioProjects/TokoMegawa/app/src/main/res/layout/fragment_home.xml" value="0.22" />
+        <entry key="..\:/Users/master/AndroidStudioProjects/TokoMegawa/app/src/main/res/layout/fragment_my_cart.xml" value="0.22" />
+        <entry key="..\:/Users/master/AndroidStudioProjects/TokoMegawa/app/src/main/res/layout/grid_view_card_filter.xml" value="0.25" />
         <entry key="..\:/Users/master/AndroidStudioProjects/TokoMegawa/app/src/main/res/layout/grid_view_horizontal_ventas.xml" value="0.2" />
-        <entry key="..\:/Users/master/AndroidStudioProjects/TokoMegawa/app/src/main/res/layout/row_item.xml" value="0.25" />
+        <entry key="..\:/Users/master/AndroidStudioProjects/TokoMegawa/app/src/main/res/layout/grid_view_hot_sales.xml" value="0.22" />
+        <entry key="..\:/Users/master/AndroidStudioProjects/TokoMegawa/app/src/main/res/layout/row_item.xml" value="0.5" />
         <entry key="..\:/Users/master/AndroidStudioProjects/TokoMegawa/app/src/main/res/layout/row_item_my_cart.xml" value="0.2" />
         <entry key="..\:/Users/master/AndroidStudioProjects/TokoMegawa/app/src/main/res/layout/row_item_recently_viewed.xml" value="0.25" />
       </map>

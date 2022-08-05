@@ -4,27 +4,22 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-import com.tinieblas.tokomegawa.adptadores.MainModel;
-import com.tinieblas.tokomegawa.adptadores.Modelo;
-import com.tinieblas.tokomegawa.adptadores.RecentlyViewedAdapter;
-import com.tinieblas.tokomegawa.adptadores.hotSalesAdapter;
-
-import java.util.ArrayList;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private View decorView;
-    RecyclerView recyclerViewHotSales;
+    RequestQueue requestQueue;
+    /*RecyclerView recyclerViewHotSales;
     ArrayList<MainModel> mainModels;
     hotSalesAdapter hotSalesAdapter;
 
@@ -33,7 +28,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     RecentlyViewedAdapter recentlyViewedAdapter;
 
     Integer[] langLogo= new Integer[0];
-    String[] langName = new String[0];
+    String[] langName = new String[0];*/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,10 +36,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         decorView = getWindow().getDecorView();
         //FloatingActionButton fab = findViewById(R.id.fab);
-
-
-
-
 
 
         decorView.setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
@@ -57,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
 
         // Assign Variable
-        recyclerViewHotSales = findViewById(R.id.recicler_view_hotSales);
+        /*recyclerViewHotSales = findViewById(R.id.recicler_view_hotSales);
         recyclerViewRecentlyViewd = findViewById(R.id.recicler_view_recently);
 
         langLogo = new Integer[]{R.drawable.macbook_air_m1, R.drawable.mbp_shop_,
@@ -66,27 +57,84 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //Initialize ArrayList
         langName = new String[]{"macbook_air_m1", "macbook_air_m2", "macbook_air_m3", "macbook_air_m4", "macbook_air_m5"};
         setRecyclerViewHotSales();
-        setRecyclerViewRecentlyViewd();
+        setRecyclerViewRecentlyViewd();*/
 
+        replaceFragment(new HomeFragment());
 
 
     }
 
-    private void replaceFragment(Fragment fragment) {
+    /*public void setPrimerFragment(View view){
+        replaceFragment(new HomeFragment());
+    }*/
+
+    public void replaceFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        //fragmentTransaction.replace(R.id.frameLayout, fragment);
+        fragmentTransaction.replace(R.id.frameLayoutHome, fragment);
         fragmentTransaction.commit();
+        fragmentTransaction.addToBackStack(null);
     }
 
     public void buttonFlotante(View view){
-        Intent i = new Intent(this, MyCart_Activity.class);
-        startActivity(i);
+        replaceFragment(new MyCartFragment());
+        /*Intent i = new Intent(this, MyCart_Activity.class);
+        startActivity(i);*/
         /*Snackbar.make(view, "Here's a Snackbar", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();*/
     }
 
-    public void setRecyclerViewHotSales(){
+    private void getData() {
+        StringRequest request = new StringRequest(
+                Request.Method.GET,
+                "https://my-json-server.typicode.com/SrDeLasTinieblas/Api-feik-Productos/db",
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+
+                            //Sleep(5000);
+
+                            // Aca estamos diciendo que lo que esta en el carrito lo ponga una list
+                            //Type typeList = new TypeToken<List<Carrito>>() {}.getType();
+
+                            /**
+                             * Creamos una list con la response que nos llega de la api y le decimos que con gson
+                             *  lo convierta a un tipo de lista y lo guarde en "productsListResponse"
+                             */
+                            //List<Carrito> productsListResponse = new Gson().fromJson(response, typeList);
+
+                            // llenamos el productsList con los datos que ya hemos guardado antes
+                            //productsList.addAll(productsListResponse);
+
+                            /**
+                             * Aqui usamos lo que tenemos en la clase de adaptador y lo instanciamos
+                             *  le pasamos como parametro el contexto y la lista de productos
+                             *  para despues actualizar todo lo que tenemos en el adaptador
+                             */
+                            //adaptador = new Adaptador(MainActivity.this, productsList);
+                            //gridView.setAdapter(adaptador);
+
+                        } catch (Exception e) {
+                            Log.d("JSONException", e.getMessage());
+                            e.printStackTrace();
+                        }
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        System.err.println(error.networkResponse + " error");
+                    }
+                }
+        );
+        // Aqui enviamos la solicitud de la peticion
+        requestQueue.add(request);
+    }
+
+
+    /*public void setRecyclerViewHotSales(){
         mainModels = new ArrayList<>();
         for (int i=0; i< langLogo.length;i++){
             MainModel model = new MainModel(langLogo[i], langName[i]);
@@ -127,7 +175,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Intent i = new Intent(this, Details_Activity.class);
         startActivity(i);
     }
-
+*/
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
@@ -147,7 +195,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-
     }
 }
 

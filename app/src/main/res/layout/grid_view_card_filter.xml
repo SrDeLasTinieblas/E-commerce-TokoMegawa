@@ -1,27 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="70dp">
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    >
+    <!--
+        wrap_content resumir contenido
+        match_parent se expande lo mas posible
+    -->
 
         <HorizontalScrollView
             android:id="@+id/horizontalScrollView"
             android:layout_width="match_parent"
             android:layout_height="90dp"
-            android:layout_marginStart="85dp"
+
             android:scrollbars="none">
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-                <include
+                <LinearLayout
+                    android:layout_width="457dp"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <GridView
+                        android:id="@+id/grid"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:columnWidth="100dp"
+                        android:gravity="center"
+                        android:horizontalSpacing="1dp"
+                        android:numColumns="500"
+                        android:scrollbarAlwaysDrawHorizontalTrack="true"
+                        android:scrollbarAlwaysDrawVerticalTrack="true"
+                        android:scrollbars="horizontal"
+                        android:stretchMode="none"
+                        android:verticalSpacing="1dp"
+
+
+                        />
+
+
+                    <!--<include
                     layout="@layout/activity_card_filter"
                     tools:ignore="ResourceCycle"
                     tools:layout_editor_absoluteX="0dp"
@@ -67,9 +90,10 @@
                     layout="@layout/activity_card_filter"
                     tools:ignore="ResourceCycle"
                     tools:layout_editor_absoluteX="0dp"
-                    tools:layout_editor_absoluteY="0dp" />
-            </LinearLayout>
+                    tools:layout_editor_absoluteY="0dp" />-->
 
-        </HorizontalScrollView>
-    </LinearLayout>
-</RelativeLayout>
+                </LinearLayout>
+
+            </FrameLayout>
+    </HorizontalScrollView>
+</LinearLayout>

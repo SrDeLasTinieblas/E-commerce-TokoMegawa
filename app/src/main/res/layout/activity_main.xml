@@ -6,7 +6,13 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <EditText
+    <FrameLayout
+        android:id="@+id/frameLayoutHome"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+
+    <!--<EditText
         android:id="@+id/editTextTextPersonName"
         android:layout_width="298dp"
         android:layout_height="40dp"
@@ -168,6 +174,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/recicler_view_recently"
         app:layout_constraintVertical_bias="0.932" />
-
+    -->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

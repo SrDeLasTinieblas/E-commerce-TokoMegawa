@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.tinieblas.tokomegawa.R;
+import com.tinieblas.tokomegawa.adptadores.Modelos.Modelo;
 
 import java.util.ArrayList;
 

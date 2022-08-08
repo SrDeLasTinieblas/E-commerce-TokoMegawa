@@ -1,12 +1,8 @@
 package com.tinieblas.tokomegawa.adptadores;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,18 +14,20 @@ import com.tinieblas.tokomegawa.adptadores.Modelos.ModelohotSales;
 import com.tinieblas.tokomegawa.databinding.RowItemBinding;
 
 import java.util.List;
-import java.util.Random;
 
 public class hotSalesAdapterRecycler extends RecyclerView.Adapter<hotSalesAdapterRecycler.ViewHolder> {
     private final List<ModelohotSales> modelohotSales;
     private final Context context;
     private final LayoutInflater layoutInflater;
+    //private final RecyclerViewInterface recyclerViewInterface;
 
-
-    public hotSalesAdapterRecycler(List<ModelohotSales> modelohotSales, Context context ){
+    public hotSalesAdapterRecycler(List<ModelohotSales> modelohotSales,
+                                   Context context/*,
+                                   RecyclerViewInterface recyclerViewInterface*/){
         this.context = context;
         this.layoutInflater = LayoutInflater.from(context);
         this.modelohotSales = modelohotSales;
+        //this.recyclerViewInterface = recyclerViewInterface;
     }
 
     @Override
@@ -56,7 +54,6 @@ public class hotSalesAdapterRecycler extends RecyclerView.Adapter<hotSalesAdapte
     public class ViewHolder extends RecyclerView.ViewHolder {
         RowItemBinding rowItemBinding;
 
-
         /*TextView Titulo;
         TextView Descripcion;
         ImageView Imagen1;
@@ -74,12 +71,15 @@ public class hotSalesAdapterRecycler extends RecyclerView.Adapter<hotSalesAdapte
             Descripcion = itemView.findViewById(R.id.textDescripcionHotSales);
             Imagen1 = itemView.findViewById(R.id.imageImagenHotSales);
             Precio = itemView.findViewById(R.id.textPrecioHotSales);*/
+
+
+
         }
 
         public void bindData(final ModelohotSales item) {
             rowItemBinding.textTituloHotSales.setText(item.getTitulo());
             rowItemBinding.textDescripcionHotSales.setText(item.getDescripcion());
-            rowItemBinding.textPrecioHotSales.setText(String.valueOf(item.getPrecio()));
+            rowItemBinding.textPrecioHotSales.setText(String.format("S/%s", (item.getPrecio())));
 
             RandomColor randomColor = new RandomColor();
             rowItemBinding.cardImagenHotSales.setCardBackgroundColor(randomColor.getColor());
@@ -87,6 +87,9 @@ public class hotSalesAdapterRecycler extends RecyclerView.Adapter<hotSalesAdapte
             Glide.with(itemView).load(item.getImagen1())
                     .placeholder(R.drawable.frame_headphone)
                     .into(rowItemBinding.imageImagenHotSales);
+
+
+
         }
     }
 }

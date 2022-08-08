@@ -65,6 +65,7 @@
         android:text="See All"
         android:textColor="#BBBBBB"
         android:textSize="15sp"
+        android:onClick="seeAllHotSales"
         app:layout_constraintBottom_toBottomOf="@+id/textView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.921"
@@ -102,18 +103,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />-->
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recicler_view_hotSales"
-        android:layout_width="match_parent"
-        android:layout_height="178dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginStart="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
-
-
 
     <!--<include
         android:id="@+id/grid_view_hotSales"
@@ -126,18 +115,33 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />-->
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recicler_view_hotSales"
+        android:layout_width="384dp"
+        android:layout_height="202dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
     <TextView
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="12dp"
+        android:layout_marginBottom="25dp"
         android:text="Recently Viewed"
         android:textColor="@color/black"
         android:textSize="20sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/recicler_view_recently"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recicler_view_hotSales" />
+        app:layout_constraintTop_toBottomOf="@+id/recicler_view_hotSales"
+        app:layout_constraintVertical_bias="1.0" />
+
 
     <TextView
         android:id="@+id/seeAll"
@@ -147,22 +151,23 @@
         android:text="See All"
         android:textColor="#BBBBBB"
         android:textSize="15sp"
+        app:layout_constraintBottom_toTopOf="@+id/recicler_view_recently"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.912"
+        app:layout_constraintHorizontal_bias="0.89"
         app:layout_constraintStart_toEndOf="@+id/textView3"
-        app:layout_constraintTop_toBottomOf="@+id/recicler_view_hotSales" />
+        app:layout_constraintTop_toBottomOf="@+id/recicler_view_hotSales"
+        app:layout_constraintVertical_bias="0.0" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recicler_view_recently"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="64dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
-
+        app:layout_constraintTop_toBottomOf="@+id/recicler_view_hotSales" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"

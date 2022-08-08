@@ -7,15 +7,10 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.GridView;
-
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -24,23 +19,21 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.tinieblas.tokomegawa.adptadores.Modelos.MainModel;
 import com.tinieblas.tokomegawa.adptadores.Modelos.Modelo;
 import com.tinieblas.tokomegawa.adptadores.Modelos.ModelohotSales;
-import com.tinieblas.tokomegawa.adptadores.RecentlyViewedAdapter;
+import com.tinieblas.tokomegawa.adptadores.RecentlyViewedAdapterRecycler;
 import com.tinieblas.tokomegawa.adptadores.hotSalesAdapterRecycler;
 import com.tinieblas.tokomegawa.databinding.FragmentHomeBinding;
-
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
 public class HomeFragment extends Fragment {
     HomeFragment context;
-    ArrayList<MainModel> mainModels;
+    //ArrayList<MainModel> mainModels;
 
     ArrayList<Modelo> models;
-    RecentlyViewedAdapter recentlyViewedAdapter;
+    RecentlyViewedAdapterRecycler recentlyViewedAdapterRecycler;
 
     Integer[] langLogo= new Integer[0];
     String[] langName = new String[0];
@@ -62,7 +55,7 @@ public class HomeFragment extends Fragment {
                 R.drawable.mbp_shop_, R.drawable.macbook_air_m1, R.drawable.macbook_air_m1};
 
         langName = new String[]{"macbook_air_m1", "macbook_air_m2", "macbook_air_m3", "macbook_air_m4", "macbook_air_m5"};
-        setRecyclerViewHotSales();
+        //setRecyclerViewHotSales();
         setRecyclerViewRecentlyViewd();
 
         fragmentHomeBinding.buttonHome.setOnClickListener(new View.OnClickListener() {
@@ -71,14 +64,16 @@ public class HomeFragment extends Fragment {
                 replaceFragment(new HomeFragment());
             }
         });
+
+        //fragmentHomeBinding.reciclerViewHotSales.setOnClickListener(new );
+
+
         requestQueue = Volley.newRequestQueue(context.getActivity());
         getData();
         return fragmentHomeBinding.getRoot();
-
     }
 
     public void getData() {
-
         StringRequest request = new StringRequest(
                 Request.Method.GET,
                 "https://my-json-server.typicode.com/SrDeLasTinieblas/Peliculas/productos",
@@ -100,7 +95,8 @@ public class HomeFragment extends Fragment {
                             fragmentHomeBinding.reciclerViewHotSales.setLayoutManager(linearLayoutManager2);
                             fragmentHomeBinding.reciclerViewHotSales.setItemAnimator(new DefaultItemAnimator());
 
-                            hotSalesAdapterRecycler = new hotSalesAdapterRecycler(ListProducts, context.getActivity());
+                            hotSalesAdapterRecycler = new hotSalesAdapterRecycler(ListProducts,
+                                    context.getActivity()/*, getContext()*/);
                             fragmentHomeBinding.reciclerViewHotSales.setAdapter(hotSalesAdapterRecycler);
 
                         } catch (Exception e) {
@@ -130,7 +126,8 @@ public class HomeFragment extends Fragment {
     }
 
     public void setRecyclerViewHotSales(){
-        mainModels = new ArrayList<>();
+
+        /*mainModels = new ArrayList<>();
         for (int i=0; i< langLogo.length;i++){
             MainModel model = new MainModel(langLogo[i], langName[i]);
             mainModels.add(model);
@@ -138,12 +135,12 @@ public class HomeFragment extends Fragment {
         //Design Horizontal Layout
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context.getActivity(),
                 LinearLayoutManager.HORIZONTAL,
-                false );
-
+                false );*/
     }
 
     public void setRecyclerViewRecentlyViewd(){
-        models = new ArrayList<>();
+
+        /*models = new ArrayList<>();
         for (int i=0; i<langLogo.length; i++){
             Modelo model = new Modelo(langLogo[i], langName[i]);
             models.add(model);
@@ -156,9 +153,9 @@ public class HomeFragment extends Fragment {
         fragmentHomeBinding.reciclerViewRecently.setItemAnimator(new DefaultItemAnimator());
 
         // Initial adaptador
-        recentlyViewedAdapter = new RecentlyViewedAdapter(context.getActivity(), models);
-        fragmentHomeBinding.reciclerViewRecently.setAdapter(recentlyViewedAdapter);
-
+        recentlyViewedAdapterRecycler = new RecentlyViewedAdapterRecycler(context.getActivity(), models);
+        fragmentHomeBinding.reciclerViewRecently.setAdapter(recentlyViewedAdapterRecycler);
+*/
     }
 
     @Override
@@ -167,3 +164,27 @@ public class HomeFragment extends Fragment {
         fragmentHomeBinding = null;
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

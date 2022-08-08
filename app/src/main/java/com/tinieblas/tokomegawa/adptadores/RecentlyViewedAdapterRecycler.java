@@ -15,11 +15,11 @@ import com.tinieblas.tokomegawa.adptadores.Modelos.Modelo;
 
 import java.util.ArrayList;
 
-public class RecentlyViewedAdapter extends RecyclerView.Adapter<RecentlyViewedAdapter.ViewHolder>  {
+public class RecentlyViewedAdapterRecycler extends RecyclerView.Adapter<RecentlyViewedAdapterRecycler.ViewHolder>  {
     ArrayList<Modelo> modelos;
     Context context;
 
-    public RecentlyViewedAdapter(Context context, ArrayList<Modelo> models ){
+    public RecentlyViewedAdapterRecycler(Context context, ArrayList<Modelo> models ){
         this.context = context;
         this.modelos = models;
 

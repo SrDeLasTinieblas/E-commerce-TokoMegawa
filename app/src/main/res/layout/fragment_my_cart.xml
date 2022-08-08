@@ -49,17 +49,20 @@
         android:layout_width="391dp"
         android:layout_height="464dp"
         android:layout_marginTop="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/textView6"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+        app:layout_constraintTop_toBottomOf="@+id/textView4"
+        app:layout_constraintVertical_bias="0.305" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/buttonSiguiente"
         android:layout_width="269dp"
         android:layout_height="48dp"
         android:layout_marginBottom="28dp"
         android:background="@drawable/button_background_cart"
-        android:text="Button"
+        android:text="Siguiente"
+        android:onClick="seeModalLower"
         android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -114,7 +117,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginBottom="8dp"
         android:text="Total :"
-        app:layout_constraintBottom_toTopOf="@+id/button2"
+        app:layout_constraintBottom_toTopOf="@+id/buttonSiguiente"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
@@ -159,7 +162,7 @@
         android:layout_marginBottom="8dp"
         android:text="$ 406.60"
         android:textColor="#38C7A5"
-        app:layout_constraintBottom_toTopOf="@+id/button2"
+        app:layout_constraintBottom_toTopOf="@+id/buttonSiguiente"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.161"
         app:layout_constraintStart_toEndOf="@+id/textView10" />
@@ -170,7 +173,7 @@
         android:layout_height="30dp"
         android:layout_marginTop="-50dp"
         android:background="@drawable/arrow_back_fill"
-        android:onClick="atras"
+        android:onClick="buttonBack"
         app:layout_constraintBottom_toTopOf="@+id/textView4"
         app:layout_constraintEnd_toStartOf="@+id/textView2"
         app:layout_constraintHorizontal_bias="0.219"

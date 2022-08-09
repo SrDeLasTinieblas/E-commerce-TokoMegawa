@@ -37,14 +37,34 @@
             android:textSize="13sp" />
 
         <ImageView
-            android:id="@+id/imageDetailsProducts2"
+            android:id="@+id/imageDetailsProducts1A"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginStart="320dp"
+            android:background="@drawable/degradado"
             android:layout_marginTop="40dp"
             android:onClick="seeModalLower"
             android:contentDescription="TODO" />
 
+        <ImageView
+            android:id="@+id/imageDetailsProducts2B"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="320dp"
+            android:background="@drawable/degradado"
+            android:layout_marginTop="110dp"
+            android:onClick="seeModalLower"
+            android:contentDescription="TODO" />
+
+        <ImageView
+            android:id="@+id/imageDetailsProducts3C"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="320dp"
+            android:background="@drawable/degradado"
+            android:layout_marginTop="180dp"
+            android:onClick="seeModalLower"
+            android:contentDescription="TODO" />
 
     </androidx.cardview.widget.CardView>
 
@@ -86,18 +106,20 @@
         android:textSize="20dp"
         app:layout_constraintBottom_toTopOf="@+id/textPrecioDestailsProductos"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.51"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardImagenDetailsProducts"
+        app:layout_constraintVertical_bias="1.0" />
 
     <TextView
         android:id="@+id/textPrecioDestailsProductos"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
         android:layout_marginBottom="32dp"
         android:text="$ 4.999"
         android:textSize="22dp"
         app:layout_constraintBottom_toTopOf="@+id/textCantidad"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.065"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
@@ -129,21 +151,22 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_alignParentBottom="true"
+        android:layout_marginStart="25dp"
         android:layout_toEndOf="@+id/textPrecioDestailsProductos"
         android:background="@drawable/fa_minus"
+        android:onClick="btnDisminuyendo"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/textCantidad"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textPrecioDestailsProductos"
         app:layout_constraintVertical_bias="0.463" />
 
     <TextView
         android:id="@+id/textCantidad"
-        android:layout_width="20dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="24dp"
         android:layout_marginBottom="39dp"
+        android:layout_marginStart="15dp"
         android:layout_toStartOf="@+id/button_plus"
         android:layout_toEndOf="@+id/button_minus"
         android:text="1"
@@ -151,7 +174,7 @@
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button_plus" />
+        app:layout_constraintStart_toEndOf="@+id/button_minus" />
 
     <Button
         android:id="@+id/button_plus"
@@ -161,6 +184,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="33dp"
         android:layout_marginBottom="32dp"
+        android:onClick="btnAumentando"
         android:background="@drawable/fa_plus"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/buttonNextDetailsProducts"

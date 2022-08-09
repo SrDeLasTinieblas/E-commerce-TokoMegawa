@@ -12,6 +12,7 @@ public class ModelohotSales implements Parcelable {
      * Aqui serializamos el response que nos llega del main activity
      */
 
+    public static final String Parcel = "my_modelo";
     @SerializedName("id")
     @Expose
     private Integer id;
@@ -23,7 +24,16 @@ public class ModelohotSales implements Parcelable {
     @Expose
     private String descripcion;
 
+
     /** Add */
+    @SerializedName("cantidad")
+    @Expose
+    private int cantidad = 2;
+
+    @SerializedName("PrecioTotal")
+    @Expose
+    private float precioTotal;
+
     @SerializedName("imagen1")
     @Expose
     private String imagen1;
@@ -130,6 +140,21 @@ public class ModelohotSales implements Parcelable {
         this.delivery = delivery;
     }
 
+    public int getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(int cantidad) {
+        this.cantidad = cantidad;
+    }
+
+    public float getPrecioTotal() {
+        return getCantidad()*getPrecio();
+    }
+
+    public void setPrecioTotal(float precioTotal) {
+        this.precioTotal = precioTotal;
+    }
     //**********************************************************************************************
     @Override
     public int describeContents() {
@@ -154,10 +179,13 @@ public class ModelohotSales implements Parcelable {
         parcel.writeFloat(descuento);
         parcel.writeFloat(precio);
         parcel.writeString(delivery);
+        parcel.writeFloat(precioTotal);
+        parcel.writeInt(cantidad);
+
     }
 
 
-    protected ModelohotSales(Parcel in) {
+    public ModelohotSales(Parcel in) {
         /*if (in.readByte() == 0) {
             id = null;
         } else {
@@ -174,6 +202,8 @@ public class ModelohotSales implements Parcelable {
         this.descuento = in.readFloat();
         this.precio = in.readFloat();
         this.delivery = in.readString();
+        this.cantidad = in.readInt();
+        this.precioTotal = in.readFloat();
     }
 
     public static final Creator<ModelohotSales> CREATOR = new Creator<ModelohotSales>() {

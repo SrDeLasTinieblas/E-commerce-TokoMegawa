@@ -41,7 +41,7 @@ public class HomeFragment extends Fragment {
     RequestQueue requestQueue;
     hotSalesAdapterRecycler hotSalesAdapterRecycler;
     private FragmentHomeBinding fragmentHomeBinding;
-
+    ArrayList<String> listdata = new ArrayList<>();
     private final List<ModelohotSales> ListProducts = new ArrayList<>();
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -98,6 +98,18 @@ public class HomeFragment extends Fragment {
                             hotSalesAdapterRecycler = new hotSalesAdapterRecycler(ListProducts,
                                     context.getActivity()/*, getContext()*/);
                             fragmentHomeBinding.reciclerViewHotSales.setAdapter(hotSalesAdapterRecycler);
+
+                            //System.out.println("productsListResponse ==> "+productsListResponse);
+
+                            //System.out.println("ListProducts ==> "+ListProducts.get(2).getTitulo());
+                            //System.out.println(new Gson().toJson(ListProducts));
+
+                            listdata.add(new Gson().toJson(ListProducts));
+
+
+                            Bundle bundle = new Bundle();
+                            bundle.putString("lista1",listdata.toString());
+                            getParentFragmentManager().setFragmentResult("key1", bundle);
 
                         } catch (Exception e) {
                             Log.d("JSONException", e.getMessage());

@@ -43,7 +43,7 @@ public class HotSalesFragment extends Fragment {
 
     hotSalesAdapterRecycler hotSalesAdapterRecycler;
     private FragmentHotSalesBinding fragmentHotSalesBinding;
-
+    private final List<ModelohotSales> ListProducts1 = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -82,6 +82,7 @@ public class HotSalesFragment extends Fragment {
             }
         });
         getData();
+        //datos();
 
         return fragmentHotSalesBinding.getRoot();
     }
@@ -128,9 +129,27 @@ public class HotSalesFragment extends Fragment {
         fragmentTransaction.replace(R.id.frameLayoutHome, fragment);
         fragmentTransaction.commit();
         fragmentTransaction.addToBackStack(null);
+
     }
 
+    public void datos(){
+        Bundle bundle = new Bundle();
+        bundle.putString("lista1", ListProducts1.toString());
+        //Toast.makeText(context.getContext(), "oo"+ListProducts1, Toast.LENGTH_SHORT).show();
+    }
 
+    /*public void onBackPressed() {
+
+        int count = getSupportFragmentManager().getBackStackEntryCount();
+
+        if (count == 0) {
+            super.onBackPressed();
+            //additional code
+        } else {
+            getSupportFragmentManager().popBackStack();
+        }
+
+    }*/
 }
 
 

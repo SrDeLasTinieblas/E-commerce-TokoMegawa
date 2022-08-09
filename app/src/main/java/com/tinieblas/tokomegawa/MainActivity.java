@@ -13,9 +13,13 @@ import android.widget.GridView;
 import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
+import com.bumptech.glide.Glide;
 import com.tinieblas.tokomegawa.Utils.BottomSheetDialog;
 import com.tinieblas.tokomegawa.adptadores.Modelos.ModelohotSales;
 import com.tinieblas.tokomegawa.adptadores.Modelos.RecyclerViewInterface;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements RecyclerViewInterface, View.OnClickListener {
 
@@ -24,6 +28,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
     RequestQueue requestQueue;
     RecyclerView recyclerView;
     GridView gridView;
+    private final List<ModelohotSales> ListProducts = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,7 +90,13 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
         bottomSheet.show(getSupportFragmentManager(),
                 "ModalBottomSheet");
     }
+    public void img2(){
+        /*Glide.with(MainActivity.this)
+                .load(ListProducts.get())
+                .placeholder(R.drawable.frame_headphone)
+                .into(detailsProductsFragmentBinding.imageDetailsProducts1A);*/
 
+    }
 
     public void seeAllHotSales(View view){
         replaceFragment(new HotSalesFragment());
@@ -94,7 +105,6 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
     public void seeAllRecentlyViewed(View view){
         //replaceFragment(new HotSalesFragment());
     }
-
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
@@ -119,7 +129,26 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
 
     @Override
     public void onItemClick(int position) {
+    }
 
+    @Override
+    public void onBackPressed() {
+        //Toast.makeText(this, "Back", Toast.LENGTH_SHORT).show();
+
+        /*if (getFragmentManager().getBackStackEntryCount() > 0) {
+            getFragmentManager().popBackStack();
+        } else {
+            super.onBackPressed();
+        }*/
+        /*int count = getSupportFragmentManager().getBackStackEntryCount();
+
+        if (count == 0) {
+            super.onBackPressed();
+            //additional code
+        } else {
+            getSupportFragmentManager().popBackStack();
+        }
+        super.onBackPressed();*/
     }
 }
 

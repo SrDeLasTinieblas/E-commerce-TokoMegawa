@@ -71,9 +71,6 @@ public class hotSalesAdapterRecycler extends RecyclerView.Adapter<hotSalesAdapte
             Descripcion = itemView.findViewById(R.id.textDescripcionHotSales);
             Imagen1 = itemView.findViewById(R.id.imageImagenHotSales);
             Precio = itemView.findViewById(R.id.textPrecioHotSales);*/
-
-
-
         }
 
         public void bindData(final ModelohotSales item) {
@@ -87,9 +84,6 @@ public class hotSalesAdapterRecycler extends RecyclerView.Adapter<hotSalesAdapte
             Glide.with(itemView).load(item.getImagen1())
                     .placeholder(R.drawable.frame_headphone)
                     .into(rowItemBinding.imageImagenHotSales);
-
-
-
         }
     }
 }

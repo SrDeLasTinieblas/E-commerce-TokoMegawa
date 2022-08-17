@@ -167,6 +167,10 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
     public void onClick(View view) {
     }
 
+    public void butonRegistrarse(View view){
+        replaceFragment(new RegistroFragment());
+    }
+
     public void buttonHeart(View view) {
 
         //if (pre){

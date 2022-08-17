@@ -26,6 +26,7 @@ import com.google.gson.reflect.TypeToken;
 import com.tinieblas.tokomegawa.adptadores.Modelos.ModelohotSales;
 import com.tinieblas.tokomegawa.adptadores.hotSalesAdapterGridView;
 import com.tinieblas.tokomegawa.adptadores.hotSalesAdapterRecycler;
+import com.tinieblas.tokomegawa.constants.Constants;
 import com.tinieblas.tokomegawa.databinding.FragmentHomeBinding;
 import com.tinieblas.tokomegawa.databinding.FragmentHotSalesBinding;
 
@@ -43,7 +44,7 @@ public class HotSalesFragment extends Fragment {
 
     hotSalesAdapterRecycler hotSalesAdapterRecycler;
     private FragmentHotSalesBinding fragmentHotSalesBinding;
-    private final List<ModelohotSales> ListProducts1 = new ArrayList<>();
+    //private final List<ModelohotSales> ListProducts1 = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -55,7 +56,6 @@ public class HotSalesFragment extends Fragment {
 
         gridView = fragmentHotSalesBinding.gridViewProducts.findViewById(R.id.gridViewProducts);
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 //
@@ -63,7 +63,13 @@ public class HotSalesFragment extends Fragment {
                 //Toast.makeText(context.getContext(), "==> " + ListProducts.get(i).getTitulo(), Toast.LENGTH_SHORT).show();
 
                 Bundle bundle = new Bundle();
-                bundle.putString("titulo", ListProducts.get(i).getTitulo());
+                bundle.putParcelable(Constants.INTENT_NAME_MODELO, ListProducts.get(i));
+                Intent intent = new Intent(context.getContext(), HomeFragment.class);
+
+                // llamamos a carrito que seria la key y en el otro parametro le pasamos el arrayList
+                // y lo llenamos
+                intent.putExtra(Constants.INTENT_NAME, ListProducts.get(i));
+                /*bundle.putString("titulo", ListProducts.get(i).getTitulo());
                 bundle.putString("descripcion", ListProducts.get(i).getDescripcion());
                 bundle.putString("img1", ListProducts.get(i).getImagen1());
                 bundle.putString("img2", ListProducts.get(i).getImagen2());
@@ -71,14 +77,16 @@ public class HotSalesFragment extends Fragment {
                 bundle.putString("img4", ListProducts.get(i).getImagen4());
                 bundle.putFloat("descuento", ListProducts.get(i).getDescuento());
                 bundle.putFloat("precio", ListProducts.get(i).getPrecio());
-                bundle.putString("delivery", ListProducts.get(i).getDelivery());
+                bundle.putString("delivery", ListProducts.get(i).getDelivery());*/
 
                 getParentFragmentManager().setFragmentResult("key", bundle);
+                //System.out.println(ListProducts);
+                Log.e("lista",ListProducts.toString());
                 replaceFragment(new DetailsProductsFragment());
 
-                //Intent intent = new Intent(context.getContext(), DetailsProductsFragment.class);
-                //intent.putExtra("ModelohotSales", ListProducts.get(i));
-                //startActivity(intent);
+                /*Intent intent = new Intent(context.getContext(), DetailsProductsFragment.class);
+                intent.putExtra("ModelohotSales", ListProducts.get(i));
+                startActivity(intent);*/
             }
         });
         getData();
@@ -133,10 +141,11 @@ public class HotSalesFragment extends Fragment {
     }
 
     public void datos(){
-        Bundle bundle = new Bundle();
-        bundle.putString("lista1", ListProducts1.toString());
+        /*Bundle bundle = new Bundle();
+        bundle.putString("lista1", ListProducts1.toString());*/
         //Toast.makeText(context.getContext(), "oo"+ListProducts1, Toast.LENGTH_SHORT).show();
     }
+
 
     /*public void onBackPressed() {
 

@@ -12,7 +12,7 @@ public class ModelohotSales implements Parcelable {
      * Aqui serializamos el response que nos llega del main activity
      */
 
-    public static final String Parcel = "my_modelo";
+    //public static final String Parcel = "my_modelo";
     @SerializedName("id")
     @Expose
     private Integer id;
@@ -28,11 +28,11 @@ public class ModelohotSales implements Parcelable {
     /** Add */
     @SerializedName("cantidad")
     @Expose
-    private int cantidad = 2;
+    private int cantidad = 1;
 
-    @SerializedName("PrecioTotal")
+    @SerializedName("preciototal")
     @Expose
-    private float precioTotal;
+    private float preciototal;
 
     @SerializedName("imagen1")
     @Expose
@@ -148,12 +148,12 @@ public class ModelohotSales implements Parcelable {
         this.cantidad = cantidad;
     }
 
-    public float getPrecioTotal() {
+    public float getPreciototal() {
         return getCantidad()*getPrecio();
     }
 
     public void setPrecioTotal(float precioTotal) {
-        this.precioTotal = precioTotal;
+        this.preciototal = precioTotal;
     }
     //**********************************************************************************************
     @Override
@@ -179,7 +179,7 @@ public class ModelohotSales implements Parcelable {
         parcel.writeFloat(descuento);
         parcel.writeFloat(precio);
         parcel.writeString(delivery);
-        parcel.writeFloat(precioTotal);
+        parcel.writeFloat(preciototal);
         parcel.writeInt(cantidad);
 
     }
@@ -203,7 +203,7 @@ public class ModelohotSales implements Parcelable {
         this.precio = in.readFloat();
         this.delivery = in.readString();
         this.cantidad = in.readInt();
-        this.precioTotal = in.readFloat();
+        this.preciototal = in.readFloat();
     }
 
     public static final Creator<ModelohotSales> CREATOR = new Creator<ModelohotSales>() {

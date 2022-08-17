@@ -36,6 +36,27 @@
             android:textColor="@color/white"
             android:textSize="13sp" />
 
+        <!--<Button
+            android:id="@+id/buttonShipping2"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="280dp"
+            android:layout_marginTop="320dp"
+            android:background="@drawable/group_like"
+            android:text="Free shipping"
+            android:textColor="@color/white"
+            android:textSize="13sp" />-->
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/animationView"
+            android:layout_width="110dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="260dp"
+            android:layout_marginTop="280dp"
+            android:onClick="sendCarrito"
+            app:lottie_autoPlay="false"
+            app:lottie_loop="false"
+            app:lottie_rawRes="@raw/z" />
+
         <ImageView
             android:id="@+id/imageDetailsProducts1A"
             android:layout_width="50dp"
@@ -43,7 +64,6 @@
             android:layout_marginStart="320dp"
             android:background="@drawable/degradado"
             android:layout_marginTop="40dp"
-            android:onClick="seeModalLower"
             android:contentDescription="TODO" />
 
         <ImageView
@@ -53,7 +73,6 @@
             android:layout_marginStart="320dp"
             android:background="@drawable/degradado"
             android:layout_marginTop="110dp"
-            android:onClick="seeModalLower"
             android:contentDescription="TODO" />
 
         <ImageView
@@ -63,7 +82,6 @@
             android:layout_marginStart="320dp"
             android:background="@drawable/degradado"
             android:layout_marginTop="180dp"
-            android:onClick="seeModalLower"
             android:contentDescription="TODO" />
 
     </androidx.cardview.widget.CardView>
@@ -72,16 +90,16 @@
         android:id="@+id/buttonNextDetailsProducts"
         android:layout_width="206dp"
         android:layout_height="50dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="28dp"
         android:background="@drawable/button_background_cart"
         android:text="Siguiente"
         android:textColor="#FFFFFF"
+        android:onClick="seeModalLower"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.827"
-        app:layout_constraintStart_toEndOf="@+id/textPrecioDestailsProductos"
         app:layout_constraintTop_toBottomOf="@+id/textViewDescripcionDetailsProducts"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="0.982" />
 
     <TextView
         android:id="@+id/textTituloProduct"
@@ -91,6 +109,7 @@
         android:digits="15"
         android:text="Titulo"
         android:textSize="30dp"
+        android:layout_marginStart="8dp"
         app:layout_constraintBottom_toTopOf="@+id/textViewDescripcionDetailsProducts"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.066"
@@ -184,12 +203,14 @@
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="33dp"
         android:layout_marginBottom="32dp"
-        android:onClick="btnAumentando"
         android:background="@drawable/fa_plus"
+        android:onClick="btnAumentando"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/buttonNextDetailsProducts"
+        app:layout_constraintHorizontal_bias="0.846"
+        app:layout_constraintStart_toEndOf="@+id/textCantidad"
         app:layout_constraintTop_toBottomOf="@+id/textPrecioDestailsProductos"
-        app:layout_constraintVertical_bias="0.906" />
+        app:layout_constraintVertical_bias="0.888" />
 
     <Button
         android:id="@+id/button_black"
@@ -197,10 +218,10 @@
         android:layout_height="30dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="112dp"
+        android:layout_marginEnd="24dp"
         android:background="@drawable/button_black"
         app:layout_constraintBottom_toTopOf="@+id/buttonNextDetailsProducts"
-        app:layout_constraintStart_toEndOf="@+id/textPrecioDestailsProductos"
+        app:layout_constraintEnd_toStartOf="@+id/button_White"
         app:layout_constraintTop_toBottomOf="@+id/textViewDescripcionDetailsProducts"
         app:layout_constraintVertical_bias="0.285" />
 
@@ -210,10 +231,10 @@
         android:layout_height="30dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
         android:background="@drawable/button_white"
         app:layout_constraintBottom_toTopOf="@+id/buttonNextDetailsProducts"
-        app:layout_constraintStart_toEndOf="@+id/button_black"
+        app:layout_constraintEnd_toStartOf="@+id/button_Gris"
         app:layout_constraintTop_toBottomOf="@+id/textViewDescripcionDetailsProducts"
         app:layout_constraintVertical_bias="0.285" />
 
@@ -223,12 +244,10 @@
         android:layout_height="30dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="24dp"
+        android:layout_marginEnd="40dp"
         android:background="@drawable/button_gris"
         app:layout_constraintBottom_toTopOf="@+id/buttonNextDetailsProducts"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.04"
-        app:layout_constraintStart_toEndOf="@+id/button_White"
         app:layout_constraintTop_toBottomOf="@+id/textViewDescripcionDetailsProducts"
         app:layout_constraintVertical_bias="0.285" />
 

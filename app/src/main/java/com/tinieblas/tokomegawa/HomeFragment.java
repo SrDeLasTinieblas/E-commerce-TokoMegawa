@@ -152,7 +152,7 @@ public class HomeFragment extends Fragment {
 
     public void setRecyclerViewRecentlyViewd(){
 
-        /*models = new ArrayList<>();
+        models = new ArrayList<>();
         for (int i=0; i<langLogo.length; i++){
             Modelo model = new Modelo(langLogo[i], langName[i]);
             models.add(model);
@@ -167,7 +167,7 @@ public class HomeFragment extends Fragment {
         // Initial adaptador
         recentlyViewedAdapterRecycler = new RecentlyViewedAdapterRecycler(context.getActivity(), models);
         fragmentHomeBinding.reciclerViewRecently.setAdapter(recentlyViewedAdapterRecycler);
-*/
+
     }
 
     @Override

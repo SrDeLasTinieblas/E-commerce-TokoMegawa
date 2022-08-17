@@ -83,6 +83,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
     }
 
     public void buttonFlotante(View view) {
+
         /*int currentNightMode = configuration.uiMode & Configuration.UI_MODE_NIGHT_MASK;
         switch (currentNightMode) {
             case Configuration.UI_MODE_NIGHT_NO:
@@ -98,7 +99,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
         //modelohotSales = bundle.getParcelable(Constants.INTENT_NAME);
         //System.out.println("hola ==> ");
 
-        replaceFragment(new MyCartFragment());
+        replaceFragment(new LoginFragment());
 
         //Intent intent = new Intent(MainActivity.this, DetailsProductsFragment.class);
         //intent.putExtra(Constants.INTENT_NAME, "5");

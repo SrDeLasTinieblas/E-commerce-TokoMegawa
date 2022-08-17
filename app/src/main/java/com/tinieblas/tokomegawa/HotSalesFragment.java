@@ -64,11 +64,12 @@ public class HotSalesFragment extends Fragment {
 
                 Bundle bundle = new Bundle();
                 bundle.putParcelable(Constants.INTENT_NAME_MODELO, ListProducts.get(i));
-                Intent intent = new Intent(context.getContext(), HomeFragment.class);
+                //Intent intent = new Intent(context.getContext(), HomeFragment.class);
 
                 // llamamos a carrito que seria la key y en el otro parametro le pasamos el arrayList
                 // y lo llenamos
-                intent.putExtra(Constants.INTENT_NAME, ListProducts.get(i));
+                //intent.putExtra(Constants.INTENT_NAME, ListProducts.get(i));
+
                 /*bundle.putString("titulo", ListProducts.get(i).getTitulo());
                 bundle.putString("descripcion", ListProducts.get(i).getDescripcion());
                 bundle.putString("img1", ListProducts.get(i).getImagen1());

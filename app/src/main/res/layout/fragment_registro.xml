@@ -105,7 +105,6 @@
         android:layout_marginTop="20dp"
         android:background="@drawable/input_login"
         android:drawableStart="@drawable/button_white"
-        android:drawableEnd="@drawable/eye"
         android:drawablePadding="7dp"
         android:ems="10"
         android:hint="Password"
@@ -115,6 +114,21 @@
         app:layout_constraintHorizontal_bias="0.625"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/username" />
+
+    <ImageButton
+        android:id="@+id/showPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/eye"
+        app:layout_constraintBottom_toBottomOf="@+id/textPassword"
+        app:layout_constraintEnd_toEndOf="@+id/textPassword"
+        app:layout_constraintHorizontal_bias="0.95"
+        app:layout_constraintStart_toStartOf="@+id/textPassword"
+        app:layout_constraintTop_toTopOf="@+id/textPassword"
+        app:layout_constraintVertical_bias="0.0">
+
+    </ImageButton>
 
     <Button
         android:id="@+id/buttonRegistro"

@@ -1,5 +1,6 @@
 package com.tinieblas.tokomegawa;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Bundle;
 
@@ -8,8 +9,10 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.text.InputType;
 import android.util.Patterns;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -50,6 +53,7 @@ public class RegistroFragment extends Fragment {
         for (int i = 18; i < 91; i++){
             edades.add(i);
         }
+
         ArrayAdapter adapter = new ArrayAdapter(getContext(), android.R.layout.simple_spinner_dropdown_item, edades);
 
         fragmentRegistroBinding.spinnerOld.setAdapter(adapter);
@@ -73,6 +77,7 @@ public class RegistroFragment extends Fragment {
             }
         });
 
+        showPassword();
         // Inflate the layout for this fragment
         return fragmentRegistroBinding.getRoot();
     }
@@ -164,6 +169,27 @@ public class RegistroFragment extends Fragment {
         fragmentTransaction.commit();
         fragmentTransaction.addToBackStack(null);
     }
+
+    @SuppressLint("ClickableViewAccessibility")
+    public void showPassword(){
+        fragmentRegistroBinding.showPassword.setOnTouchListener(new View.OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+
+                switch ( event.getAction() ) {
+                    case MotionEvent.ACTION_DOWN:
+                        fragmentRegistroBinding.textPassword.setInputType(InputType.TYPE_CLASS_TEXT);
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        fragmentRegistroBinding.textPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                        break;
+                }
+                return true;
+            }
+        });
+    }
+
+
+
 }
 
 

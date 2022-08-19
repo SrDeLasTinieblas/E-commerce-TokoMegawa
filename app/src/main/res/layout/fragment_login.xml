@@ -16,7 +16,7 @@
         android:drawableStart="@drawable/button_white"
         android:drawablePadding="7dp"
         android:ems="10"
-        android:hint="Username"
+        android:hint="Correo"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.51"
@@ -30,7 +30,6 @@
         android:layout_marginTop="20dp"
         android:background="@drawable/input_login"
         android:drawableStart="@drawable/button_white"
-        android:drawableEnd="@drawable/eye"
 
         android:drawablePadding="7dp"
         android:ems="10"
@@ -40,6 +39,36 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/username" />
+
+
+    <!--
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            />
+
+    </com.google.android.material.textfield.TextInputLayout>-->
+
+    <ImageButton
+        android:id="@+id/showPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/eye"
+        app:layout_constraintBottom_toBottomOf="@+id/password"
+        app:layout_constraintEnd_toEndOf="@+id/password"
+        app:layout_constraintHorizontal_bias="0.941"
+        app:layout_constraintStart_toStartOf="@+id/password"
+        app:layout_constraintTop_toTopOf="@+id/password"
+        app:layout_constraintVertical_bias="0.513">
+
+    </ImageButton>
 
     <Button
         android:id="@+id/buttonLogin"

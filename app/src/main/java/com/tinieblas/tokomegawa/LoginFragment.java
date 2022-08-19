@@ -1,9 +1,6 @@
 package com.tinieblas.tokomegawa;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -11,6 +8,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.text.InputType;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -44,6 +43,7 @@ public class LoginFragment extends Fragment {
     //private Drawable drawableEnd;
     //final int DRAWABLE_END= 0;
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -51,24 +51,24 @@ public class LoginFragment extends Fragment {
         loginFragment = this;
         fragmentLoginBinding = fragmentLoginBinding.inflate(inflater, container, false);
 
+        fragmentLoginBinding.showPassword.setOnTouchListener(new View.OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+
+                switch ( event.getAction() ) {
+                    case MotionEvent.ACTION_DOWN:
+                        fragmentLoginBinding.password.setInputType(InputType.TYPE_CLASS_TEXT);
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        fragmentLoginBinding.password.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                        break;
+                }
+                return true;
+            }
+        });
+
         awesomeValidation = new AwesomeValidation(ValidationStyle.BASIC);
         firebaseAuth = FirebaseAuth.getInstance();
 
-        /*fragmentLoginBinding.password.setOnTouchListener(new View.OnTouchListener() {
-            //@SuppressLint("ClickableViewAccessibility")
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                final int DRAWABLE_END = 0;
-                if(motionEvent.getAction() == MotionEvent.ACTION_UP) {
-                    if(motionEvent.getRawX() >= (fragmentLoginBinding.password.getRight() - fragmentLoginBinding.password.getCompoundDrawables()[DRAWABLE_END].getBounds().width())) {
-                        Toast.makeText(getContext(), "ALOHAAA", Toast.LENGTH_SHORT).show();
-
-                        return true;
-                    }
-                }
-                return false;
-            }
-        });*/
         validatingLogin();
 
         fragmentLoginBinding.buttonLogin.setOnClickListener(new View.OnClickListener() {
@@ -102,6 +102,7 @@ public class LoginFragment extends Fragment {
                             if (task.isSuccessful()) {
                                 replaceFragment(new HomeFragment());
                             } else {
+                                Toast.makeText(getContext(), "Contraseña Incorrecta", Toast.LENGTH_SHORT).show();
                                 String errorCode = ((FirebaseAuthException) task.getException()).getErrorCode();
                                 //sweetAlertDialog.sweetAlertError(Login_Activity.this);
                             }
@@ -115,6 +116,7 @@ public class LoginFragment extends Fragment {
             Toast.makeText(getContext(), ex.toString(), Toast.LENGTH_SHORT).show();
         }
     }
+
     public void replaceFragment(Fragment fragment) {
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();

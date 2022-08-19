@@ -19,11 +19,11 @@ public class FirebaseData {
     String name;
 
     // Creamos la funcion para guardar los datos
-    public void getDataUser(Context context, EventListener<DocumentSnapshot> listener) {
+    public void getDataUser(EventListener<DocumentSnapshot> listener) {
         final String[] apellidos = new String[1];
         try {
             // Llamamos a la funcion para definir firebase
-            //definingFirebase();
+            definingFirebase();
             // Creamos una nueva collecion en firebase de nombre "usuario"
             DocumentReference documentReference = firebaseFirestore.collection("Usuarios").document(idUser);
             documentReference.addSnapshotListener(listener);
@@ -34,22 +34,22 @@ public class FirebaseData {
     }
     public void uploadDataFireBase(Context context) {
         FirebaseData firebaseData = new FirebaseData();
-        firebaseData.getDataUser(context, new EventListener<DocumentSnapshot>() {
+        firebaseData.getDataUser( new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(DocumentSnapshot value, FirebaseFirestoreException error) {
                 firebaseFirestore = FirebaseFirestore.getInstance();
                 // Recuperamos nombre
                 name = value.getString("nombres");
-
-                Toast.makeText(context, name+"ddddd", Toast.LENGTH_SHORT).show();
-                //sweetAlertDialog.sweetAlertSuccessRegistro(context, name);
-
             }
         });
-        //return name;
     }
 
-
+    private void definingFirebase(){
+        mAuth = FirebaseAuth.getInstance();
+        firebaseFirestore = FirebaseFirestore.getInstance();
+        database = FirebaseDatabase.getInstance();
+        idUser = mAuth.getCurrentUser().getUid();
+    }
 
 }
 

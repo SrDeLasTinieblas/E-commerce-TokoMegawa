@@ -5,6 +5,8 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.util.Patterns;
 import android.view.LayoutInflater;
@@ -95,8 +97,9 @@ public class RegistroFragment extends Fragment {
                 mFirestore.collection("Usuarios").document(id).set(map).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
-                        getActivity().finish();
+                        //getActivity().finish();
                         Toast.makeText(getContext(), "Succesfull", Toast.LENGTH_SHORT).show();
+                        replaceFragment(new HomeFragment());
                         /*
                         startActivity(new Intent(Registrar_activity.this, Login_Activity.class));
                         sweetAlertDialog.sweetAlertSuccessRegistro(Registrar_activity.this, nombre);
@@ -154,6 +157,13 @@ public class RegistroFragment extends Fragment {
         return mail.isEmpty() || username.isEmpty() || password.isEmpty() || nombres.isEmpty() || apellidos.isEmpty() || direccion.isEmpty() || edad == null;
     }// Vereficamos que el email y password no esten vacios, si estan vacios devolvemos true
 
+    public void replaceFragment(Fragment fragment) {
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.frameLayoutHome, fragment);
+        fragmentTransaction.commit();
+        fragmentTransaction.addToBackStack(null);
+    }
 }
 
 

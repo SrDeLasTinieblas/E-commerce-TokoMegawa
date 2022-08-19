@@ -1,5 +1,7 @@
 package com.tinieblas.tokomegawa;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -21,6 +23,12 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.tinieblas.tokomegawa.adptadores.Modelos.ModelohotSales;
@@ -32,15 +40,15 @@ import org.json.JSONObject;
 
 import java.lang.reflect.Type;
 import java.util.List;
+import java.util.Objects;
 
 public class MyCartFragment extends Fragment {
 
     MyCartFragment myCartFragment;
-    View view;
     RequestQueue requestQueue;
-    Button back;
     private final FirebaseData firebaseData = new FirebaseData();
     private FragmentMyCartBinding fragmentMyCartBinding;
+    String name;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -48,20 +56,12 @@ public class MyCartFragment extends Fragment {
 
         myCartFragment = this;
         fragmentMyCartBinding = FragmentMyCartBinding.inflate(inflater, container, false);
-
-        //back = view.findViewById(R.id.buttonBack);
-
         firebaseData.uploadDataFireBase(getActivity());
-        //fragmentMyCartBinding.textNombre.setText(ge);
-        fragmentMyCartBinding.buttonBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                replaceFragment(new HomeFragment());
-            }
-        });
 
+        buttonBack();
         requestQueue = Volley.newRequestQueue(myCartFragment.getActivity());
         apiIpInfo();
+        uploadDataFireBase();
         return fragmentMyCartBinding.getRoot();
     }
 
@@ -88,6 +88,7 @@ public class MyCartFragment extends Fragment {
                             //System.out.println(firstName);
                             fragmentMyCartBinding.city.setText(String.format("%s,", city));
                             fragmentMyCartBinding.Pais.setText(country);
+
 
                             // Aca estamos diciendo que lo que esta en el carrito lo ponga una list
                             /*Type typeList = new TypeToken<List<ModelohotSales>>() {}.getType();
@@ -136,8 +137,26 @@ public class MyCartFragment extends Fragment {
         requestQueue.add(request);
     }
 
+    public void uploadDataFireBase() {
+        firebaseData.getDataUser(new EventListener<DocumentSnapshot>() {
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onEvent(DocumentSnapshot value, FirebaseFirestoreException error) {
+                name = value.getString("nombres");
+                fragmentMyCartBinding.textNombre.setText(name);
+            }
 
+        });
+    }
 
+    private void buttonBack(){
+        fragmentMyCartBinding.buttonBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                replaceFragment(new HomeFragment());
+            }
+        });
+    }
 
 }
 

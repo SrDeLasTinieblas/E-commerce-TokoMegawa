@@ -237,5 +237,17 @@
         app:layout_constraintTop_toBottomOf="@+id/recicler_view_recently"
         app:layout_constraintVertical_bias="0.932" />
 
+    <Button
+        android:id="@+id/buttonSalida"
+        android:layout_width="42dp"
+        android:layout_height="46dp"
+        android:text="."
+        app:layout_constraintBottom_toTopOf="@+id/textView"
+        app:layout_constraintEnd_toStartOf="@+id/editTextTextPersonName"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.237" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

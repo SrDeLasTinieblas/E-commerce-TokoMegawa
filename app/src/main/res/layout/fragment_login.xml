@@ -31,6 +31,7 @@
         android:background="@drawable/input_login"
         android:drawableStart="@drawable/button_white"
         android:drawableEnd="@drawable/eye"
+
         android:drawablePadding="7dp"
         android:ems="10"
         android:hint="Password"

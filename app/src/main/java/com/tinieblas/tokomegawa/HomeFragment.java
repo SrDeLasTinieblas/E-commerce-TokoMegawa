@@ -11,12 +11,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.tinieblas.tokomegawa.adptadores.Modelos.Modelo;
@@ -65,6 +68,15 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        fragmentHomeBinding.buttonSalida.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                    // Cerramos sesion
+                    FirebaseAuth.getInstance().signOut();
+                    Toast.makeText(getActivity(), "Sesion cerrada", Toast.LENGTH_SHORT).show();
+                    replaceFragment(new LoginFragment());
+            }
+        });
         //fragmentHomeBinding.reciclerViewHotSales.setOnClickListener(new );
 
 

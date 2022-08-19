@@ -25,6 +25,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.tinieblas.tokomegawa.adptadores.Modelos.ModelohotSales;
 import com.tinieblas.tokomegawa.adptadores.hotSalesAdapterRecycler;
+import com.tinieblas.tokomegawa.data.FirebaseData;
 import com.tinieblas.tokomegawa.databinding.FragmentMyCartBinding;
 
 import org.json.JSONObject;
@@ -38,7 +39,7 @@ public class MyCartFragment extends Fragment {
     View view;
     RequestQueue requestQueue;
     Button back;
-
+    private final FirebaseData firebaseData = new FirebaseData();
     private FragmentMyCartBinding fragmentMyCartBinding;
 
     @Override
@@ -50,6 +51,8 @@ public class MyCartFragment extends Fragment {
 
         //back = view.findViewById(R.id.buttonBack);
 
+        firebaseData.uploadDataFireBase(getActivity());
+        //fragmentMyCartBinding.textNombre.setText(ge);
         fragmentMyCartBinding.buttonBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -132,6 +135,7 @@ public class MyCartFragment extends Fragment {
         // Aqui enviamos la solicitud de la peticion
         requestQueue.add(request);
     }
+
 
 
 

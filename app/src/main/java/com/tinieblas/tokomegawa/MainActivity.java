@@ -53,12 +53,13 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
             }
         });
 
-        Intent i = new Intent(this, DetailsProductsFragment.class);
-        i.putExtra("key","2");
+        //Intent i = new Intent(this, DetailsProductsFragment.class);
+        //i.putExtra("key","2");
 
         //gridView.setOnI
         //getClassModelo();
-        replaceFragment(new HomeFragment());
+        //replaceFragment(new HomeFragment());
+        replaceFragment(new LoginFragment());
         //System.out.println(modelohotSales.getTitulo());
         //GuardarOrRemover();
 
@@ -83,7 +84,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
     }
 
     public void buttonFlotante(View view) {
-
+        replaceFragment(new MyCartFragment());
         /*int currentNightMode = configuration.uiMode & Configuration.UI_MODE_NIGHT_MASK;
         switch (currentNightMode) {
             case Configuration.UI_MODE_NIGHT_NO:
@@ -99,16 +100,14 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
         //modelohotSales = bundle.getParcelable(Constants.INTENT_NAME);
         //System.out.println("hola ==> ");
 
-        replaceFragment(new LoginFragment());
-
         //Intent intent = new Intent(MainActivity.this, DetailsProductsFragment.class);
         //intent.putExtra(Constants.INTENT_NAME, "5");
 
         //startActivity(intent);
         //System.out.println((modelohotSales.getTitulo()));
         /*Intent i = new Intent(this, MyCart_Activity.class);
-        startActivity(i);*/
-        /*Snackbar.make(view, "Here's a Snackbar", Snackbar.LENGTH_LONG)
+        startActivity(i);
+        Snackbar.make(view, "Here's a Snackbar", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();*/
     }
 

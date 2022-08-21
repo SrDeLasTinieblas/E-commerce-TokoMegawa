@@ -68,6 +68,9 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        fragmentHomeBinding.buttonSetting.setOnClickListener(v -> replaceFragment(new SettingFragment()));
+
+
         fragmentHomeBinding.buttonSalida.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

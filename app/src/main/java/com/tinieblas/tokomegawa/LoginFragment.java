@@ -103,7 +103,7 @@ public class LoginFragment extends Fragment {
                                 replaceFragment(new HomeFragment());
                             } else {
                                 Toast.makeText(getContext(), "Contraseña Incorrecta", Toast.LENGTH_SHORT).show();
-                                String errorCode = ((FirebaseAuthException) task.getException()).getErrorCode();
+                                //String errorCode = ((FirebaseAuthException) task.getException()).getErrorCode();
                                 //sweetAlertDialog.sweetAlertError(Login_Activity.this);
                             }
                         } catch (Exception e) {

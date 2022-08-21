@@ -147,7 +147,6 @@ public class HotSalesFragment extends Fragment {
         //Toast.makeText(context.getContext(), "oo"+ListProducts1, Toast.LENGTH_SHORT).show();
     }
 
-
     /*public void onBackPressed() {
 
         int count = getSupportFragmentManager().getBackStackEntryCount();

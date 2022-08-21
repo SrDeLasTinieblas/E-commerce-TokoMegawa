@@ -20,7 +20,7 @@
         android:hint="Nombre"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toStartOf="@+id/textApellido"
-        app:layout_constraintHorizontal_bias="0.173"
+        app:layout_constraintHorizontal_bias="0.484"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView15" />
 
@@ -29,7 +29,7 @@
         android:layout_width="173dp"
         android:layout_height="50dp"
         android:layout_marginTop="44dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="16dp"
         android:background="@drawable/input_login"
         android:drawableStart="@drawable/button_white"
         android:drawablePadding="7dp"
@@ -43,8 +43,8 @@
         android:id="@+id/textDireccion"
         android:layout_width="258dp"
         android:layout_height="51dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="12dp"
         android:background="@drawable/input_login"
         android:drawableStart="@drawable/button_white"
         android:drawablePadding="7dp"
@@ -58,10 +58,10 @@
         android:id="@+id/spinnerOld"
         android:layout_width="93dp"
         android:layout_height="50dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="12dp"
         android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.833"
         app:layout_constraintStart_toEndOf="@+id/textDireccion"
         app:layout_constraintTop_toBottomOf="@+id/textApellido" />
 

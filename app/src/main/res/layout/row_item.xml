@@ -8,11 +8,13 @@
         android:id="@+id/cardImagenHotSales"
         android:layout_width="match_parent"
         android:layout_height="112dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
+
         android:orientation="vertical"
         app:cardBackgroundColor="#CDEFED"
-
         app:cardCornerRadius="15dp">
 
         <ImageView
@@ -43,8 +45,10 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="10dp"
         android:layout_marginTop="116dp"
+        android:layout_marginEnd="1dp"
+        android:layout_toStartOf="@+id/textPrecioHotSales"
         android:text="Titulo"
-        android:textSize="15sp"
+        android:textSize="12sp"
         android:textStyle="bold" />
 
     <TextView
@@ -53,10 +57,10 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="117dp"
-        android:layout_marginEnd="2dp"
+        android:layout_marginTop="116dp"
+        android:layout_marginEnd="10dp"
         android:text="$ 1300"
-        android:textSize="15sp"
+        android:textSize="12sp"
         android:textStyle="bold" />
 
     <TextView
@@ -70,7 +74,7 @@
         android:layout_marginTop="4dp"
         android:layout_marginEnd="13dp"
         android:text="Decripcion"
-        android:textSize="12sp"
+        android:textSize="10sp"
         android:textStyle="bold" />
 
 

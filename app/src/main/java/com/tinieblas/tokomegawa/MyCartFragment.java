@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -31,6 +32,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.tinieblas.tokomegawa.Utils.FireBase;
 import com.tinieblas.tokomegawa.adptadores.Modelos.ModelohotSales;
 import com.tinieblas.tokomegawa.adptadores.hotSalesAdapterRecycler;
 import com.tinieblas.tokomegawa.data.FirebaseData;
@@ -138,6 +140,10 @@ public class MyCartFragment extends Fragment {
     }
 
     public void uploadDataFireBase() {
+
+        /*FireBase fireBase = new FireBase();
+        Toast.makeText(getContext(), "==:>> " + fireBase.getNombres(), Toast.LENGTH_SHORT).show();
+        fragmentMyCartBinding.textNombre.setText(fireBase.getNombres());*/
         firebaseData.getDataUser(new EventListener<DocumentSnapshot>() {
             @SuppressLint("SetTextI18n")
             @Override

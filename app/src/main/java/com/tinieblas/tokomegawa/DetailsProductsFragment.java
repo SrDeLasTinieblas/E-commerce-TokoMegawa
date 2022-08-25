@@ -1,6 +1,7 @@
 package com.tinieblas.tokomegawa;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
@@ -26,6 +27,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -48,6 +50,7 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -65,6 +68,7 @@ public class DetailsProductsFragment extends Fragment {
     public int valor = 1;
     //GridView gridView;
     private final List<ModelohotSales> ListProductos = new ArrayList<>();
+    private SharedPreferences preferences;
 
     private DetailsProductsFragmentBinding detailsProductsFragmentBinding;
 
@@ -75,7 +79,8 @@ public class DetailsProductsFragment extends Fragment {
         context = this;
         //getClassModelohotSales();
         detailsProductsFragmentBinding = DetailsProductsFragmentBinding.inflate(inflater, container, false);
-
+        /*preferences = getActivity().getSharedPreferences("carito2",
+                Context.MODE_PRIVATE);*/
         firebaseData.uploadDataFireBase(getActivity());
         //databaseReference = FirebaseDatabase.getInstance().getReference();
         mFirestore = FirebaseFirestore.getInstance();
@@ -107,29 +112,30 @@ public class DetailsProductsFragment extends Fragment {
                 //detailsProductsFragmentBinding.textCantidad.setText(cantidad);
 
 
+                //Toast.makeText(getContext(), "==> "+ListProductos, Toast.LENGTH_SHORT).show();
                 //detailsProductsFragmentBinding.imageDetailsProducts.setImageResource(img1);
                 getUser();
                 GlideImage();
                 onClickListener(modelohotSales.getPrecio(), modelohotSales.getPreciototal());
 
                 btnImages(modelohotSales.getImagen1(), modelohotSales.getImagen2(), modelohotSales.getImagen3());
-                try {
+                /*try {
                     GuardarOrRemover();
                 } catch (IOException e) {
                     e.printStackTrace();
-                }
-                cargarDatosDelCarrito(modelohotSales.getId());
+                }*/
+                preferences = getActivity().getSharedPreferences("RecentlyViewed",
+                        Context.MODE_PRIVATE);
+                CargarDatosRecentlyViewed(modelohotSales.getId());
+                AddRecentlyViewed();
+                //VerificaSiEstaEnElCarrito(22);
             }
         });
 
         detailsProductsFragmentBinding.animationView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                try {
-                    GuardarOrRemover();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                GuardarOrRemover();
             }
         });
 
@@ -157,41 +163,83 @@ public class DetailsProductsFragment extends Fragment {
 
     }
 
-    public void sendCarrito() throws IOException {
-        GuardarOrRemover();
-
-    }
-
-    boolean beSharedPreferences = false;
+    boolean estaEnSharedPreference = false;
     boolean inCarrito = false;
-    //private final List<ModelohotSales> ListProductsCarrito = new ArrayList<>();
+    private final List<ModelohotSales> ListaRecentlyViewed = new ArrayList<>();
 
-    private void cargarDatosDelCarrito(Integer id) {
-        /*if(preferences.contains("compras")){
-            String datos = preferences.getString("compras", "");
+    public void CargarDatosRecentlyViewed(Integer IDProducto){
+        //Toast.makeText(getContext(), "=> " + IDProducto, Toast.LENGTH_SHORT).show();
+        // si hay datos
+        if(preferences.contains("RecentlyViewed")){
+            // cargamos la lista entonces
+            String datos = preferences.getString("RecentlyViewed","");
             Type typeList = new TypeToken<List<ModelohotSales>>(){}.getType();
-            ListProductsCarrito.addAll(new Gson().fromJson(datos,typeList));
+            ListaRecentlyViewed.addAll(new Gson().fromJson(datos,typeList));
+            //Toast.makeText(getContext(), "datos " + datos, Toast.LENGTH_SHORT).show();
 
-            for (ModelohotSales modelo : ListProductsCarrito) {
-                if (modelo.getId().equals(id)) {
-                    beSharedPreferences = true;
-                    inCarrito = inCarrito;
+            // Con el foreach recorremos la lista de datos
+            for (ModelohotSales modelohotSales : ListaRecentlyViewed){
+                // Aqui comparamos los IDs si son iguales es true
+                if(modelohotSales.getId().equals(IDProducto)){
+                    estaEnSharedPreference = true;
+                    inCarrito = true;
+                    modelohotSales = modelohotSales;
                     valor = this.modelohotSales.getCantidad();
+                    //Toast.makeText(getContext(), "Si esta en las preferencias", Toast.LENGTH_SHORT).show();
                     break;
                 }
             }
+            //updateBackGround(estaEnSharedPreference);
 
-        }*/
+        }
+        //Toast.makeText(getContext(), "No esta en las preferencias", Toast.LENGTH_SHORT).show();
     }
 
-    private void GuardarOrRemover() throws IOException {
+    public void AddRecentlyViewed(){
+        if(estaEnSharedPreference){
+            // Si hay datos lo eliminara
+            estaEnSharedPreference = false;
+            Iterator<ModelohotSales> itr = ListaRecentlyViewed.iterator();
+
+            // Mientras halla siguiente va seguir la condicion
+            while (itr.hasNext()) {
+                // Aqui obtenemos el id y lo comparamos con el siguiente id si es igual lo borrara
+                if(modelohotSales.getId().equals(itr.next().getId())){
+                    itr.remove();
+                    //Toast.makeText(getContext(), "Quitado del carrito" , Toast.LENGTH_SHORT).show();
+                    break;
+                }
+            }
+        } else {
+            // sino está lo agregas
+            estaEnSharedPreference = true;
+            ListaRecentlyViewed.add(modelohotSales);
+            //Toast.makeText(getContext(), "Añadido al carrito" , Toast.LENGTH_SHORT).show();
+            String datos = preferences.getString("RecentlyViewed","");
+            //Toast.makeText(getContext(), "datos: "+ datos, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void sendCarrito(){
+        //GuardarOrRemover();
+    }
+
+    boolean beSharedPreferences = false;
+
+    //private final List<ModelohotSales> ListProductsCarrito = new ArrayList<>();
+
+    private void GuardarOrRemover(){
         // Si hay datos
         if (beSharedPreferences) {
             // si hay datos
             beSharedPreferences = false;
             //ListProductsCarrito.add(modelohotSales);
-            Toast.makeText(context.getContext(), "Añadido al carrito", Toast.LENGTH_SHORT).show();
-            EnviandoDataToFireBase();
+            //Toast.makeText(context.getContext(), "Añadido al carrito", Toast.LENGTH_SHORT).show();
+            try {
+                EnviandoDataToFireBase();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             //detailsProductsFragmentBinding.animationView.setMinAndMaxProgress(0f, 0.20f);
             detailsProductsFragmentBinding.animationView.playAnimation();
             //detailsProductsFragmentBinding.animationView.pauseAnimation();
@@ -200,14 +248,49 @@ public class DetailsProductsFragment extends Fragment {
         } else {
             beSharedPreferences = true;
 
-            Toast.makeText(context.getContext(), "Quitado del carrito", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(context.getContext(), "Quitado del carrito", Toast.LENGTH_SHORT).show();
             detailsProductsFragmentBinding.animationView.setProgress(0);
             detailsProductsFragmentBinding.animationView.pauseAnimation();
 
             //detailsProductsFragmentBinding.animationView.playAnimation();
         }
     }
-    ArrayList<String> item = new ArrayList<String>();
+
+    boolean estaEnFireStore= false;
+    public void VerificaSiEstaEnElCarrito(Integer IDProducto){
+        String usuario = getUser();
+        Toast.makeText(getContext(), getUser(), Toast.LENGTH_SHORT).show();
+        /*DocumentReference docRef = mFirestore.collection("Carrito").document(usuario);
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        //Log.d("dd", "DocumentSnapshot data: " + document.getData());
+                        Toast.makeText(getContext(), "DocumentSnapshot data: " +
+                                document.getData(), Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getContext(), "No such document" +
+                                document.getData(), Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(getContext(), "Error", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });*/
+        /*Task<DocumentSnapshot> task = null;
+        DocumentSnapshot document = task.getResult();
+        if(document.exists()) {
+            Toast.makeText(getContext(), "DocumentSnapshot data: " +
+                    document.getData(), Toast.LENGTH_SHORT).show();
+        }
+        else {
+            Toast.makeText(getContext(), "No such document" +
+                    document.getData(), Toast.LENGTH_SHORT).show();
+        }*/
+    }
+
     private void EnviandoDataToFireBase(/*,String Descripcion, String image, String precio, Integer cantidad String color, String username*/) throws IOException {
             //String id = firebaseAuth.getCurrentUser().getUid();
          //map = detailsProductsFragmentBinding.textPrecioDestailsProductos.getText().toString();
@@ -220,20 +303,23 @@ public class DetailsProductsFragment extends Fragment {
          *             detailsProductsFragmentBinding.textCantidad.getText().toString());
          */
         //ArrayList<String> item = new ArrayList<String>();
-
+        ArrayList<String> item = new ArrayList<String>();
         item.add(modelohotSales.getImagen1());
         item.add(detailsProductsFragmentBinding.textPrecioDestailsProductos.getText().toString());
         item.add(detailsProductsFragmentBinding.textViewDescripcionDetailsProducts.getText().toString());
         item.add(detailsProductsFragmentBinding.textCantidad.getText().toString());
 
-        if (detailsProductsFragmentBinding.textTituloProduct.getText().toString() == modelohotSales.getTitulo()){
-            map.put(detailsProductsFragmentBinding.textTituloProduct.getText().toString(), item);
-        }
+        /*if (detailsProductsFragmentBinding.textTituloProduct.getText().toString() == modelohotSales.getTitulo()){
 
+        }*/
 
-        map.put("item 2 ","item 2222222");
+        //saveSharedPreferencs(item);
+        map.put(detailsProductsFragmentBinding.textTituloProduct.getText().toString(), item);
 
-        //map1.put("map2","item");
+        //SharedPreferences preferencias= getActivity().getSharedPreferences("datos2",Context.MODE_PRIVATE);
+        //SharedPreferences.Editor editor=preferencias.edit();
+        //String dato = preferences.getString("dato2","");
+        //System.out.println(dato);
 
             /*map.put(detailsProductsFragmentBinding.textTituloProduct.getText().toString(), detailsProductsFragmentBinding.textPrecioDestailsProductos.getText().toString());
             map.put(detailsProductsFragmentBinding.textTituloProduct.getText().toString(), detailsProductsFragmentBinding.textViewDescripcionDetailsProducts.getText().toString());
@@ -260,7 +346,9 @@ public class DetailsProductsFragment extends Fragment {
         //Log.e("carrito",getUser()+ new Gson().toJson(ListProductsCarrito) +" <==Usuario" );
             //sweetAlertDialog.sweetAlertLoading(this);
 
-            mFirestore.collection("Carrito").document(getUser()).set(map).addOnSuccessListener(new OnSuccessListener<Void>() {
+        FireStore("Carrito", map);
+
+            /*mFirestore.collection("Carrito").document(getUser()).set(map).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void unused) {
                     //getActivity().finish();
@@ -272,7 +360,24 @@ public class DetailsProductsFragment extends Fragment {
                     //Toast.makeText(getContext(), e.toString(), Toast.LENGTH_SHORT).show();
                     System.out.printf(e.toString());
                 }
-            });
+            });*/
+    }
+
+    public void FireStore(String collectionPath, Map<String, Object> map){
+        mFirestore.collection(collectionPath).document(getUser()).set(map).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                //getActivity().finish();
+                Toast.makeText(getContext(), "Succesfull", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getnCotext(), getUser(), Toast.LENGTH_SHORT).show();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                //Toast.makeText(getContext(), e.toString(), Toast.LENGTH_SHORT).show();
+                System.out.printf(e.toString());
+            }
+        });
     }
 
     /**
@@ -280,6 +385,17 @@ public class DetailsProductsFragment extends Fragment {
      " "id": 1, "titulo": "Sony WH/100XM", "descripcion": "The intuitive and intelligent WH-1000XM4 headphones", "imagen1": "https://i.ibb.co/sVYrV4k/Frame-headphone.png", "imagen2": "https://i.ibb.co/sVYrV4k/Frame-headphone.png", "imagen3": "https://i.ibb.co/sVYrV4k/Frame-headphone.png", "imagen4": "", "descuento": 20, "precio": 128, "delivery":"no free shipping""
      * @return
      */
+
+    public void saveSharedPreferencs(List<String> item){
+        SharedPreferences preferencias= getActivity().getSharedPreferences("datos2",Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor=preferencias.edit();
+        editor.putString("dato5", String.valueOf(item));
+        editor.commit();
+        getActivity().finish();
+
+    }
+
+
     public String getUser(){
             firebaseData.getDataUser(new EventListener<DocumentSnapshot>() {
                 @SuppressLint("SetTextI18n")
@@ -342,7 +458,6 @@ public class DetailsProductsFragment extends Fragment {
     }
 
     private boolean CheckCartData(Integer idCarrito){
-
         return false;
     }
 
@@ -465,7 +580,6 @@ public class DetailsProductsFragment extends Fragment {
         }
 
     }
-
 
     private void getClassModelohotSales(){
         //Bundle bundle = getActivity().getIntent().getExtras();

@@ -20,12 +20,19 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.tinieblas.tokomegawa.Utils.FireBase;
 import com.tinieblas.tokomegawa.adptadores.Modelos.Modelo;
 import com.tinieblas.tokomegawa.adptadores.Modelos.ModelohotSales;
+import com.tinieblas.tokomegawa.adptadores.Modelos.RecyclerFilter;
 import com.tinieblas.tokomegawa.adptadores.RecentlyViewedAdapterRecycler;
 import com.tinieblas.tokomegawa.adptadores.hotSalesAdapterRecycler;
+import com.tinieblas.tokomegawa.data.FirebaseData;
 import com.tinieblas.tokomegawa.databinding.FragmentHomeBinding;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -37,10 +44,13 @@ public class HomeFragment extends Fragment {
 
     ArrayList<Modelo> models;
     RecentlyViewedAdapterRecycler recentlyViewedAdapterRecycler;
+    RecyclerFilter recyclerFilter;
 
     Integer[] langLogo= new Integer[0];
     String[] langName = new String[0];
-
+    String Nombre, Apellido, Direccion, Email, Username, ID;
+    Integer Edad;
+    FirebaseFirestore firebaseFirestore;
     RequestQueue requestQueue;
     hotSalesAdapterRecycler hotSalesAdapterRecycler;
     private FragmentHomeBinding fragmentHomeBinding;
@@ -83,9 +93,42 @@ public class HomeFragment extends Fragment {
         //fragmentHomeBinding.reciclerViewHotSales.setOnClickListener(new );
 
 
+        //FireBase fireBase = new FireBase();
+        //.setApellidos("ALOHAAA");
+        getDataFireBaseUser();
+        //Toast.makeText(getActivity(), fireBase.getApellidos(getContext()), Toast.LENGTH_SHORT).show();
         requestQueue = Volley.newRequestQueue(context.getActivity());
         getData();
+        setCardsFilter();
         return fragmentHomeBinding.getRoot();
+    }
+    public void getDataFireBaseUser(){
+        FirebaseData firebaseData = new FirebaseData();
+        firebaseFirestore = FirebaseFirestore.getInstance();
+        firebaseData.getDataUser( new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(DocumentSnapshot value, FirebaseFirestoreException error) {
+                firebaseFirestore = FirebaseFirestore.getInstance();
+                // Recuperamos nombre Nombre, Apellido, Direccion, Email, Username;
+                Nombre = value.getString("nombres");
+                Apellido = value.getString("apellidos");
+                Direccion = value.getString("direccion");
+                Email = value.getString("mail");
+                // = Integer.parseInt(value.getString("edad"));
+                Username = value.getString("username");
+                ID = value.getString("id");
+
+                FireBase fireBase = new FireBase();
+                fireBase.setNombres(Nombre);
+                fireBase.setApellidos(Apellido);
+                fireBase.setDireccion(Direccion);
+                //fireBase.setEdad(Edad);
+                fireBase.setMail(Email);
+                fireBase.setUsername(Username);
+                fireBase.setId(ID);
+                //Toast.makeText(getContext(), "==:>> " + fireBase.getNombres(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     public void getData() {
@@ -150,6 +193,33 @@ public class HomeFragment extends Fragment {
         fragmentTransaction.replace(R.id.frameLayoutHome, fragment);
         fragmentTransaction.commit();
         fragmentTransaction.addToBackStack(null);
+    }
+
+    public void setCardsFilter(){
+        langLogo = new Integer[]{R.drawable.frame_headphone, R.drawable.earphone,
+                R.drawable.frame_headphone, R.drawable.earphone, R.drawable.frame_headphone};
+
+        langName = new String[]{"Headset", "Headset", "Headset", "Headset", "Headset"};
+
+        models = new ArrayList<>();
+        for (int i=0; i<langLogo.length; i++){
+            Modelo model = new Modelo(langLogo[i], langName[i]);
+            models.add(model);
+        }
+
+        //Design Horizontal Layout
+        LinearLayoutManager linearLayoutManager2 = new LinearLayoutManager(context.getActivity(),
+                LinearLayoutManager.HORIZONTAL,
+                false);
+
+        fragmentHomeBinding.cardFilterRecyclerView.setLayoutManager(linearLayoutManager2);
+        fragmentHomeBinding.cardFilterRecyclerView.setItemAnimator(new DefaultItemAnimator());
+
+        // Initial adaptador
+        recyclerFilter = new RecyclerFilter(context.getActivity(), models);
+        fragmentHomeBinding.cardFilterRecyclerView.setAdapter(recyclerFilter);
+
+
     }
 
     public void setRecyclerViewHotSales(){

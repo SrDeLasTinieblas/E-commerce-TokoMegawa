@@ -8,8 +8,8 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardImagenDetailsProducts"
-        android:layout_width="390dp"
-        android:layout_height="398dp"
+        android:layout_width="385dp"
+        android:layout_height="363dp"
         android:layout_marginTop="16dp"
         android:orientation="vertical"
         app:cardCornerRadius="15dp"
@@ -21,7 +21,7 @@
         <ImageView
             android:id="@+id/imageDetailsProducts1"
             android:layout_width="325dp"
-            android:layout_height="289dp"
+            android:layout_height="279dp"
             android:layout_marginTop="30dp"
             android:src="@drawable/macbook_air_m1" />
 
@@ -62,8 +62,8 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginStart="320dp"
-            android:background="@drawable/degradado"
             android:layout_marginTop="40dp"
+            android:background="@drawable/degradado"
             android:contentDescription="TODO" />
 
         <ImageView
@@ -71,8 +71,8 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginStart="320dp"
-            android:background="@drawable/degradado"
             android:layout_marginTop="110dp"
+            android:background="@drawable/degradado"
             android:contentDescription="TODO" />
 
         <ImageView
@@ -80,8 +80,8 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginStart="320dp"
-            android:background="@drawable/degradado"
             android:layout_marginTop="180dp"
+            android:background="@drawable/degradado"
             android:contentDescription="TODO" />
 
     </androidx.cardview.widget.CardView>
@@ -93,51 +93,45 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="28dp"
         android:background="@drawable/button_background_cart"
+        android:onClick="seeModalLower"
         android:text="Siguiente"
         android:textColor="#FFFFFF"
-        android:onClick="seeModalLower"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewDescripcionDetailsProducts"
-        app:layout_constraintVertical_bias="0.982" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
         android:id="@+id/textTituloProduct"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
         android:text="Titulo"
         android:textSize="30dp"
-        android:layout_marginStart="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/textViewDescripcionDetailsProducts"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.066"
+        app:layout_constraintHorizontal_bias="0.051"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardImagenDetailsProducts" />
 
     <TextView
         android:id="@+id/textViewDescripcionDetailsProducts"
-        android:layout_width="344dp"
-        android:layout_height="143dp"
-        android:layout_marginBottom="8dp"
+        android:layout_width="363dp"
+        android:layout_height="161dp"
         android:text="Descripcion"
         android:textSize="20dp"
-        app:layout_constraintBottom_toTopOf="@+id/textPrecioDestailsProductos"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.51"
+        app:layout_constraintHorizontal_bias="0.52"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardImagenDetailsProducts"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toBottomOf="@+id/textTituloProduct" />
 
     <TextView
         android:id="@+id/textPrecioDestailsProductos"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="16dp"
         android:text="$ 4.999"
-        android:textSize="22dp"
-        app:layout_constraintBottom_toTopOf="@+id/textCantidad"
+        android:textSize="30dp"
+        app:layout_constraintBottom_toTopOf="@+id/buttonNextDetailsProducts"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
@@ -169,22 +163,22 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="25dp"
+        android:layout_marginStart="24dp"
         android:layout_toEndOf="@+id/textPrecioDestailsProductos"
         android:background="@drawable/fa_minus"
         android:onClick="btnDisminuyendo"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textPrecioDestailsProductos"
-        app:layout_constraintVertical_bias="0.463" />
+        app:layout_constraintVertical_bias="0.343" />
 
     <TextView
         android:id="@+id/textCantidad"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:layout_marginStart="24dp"
         android:layout_marginBottom="39dp"
-        android:layout_marginStart="15dp"
         android:layout_toStartOf="@+id/button_plus"
         android:layout_toEndOf="@+id/button_minus"
         android:text="1"
@@ -192,7 +186,9 @@
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/button_minus" />
+        app:layout_constraintStart_toEndOf="@+id/button_minus"
+        app:layout_constraintTop_toBottomOf="@+id/textPrecioDestailsProductos"
+        app:layout_constraintVertical_bias="0.785" />
 
     <Button
         android:id="@+id/button_plus"
@@ -206,10 +202,10 @@
         android:onClick="btnAumentando"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/buttonNextDetailsProducts"
-        app:layout_constraintHorizontal_bias="0.846"
+        app:layout_constraintHorizontal_bias="0.675"
         app:layout_constraintStart_toEndOf="@+id/textCantidad"
         app:layout_constraintTop_toBottomOf="@+id/textPrecioDestailsProductos"
-        app:layout_constraintVertical_bias="0.888" />
+        app:layout_constraintVertical_bias="0.687" />
 
     <Button
         android:id="@+id/button_black"
@@ -218,11 +214,10 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="24dp"
+        android:layout_marginBottom="16dp"
         android:background="@drawable/button_black"
         app:layout_constraintBottom_toTopOf="@+id/buttonNextDetailsProducts"
-        app:layout_constraintEnd_toStartOf="@+id/button_White"
-        app:layout_constraintTop_toBottomOf="@+id/textViewDescripcionDetailsProducts"
-        app:layout_constraintVertical_bias="0.285" />
+        app:layout_constraintEnd_toStartOf="@+id/button_White" />
 
     <Button
         android:id="@+id/button_White"
@@ -230,12 +225,11 @@
         android:layout_height="30dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="24dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="16dp"
         android:background="@drawable/button_white"
         app:layout_constraintBottom_toTopOf="@+id/buttonNextDetailsProducts"
-        app:layout_constraintEnd_toStartOf="@+id/button_Gris"
-        app:layout_constraintTop_toBottomOf="@+id/textViewDescripcionDetailsProducts"
-        app:layout_constraintVertical_bias="0.285" />
+        app:layout_constraintEnd_toStartOf="@+id/button_Gris" />
 
     <Button
         android:id="@+id/button_Gris"
@@ -244,11 +238,10 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="40dp"
+        android:layout_marginBottom="16dp"
         android:background="@drawable/button_gris"
         app:layout_constraintBottom_toTopOf="@+id/buttonNextDetailsProducts"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewDescripcionDetailsProducts"
-        app:layout_constraintVertical_bias="0.285" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

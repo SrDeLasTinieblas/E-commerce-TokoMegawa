@@ -1,6 +1,6 @@
 # E-commerce-TokoMegawa
 
-> LOGIN &emsp; REGISTRO
+> LOGIN &emsp; &emsp; &emsp; &emsp; REGISTRO
 > 
 ![](https://i.ibb.co/M2Dh7Qs/Login.png)  ![](https://i.ibb.co/kS96mYm/Registro.png)
 

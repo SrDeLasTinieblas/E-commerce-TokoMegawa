@@ -13,7 +13,6 @@
 > DETALLES DEL PRODUCTO &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; MY CART
 > 
 ![](https://i.ibb.co/y64cDQ5/Detalles-Productos.png) &emsp; &emsp; &emsp; &emsp; ![](https://i.ibb.co/5YVTsvD/Mycart.png)
-&emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp;
 
 > SETTING
 > 

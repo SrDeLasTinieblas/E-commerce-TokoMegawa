@@ -61,9 +61,8 @@
         android:layout_marginTop="12dp"
         android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.833"
-        app:layout_constraintStart_toEndOf="@+id/textDireccion"
         app:layout_constraintTop_toBottomOf="@+id/textApellido" />
+
 
     <EditText
         android:id="@+id/textEmail"
@@ -77,10 +76,9 @@
         android:hint="Email"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.625"
+        app:layout_constraintHorizontal_bias="0.64"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textDireccion" />
-
 
     <EditText
         android:id="@+id/username"

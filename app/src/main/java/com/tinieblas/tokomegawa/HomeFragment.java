@@ -81,7 +81,7 @@ public class HomeFragment extends Fragment {
         fragmentHomeBinding.buttonSetting.setOnClickListener(v -> replaceFragment(new SettingFragment()));
 
 
-        fragmentHomeBinding.buttonSalida.setOnClickListener(new View.OnClickListener() {
+        /*fragmentHomeBinding.buttonSalida.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                     // Cerramos sesion
@@ -89,13 +89,13 @@ public class HomeFragment extends Fragment {
                     Toast.makeText(getActivity(), "Sesion cerrada", Toast.LENGTH_SHORT).show();
                     replaceFragment(new LoginFragment());
             }
-        });
+        });*/
         //fragmentHomeBinding.reciclerViewHotSales.setOnClickListener(new );
 
 
         //FireBase fireBase = new FireBase();
         //.setApellidos("ALOHAAA");
-        getDataFireBaseUser();
+        //getDataFireBaseUser();
         //Toast.makeText(getActivity(), fireBase.getApellidos(getContext()), Toast.LENGTH_SHORT).show();
         requestQueue = Volley.newRequestQueue(context.getActivity());
         getData();

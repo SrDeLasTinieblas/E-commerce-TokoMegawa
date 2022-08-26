@@ -49,11 +49,14 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 
 public class DetailsProductsFragment extends Fragment {
 
@@ -68,7 +71,7 @@ public class DetailsProductsFragment extends Fragment {
     public int valor = 1;
     //GridView gridView;
     private final List<ModelohotSales> ListProductos = new ArrayList<>();
-    private SharedPreferences preferences;
+    //private SharedPreferences preferences;
 
     private DetailsProductsFragmentBinding detailsProductsFragmentBinding;
 
@@ -79,7 +82,7 @@ public class DetailsProductsFragment extends Fragment {
         context = this;
         //getClassModelohotSales();
         detailsProductsFragmentBinding = DetailsProductsFragmentBinding.inflate(inflater, container, false);
-        /*preferences = getActivity().getSharedPreferences("carito2",
+        /*preferences = getActivity().getSharedPreferences("clave",
                 Context.MODE_PRIVATE);*/
         firebaseData.uploadDataFireBase(getActivity());
         //databaseReference = FirebaseDatabase.getInstance().getReference();
@@ -124,9 +127,9 @@ public class DetailsProductsFragment extends Fragment {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }*/
-                preferences = getActivity().getSharedPreferences("RecentlyViewed",
-                        Context.MODE_PRIVATE);
-                CargarDatosRecentlyViewed(modelohotSales.getId());
+                /*preferences = getActivity().getSharedPreferences("clave",
+                        Context.MODE_PRIVATE);*/
+                CargarDatosRecentlyViewed(modelohotSales.getId().toString());
                 AddRecentlyViewed();
                 //VerificaSiEstaEnElCarrito(22);
             }
@@ -166,14 +169,27 @@ public class DetailsProductsFragment extends Fragment {
     boolean estaEnSharedPreference = false;
     boolean inCarrito = false;
     private final List<ModelohotSales> ListaRecentlyViewed = new ArrayList<>();
+    private List<String> list = new ArrayList<>();
 
-    public void CargarDatosRecentlyViewed(Integer IDProducto){
+    public void CargarDatosRecentlyViewed(String IDProducto){
         //Toast.makeText(getContext(), "=> " + IDProducto, Toast.LENGTH_SHORT).show();
         // si hay datos
-        if(preferences.contains("RecentlyViewed")){
-            // cargamos la lista entonces
-            String datos = preferences.getString("RecentlyViewed","");
-            Type typeList = new TypeToken<List<ModelohotSales>>(){}.getType();
+
+        //list.addAll(Collections.singleton(IDProducto));
+        list.add(IDProducto);
+        setSharedPreferences(list.iterator().next());
+        cargarpreferencias();
+        //Toast.makeText(getContext(), ""+getSharedPreferences("nombre"), Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getContext(), ""+getSharedPreferences("RecentlyViewed"), Toast.LENGTH_SHORT).show();
+        //SharedPreferences preferences = getActivity().getSharedPreferences(nombreDelSharedPreferences, Context.MODE_PRIVATE);
+        //Toast.makeText(getContext(), ""+preferences.getString(), Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getContext(), ""+ preferences  , Toast.LENGTH_SHORT).show();
+        //if(preferences.contains("clave") /*preferences.contains("RecentlyViewed")*/){
+        //    // cargamos la lista entonces
+        //    String datos = preferences.getString("clave","");
+        //    Log.d("clave", datos);
+
+            /*Type typeList = new TypeToken<List<ModelohotSales>>(){}.getType();
             ListaRecentlyViewed.addAll(new Gson().fromJson(datos,typeList));
             //Toast.makeText(getContext(), "datos " + datos, Toast.LENGTH_SHORT).show();
 
@@ -188,11 +204,44 @@ public class DetailsProductsFragment extends Fragment {
                     //Toast.makeText(getContext(), "Si esta en las preferencias", Toast.LENGTH_SHORT).show();
                     break;
                 }
-            }
+            }*/
             //updateBackGround(estaEnSharedPreference);
 
-        }
-        //Toast.makeText(getContext(), "No esta en las preferencias", Toast.LENGTH_SHORT).show();
+        //}else{
+        //    //Toast.makeText(getContext(), "No esta en las preferencias", Toast.LENGTH_SHORT).show();
+        //    Log.d("clave", "no hay datos");
+        //}
+
+    }
+
+    /*public String getSharedPreferences(String nombreDelSharedPreferences){
+        SharedPreferences preferences = getActivity().getSharedPreferences(nombreDelSharedPreferences, Context.MODE_PRIVATE);
+        return preferences.getString("dato","404");
+    }*/
+    public void cargarpreferencias() {
+        SharedPreferences preferences = requireContext().getSharedPreferences("lista", Context.MODE_PRIVATE);
+        Set<String> set = preferences.getStringSet("datos", null);
+
+        //list.clear();
+        list.addAll(set);
+        //Convert HashSet to List.
+        list = new ArrayList<String>(set);
+        Toast.makeText(getContext(), ""+list, Toast.LENGTH_SHORT).show();
+    }
+
+    public void setSharedPreferences(String datoAguardar){
+        SharedPreferences preferences = requireContext().getSharedPreferences("lista", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        Set<String> set = new HashSet<String>(Collections.singleton(datoAguardar));
+        editor.putStringSet("datos", set);
+        editor.apply();
+
+        /*SharedPreferences sharedPreferences = getActivity().getSharedPreferences(nombreDelSharedPreferences, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("dato",datoAguardar.size());// dato a guardar
+        editor.commit();
+        editor.apply();*/
+
     }
 
     public void AddRecentlyViewed(){
@@ -214,8 +263,9 @@ public class DetailsProductsFragment extends Fragment {
             // sino está lo agregas
             estaEnSharedPreference = true;
             ListaRecentlyViewed.add(modelohotSales);
+            //setSharedPreferences("Lista",ListaRecentlyViewed.toString());
             //Toast.makeText(getContext(), "Añadido al carrito" , Toast.LENGTH_SHORT).show();
-            String datos = preferences.getString("RecentlyViewed","");
+            //String datos = preferences.getString("RecentlyViewed","");
             //Toast.makeText(getContext(), "datos: "+ datos, Toast.LENGTH_SHORT).show();
         }
     }

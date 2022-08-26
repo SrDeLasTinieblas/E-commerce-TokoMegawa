@@ -54,7 +54,7 @@ public class HotSalesFragment extends Fragment {
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                //
+
                 //System.out.println("==> "+ListProducts.get(i));
                 //Toast.makeText(context.getContext(), "==> " + ListProducts.get(i).getTitulo(), Toast.LENGTH_SHORT).show();
 
@@ -78,7 +78,7 @@ public class HotSalesFragment extends Fragment {
 
                 getParentFragmentManager().setFragmentResult("key", bundle);
                 //System.out.println(ListProducts);
-                Log.e("lista",ListProducts.toString());
+                //Log.e("lista",ListProducts.toString());
                 replaceFragment(new DetailsProductsFragment());
 
                 /*Intent intent = new Intent(context.getContext(), DetailsProductsFragment.class);

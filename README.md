@@ -2,7 +2,7 @@
 
 > HOME
 > 
-![](https://i.ibb.co/pbmCMHW/HOME.png)
+![](https://i.ibb.co/sVPMmHj/Home.png)
 
 
 > My Cart

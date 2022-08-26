@@ -1,8 +1,8 @@
 # E-commerce-TokoMegawa
 
-> LOGIN
+> LOGIN                                  REGISTRO
 > 
-![](https://i.ibb.co/M2Dh7Qs/Login.png) > REGISTRO ![](https://i.ibb.co/kS96mYm/Registro.png)
+![](https://i.ibb.co/M2Dh7Qs/Login.png)  ![](https://i.ibb.co/kS96mYm/Registro.png)
 
 
 > HOME

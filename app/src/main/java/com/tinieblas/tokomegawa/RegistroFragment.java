@@ -2,6 +2,7 @@ package com.tinieblas.tokomegawa;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -10,6 +11,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.text.InputType;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -18,6 +20,12 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.ValidationStyle;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -30,6 +38,18 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.tinieblas.tokomegawa.databinding.FragmentRegistroBinding;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -43,11 +63,16 @@ public class RegistroFragment extends Fragment {
     AwesomeValidation awesomeValidation;
     ArrayList<Integer> edades = new ArrayList<>();
     DatabaseReference databaseReference;
+
+    RequestQueue requestQueue;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         registroFragment = this;
         fragmentRegistroBinding = fragmentRegistroBinding.inflate(inflater, container, false);
+
+        requestQueue = Volley.newRequestQueue(registroFragment.getActivity());
 
         //ArrayList<Integer> edades = new ArrayList<>();
         for (int i = 18; i < 91; i++){
@@ -74,6 +99,8 @@ public class RegistroFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 UpDataToAuthentication();
+                //createAccount();
+                //new MyAsyncTask().execute();
             }
         });
 
@@ -104,6 +131,7 @@ public class RegistroFragment extends Fragment {
                     public void onSuccess(Void unused) {
                         //getActivity().finish();
                         Toast.makeText(getContext(), "Succesfull", Toast.LENGTH_SHORT).show();
+
                         replaceFragment(new HomeFragment());
                         /*
                         startActivity(new Intent(Registrar_activity.this, Login_Activity.class));
@@ -148,6 +176,8 @@ public class RegistroFragment extends Fragment {
                     //registerUser(nombres, apellidos, direccion, edad, mail, password, username);
                     Toast.makeText(getContext(), "Datos completados", Toast.LENGTH_SHORT).show();
                     registerUser(nombres, apellidos, direccion, edad, mail, password, username);
+
+
                 }else{
                     Toast.makeText(getContext(), "Debes poner los datos correctos", Toast.LENGTH_SHORT).show();
                 }
@@ -188,6 +218,97 @@ public class RegistroFragment extends Fragment {
         });
     }
 
+    public void createAccount() throws IOException, JSONException {
+
+        URL url = null; // URL del servidor al que deseas enviar el post
+        try {
+            url = new URL("https://localhost:7261/addCliente");
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("POST"); // Especifica que se usará el método POST para la solicitud
+        conn.setRequestProperty("Content-Type", "application/json; charset=UTF-8"); // Configura la cabecera para especificar el tipo de contenido y la codificación
+        //conn.setDoOutput(true); // Habilita la escritura de datos a la conexión
+        // Habilitamos el envío y recepción de datos
+        conn.setDoInput(true);
+        conn.setDoOutput(true);
+
+// Crea un objeto JSON con los datos que deseas enviar en el post
+        JSONObject postData = new JSONObject();
+        postData.put("nombre", "Juan");
+        /*postData.put("edad", 25);
+        postData.put("email", "juan@mail.com");*/
+
+// Escribe los datos en la conexión
+        OutputStreamWriter writer = new OutputStreamWriter(conn.getOutputStream());
+        writer.write(postData.toString());
+        writer.flush();
+        writer.close();
+
+// Obtiene la respuesta del servidor
+        int responseCode = conn.getResponseCode();
+        BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+        String inputLine;
+        StringBuilder response = new StringBuilder();
+        while ((inputLine = in.readLine()) != null) {
+            response.append(inputLine);
+        }
+        in.close();
+
+// Imprime la respuesta del servidor
+        System.out.println("==>"+response.toString());
+        Toast.makeText(getContext(), "==>"+response.toString(), Toast.LENGTH_SHORT).show();
+
+    }
+
+    public class MyAsyncTask extends AsyncTask<Void, Void, Void> {
+        protected Void doInBackground(Void... params) {
+            URL url = null; // URL del servidor al que deseas enviar el post
+            try {
+                url = new URL("http://webapiventareal.somee.com/addCliente");
+                //url = new URL("https://192.168.1.23:7261/addCliente");
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setRequestMethod("POST"); // Especifica que se usará el método POST para la solicitud
+                conn.setRequestProperty("Content-Type", "application/json; charset=UTF-8"); // Configura la cabecera para especificar el tipo de contenido y la codificación
+                //conn.setDoOutput(true); // Habilita la escritura de datos a la conexión
+                // Habilitamos el envío y recepción de datos
+                conn.setDoInput(true);
+                conn.setDoOutput(true);
+
+// Crea un objeto JSON con los datos que deseas enviar en el post
+                JSONObject postData = new JSONObject();
+                postData.put("id", 0);
+                postData.put("nombre", "Angelooo");
+                //postData.put("email", "juan@mail.com");
+
+// Escribe los datos en la conexión
+                OutputStreamWriter writer = new OutputStreamWriter(conn.getOutputStream());
+                writer.write(postData.toString());
+                writer.flush();
+                writer.close();
+
+// Obtiene la respuesta del servidor
+                int responseCode = conn.getResponseCode();
+                BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                String inputLine;
+                StringBuilder response = new StringBuilder();
+                while ((inputLine = in.readLine()) != null) {
+                    response.append(inputLine);
+                }
+                in.close();
+
+// Imprime la respuesta del servidor
+                System.out.println("==>"+response.toString());
+                Toast.makeText(getContext(), "==>"+response.toString(), Toast.LENGTH_SHORT).show();
+            } catch (JSONException | IOException e) {
+                e.printStackTrace();
+
+            }
+
+            return null;
+        }
+    }
 
 
 }

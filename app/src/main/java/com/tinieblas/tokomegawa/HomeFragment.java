@@ -40,7 +40,6 @@ import java.util.List;
 
 public class HomeFragment extends Fragment {
     HomeFragment context;
-    //ArrayList<MainModel> mainModels;
 
     ArrayList<Modelo> models;
     RecentlyViewedAdapterRecycler recentlyViewedAdapterRecycler;
@@ -102,6 +101,7 @@ public class HomeFragment extends Fragment {
         setCardsFilter();
         return fragmentHomeBinding.getRoot();
     }
+
     public void getDataFireBaseUser(){
         FirebaseData firebaseData = new FirebaseData();
         firebaseFirestore = FirebaseFirestore.getInstance();

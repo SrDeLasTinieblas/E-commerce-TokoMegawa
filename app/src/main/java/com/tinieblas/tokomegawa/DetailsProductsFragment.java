@@ -8,54 +8,36 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentResultListener;
 import android.text.method.ScrollingMovementMethod;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.airbnb.lottie.LottieAnimationView;
-import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.bumptech.glide.Glide;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.tinieblas.tokomegawa.adptadores.Modelos.ModelohotSales;
 import com.tinieblas.tokomegawa.constants.Constants;
 import com.tinieblas.tokomegawa.data.FirebaseData;
 import com.tinieblas.tokomegawa.databinding.DetailsProductsFragmentBinding;
-import com.tinieblas.tokomegawa.databinding.FragmentRegistroBinding;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 
 public class DetailsProductsFragment extends Fragment {
@@ -63,8 +45,10 @@ public class DetailsProductsFragment extends Fragment {
     private ModelohotSales modelohotSales;
     DetailsProductsFragment context;
     FirebaseFirestore mFirestore;
-    FirebaseAuth firebaseAuth;
-    DatabaseReference databaseReference;
+    /*FirebaseAuth firebaseAuth;
+    DatabaseReference databaseReference;*/
+    ArrayList<String> item = new ArrayList<String>();
+
     private final FirebaseData firebaseData = new FirebaseData();
     String name, apellido;
     private final List<String> ListProductoCarrito = new ArrayList<>();
@@ -122,11 +106,7 @@ public class DetailsProductsFragment extends Fragment {
                 onClickListener(modelohotSales.getPrecio(), modelohotSales.getPreciototal());
 
                 btnImages(modelohotSales.getImagen1(), modelohotSales.getImagen2(), modelohotSales.getImagen3());
-                /*try {
-                    GuardarOrRemover();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }*/
+                GuardarOrRemover();
                 /*preferences = getActivity().getSharedPreferences("clave",
                         Context.MODE_PRIVATE);*/
                 CargarDatosRecentlyViewed(modelohotSales.getId().toString());
@@ -271,7 +251,7 @@ public class DetailsProductsFragment extends Fragment {
     }
 
     public void sendCarrito(){
-        //GuardarOrRemover();
+        GuardarOrRemover();
     }
 
     boolean beSharedPreferences = false;
@@ -284,7 +264,7 @@ public class DetailsProductsFragment extends Fragment {
             // si hay datos
             beSharedPreferences = false;
             //ListProductsCarrito.add(modelohotSales);
-            //Toast.makeText(context.getContext(), "Añadido al carrito", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context.getContext(), "Añadido al carrito", Toast.LENGTH_SHORT).show();
             try {
                 EnviandoDataToFireBase();
             } catch (IOException e) {
@@ -298,7 +278,8 @@ public class DetailsProductsFragment extends Fragment {
         } else {
             beSharedPreferences = true;
 
-            //Toast.makeText(context.getContext(), "Quitado del carrito", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context.getContext(), "Quitado del carrito", Toast.LENGTH_SHORT).show();
+
             detailsProductsFragmentBinding.animationView.setProgress(0);
             detailsProductsFragmentBinding.animationView.pauseAnimation();
 
@@ -353,11 +334,18 @@ public class DetailsProductsFragment extends Fragment {
          *             detailsProductsFragmentBinding.textCantidad.getText().toString());
          */
         //ArrayList<String> item = new ArrayList<String>();
-        ArrayList<String> item = new ArrayList<String>();
+        //ArrayList<String> item = new ArrayList<String>();
+
         item.add(modelohotSales.getImagen1());
         item.add(detailsProductsFragmentBinding.textPrecioDestailsProductos.getText().toString());
         item.add(detailsProductsFragmentBinding.textViewDescripcionDetailsProducts.getText().toString());
         item.add(detailsProductsFragmentBinding.textCantidad.getText().toString());
+
+        //Classproductos classproductos = new Classproductos();
+        //classproductos.setTitulo(detailsProductsFragmentBinding.textViewDescripcionDetailsProducts.getText().toString());
+
+        System.out.println("==> item "+item);
+        //System.out.println("==> classproductos "+ classproductos.getTitulo());
 
         /*if (detailsProductsFragmentBinding.textTituloProduct.getText().toString() == modelohotSales.getTitulo()){
 

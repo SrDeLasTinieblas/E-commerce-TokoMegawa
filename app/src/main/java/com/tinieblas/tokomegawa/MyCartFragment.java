@@ -64,6 +64,9 @@ public class MyCartFragment extends Fragment {
         requestQueue = Volley.newRequestQueue(myCartFragment.getActivity());
         apiIpInfo();
         uploadDataFireBase();
+        /*FirebaseData firebaseData = new FirebaseData();
+        firebaseData.getDataProductos();*/
+
         return fragmentMyCartBinding.getRoot();
     }
 

@@ -69,7 +69,7 @@ public class LoginFragment extends Fragment {
         awesomeValidation = new AwesomeValidation(ValidationStyle.BASIC);
         firebaseAuth = FirebaseAuth.getInstance();
 
-        //validatingLogin();----
+        //validatingLogin(); -----------
 
         fragmentLoginBinding.buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override

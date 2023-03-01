@@ -23,8 +23,7 @@ import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
+
 import com.android.volley.toolbox.Volley;
 import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.ValidationStyle;
@@ -37,6 +36,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
+
 import com.tinieblas.tokomegawa.databinding.FragmentRegistroBinding;
 
 import org.json.JSONException;
@@ -47,12 +47,15 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
+
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
 
 public class RegistroFragment extends Fragment {
 
@@ -99,6 +102,18 @@ public class RegistroFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 UpDataToAuthentication();
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        // Aqui pones el codigo
+                        try {
+                            createAccount();
+                        } catch (IOException | JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                }).start();
                 //createAccount();
                 //new MyAsyncTask().execute();
             }
@@ -220,7 +235,23 @@ public class RegistroFragment extends Fragment {
 
     public void createAccount() throws IOException, JSONException {
 
+        OkHttpClient client = new OkHttpClient().newBuilder().build();
+        MediaType mediaType = MediaType.parse("application/json");
+        RequestBody body = RequestBody.create(mediaType, "{\r\n  \"id\": 0,\r\n  \"nombre\": \"alohaaaa\"\r\n}");
+
+        okhttp3.Request  request = new okhttp3.Request.Builder()
+
+                .url("http://webapiventareal.somee.com/addCliente")
+                .method("POST", body)
+                .addHeader("Content-Type", "application/json")
+                .build();
+
+        okhttp3.Response response = client.newCall(request).execute();
+
+
+        /*
         URL url = null; // URL del servidor al que deseas enviar el post
+
         try {
             url = new URL("https://localhost:7261/addCliente");
         } catch (MalformedURLException e) {
@@ -241,7 +272,7 @@ public class RegistroFragment extends Fragment {
         postData.put("email", "juan@mail.com");*/
 
 // Escribe los datos en la conexión
-        OutputStreamWriter writer = new OutputStreamWriter(conn.getOutputStream());
+        /*OutputStreamWriter writer = new OutputStreamWriter(conn.getOutputStream());
         writer.write(postData.toString());
         writer.flush();
         writer.close();
@@ -259,55 +290,7 @@ public class RegistroFragment extends Fragment {
 // Imprime la respuesta del servidor
         System.out.println("==>"+response.toString());
         Toast.makeText(getContext(), "==>"+response.toString(), Toast.LENGTH_SHORT).show();
-
-    }
-
-    public class MyAsyncTask extends AsyncTask<Void, Void, Void> {
-        protected Void doInBackground(Void... params) {
-            URL url = null; // URL del servidor al que deseas enviar el post
-            try {
-                url = new URL("http://webapiventareal.somee.com/addCliente");
-                //url = new URL("https://192.168.1.23:7261/addCliente");
-                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                conn.setRequestMethod("POST"); // Especifica que se usará el método POST para la solicitud
-                conn.setRequestProperty("Content-Type", "application/json; charset=UTF-8"); // Configura la cabecera para especificar el tipo de contenido y la codificación
-                //conn.setDoOutput(true); // Habilita la escritura de datos a la conexión
-                // Habilitamos el envío y recepción de datos
-                conn.setDoInput(true);
-                conn.setDoOutput(true);
-
-// Crea un objeto JSON con los datos que deseas enviar en el post
-                JSONObject postData = new JSONObject();
-                postData.put("id", 0);
-                postData.put("nombre", "Angelooo");
-                //postData.put("email", "juan@mail.com");
-
-// Escribe los datos en la conexión
-                OutputStreamWriter writer = new OutputStreamWriter(conn.getOutputStream());
-                writer.write(postData.toString());
-                writer.flush();
-                writer.close();
-
-// Obtiene la respuesta del servidor
-                int responseCode = conn.getResponseCode();
-                BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                String inputLine;
-                StringBuilder response = new StringBuilder();
-                while ((inputLine = in.readLine()) != null) {
-                    response.append(inputLine);
-                }
-                in.close();
-
-// Imprime la respuesta del servidor
-                System.out.println("==>"+response.toString());
-                Toast.makeText(getContext(), "==>"+response.toString(), Toast.LENGTH_SHORT).show();
-            } catch (JSONException | IOException e) {
-                e.printStackTrace();
-
-            }
-
-            return null;
-        }
+*/
     }
 
 

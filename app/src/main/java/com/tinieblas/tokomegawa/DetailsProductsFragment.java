@@ -40,6 +40,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
+
 public class DetailsProductsFragment extends Fragment {
 
     private ModelohotSales modelohotSales;
@@ -122,26 +126,6 @@ public class DetailsProductsFragment extends Fragment {
             }
         });
 
-
-        //onClickListener(valor/*, precio*/);
-
-        /*gridView = detailsProductsFragmentBinding.getRoot().findViewById(R.id.gridViewProducts);
-
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent = new Intent(context.getContext(), DetailsProductsFragment.class);
-
-                intent.putExtra("ModelohotSales", ListProductos.get(i));
-                startActivity(intent);
-            }
-        });*/
-        ;
-        //preferences = getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
-        //preferences = context.getActivity().getSharedPreferences("compras", Context.MODE_PRIVATE);
-
         return detailsProductsFragmentBinding.getRoot();
 
     }
@@ -152,45 +136,11 @@ public class DetailsProductsFragment extends Fragment {
     private List<String> list = new ArrayList<>();
 
     public void CargarDatosRecentlyViewed(String IDProducto){
-        //Toast.makeText(getContext(), "=> " + IDProducto, Toast.LENGTH_SHORT).show();
-        // si hay datos
 
-        //list.addAll(Collections.singleton(IDProducto));
         list.add(IDProducto);
         setSharedPreferences(list.iterator().next());
-        cargarpreferencias();
-        //Toast.makeText(getContext(), ""+getSharedPreferences("nombre"), Toast.LENGTH_SHORT).show();
-        //Toast.makeText(getContext(), ""+getSharedPreferences("RecentlyViewed"), Toast.LENGTH_SHORT).show();
-        //SharedPreferences preferences = getActivity().getSharedPreferences(nombreDelSharedPreferences, Context.MODE_PRIVATE);
-        //Toast.makeText(getContext(), ""+preferences.getString(), Toast.LENGTH_SHORT).show();
-        //Toast.makeText(getContext(), ""+ preferences  , Toast.LENGTH_SHORT).show();
-        //if(preferences.contains("clave") /*preferences.contains("RecentlyViewed")*/){
-        //    // cargamos la lista entonces
-        //    String datos = preferences.getString("clave","");
-        //    Log.d("clave", datos);
 
-            /*Type typeList = new TypeToken<List<ModelohotSales>>(){}.getType();
-            ListaRecentlyViewed.addAll(new Gson().fromJson(datos,typeList));
-            //Toast.makeText(getContext(), "datos " + datos, Toast.LENGTH_SHORT).show();
-
-            // Con el foreach recorremos la lista de datos
-            for (ModelohotSales modelohotSales : ListaRecentlyViewed){
-                // Aqui comparamos los IDs si son iguales es true
-                if(modelohotSales.getId().equals(IDProducto)){
-                    estaEnSharedPreference = true;
-                    inCarrito = true;
-                    modelohotSales = modelohotSales;
-                    valor = this.modelohotSales.getCantidad();
-                    //Toast.makeText(getContext(), "Si esta en las preferencias", Toast.LENGTH_SHORT).show();
-                    break;
-                }
-            }*/
-            //updateBackGround(estaEnSharedPreference);
-
-        //}else{
-        //    //Toast.makeText(getContext(), "No esta en las preferencias", Toast.LENGTH_SHORT).show();
-        //    Log.d("clave", "no hay datos");
-        //}
+        /**cargarpreferencias();*/
 
     }
 
@@ -215,13 +165,6 @@ public class DetailsProductsFragment extends Fragment {
         Set<String> set = new HashSet<String>(Collections.singleton(datoAguardar));
         editor.putStringSet("datos", set);
         editor.apply();
-
-        /*SharedPreferences sharedPreferences = getActivity().getSharedPreferences(nombreDelSharedPreferences, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putInt("dato",datoAguardar.size());// dato a guardar
-        editor.commit();
-        editor.apply();*/
-
     }
 
     public void AddRecentlyViewed(){
@@ -256,8 +199,6 @@ public class DetailsProductsFragment extends Fragment {
 
     boolean beSharedPreferences = false;
 
-    //private final List<ModelohotSales> ListProductsCarrito = new ArrayList<>();
-
     private void GuardarOrRemover(){
         // Si hay datos
         if (beSharedPreferences) {
@@ -265,11 +206,8 @@ public class DetailsProductsFragment extends Fragment {
             beSharedPreferences = false;
             //ListProductsCarrito.add(modelohotSales);
             Toast.makeText(context.getContext(), "Añadido al carrito", Toast.LENGTH_SHORT).show();
-            try {
-                EnviandoDataToFireBase();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            /**EnviandoDataToFireBase();*/
+
             //detailsProductsFragmentBinding.animationView.setMinAndMaxProgress(0f, 0.20f);
             detailsProductsFragmentBinding.animationView.playAnimation();
             //detailsProductsFragmentBinding.animationView.pauseAnimation();
@@ -287,118 +225,60 @@ public class DetailsProductsFragment extends Fragment {
         }
     }
 
-    boolean estaEnFireStore= false;
     public void VerificaSiEstaEnElCarrito(Integer IDProducto){
-        String usuario = getUser();
-        Toast.makeText(getContext(), getUser(), Toast.LENGTH_SHORT).show();
-        /*DocumentReference docRef = mFirestore.collection("Carrito").document(usuario);
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        //Log.d("dd", "DocumentSnapshot data: " + document.getData());
-                        Toast.makeText(getContext(), "DocumentSnapshot data: " +
-                                document.getData(), Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(getContext(), "No such document" +
-                                document.getData(), Toast.LENGTH_SHORT).show();
-                    }
-                } else {
-                    Toast.makeText(getContext(), "Error", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });*/
-        /*Task<DocumentSnapshot> task = null;
-        DocumentSnapshot document = task.getResult();
-        if(document.exists()) {
-            Toast.makeText(getContext(), "DocumentSnapshot data: " +
-                    document.getData(), Toast.LENGTH_SHORT).show();
-        }
-        else {
-            Toast.makeText(getContext(), "No such document" +
-                    document.getData(), Toast.LENGTH_SHORT).show();
-        }*/
+
     }
 
-    private void EnviandoDataToFireBase(/*,String Descripcion, String image, String precio, Integer cantidad String color, String username*/) throws IOException {
-            //String id = firebaseAuth.getCurrentUser().getUid();
-         //map = detailsProductsFragmentBinding.textPrecioDestailsProductos.getText().toString();
-            Map<String, Object> map = new HashMap<>();
-            //Map<String, Object> map1 = new HashMap<>();
+    /** Envia un post a la api y añade un producto en el carrito */
+    private void EnviandoDataToBaseData(String Descripcion, String image, String precio, Integer cantidad, String color, String username) throws IOException {
+
+        OkHttpClient client = new OkHttpClient().newBuilder().build();
+        MediaType mediaType = MediaType.parse("application/json");
+        RequestBody body = RequestBody.create(mediaType,
+                "{\r\n  \"" +
+                "id\": 0,\r\n  \"" +
+                "username\": \""+username+"" +
+                "image\": \""+image+"" +
+                "Descripcion\": \""+Descripcion+"" +
+                "precio\": \""+precio+"" +
+                "cantidad\": \""+cantidad+"" +
+                "color\": \""+color+"" +
+                "\"\r\n}");
+
+        okhttp3.Request  request = new okhttp3.Request.Builder()
+
+                .url("http://webapiventareal.somee.com/addCliente")
+                .method("POST", body)
+                .addHeader("Content-Type", "application/json")
+                .build();
+
+        okhttp3.Response response = client.newCall(request).execute();
+
+
+        /**
+         *
+        Map<String, Object> map = new HashMap<>();
+        */
+
         /**
          *             detailsProductsFragmentBinding.imageDetailsProducts1.toString());
          *             detailsProductsFragmentBinding.textPrecioDestailsProductos.getText().toString());
          *             detailsProductsFragmentBinding.textViewDescripcionDetailsProducts.getText().toString());
          *             detailsProductsFragmentBinding.textCantidad.getText().toString());
          */
-        //ArrayList<String> item = new ArrayList<String>();
-        //ArrayList<String> item = new ArrayList<String>();
+        /** ArrayList<String> item = new ArrayList<String>( */
 
-        item.add(modelohotSales.getImagen1());
+        /**item.add(modelohotSales.getImagen1());
         item.add(detailsProductsFragmentBinding.textPrecioDestailsProductos.getText().toString());
         item.add(detailsProductsFragmentBinding.textViewDescripcionDetailsProducts.getText().toString());
-        item.add(detailsProductsFragmentBinding.textCantidad.getText().toString());
+        item.add(detailsProductsFragmentBinding.textCantidad.getText().toString());*/
 
-        //Classproductos classproductos = new Classproductos();
-        //classproductos.setTitulo(detailsProductsFragmentBinding.textViewDescripcionDetailsProducts.getText().toString());
+        /**System.out.println("==> item "+item);*/
 
-        System.out.println("==> item "+item);
-        //System.out.println("==> classproductos "+ classproductos.getTitulo());
+        /**map.put(detailsProductsFragmentBinding.textTituloProduct.getText().toString(), item);*/
 
-        /*if (detailsProductsFragmentBinding.textTituloProduct.getText().toString() == modelohotSales.getTitulo()){
+        /**FireStore("Carrito", map);*/
 
-        }*/
-
-        //saveSharedPreferencs(item);
-        map.put(detailsProductsFragmentBinding.textTituloProduct.getText().toString(), item);
-
-        //SharedPreferences preferencias= getActivity().getSharedPreferences("datos2",Context.MODE_PRIVATE);
-        //SharedPreferences.Editor editor=preferencias.edit();
-        //String dato = preferences.getString("dato2","");
-        //System.out.println(dato);
-
-            /*map.put(detailsProductsFragmentBinding.textTituloProduct.getText().toString(), detailsProductsFragmentBinding.textPrecioDestailsProductos.getText().toString());
-            map.put(detailsProductsFragmentBinding.textTituloProduct.getText().toString(), detailsProductsFragmentBinding.textViewDescripcionDetailsProducts.getText().toString());
-            map.put(detailsProductsFragmentBinding.textTituloProduct.getText().toString(), detailsProductsFragmentBinding.textCantidad.getText().toString());*/
-
-        //purificandoDataProducto();
-                //map.put("id", id);
-                /*map.put("nombres", nombres);
-                map.put("apellidos", apellidos);
-                map.put("direccion", direccion);
-                map.put("edad", edad);
-                map.put("mail", mail);
-                map.put("password", password);
-                map.put("username", username);*/
-        //ListProductoCarrito.add("descripcion");
-
-        //Toast.makeText(getContext(), getUser()+ new Gson().toJson(ListProductsCarrito) +" <==Usuario", Toast.LENGTH_SHORT).show();
-
-        //System.out.println(modelohotSales.getPreciototal());
-        //System.out.println("lenght "+MyCarrito[20]);
-
-        //MyCarrito.toString().replaceAll("","");
-
-        //Log.e("carrito",getUser()+ new Gson().toJson(ListProductsCarrito) +" <==Usuario" );
-            //sweetAlertDialog.sweetAlertLoading(this);
-
-        FireStore("Carrito", map);
-
-            /*mFirestore.collection("Carrito").document(getUser()).set(map).addOnSuccessListener(new OnSuccessListener<Void>() {
-                @Override
-                public void onSuccess(Void unused) {
-                    //getActivity().finish();
-                    Toast.makeText(getContext(), "Succesfull", Toast.LENGTH_SHORT).show();
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    //Toast.makeText(getContext(), e.toString(), Toast.LENGTH_SHORT).show();
-                    System.out.printf(e.toString());
-                }
-            });*/
     }
 
     public void FireStore(String collectionPath, Map<String, Object> map){
@@ -582,19 +462,10 @@ public class DetailsProductsFragment extends Fragment {
 
     public void btnAumentando(float precioTotal, float total){
         modelohotSales.setCantidad(++valor);
-        //System.out.println(modelohotSales.getCantidad());
 
         BigDecimal bd = new BigDecimal(modelohotSales.getPreciototal()).setScale(2, RoundingMode.HALF_UP);
         detailsProductsFragmentBinding.textCantidad.setText(String.valueOf(modelohotSales.getCantidad()));
         detailsProductsFragmentBinding.textPrecioDestailsProductos.setText(String.format("S/%s", bd));
-
-        //Intent intent = new Intent(context.getContext(), ModelohotSales.class);
-        //intent.putExtra("PrecioTotal", precioTotal);
-        //System.out.println(total);
-        //detailsProductsFragmentBinding.textCantidad.setText(s);
-        //System.out.println(++valor);
-        //detailsProductsFragmentBinding.textCantidad.setText(String.valueOf(modelohotSales.getCantidad()));
-        //detailsProductsFragmentBinding.textPrecioDestailsProductos.setText(("S/"+(modelohotSales.getPrecioTotal())));
 
     }
 

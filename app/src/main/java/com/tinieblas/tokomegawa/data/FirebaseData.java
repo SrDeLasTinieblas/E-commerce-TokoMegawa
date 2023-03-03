@@ -19,11 +19,11 @@ public class FirebaseData {
     FirebaseDatabase database;
     String name;
     String apellidos;
-    private final FirebaseData firebaseData = new FirebaseData();
+    //private final FirebaseData firebaseData = new FirebaseData();
 
     // Creamos la funcion para guardar los datos
     public void getDataUser(EventListener<DocumentSnapshot> listener) {
-        final String[] apellidos = new String[1];
+        //final String[] apellidos = new String[1];
         try {
             // Llamamos a la funcion para definir firebase
             definingFirebase();
@@ -35,32 +35,6 @@ public class FirebaseData {
         }
         //return apellidos[0];
 
-    }
-
-    public void getDataProductos(/*EventListener<DocumentSnapshot> listener*/) {
-        //final String[] apellidos = new String[1];
-        try {
-            // Llamamos a la funcion para definir firebase
-            definingFirebase();
-            firebaseData.getDataUser(new EventListener<DocumentSnapshot>() {
-                @SuppressLint("SetTextI18n")
-                @Override
-                public void onEvent(DocumentSnapshot value, FirebaseFirestoreException error) {
-                    name = value.getString("nombres");
-                    apellidos = value.getString("apellidos");
-                    //fragmentMyCartBinding.textNombre.setText(name);
-                    DocumentReference documentReference = firebaseFirestore.collection("Carrito").document(name + apellidos);
-                    //documentReference.addSnapshotListener(listener);
-                    System.out.println("documentReference ==> "+documentReference);
-                }
-
-            });
-            // Creamos una nueva collecion en firebase de nombre "usuario"
-
-        } catch (Exception e) {
-            System.err.println(e);
-        }
-        //return apellidos[0];
     }
 
     public void uploadDataFireBase(Context context) {

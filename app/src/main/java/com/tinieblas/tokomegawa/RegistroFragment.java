@@ -234,10 +234,11 @@ public class RegistroFragment extends Fragment {
     }
 
     public void createAccount() throws IOException, JSONException {
-
         OkHttpClient client = new OkHttpClient().newBuilder().build();
         MediaType mediaType = MediaType.parse("application/json");
-        RequestBody body = RequestBody.create(mediaType, "{\r\n  \"id\": 0,\r\n  \"nombre\": \"alohaaaa\"\r\n}");
+        RequestBody body = RequestBody.create(mediaType, "{\r\n  \"" +
+                "id\": 0,\r\n  \"" +
+                "nombre\": \"alohaaaa\"\r\n}");
 
         okhttp3.Request  request = new okhttp3.Request.Builder()
 

@@ -23,13 +23,12 @@ import com.bumptech.glide.Glide;
 import com.tinieblas.tokomegawa.Utils.BottomSheetDialog;
 import com.tinieblas.tokomegawa.Utils.FireBase;
 import com.tinieblas.tokomegawa.adptadores.Modelos.ModelohotSales;
-import com.tinieblas.tokomegawa.adptadores.Modelos.RecyclerViewInterface;
 import com.tinieblas.tokomegawa.constants.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements RecyclerViewInterface, View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements /*RecyclerViewInterface, */View.OnClickListener {
 
     private ModelohotSales modelohotSales;
     private SharedPreferences preferences;
@@ -213,11 +212,6 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
             animationView.cancelAnimation();
         }
     }*/
-
-
-    @Override
-    public void onItemClick(int position) {
-    }
 
     @Override
     public void onBackPressed() {

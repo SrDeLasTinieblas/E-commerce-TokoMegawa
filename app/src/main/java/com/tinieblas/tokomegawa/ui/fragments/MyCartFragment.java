@@ -1,21 +1,16 @@
 package com.tinieblas.tokomegawa;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -23,26 +18,19 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.tinieblas.tokomegawa.Utils.FireBase;
 import com.tinieblas.tokomegawa.adptadores.Modelos.ModelohotSales;
-import com.tinieblas.tokomegawa.adptadores.hotSalesAdapterRecycler;
-import com.tinieblas.tokomegawa.data.FirebaseData;
+import com.tinieblas.tokomegawa.data.database.FirebaseData;
 import com.tinieblas.tokomegawa.databinding.FragmentMyCartBinding;
 
 import org.json.JSONObject;
 
 import java.lang.reflect.Type;
 import java.util.List;
-import java.util.Objects;
 
 public class MyCartFragment extends Fragment {
 
@@ -76,6 +64,42 @@ public class MyCartFragment extends Fragment {
         fragmentTransaction.replace(R.id.frameLayoutHome, fragment);
         fragmentTransaction.commit();
         fragmentTransaction.addToBackStack(null);
+    }
+
+    public void getData() {
+        StringRequest request = new StringRequest(
+                Request.Method.GET,
+                "https://my-json-server.typicode.com/SrDeLasTinieblas/Peliculas/productos",
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            // Aca estamos diciendo que lo que esta en el carrito lo ponga una list
+                            Type typeList = new TypeToken<List<ModelohotSales>>() {}.getType();
+
+                            List<ModelohotSales> productsListResponse = new Gson().fromJson(response, typeList);
+
+                            /*ListProducts.addAll(productsListResponse);
+
+                            adapterGridView = new hotSalesAdapterGridView(context.getContext(), ListProducts);
+                            gridView.setAdapter(adapterGridView);*/
+
+                        } catch (Exception e) {
+                            Log.d("JSONException", e.getMessage());
+                            e.printStackTrace();
+                        }
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        System.err.println(error.networkResponse + " error");
+                    }
+                }
+        );
+        // Aqui enviamos la solicitud de la peticion
+        requestQueue.add(request);
     }
 
     public void apiIpInfo(){

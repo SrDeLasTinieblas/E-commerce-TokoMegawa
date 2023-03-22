@@ -23,7 +23,7 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.gson.Gson;
 import com.tinieblas.tokomegawa.adptadores.Modelos.ModelohotSales;
 import com.tinieblas.tokomegawa.constants.Constants;
-import com.tinieblas.tokomegawa.data.FirebaseData;
+import com.tinieblas.tokomegawa.data.database.FirebaseData;
 import com.tinieblas.tokomegawa.databinding.DetailsProductsFragmentBinding;
 
 import org.json.JSONObject;
@@ -33,7 +33,6 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -226,6 +225,7 @@ public class DetailsProductsFragment extends Fragment {
     }
 
     public void VerificaSiEstaEnElCarrito(Integer IDProducto){
+
 
     }
 

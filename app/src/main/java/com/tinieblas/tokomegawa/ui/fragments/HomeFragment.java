@@ -11,7 +11,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -19,7 +18,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -32,7 +30,7 @@ import com.tinieblas.tokomegawa.adptadores.Modelos.ModelohotSales;
 import com.tinieblas.tokomegawa.adptadores.Modelos.RecyclerFilter;
 import com.tinieblas.tokomegawa.adptadores.RecentlyViewedAdapterRecycler;
 import com.tinieblas.tokomegawa.adptadores.hotSalesAdapterRecycler;
-import com.tinieblas.tokomegawa.data.FirebaseData;
+import com.tinieblas.tokomegawa.data.database.FirebaseData;
 import com.tinieblas.tokomegawa.databinding.FragmentHomeBinding;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -199,7 +197,7 @@ public class HomeFragment extends Fragment {
         langLogo = new Integer[]{R.drawable.frame_headphone, R.drawable.earphone,
                 R.drawable.frame_headphone, R.drawable.earphone, R.drawable.frame_headphone};
 
-        langName = new String[]{"Headset", "Headset", "Headset", "Headset", "Headset"};
+        langName = new String[]{"Headset", "earphone", "Headset", "Headset", "Headset"};
 
         models = new ArrayList<>();
         for (int i=0; i<langLogo.length; i++){

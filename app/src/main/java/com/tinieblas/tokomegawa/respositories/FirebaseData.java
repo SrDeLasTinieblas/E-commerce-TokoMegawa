@@ -1,8 +1,6 @@
-package com.tinieblas.tokomegawa.data;
+package com.tinieblas.tokomegawa.data.database;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;

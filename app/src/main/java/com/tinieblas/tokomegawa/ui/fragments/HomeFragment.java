@@ -1,5 +1,6 @@
-package com.tinieblas.tokomegawa;
+package com.tinieblas.tokomegawa.ui.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -24,13 +25,14 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.tinieblas.tokomegawa.Utils.FireBase;
+import com.tinieblas.tokomegawa.R;
+import com.tinieblas.tokomegawa.ui.utils.FireBase;
 import com.tinieblas.tokomegawa.adptadores.Modelos.Modelo;
 import com.tinieblas.tokomegawa.adptadores.Modelos.ModelohotSales;
 import com.tinieblas.tokomegawa.adptadores.Modelos.RecyclerFilter;
 import com.tinieblas.tokomegawa.adptadores.RecentlyViewedAdapterRecycler;
 import com.tinieblas.tokomegawa.adptadores.hotSalesAdapterRecycler;
-import com.tinieblas.tokomegawa.data.database.FirebaseData;
+import com.tinieblas.tokomegawa.respositories.FirebaseData;
 import com.tinieblas.tokomegawa.databinding.FragmentHomeBinding;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -38,7 +40,6 @@ import java.util.List;
 
 public class HomeFragment extends Fragment {
     HomeFragment context;
-
     ArrayList<Modelo> models;
     RecentlyViewedAdapterRecycler recentlyViewedAdapterRecycler;
     RecyclerFilter recyclerFilter;
@@ -53,6 +54,7 @@ public class HomeFragment extends Fragment {
     private FragmentHomeBinding fragmentHomeBinding;
     ArrayList<String> listdata = new ArrayList<>();
     private final List<ModelohotSales> ListProducts = new ArrayList<>();
+    //private OnButtonSelectedListener mListener;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -88,12 +90,20 @@ public class HomeFragment extends Fragment {
             }
         });*/
         //fragmentHomeBinding.reciclerViewHotSales.setOnClickListener(new );
+        /*fragmentHomeBinding.buttonHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mListener.onButtonSelected(1);
+            }
+        });
 
+        fragmentHomeBinding.buttoniLove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mListener.onButtonSelected(2);
+            }
+        });*/
 
-        //FireBase fireBase = new FireBase();
-        //.setApellidos("ALOHAAA");
-        //getDataFireBaseUser();
-        //Toast.makeText(getActivity(), fireBase.getApellidos(getContext()), Toast.LENGTH_SHORT).show();
         requestQueue = Volley.newRequestQueue(context.getActivity());
         getData();
         setCardsFilter();
@@ -258,6 +268,22 @@ public class HomeFragment extends Fragment {
         super.onDestroyView();
         fragmentHomeBinding = null;
     }
+
+    /*public interface OnButtonSelectedListener {
+        void onButtonSelected(int buttonId);
+    }*/
+
+    //@Override
+    /*public void onAttach(Context context) {
+        super.onAttach(context);
+
+        try {
+            mListener = (OnButtonSelectedListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString()
+                    + " must implement OnButtonSelectedListener");
+        }*/
+
 }
 
 

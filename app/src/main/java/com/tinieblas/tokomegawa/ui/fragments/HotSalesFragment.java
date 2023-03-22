@@ -1,4 +1,4 @@
-package com.tinieblas.tokomegawa;
+package com.tinieblas.tokomegawa.ui.fragments;
 
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.GridView;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -19,11 +20,11 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.tinieblas.tokomegawa.R;
 import com.tinieblas.tokomegawa.adptadores.Modelos.ModelohotSales;
 import com.tinieblas.tokomegawa.adptadores.hotSalesAdapterGridView;
 import com.tinieblas.tokomegawa.adptadores.hotSalesAdapterRecycler;
 import com.tinieblas.tokomegawa.constants.Constants;
-import com.tinieblas.tokomegawa.databinding.FragmentHomeBinding;
 import com.tinieblas.tokomegawa.databinding.FragmentHotSalesBinding;
 
 import java.lang.reflect.Type;
@@ -45,10 +46,17 @@ public class HotSalesFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        View rootView = inflater.inflate(R.layout.fragment_hot_sales , container, false);
+
+
         // Inflate the layout for this fragment
         context = this;
         fragmentHotSalesBinding = fragmentHotSalesBinding.inflate(inflater, container, false);
         requestQueue = Volley.newRequestQueue(context.getActivity());
+
+        //Button button1 = (Button) view.findViewById(R.id.button1);
+        //Button button2 = (Button) view.findViewById(R.id.button2);
 
         gridView = fragmentHotSalesBinding.gridViewProducts.findViewById(R.id.gridViewProducts);
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -88,6 +96,7 @@ public class HotSalesFragment extends Fragment {
         });
         getData();
         //datos();
+
 
         return fragmentHotSalesBinding.getRoot();
     }
@@ -142,6 +151,8 @@ public class HotSalesFragment extends Fragment {
         bundle.putString("lista1", ListProducts1.toString());*/
         //Toast.makeText(context.getContext(), "oo"+ListProducts1, Toast.LENGTH_SHORT).show();
     }
+
+
 
     /*public void onBackPressed() {
 

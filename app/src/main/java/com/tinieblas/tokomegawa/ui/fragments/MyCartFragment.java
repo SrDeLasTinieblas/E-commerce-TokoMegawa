@@ -1,4 +1,4 @@
-package com.tinieblas.tokomegawa;
+package com.tinieblas.tokomegawa.ui.fragments;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -23,8 +23,9 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.tinieblas.tokomegawa.R;
 import com.tinieblas.tokomegawa.adptadores.Modelos.ModelohotSales;
-import com.tinieblas.tokomegawa.data.database.FirebaseData;
+import com.tinieblas.tokomegawa.respositories.FirebaseData;
 import com.tinieblas.tokomegawa.databinding.FragmentMyCartBinding;
 
 import org.json.JSONObject;

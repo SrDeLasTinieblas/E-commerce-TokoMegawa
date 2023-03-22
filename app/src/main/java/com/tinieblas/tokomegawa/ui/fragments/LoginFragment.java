@@ -1,4 +1,4 @@
-package com.tinieblas.tokomegawa;
+package com.tinieblas.tokomegawa.ui.fragments;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -9,8 +9,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.text.InputType;
-import android.text.method.PasswordTransformationMethod;
-import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -20,18 +18,13 @@ import android.widget.Toast;
 import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.ValidationStyle;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.tinieblas.tokomegawa.R;
 import com.tinieblas.tokomegawa.databinding.FragmentLoginBinding;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class LoginFragment extends Fragment {
 

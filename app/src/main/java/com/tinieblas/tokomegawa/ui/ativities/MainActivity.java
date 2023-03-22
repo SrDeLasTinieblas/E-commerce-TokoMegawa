@@ -1,27 +1,29 @@
-package com.tinieblas.tokomegawa;
+package com.tinieblas.tokomegawa.ui.ativities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.GridView;
+import android.view.ViewGroup;
+import android.widget.PopupWindow;
 import android.widget.Toast;
 
-import com.airbnb.lottie.LottieAnimationView;
-import com.android.volley.RequestQueue;
-import com.bumptech.glide.Glide;
-import com.tinieblas.tokomegawa.Utils.BottomSheetDialog;
-import com.tinieblas.tokomegawa.Utils.FireBase;
+import com.tinieblas.tokomegawa.ui.fragments.HomeFragment;
+import com.tinieblas.tokomegawa.ui.fragments.HotSalesFragment;
+import com.tinieblas.tokomegawa.ui.fragments.LoginFragment;
+import com.tinieblas.tokomegawa.ui.fragments.MyCartFragment;
+import com.tinieblas.tokomegawa.R;
+import com.tinieblas.tokomegawa.ui.fragments.RegistroFragment;
+import com.tinieblas.tokomegawa.ui.utils.BottomSheetDialog;
+import com.tinieblas.tokomegawa.ui.utils.FireBase;
 import com.tinieblas.tokomegawa.adptadores.Modelos.ModelohotSales;
 import com.tinieblas.tokomegawa.constants.Constants;
 
@@ -48,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements /*RecyclerViewInt
         decorView.setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
             @Override
             public void onSystemUiVisibilityChange(int i) {
-                if (i == 0){
+                if (i == 0) {
                     decorView.setSystemUiVisibility(hideSystemBar());
                 }
             }
@@ -62,18 +64,15 @@ public class MainActivity extends AppCompatActivity implements /*RecyclerViewInt
         //replaceFragment(new HomeFragment());
         try {
             getDataFireBase();
-        }catch (Exception e){
-            Log.d("Error", e+"");
+        } catch (Exception e) {
+            Log.d("Error", e + "");
         }
 
         replaceFragment(new LoginFragment());
 
-        //System.out.println(modelohotSales.getTitulo());
-        //GuardarOrRemover();
-
     }
 
-    private void main(){
+    private void main() {
         preferences = getSharedPreferences(Constants.INTENT_NAME_CARRITO, Context.MODE_PRIVATE);
         //CheckCartData(modelohotSales.getId());
     }
@@ -86,66 +85,40 @@ public class MainActivity extends AppCompatActivity implements /*RecyclerViewInt
         fragmentTransaction.addToBackStack(null);
     }
 
-    public void onClickHotSalesRecycle(View view){
-        //ModelohotSales modelohotSales = new ModelohotSales( new );
-        
-    }
-
     public void buttonFlotante(View view) {
         replaceFragment(new MyCartFragment());
-        /*int currentNightMode = configuration.uiMode & Configuration.UI_MODE_NIGHT_MASK;
-        switch (currentNightMode) {
-            case Configuration.UI_MODE_NIGHT_NO:
-                // Night mode is not active, we're using the light theme
-                break;
-            case Configuration.UI_MODE_NIGHT_YES:
-                // Night mode is active, we're using dark theme
-                break;
-*/
-        //ModelohotSales modelohotSales = new ModelohotSales("");
-
-        //Bundle bundle = getIntent().getExtras();
-        //modelohotSales = bundle.getParcelable(Constants.INTENT_NAME);
-        //System.out.println("hola ==> ");
-
-        //Intent intent = new Intent(MainActivity.this, DetailsProductsFragment.class);
-        //intent.putExtra(Constants.INTENT_NAME, "5");
-
-        //startActivity(intent);
-        //System.out.println((modelohotSales.getTitulo()));
-        /*Intent i = new Intent(this, MyCart_Activity.class);
-        startActivity(i);
-        Snackbar.make(view, "Here's a Snackbar", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show();*/
     }
 
-    public void buttonBack(View view){
+    public void buttonBack(View view) {
         replaceFragment(new HomeFragment());
     }
 
-    public void buttonBackHotSales(View view){
+    public void buttonBackHotSales(View view) {
         replaceFragment(new HotSalesFragment());
     }
 
-    public void getClassModelo() {
-        //Intent intent = new Intent(MainActivity.this, DetailsProductsFragment.class);
-        //ModelohotSales modelohotSales = new ModelohotSales();
-
-        Bundle bundle = getIntent().getExtras();
-        modelohotSales = bundle.getParcelable("lista1");
-
-        System.out.println((modelohotSales));
-    }
-
-    public void seeModalLower(View view){
-        Toast.makeText(this , "Folder clcick" , Toast.LENGTH_SHORT).show();
+    public void seeModalLower(View view) {
+        Toast.makeText(this, "Folder clcick", Toast.LENGTH_SHORT).show();
 
         BottomSheetDialog bottomSheet = new BottomSheetDialog();
         bottomSheet.show(getSupportFragmentManager(),
                 "ModalBottomSheet");
     }
 
-    public void seeAllHotSales(View view){
+    public void filtro(View view) {
+        // Infla el archivo XML que define la vista del popup
+        View popupView = getLayoutInflater().inflate(R.layout.popup, null);
+        // Crea un objeto PopupWindow con la vista del popup
+        PopupWindow popupWindow = new PopupWindow(popupView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        // Muestra el popup en la posición deseada
+        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+    }
+
+    public void scogerFiltro(View view) {
+        filtro(view);
+    }
+
+    public void seeAllHotSales(View view) {
         replaceFragment(new HotSalesFragment());
     }
 
@@ -178,40 +151,6 @@ public class MainActivity extends AppCompatActivity implements /*RecyclerViewInt
         replaceFragment(new RegistroFragment());
     }
 
-    public void buttonHeart(View view) {
-
-        //if (pre){
-
-        //GuardarOrRemover();
-        //Thread.sleep(3000);
-        //animationView.cancelAnimation();
-
-        //}else {
-            //animationView.cancelAnimation();
-        //}
-    }
-
-    /*private boolean CheckCartData(Integer idCarrito){
-
-
-
-    return false;
-    }*/
-
-
-    /*private void GuardarOrRemover(){
-       LottieAnimationView animationView = (LottieAnimationView) findViewById(R.id.animationView);
-        if (beSharedPreferences){
-            beSharedPreferences = false;
-            Toast.makeText(this, "prefrerences: "+beSharedPreferences, Toast.LENGTH_SHORT).show();
-            animationView.playAnimation();
-        }else {
-            beSharedPreferences = true;
-            ListProductsCarrito.add(modelohotSales);
-            Toast.makeText(this, "prefrerences: "+beSharedPreferences, Toast.LENGTH_SHORT).show();
-            animationView.cancelAnimation();
-        }
-    }*/
 
     @Override
     public void onBackPressed() {

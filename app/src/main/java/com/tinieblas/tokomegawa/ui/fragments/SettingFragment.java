@@ -1,4 +1,4 @@
-package com.tinieblas.tokomegawa;
+package com.tinieblas.tokomegawa.ui.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;

@@ -1,4 +1,4 @@
-package com.tinieblas.tokomegawa.Utils;
+package com.tinieblas.tokomegawa.ui.utils;
 
 import android.app.Activity;
 import android.view.View;

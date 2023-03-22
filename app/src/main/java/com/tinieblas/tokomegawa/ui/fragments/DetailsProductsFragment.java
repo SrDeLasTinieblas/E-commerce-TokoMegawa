@@ -1,4 +1,4 @@
-package com.tinieblas.tokomegawa;
+package com.tinieblas.tokomegawa.ui.fragments;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -21,9 +21,10 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.gson.Gson;
+import com.tinieblas.tokomegawa.R;
 import com.tinieblas.tokomegawa.adptadores.Modelos.ModelohotSales;
 import com.tinieblas.tokomegawa.constants.Constants;
-import com.tinieblas.tokomegawa.data.database.FirebaseData;
+import com.tinieblas.tokomegawa.respositories.FirebaseData;
 import com.tinieblas.tokomegawa.databinding.DetailsProductsFragmentBinding;
 
 import org.json.JSONObject;
@@ -78,43 +79,23 @@ public class DetailsProductsFragment extends Fragment {
             @Override
             public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
 
-                //ModelohotSales modelohotSales;
                 modelohotSales = result.getParcelable(Constants.INTENT_NAME_MODELO);
                 ListProductos.add(modelohotSales);
-                /*String titulo = result.getString("titulo");
-                String descripcion = result.getString("descripcion");
-                img1 = result.getString("img1");
-                img2 = result.getString("img2");
-                img3 = result.getString("img3");
-                String img4 = result.getString("img4");
-                float descuento = result.getFloat("descuento");
-                float precio = result.getFloat("precio");
-                String delivery = result.getString("delivery");
-                int cantidad = result.getInt("cantidad");
-                float PrecioTotal = result.getFloat("PrecioTotal");*/
 
                 detailsProductsFragmentBinding.textTituloProduct.setText(modelohotSales.getTitulo());
                 detailsProductsFragmentBinding.textViewDescripcionDetailsProducts.setMovementMethod(new ScrollingMovementMethod());
                 detailsProductsFragmentBinding.textViewDescripcionDetailsProducts.setText(modelohotSales.getDescripcion());
                 detailsProductsFragmentBinding.textPrecioDestailsProductos.setText(String.valueOf("S/ " + modelohotSales.getPrecio()));
-                //detailsProductsFragmentBinding.textPrecioDestailsProductos.setText(String.valueOf("S/ "+modelohotSales.getPreciototal()));
-                //detailsProductsFragmentBinding.textCantidad.setText(String.valueOf(modelohotSales.getCantidad()));
-                //detailsProductsFragmentBinding.textCantidad.setText(cantidad);
 
-
-                //Toast.makeText(getContext(), "==> "+ListProductos, Toast.LENGTH_SHORT).show();
-                //detailsProductsFragmentBinding.imageDetailsProducts.setImageResource(img1);
                 getUser();
                 GlideImage();
                 onClickListener(modelohotSales.getPrecio(), modelohotSales.getPreciototal());
 
                 btnImages(modelohotSales.getImagen1(), modelohotSales.getImagen2(), modelohotSales.getImagen3());
                 GuardarOrRemover();
-                /*preferences = getActivity().getSharedPreferences("clave",
-                        Context.MODE_PRIVATE);*/
+
                 CargarDatosRecentlyViewed(modelohotSales.getId().toString());
-                AddRecentlyViewed();
-                //VerificaSiEstaEnElCarrito(22);
+                //AddRecentlyViewed();
             }
         });
 
@@ -143,10 +124,6 @@ public class DetailsProductsFragment extends Fragment {
 
     }
 
-    /*public String getSharedPreferences(String nombreDelSharedPreferences){
-        SharedPreferences preferences = getActivity().getSharedPreferences(nombreDelSharedPreferences, Context.MODE_PRIVATE);
-        return preferences.getString("dato","404");
-    }*/
     public void cargarpreferencias() {
         SharedPreferences preferences = requireContext().getSharedPreferences("lista", Context.MODE_PRIVATE);
         Set<String> set = preferences.getStringSet("datos", null);
@@ -165,7 +142,6 @@ public class DetailsProductsFragment extends Fragment {
         editor.putStringSet("datos", set);
         editor.apply();
     }
-
     public void AddRecentlyViewed(){
         if(estaEnSharedPreference){
             // Si hay datos lo eliminara
@@ -185,10 +161,6 @@ public class DetailsProductsFragment extends Fragment {
             // sino está lo agregas
             estaEnSharedPreference = true;
             ListaRecentlyViewed.add(modelohotSales);
-            //setSharedPreferences("Lista",ListaRecentlyViewed.toString());
-            //Toast.makeText(getContext(), "Añadido al carrito" , Toast.LENGTH_SHORT).show();
-            //String datos = preferences.getString("RecentlyViewed","");
-            //Toast.makeText(getContext(), "datos: "+ datos, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -214,19 +186,10 @@ public class DetailsProductsFragment extends Fragment {
 
         } else {
             beSharedPreferences = true;
-
             Toast.makeText(context.getContext(), "Quitado del carrito", Toast.LENGTH_SHORT).show();
-
             detailsProductsFragmentBinding.animationView.setProgress(0);
             detailsProductsFragmentBinding.animationView.pauseAnimation();
-
-            //detailsProductsFragmentBinding.animationView.playAnimation();
         }
-    }
-
-    public void VerificaSiEstaEnElCarrito(Integer IDProducto){
-
-
     }
 
     /** Envia un post a la api y añade un producto en el carrito */
@@ -303,17 +266,6 @@ public class DetailsProductsFragment extends Fragment {
      " "id": 1, "titulo": "Sony WH/100XM", "descripcion": "The intuitive and intelligent WH-1000XM4 headphones", "imagen1": "https://i.ibb.co/sVYrV4k/Frame-headphone.png", "imagen2": "https://i.ibb.co/sVYrV4k/Frame-headphone.png", "imagen3": "https://i.ibb.co/sVYrV4k/Frame-headphone.png", "imagen4": "", "descuento": 20, "precio": 128, "delivery":"no free shipping""
      * @return
      */
-
-    public void saveSharedPreferencs(List<String> item){
-        SharedPreferences preferencias= getActivity().getSharedPreferences("datos2",Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor=preferencias.edit();
-        editor.putString("dato5", String.valueOf(item));
-        editor.commit();
-        getActivity().finish();
-
-    }
-
-
     public String getUser(){
             firebaseData.getDataUser(new EventListener<DocumentSnapshot>() {
                 @SuppressLint("SetTextI18n")
@@ -325,9 +277,6 @@ public class DetailsProductsFragment extends Fragment {
             });
             return name+ " " + apellido;
     }
-
-    ArrayList<JSONObject> listResults = new ArrayList<JSONObject>();
-
     private void purificandoDataProducto() throws IOException {
         List<ModelohotSales> ListProductsCarrito = new ArrayList<>();
         ListProductsCarrito.add(modelohotSales);
@@ -341,51 +290,10 @@ public class DetailsProductsFragment extends Fragment {
         String[] MyCarrito = MyString.split(",");
 
         MyCarrito[20] = "PrecioTotal: " +detailsProductsFragmentBinding.textPrecioDestailsProductos.getText().toString();
-
-
-        /*for (int i = 0; i < ListProductsCarrito.size(); i++) {
-            JSONObject otroObject = listResults.get(i);
-
-            listResults.add(otroObject);
-        }
-        JSONObject[] jsonsFinally= new JSONObject[listResults.size()];
-        listResults.toArray(jsonsFinally);
-
-        System.out.println(jsonsFinally);*/
-
-        /*Json json = new Json();
-
-        JsonNode node = Json.parse(new Gson().toJson(ListProductsCarrito));
-
-        System.out.println("node "+node.asText());*/
-
-        /*int tamanhioArray = arrayJSON.length();
-        ArrayList<JSONObject> listResults = new ArrayList<JSONObject>();
-        for (int i = 0; i < tamanhioArray; i++) {
-            JSONObject otroObject = listResults.getJSONObject(i);
-
-            listResults.add(otroObject);
-        }
-
-        JSONObject[] jsonsFinally= new JSONObject[listResults.size()];
-        listResults.toArray(jsonFinally);*/
-        /*JSONObject json = new JSONObject((Map) ListProductsCarrito);
-        JSONArray arrayJSON = myjson.getJSONArray("Results");*/
-        //System.out.println("==> MyCarrito "+ Arrays.toString(MyCarrito));
-        //return Arrays.toString(MyCarrito);
     }
-
-    private boolean CheckCartData(Integer idCarrito){
-        return false;
-    }
-
     @Override
     public void onStart() {
         super.onStart();
-        /*if (getArguments() != null && getArguments().containsKey(ModelohotSales.Parcel)){
-            ModelohotSales modelohotSales = getArguments().getParcelable(ModelohotSales.Parcel);
-            detailsProductsFragmentBinding.textCantidad.setText(modelohotSales.getCantidad());
-        }*/
     }
 
     public void GlideImage(){
@@ -462,11 +370,9 @@ public class DetailsProductsFragment extends Fragment {
 
     public void btnAumentando(float precioTotal, float total){
         modelohotSales.setCantidad(++valor);
-
         BigDecimal bd = new BigDecimal(modelohotSales.getPreciototal()).setScale(2, RoundingMode.HALF_UP);
         detailsProductsFragmentBinding.textCantidad.setText(String.valueOf(modelohotSales.getCantidad()));
         detailsProductsFragmentBinding.textPrecioDestailsProductos.setText(String.format("S/%s", bd));
-
     }
 
     public void btnDisminuyendo(float precioTotal){
@@ -477,35 +383,11 @@ public class DetailsProductsFragment extends Fragment {
             BigDecimal bd = new BigDecimal(modelohotSales.getPreciototal()).setScale(2, RoundingMode.HALF_UP);
             detailsProductsFragmentBinding.textCantidad.setText(String.valueOf(modelohotSales.getCantidad()));
             detailsProductsFragmentBinding.textPrecioDestailsProductos.setText(String.format("S/%s", bd));
-            //modelohotSales.setCantidad(--valor);
-            //detailsProductsFragmentBinding.textCantidad.setText(String.valueOf(modelohotSales.getCantidad()));
-            //detailsProductsFragmentBinding.textPrecioDestailsProductos.setText("S/"+(modelohotSales.getPrecioTotal()));
         }
         else {
             detailsProductsFragmentBinding.textCantidad.setText("1");
-            //detailsProductsFragmentBinding.textCantidad.setText(String.valueOf(modelohotSales.getCantidad()));
-            //detailsProductsFragmentBinding.textPrecioDestailsProductos.setText("S/"+(modelohotSales.getPrecioTotal()));
-
         }
-
     }
-
-    private void getClassModelohotSales(){
-        //Bundle bundle = getActivity().getIntent().getExtras();
-        //modelohotSales = bundle.getParcelable(ModelohotSales.Parcel);
-
-        /*Bundle bundle = this.getArguments();
-        if (bundle != null) {
-            modelohotSales = bundle.getParcelable("modelohotSales");
-        }*/
-        /*if (getArguments() != null && getArguments().containsKey(ModelohotSales.Parcel)){
-            ModelohotSales modelohotSales = getArguments().getParcelable(ModelohotSales.Parcel);
-            detailsProductsFragmentBinding.textCantidad.setText(modelohotSales.getCantidad());
-
-        }*/
-
-    }
-
 }
 
 

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MyCartFragment">
+    tools:context=".ui.fragments.MyCartFragment">
 
     <TextView
         android:id="@+id/textView2"
@@ -68,8 +68,9 @@
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
     <GridView
-        android:layout_width="384dp"
-        android:layout_height="368dp"
+        android:id="@+id/gridViewMyCart"
+        android:layout_width="388dp"
+        android:layout_height="374dp"
         android:layout_marginTop="16dp"
         app:layout_constraintBottom_toTopOf="@+id/textView6"
         app:layout_constraintEnd_toEndOf="parent"

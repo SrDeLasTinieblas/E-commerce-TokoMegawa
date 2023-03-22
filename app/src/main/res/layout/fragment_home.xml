@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".HomeFragment">
+    tools:context=".ui.fragments.HomeFragment">
 
     <EditText
         android:id="@+id/editTextTextPersonName"
@@ -42,6 +42,7 @@
         android:layout_marginStart="15dp"
         android:layout_marginTop="100dp"
         android:background="@drawable/mi_filter"
+        android:onClick="scogerFiltro"
         app:layout_constraintEnd_toStartOf="@+id/card_filter_RecyclerView"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -230,6 +231,9 @@
         app:layout_constraintTop_toBottomOf="@+id/recicler_view_recently"
         app:layout_constraintVertical_bias="0.932" />
 
+    <!-- Código en el método onViewCreated del fragmento -->
+
+
     <Button
         android:id="@+id/buttonSalida"
         android:layout_width="42dp"
@@ -244,7 +248,7 @@
 
     <!--<androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView"
-        android:name="com.tinieblas.tokomegawa.SettingFragment"
+        android:name="com.tinieblas.tokomegawa.ui.fragments.SettingFragment"
         android:layout_width="416dp"
         android:layout_height="664dp"
         app:layout_constraintEnd_toEndOf="parent"

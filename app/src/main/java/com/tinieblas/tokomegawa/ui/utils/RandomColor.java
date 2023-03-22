@@ -1,4 +1,4 @@
-package com.tinieblas.tokomegawa;
+package com.tinieblas.tokomegawa.ui.utils;
 
 import java.util.Arrays;
 import java.util.Collections;

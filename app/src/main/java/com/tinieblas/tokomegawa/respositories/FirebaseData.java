@@ -1,4 +1,4 @@
-package com.tinieblas.tokomegawa.data.database;
+package com.tinieblas.tokomegawa.respositories;
 
 import android.content.Context;
 

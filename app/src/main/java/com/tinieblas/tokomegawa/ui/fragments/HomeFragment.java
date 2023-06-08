@@ -1,17 +1,23 @@
 package com.tinieblas.tokomegawa.ui.fragments;
 
-import android.content.Context;
+//import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -19,6 +25,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -26,6 +33,8 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.tinieblas.tokomegawa.R;
+import com.tinieblas.tokomegawa.ui.ativities.AuthenticationActivity;
+import com.tinieblas.tokomegawa.ui.ativities.MainActivity;
 import com.tinieblas.tokomegawa.ui.utils.FireBase;
 import com.tinieblas.tokomegawa.adptadores.Modelos.Modelo;
 import com.tinieblas.tokomegawa.adptadores.Modelos.ModelohotSales;
@@ -38,7 +47,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment /*implements View.OnClickListener*/ {
     HomeFragment context;
     ArrayList<Modelo> models;
     RecentlyViewedAdapterRecycler recentlyViewedAdapterRecycler;
@@ -49,6 +58,8 @@ public class HomeFragment extends Fragment {
     String Nombre, Apellido, Direccion, Email, Username, ID;
     Integer Edad;
     FirebaseFirestore firebaseFirestore;
+    // Obtener una instancia de FirebaseAuth
+    FirebaseAuth mAuth = FirebaseAuth.getInstance();
     RequestQueue requestQueue;
     hotSalesAdapterRecycler hotSalesAdapterRecycler;
     private FragmentHomeBinding fragmentHomeBinding;
@@ -70,73 +81,37 @@ public class HomeFragment extends Fragment {
         //setRecyclerViewHotSales();
         setRecyclerViewRecentlyViewd();
 
+        fragmentHomeBinding.buttonSalida.setOnClickListener(v -> {
+            //Intent intent = new Intent(getContext(), AuthenticationActivity.class);
+            //startActivity(intent);
+            mAuth.signOut(); // Cerrar sesión
+            Intent i=new Intent(getContext(), MainActivity.class);
+            startActivity(i);
+        });
+
         fragmentHomeBinding.buttonHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 replaceFragment(new HomeFragment());
             }
         });
-
-        fragmentHomeBinding.buttonSetting.setOnClickListener(v -> replaceFragment(new SettingFragment()));
-
-
-        /*fragmentHomeBinding.buttonSalida.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                    // Cerramos sesion
-                    FirebaseAuth.getInstance().signOut();
-                    Toast.makeText(getActivity(), "Sesion cerrada", Toast.LENGTH_SHORT).show();
-                    replaceFragment(new LoginFragment());
-            }
-        });*/
-        //fragmentHomeBinding.reciclerViewHotSales.setOnClickListener(new );
-        /*fragmentHomeBinding.buttonHome.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mListener.onButtonSelected(1);
-            }
-        });
-
         fragmentHomeBinding.buttoniLove.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                mListener.onButtonSelected(2);
+            public void onClick(View view) {
+                replaceFragment(new iLoveFragment());
             }
-        });*/
-
+        });
+        fragmentHomeBinding.buttonSetting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                replaceFragment(new SettingFragment());
+            }
+        });
         requestQueue = Volley.newRequestQueue(context.getActivity());
+
         getData();
         setCardsFilter();
         return fragmentHomeBinding.getRoot();
-    }
-
-    public void getDataFireBaseUser(){
-        FirebaseData firebaseData = new FirebaseData();
-        firebaseFirestore = FirebaseFirestore.getInstance();
-        firebaseData.getDataUser( new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(DocumentSnapshot value, FirebaseFirestoreException error) {
-                firebaseFirestore = FirebaseFirestore.getInstance();
-                // Recuperamos nombre Nombre, Apellido, Direccion, Email, Username;
-                Nombre = value.getString("nombres");
-                Apellido = value.getString("apellidos");
-                Direccion = value.getString("direccion");
-                Email = value.getString("mail");
-                // = Integer.parseInt(value.getString("edad"));
-                Username = value.getString("username");
-                ID = value.getString("id");
-
-                FireBase fireBase = new FireBase();
-                fireBase.setNombres(Nombre);
-                fireBase.setApellidos(Apellido);
-                fireBase.setDireccion(Direccion);
-                //fireBase.setEdad(Edad);
-                fireBase.setMail(Email);
-                fireBase.setUsername(Username);
-                fireBase.setId(ID);
-                //Toast.makeText(getContext(), "==:>> " + fireBase.getNombres(), Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
     public void getData() {
@@ -204,10 +179,11 @@ public class HomeFragment extends Fragment {
     }
 
     public void setCardsFilter(){
-        langLogo = new Integer[]{R.drawable.frame_headphone, R.drawable.earphone,
-                R.drawable.frame_headphone, R.drawable.earphone, R.drawable.frame_headphone};
+        /*langLogo = new Integer[]{R.drawable.frame_headphone, R.drawable.earphone,
+                R.drawable.frame_headphone, R.drawable.earphone, R.drawable.frame_headphone};*/
 
-        langName = new String[]{"Headset", "earphone", "Headset", "Headset", "Headset"};
+        //langName = new String[]{"Headset", "earphone", "Headset", "Headset", "Headset"};
+
 
         models = new ArrayList<>();
         for (int i=0; i<langLogo.length; i++){
@@ -228,19 +204,6 @@ public class HomeFragment extends Fragment {
         fragmentHomeBinding.cardFilterRecyclerView.setAdapter(recyclerFilter);
 
 
-    }
-
-    public void setRecyclerViewHotSales(){
-
-        /*mainModels = new ArrayList<>();
-        for (int i=0; i< langLogo.length;i++){
-            MainModel model = new MainModel(langLogo[i], langName[i]);
-            mainModels.add(model);
-        }
-        //Design Horizontal Layout
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context.getActivity(),
-                LinearLayoutManager.HORIZONTAL,
-                false );*/
     }
 
     public void setRecyclerViewRecentlyViewd(){
@@ -269,6 +232,18 @@ public class HomeFragment extends Fragment {
         fragmentHomeBinding = null;
     }
 
+    /*@Override
+    public void onClick(View view) {
+        System.out.println("onClick");
+        SignOut();
+        System.out.println("2222222222222222222222222222");
+    }
+
+    public void SignOut(){
+        //mAuth.signOut(); // Cerrar sesión
+        System.out.println("SignOut");
+    }
+*/
     /*public interface OnButtonSelectedListener {
         void onButtonSelected(int buttonId);
     }*/

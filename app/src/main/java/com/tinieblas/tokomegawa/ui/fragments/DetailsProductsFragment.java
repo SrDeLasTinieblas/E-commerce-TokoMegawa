@@ -107,7 +107,6 @@ public class DetailsProductsFragment extends Fragment {
         });
 
         return detailsProductsFragmentBinding.getRoot();
-
     }
 
     boolean estaEnSharedPreference = false;
@@ -142,27 +141,6 @@ public class DetailsProductsFragment extends Fragment {
         editor.putStringSet("datos", set);
         editor.apply();
     }
-    public void AddRecentlyViewed(){
-        if(estaEnSharedPreference){
-            // Si hay datos lo eliminara
-            estaEnSharedPreference = false;
-            Iterator<ModelohotSales> itr = ListaRecentlyViewed.iterator();
-
-            // Mientras halla siguiente va seguir la condicion
-            while (itr.hasNext()) {
-                // Aqui obtenemos el id y lo comparamos con el siguiente id si es igual lo borrara
-                if(modelohotSales.getId().equals(itr.next().getId())){
-                    itr.remove();
-                    //Toast.makeText(getContext(), "Quitado del carrito" , Toast.LENGTH_SHORT).show();
-                    break;
-                }
-            }
-        } else {
-            // sino está lo agregas
-            estaEnSharedPreference = true;
-            ListaRecentlyViewed.add(modelohotSales);
-        }
-    }
 
     public void sendCarrito(){
         GuardarOrRemover();
@@ -193,7 +171,9 @@ public class DetailsProductsFragment extends Fragment {
     }
 
     /** Envia un post a la api y añade un producto en el carrito */
-    private void EnviandoDataToBaseData(String Descripcion, String image, String precio, Integer cantidad, String color, String username) throws IOException {
+    private void EnviandoDataToBaseData(String Descripcion, String image,
+                                        String precio, Integer cantidad, String color,
+                                        String username) throws IOException {
 
         OkHttpClient client = new OkHttpClient().newBuilder().build();
         MediaType mediaType = MediaType.parse("application/json");

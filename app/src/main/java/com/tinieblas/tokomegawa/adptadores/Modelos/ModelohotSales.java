@@ -51,6 +51,10 @@ public class ModelohotSales implements Parcelable {
     @SerializedName("descuento")
     @Expose
     private float descuento;
+
+    @SerializedName("categoria")
+    private String categoria;
+
     @SerializedName("precio")
     @Expose
     private float precio;
@@ -120,6 +124,14 @@ public class ModelohotSales implements Parcelable {
         return descuento;
     }
 
+    public void setCategoria(String categoria){
+        this.categoria = categoria;
+    }
+
+    public String getCategoria(){
+        return categoria;
+    }
+
     public void setDescuento(float descuento) {
         this.descuento = descuento;
     }
@@ -177,6 +189,7 @@ public class ModelohotSales implements Parcelable {
         parcel.writeString(imagen3);
         parcel.writeString(imagen4);
         parcel.writeFloat(descuento);
+        parcel.writeString(categoria);
         parcel.writeFloat(precio);
         parcel.writeString(delivery);
         parcel.writeFloat(preciototal);

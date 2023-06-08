@@ -32,19 +32,20 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements /*RecyclerViewInterface, */View.OnClickListener {
 
-    private ModelohotSales modelohotSales;
-    private SharedPreferences preferences;
+    /*private ModelohotSales modelohotSales;
+    private SharedPreferences preferences;*/
     private View decorView;
-    private final List<ModelohotSales> ListProducts = new ArrayList<>();
+    /*private final List<ModelohotSales> ListProducts = new ArrayList<>();
     boolean beSharedPreferences = true;
     boolean inCarrito = false;
-    private final List<ModelohotSales> ListProductsCarrito = new ArrayList<>();
+    private final List<ModelohotSales> ListProductsCarrito = new ArrayList<>();*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Este código es para ocultar la barra de navegación y la barra de estado en una actividad
         decorView = getWindow().getDecorView();
 
         decorView.setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
@@ -55,13 +56,7 @@ public class MainActivity extends AppCompatActivity implements /*RecyclerViewInt
                 }
             }
         });
-
-        //Intent i = new Intent(this, DetailsProductsFragment.class);
-        //i.putExtra("key","2");
-
-        //gridView.setOnI
-        //getClassModelo();
-        //replaceFragment(new HomeFragment());
+/**/
         try {
             getDataFireBase();
         } catch (Exception e) {
@@ -70,11 +65,6 @@ public class MainActivity extends AppCompatActivity implements /*RecyclerViewInt
 
         replaceFragment(new LoginFragment());
 
-    }
-
-    private void main() {
-        preferences = getSharedPreferences(Constants.INTENT_NAME_CARRITO, Context.MODE_PRIVATE);
-        //CheckCartData(modelohotSales.getId());
     }
 
     public void replaceFragment(Fragment fragment) {
@@ -182,32 +172,4 @@ public class MainActivity extends AppCompatActivity implements /*RecyclerViewInt
 
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

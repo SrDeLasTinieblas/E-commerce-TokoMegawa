@@ -156,26 +156,26 @@
 
     <TextView
         android:id="@+id/textView18"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="86dp"
-        android:layout_marginTop="68dp"
+        android:layout_width="123dp"
+        android:layout_height="40dp"
         android:text="Not a member?"
-        app:layout_constraintEnd_toStartOf="@+id/textView19"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonLoginFacebook" />
+        app:layout_constraintEnd_toStartOf="@+id/buttonLoginFacebook"
+        app:layout_constraintStart_toEndOf="@+id/buttonLoginGogle"
+        tools:layout_editor_absoluteY="619dp" />
 
     <TextView
         android:id="@+id/textView19"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="68dp"
-        android:layout_marginEnd="116dp"
-        android:text="Register now"
+        android:layout_marginEnd="104dp"
         android:onClick="butonRegistrarse"
+        android:text="Register now"
         android:textColor="#ED2999FB"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonLoginFacebook" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonLoginFacebook"
+        app:layout_constraintVertical_bias="0.0" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

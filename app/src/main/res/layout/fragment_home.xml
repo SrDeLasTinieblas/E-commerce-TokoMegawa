@@ -102,6 +102,7 @@
         android:stretchMode="none"
         android:verticalSpacing="1dp"
         />-->
+
     <!--<GridView
         android:id="@+id/grid_view_hotSales"
         android:layout_width="match_parent"

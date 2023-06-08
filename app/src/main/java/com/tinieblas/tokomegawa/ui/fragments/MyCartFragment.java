@@ -119,36 +119,6 @@ public class MyCartFragment extends Fragment {
                             fragmentMyCartBinding.city.setText(String.format("%s,", city));
                             fragmentMyCartBinding.Pais.setText(country);
 
-
-                            // Aca estamos diciendo que lo que esta en el carrito lo ponga una list
-                            /*Type typeList = new TypeToken<List<ModelohotSales>>() {}.getType();
-
-                            List<ModelohotSales> productsListResponse = new Gson().fromJson(response, typeList);
-
-                            //ListProducts.addAll(productsListResponse);
-
-                            LinearLayoutManager linearLayoutManager2 = new LinearLayoutManager(context.getActivity(),
-                                    LinearLayoutManager.HORIZONTAL,
-                                    false);*/
-                            //fragmentHomeBinding.reciclerViewHotSales.setLayoutManager(linearLayoutManager2);
-                            //fragmentHomeBinding.reciclerViewHotSales.setItemAnimator(new DefaultItemAnimator());
-
-                            //hotSalesAdapterRecycler = new hotSalesAdapterRecycler(ListProducts,
-                            //        context.getActivity()/*, getContext()*/);
-                            //fragmentHomeBinding.reciclerViewHotSales.setAdapter(hotSalesAdapterRecycler);
-
-                            //System.out.println("productsListResponse ==> "+productsListResponse);
-
-                            //System.out.println("ListProducts ==> "+ListProducts.get(2).getTitulo());
-                            //System.out.println(new Gson().toJson(ListProducts));
-
-                            //listdata.add(new Gson().toJson(ListProducts));
-
-
-                            //Bundle bundle = new Bundle();
-                           // bundle.putString("lista1",listdata.toString());
-                           // getParentFragmentManager().setFragmentResult("key1", bundle);
-
                         } catch (Exception e) {
                             Log.d("JSONException", e.getMessage());
                             e.printStackTrace();

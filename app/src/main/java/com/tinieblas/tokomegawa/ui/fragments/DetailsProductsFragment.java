@@ -27,15 +27,12 @@ import com.tinieblas.tokomegawa.constants.Constants;
 import com.tinieblas.tokomegawa.respositories.FirebaseData;
 import com.tinieblas.tokomegawa.databinding.DetailsProductsFragmentBinding;
 
-import org.json.JSONObject;
-
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;

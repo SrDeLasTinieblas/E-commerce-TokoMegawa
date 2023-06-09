@@ -7,24 +7,15 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.tinieblas.tokomegawa.R;
-import com.tinieblas.tokomegawa.adptadores.Modelos.ModelohotSales;
 import com.tinieblas.tokomegawa.respositories.FirebaseData;
 import com.tinieblas.tokomegawa.databinding.FragmentMyCartBinding;
-
-import org.json.JSONObject;
-
-import java.lang.reflect.Type;
-import java.util.List;
 
 public class MyCartFragment extends Fragment {
 

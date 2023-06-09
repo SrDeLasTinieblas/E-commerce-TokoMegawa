@@ -11,13 +11,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestoreException;
@@ -36,7 +29,6 @@ import java.util.List;
 public class MyCartFragment extends Fragment {
 
     MyCartFragment myCartFragment;
-    RequestQueue requestQueue;
     private final FirebaseData firebaseData = new FirebaseData();
     private FragmentMyCartBinding fragmentMyCartBinding;
     String name;
@@ -50,8 +42,7 @@ public class MyCartFragment extends Fragment {
         firebaseData.uploadDataFireBase(getActivity());
 
         buttonBack();
-        requestQueue = Volley.newRequestQueue(myCartFragment.getActivity());
-        apiIpInfo();
+
         uploadDataFireBase();
         /*FirebaseData firebaseData = new FirebaseData();
         firebaseData.getDataProductos();*/
@@ -66,7 +57,7 @@ public class MyCartFragment extends Fragment {
         fragmentTransaction.commit();
         fragmentTransaction.addToBackStack(null);
     }
-
+/*
     public void getData() {
         StringRequest request = new StringRequest(
                 Request.Method.GET,
@@ -84,7 +75,7 @@ public class MyCartFragment extends Fragment {
 
                             adapterGridView = new hotSalesAdapterGridView(context.getContext(), ListProducts);
                             gridView.setAdapter(adapterGridView);*/
-
+/*
                         } catch (Exception e) {
                             Log.d("JSONException", e.getMessage());
                             e.printStackTrace();
@@ -101,41 +92,7 @@ public class MyCartFragment extends Fragment {
         );
         // Aqui enviamos la solicitud de la peticion
         requestQueue.add(request);
-    }
-
-    public void apiIpInfo(){
-        //https://ipinfo.io/190.238.238.236/json
-        StringRequest request = new StringRequest(
-                Request.Method.GET,
-                "https://ipinfo.io/190.238.238.236/json",
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            JSONObject ob = new JSONObject(response);
-                            String city = ob.getString("city");
-                            String country = ob.getString("country");
-                            //System.out.println(firstName);
-                            fragmentMyCartBinding.city.setText(String.format("%s,", city));
-                            fragmentMyCartBinding.Pais.setText(country);
-
-                        } catch (Exception e) {
-                            Log.d("JSONException", e.getMessage());
-                            e.printStackTrace();
-                        }
-
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        System.err.println(error.networkResponse + " error");
-                    }
-                }
-        );
-        // Aqui enviamos la solicitud de la peticion
-        requestQueue.add(request);
-    }
+    }*/
 
     public void uploadDataFireBase() {
 

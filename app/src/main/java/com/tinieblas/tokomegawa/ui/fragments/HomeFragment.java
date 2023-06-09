@@ -5,47 +5,48 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import android.util.Log;
+
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-
+/*
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
+import com.android.volley.toolbox.Volley;*/
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import com.google.gson.JsonSyntaxException;
 import com.tinieblas.tokomegawa.R;
-import com.tinieblas.tokomegawa.ui.ativities.AuthenticationActivity;
+import com.tinieblas.tokomegawa.adptadores.ProductosAdapter;
+import com.tinieblas.tokomegawa.models.Producto.ProductosItem;
 import com.tinieblas.tokomegawa.ui.ativities.MainActivity;
-import com.tinieblas.tokomegawa.ui.utils.FireBase;
 import com.tinieblas.tokomegawa.adptadores.Modelos.Modelo;
 import com.tinieblas.tokomegawa.adptadores.Modelos.ModelohotSales;
 import com.tinieblas.tokomegawa.adptadores.Modelos.RecyclerFilter;
 import com.tinieblas.tokomegawa.adptadores.RecentlyViewedAdapterRecycler;
-import com.tinieblas.tokomegawa.adptadores.hotSalesAdapterRecycler;
-import com.tinieblas.tokomegawa.respositories.FirebaseData;
+//import com.tinieblas.tokomegawa.adptadores.hotSalesAdapterRecycler;
 import com.tinieblas.tokomegawa.databinding.FragmentHomeBinding;
-import java.lang.reflect.Type;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class HomeFragment extends Fragment /*implements View.OnClickListener*/ {
     HomeFragment context;
@@ -60,10 +61,11 @@ public class HomeFragment extends Fragment /*implements View.OnClickListener*/ {
     FirebaseFirestore firebaseFirestore;
     // Obtener una instancia de FirebaseAuth
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
-    RequestQueue requestQueue;
-    hotSalesAdapterRecycler hotSalesAdapterRecycler;
+    //RequestQueue requestQueue;
+    //hotSalesAdapterRecycler hotSalesAdapterRecycler;
+    ProductosAdapter productosAdapter;
     private FragmentHomeBinding fragmentHomeBinding;
-    ArrayList<String> listdata = new ArrayList<>();
+    List<ProductosItem> productosList = new ArrayList<>();
     private final List<ModelohotSales> ListProducts = new ArrayList<>();
     //private OnButtonSelectedListener mListener;
     @Override
@@ -72,7 +74,8 @@ public class HomeFragment extends Fragment /*implements View.OnClickListener*/ {
         // Inflate the layout for this fragment
         context=this;
         fragmentHomeBinding = FragmentHomeBinding.inflate(inflater, container, false);
-        
+
+        productosAdapter = new ProductosAdapter(getContext(), new ArrayList<>());
 
         langLogo = new Integer[]{R.drawable.macbook_air_m1, R.drawable.mbp_shop_,
                 R.drawable.mbp_shop_, R.drawable.macbook_air_m1, R.drawable.macbook_air_m1};
@@ -88,7 +91,7 @@ public class HomeFragment extends Fragment /*implements View.OnClickListener*/ {
             Intent i=new Intent(getContext(), MainActivity.class);
             startActivity(i);
         });
-
+/*
         fragmentHomeBinding.buttonHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -106,69 +109,83 @@ public class HomeFragment extends Fragment /*implements View.OnClickListener*/ {
             public void onClick(View view) {
                 replaceFragment(new SettingFragment());
             }
-        });
-        requestQueue = Volley.newRequestQueue(context.getActivity());
+        });*/
 
-        getData();
+        //requestQueue = Volley.newRequestQueue(context.getActivity());
+
+        //System.out.println(" fetch ==>"+fetchProductos());
+
+        //System.out.println("==> fetchProductos "+fetchProductos());
+        fetchProductos();
+        addCards(productosList);
         setCardsFilter();
         return fragmentHomeBinding.getRoot();
     }
 
-    public void getData() {
-        StringRequest request = new StringRequest(
-                Request.Method.GET,
-                "https://my-json-server.typicode.com/SrDeLasTinieblas/Peliculas/productos",
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            // Aca estamos diciendo que lo que esta en el carrito lo ponga una list
-                            Type typeList = new TypeToken<List<ModelohotSales>>() {}.getType();
+    private List<ProductosItem> fetchProductos() {
 
-                            List<ModelohotSales> productsListResponse = new Gson().fromJson(response, typeList);
+        OkHttpClient client = new OkHttpClient.Builder().build();
+        Request request = new Request.Builder()
+                .url("http://tokomegawa.somee.com/getProductos")
+                .build();
 
-                            ListProducts.addAll(productsListResponse);
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    String responseData = response.body().string();
+                    //System.out.println("response" + responseData);
 
-                            LinearLayoutManager linearLayoutManager2 = new LinearLayoutManager(context.getActivity(),
-                                    LinearLayoutManager.HORIZONTAL,
-                                    false);
+                    try {
+                        // Parsear el JSON de respuesta en un objeto Response
+                        Gson gson = new Gson();
+                        com.tinieblas.tokomegawa.models.Producto.Response responseObject = gson.fromJson(responseData, com.tinieblas.tokomegawa.models.Producto.Response.class);
 
-                            fragmentHomeBinding.reciclerViewHotSales.setLayoutManager(linearLayoutManager2);
-                            fragmentHomeBinding.reciclerViewHotSales.setItemAnimator(new DefaultItemAnimator());
+                        // Obtener la lista de productos del objeto Response
+                        List<ProductosItem> productos = responseObject.getProductos();
 
-                            hotSalesAdapterRecycler = new hotSalesAdapterRecycler(ListProducts,
-                                    context.getActivity()/*, getContext()*/);
-                            fragmentHomeBinding.reciclerViewHotSales.setAdapter(hotSalesAdapterRecycler);
+                        // Agregar todos los productos a la lista productosList
+                        productosList.addAll(productos);
 
-                            //System.out.println("productsListResponse ==> "+productsListResponse);
-
-                            //System.out.println("ListProducts ==> "+ListProducts.get(2).getTitulo());
-                            //System.out.println(new Gson().toJson(ListProducts));
-
-                            listdata.add(new Gson().toJson(ListProducts));
+                        // Aquí puedes hacer lo que necesites con la lista productosList
+                        System.out.println("==> productosList"+productosList);
 
 
-                            Bundle bundle = new Bundle();
-                            bundle.putString("lista1",listdata.toString());
-                            getParentFragmentManager().setFragmentResult("key1", bundle);
-
-                        } catch (Exception e) {
-                            Log.d("JSONException", e.getMessage());
-                            e.printStackTrace();
-                        }
-
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        System.err.println(error.networkResponse + " error");
+                    } catch (JsonSyntaxException e) {
+                        e.printStackTrace();
                     }
                 }
-        );
-        // Aqui enviamos la solicitud de la peticion
-        requestQueue.add(request);
+            }
+
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                e.printStackTrace();
+            }
+        });
+
+        return productosList;
     }
+
+    private void addCards(List<ProductosItem> productosItemList) {
+        // Crear e inicializar el adaptador
+        ProductosAdapter productosAdapter = new ProductosAdapter(requireContext(), productosItemList);
+
+        // Configurar el diseño del RecyclerView
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context.getActivity(),
+                LinearLayoutManager.HORIZONTAL,
+                false);
+        fragmentHomeBinding.reciclerViewHotSales.setLayoutManager(linearLayoutManager);
+        fragmentHomeBinding.reciclerViewHotSales.setItemAnimator(new DefaultItemAnimator());
+
+        // Asignar el adaptador al RecyclerView en el hilo principal de la UI utilizando un Handler
+        new Handler(Looper.getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
+                fragmentHomeBinding.reciclerViewHotSales.setAdapter(productosAdapter);
+            }
+        });
+    }
+
 
     public void replaceFragment(Fragment fragment) {
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();

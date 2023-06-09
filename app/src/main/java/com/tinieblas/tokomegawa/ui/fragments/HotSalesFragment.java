@@ -12,18 +12,12 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.tinieblas.tokomegawa.R;
 import com.tinieblas.tokomegawa.adptadores.Modelos.ModelohotSales;
 import com.tinieblas.tokomegawa.adptadores.hotSalesAdapterGridView;
-import com.tinieblas.tokomegawa.adptadores.hotSalesAdapterRecycler;
+//import com.tinieblas.tokomegawa.adptadores.hotSalesAdapterRecycler;
 import com.tinieblas.tokomegawa.constants.Constants;
 import com.tinieblas.tokomegawa.databinding.FragmentHotSalesBinding;
 
@@ -34,12 +28,11 @@ import java.util.List;
 public class HotSalesFragment extends Fragment {
 
     HotSalesFragment context;
-    RequestQueue requestQueue;
     private final List<ModelohotSales> ListProducts = new ArrayList<>();
     GridView gridView;
     hotSalesAdapterGridView adapterGridView;
 
-    hotSalesAdapterRecycler hotSalesAdapterRecycler;
+    //hotSalesAdapterRecycler hotSalesAdapterRecycler;
     private FragmentHotSalesBinding fragmentHotSalesBinding;
     //private final List<ModelohotSales> ListProducts1 = new ArrayList<>();
 
@@ -53,7 +46,6 @@ public class HotSalesFragment extends Fragment {
         // Inflate the layout for this fragment
         context = this;
         fragmentHotSalesBinding = fragmentHotSalesBinding.inflate(inflater, container, false);
-        requestQueue = Volley.newRequestQueue(context.getActivity());
 
         //Button button1 = (Button) view.findViewById(R.id.button1);
         //Button button2 = (Button) view.findViewById(R.id.button2);
@@ -94,14 +86,14 @@ public class HotSalesFragment extends Fragment {
                 startActivity(intent);*/
             }
         });
-        getData();
+        //getData();
         //datos();
 
 
         return fragmentHotSalesBinding.getRoot();
     }
 
-    public void getData() {
+    /*public void getData() {
         StringRequest request = new StringRequest(
                 Request.Method.GET,
                 "https://my-json-server.typicode.com/SrDeLasTinieblas/Peliculas/productos",
@@ -135,7 +127,7 @@ public class HotSalesFragment extends Fragment {
         );
         // Aqui enviamos la solicitud de la peticion
         requestQueue.add(request);
-    }
+    }*/
 
     public void replaceFragment(Fragment fragment) {
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();

@@ -6,28 +6,27 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.bumptech.glide.Glide;
 import com.tinieblas.tokomegawa.R;
+import com.tinieblas.tokomegawa.databinding.CardProductosHotSalesBinding;
+import com.tinieblas.tokomegawa.models.Producto.ProductosItem;
 import com.tinieblas.tokomegawa.ui.utils.RandomColor;
 import com.tinieblas.tokomegawa.adptadores.Modelos.ModelohotSales;
-import com.tinieblas.tokomegawa.databinding.RowItemBinding;
+//import com.tinieblas.tokomegawa.databinding.RowItemBinding;
 
 import java.util.List;
-
+/*
 public class hotSalesAdapterRecycler extends RecyclerView.Adapter<hotSalesAdapterRecycler.ViewHolder> {
-    private final List<ModelohotSales> modelohotSales;
+    //private final List<ModelohotSales> modelohotSales;
+
     private final Context context;
     private final LayoutInflater layoutInflater;
     //private final RecyclerViewInterface recyclerViewInterface;
 
-    public hotSalesAdapterRecycler(List<ModelohotSales> modelohotSales,
-                                   Context context/*,
-                                   RecyclerViewInterface recyclerViewInterface*/){
+    public hotSalesAdapterRecycler(List<ProductosItem> modelohotSales, Context context){
+
         this.context = context;
         this.layoutInflater = LayoutInflater.from(context);
-        this.modelohotSales = modelohotSales;
-        //this.recyclerViewInterface = recyclerViewInterface;
     }
 
     @Override
@@ -38,7 +37,7 @@ public class hotSalesAdapterRecycler extends RecyclerView.Adapter<hotSalesAdapte
     @NonNull
     @Override
     public hotSalesAdapterRecycler.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        RowItemBinding rowItemBinding = RowItemBinding.inflate(layoutInflater, parent, false);
+        CardProductosHotSalesBinding rowItemBinding = CardProductosHotSalesBinding.inflate(layoutInflater, parent, false);
         //View view = layoutInflater.inflate(R.layout.row_item, null);
         return new ViewHolder(rowItemBinding);
         //return new hotSalesAdapterRecycler.ViewHolder(view);
@@ -52,8 +51,7 @@ public class hotSalesAdapterRecycler extends RecyclerView.Adapter<hotSalesAdapte
 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        RowItemBinding rowItemBinding;
-
+        CardProductosHotSalesBinding cardProductosHotSalesBinding;
         /*TextView Titulo;
         TextView Descripcion;
         ImageView Imagen1;
@@ -63,7 +61,7 @@ public class hotSalesAdapterRecycler extends RecyclerView.Adapter<hotSalesAdapte
         //float descuento = ListProducts.get(i).getDescuento();
         TextView Precio;
         String delivery = ListProducts.get(i).getDelivery();*/
-        public ViewHolder(@NonNull RowItemBinding rowItemBinding) {
+  /*      public ViewHolder(@NonNull CardProductosHotSalesBinding rowItemBinding) {
 
             super(rowItemBinding.getRoot());
             this.rowItemBinding = rowItemBinding;
@@ -71,19 +69,19 @@ public class hotSalesAdapterRecycler extends RecyclerView.Adapter<hotSalesAdapte
             Descripcion = itemView.findViewById(R.id.textDescripcionHotSales);
             Imagen1 = itemView.findViewById(R.id.imageImagenHotSales);
             Precio = itemView.findViewById(R.id.textPrecioHotSales);*/
-        }
+   /*     }
 
         public void bindData(final ModelohotSales item) {
-            rowItemBinding.textTituloHotSales.setText(item.getTitulo());
-            rowItemBinding.textDescripcionHotSales.setText(item.getDescripcion());
-            rowItemBinding.textPrecioHotSales.setText(String.format("S/%s", (item.getPrecio())));
+            cardProductosHotSalesBinding.textTituloHotSales.setText(item.getTitulo());
+            cardProductosHotSalesBinding.textDescripcionHotSales.setText(item.getDescripcion());
+            cardProductosHotSalesBinding.textPrecioHotSales.setText(String.format("S/%s", (item.getPrecio())));
 
             RandomColor randomColor = new RandomColor();
-            rowItemBinding.cardImagenHotSales.setCardBackgroundColor(randomColor.getColor());
+            cardProductosHotSalesBinding.cardImagenHotSales.setCardBackgroundColor(randomColor.getColor());
 
             Glide.with(itemView).load(item.getImagen1())
                     .placeholder(R.drawable.frame_headphone)
                     .into(rowItemBinding.imageImagenHotSales);
         }
     }
-}
+}*/

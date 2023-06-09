@@ -18,9 +18,9 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
-import com.android.volley.RequestQueue;
+//import com.android.volley.RequestQueue;
 
-import com.android.volley.toolbox.Volley;
+//import com.android.volley.toolbox.Volley;
 import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.ValidationStyle;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -58,7 +58,7 @@ public class RegistroFragment extends Fragment {
     ArrayList<Integer> edades = new ArrayList<>();
     DatabaseReference databaseReference;
 
-    RequestQueue requestQueue;
+//    RequestQueue requestQueue;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -66,7 +66,7 @@ public class RegistroFragment extends Fragment {
         registroFragment = this;
         fragmentRegistroBinding = fragmentRegistroBinding.inflate(inflater, container, false);
 
-        requestQueue = Volley.newRequestQueue(registroFragment.getActivity());
+        //requestQueue = Volley.newRequestQueue(registroFragment.getActivity());
 
         //ArrayList<Integer> edades = new ArrayList<>();
         for (int i = 18; i < 91; i++){

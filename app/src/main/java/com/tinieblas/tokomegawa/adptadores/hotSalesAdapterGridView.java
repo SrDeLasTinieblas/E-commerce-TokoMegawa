@@ -46,7 +46,7 @@ public class hotSalesAdapterGridView extends BaseAdapter {
         if(view == null){
             LayoutInflater inflater = (LayoutInflater) context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = inflater.inflate(R.layout.gridview_hot_sales_card, viewGroup, false);
+            view = inflater.inflate(R.layout.card_productos_recently_view, viewGroup, false);
 
         }
 

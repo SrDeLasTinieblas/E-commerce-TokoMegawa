@@ -49,8 +49,6 @@ public class DetailsProductsFragment extends Fragment {
     private ModelohotSales modelohotSales;
     DetailsProductsFragment context;
     FirebaseFirestore mFirestore;
-    /*FirebaseAuth firebaseAuth;
-    DatabaseReference databaseReference;*/
     ArrayList<String> item = new ArrayList<String>();
 
     private final FirebaseData firebaseData = new FirebaseData();
@@ -109,9 +107,6 @@ public class DetailsProductsFragment extends Fragment {
         return detailsProductsFragmentBinding.getRoot();
     }
 
-    boolean estaEnSharedPreference = false;
-    boolean inCarrito = false;
-    private final List<ModelohotSales> ListaRecentlyViewed = new ArrayList<>();
     private List<String> list = new ArrayList<>();
 
     public void CargarDatosRecentlyViewed(String IDProducto){

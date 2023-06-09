@@ -10,9 +10,46 @@
         android:id="@+id/frameLayoutHome"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+
         >
     </FrameLayout>
 
+    <Button
+        android:id="@+id/buttonHome"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="44dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/group_home"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recicler_view_recently"
+        app:layout_constraintVertical_bias="0.937" />
+
+    <Button
+        android:id="@+id/buttoniLove"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/group_like"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/buttonSetting"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toEndOf="@+id/buttonHome"
+        app:layout_constraintTop_toBottomOf="@+id/recicler_view_recently"
+        app:layout_constraintVertical_bias="0.932" />
+
+    <Button
+        android:id="@+id/buttonSetting"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginEnd="44dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/group_setting"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recicler_view_recently"
+        app:layout_constraintVertical_bias="0.932" />
     <!--<EditText
         android:id="@+id/editTextTextPersonName"
         android:layout_width="298dp"

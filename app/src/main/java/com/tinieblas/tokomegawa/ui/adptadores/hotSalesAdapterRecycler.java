@@ -1,20 +1,7 @@
 package com.tinieblas.tokomegawa.adptadores;
 
-import android.content.Context;
-import android.view.LayoutInflater;
-import android.view.ViewGroup;
-
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-import com.bumptech.glide.Glide;
-import com.tinieblas.tokomegawa.R;
-import com.tinieblas.tokomegawa.databinding.CardProductosHotSalesBinding;
-import com.tinieblas.tokomegawa.models.Producto.ProductosItem;
-import com.tinieblas.tokomegawa.ui.utils.RandomColor;
-import com.tinieblas.tokomegawa.adptadores.Modelos.ModelohotSales;
 //import com.tinieblas.tokomegawa.databinding.RowItemBinding;
 
-import java.util.List;
 /*
 public class hotSalesAdapterRecycler extends RecyclerView.Adapter<hotSalesAdapterRecycler.ViewHolder> {
     //private final List<ModelohotSales> modelohotSales;

@@ -5,12 +5,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.PopupWindow;
@@ -22,13 +19,11 @@ import com.tinieblas.tokomegawa.ui.fragments.LoginFragment;
 import com.tinieblas.tokomegawa.ui.fragments.MyCartFragment;
 import com.tinieblas.tokomegawa.R;
 import com.tinieblas.tokomegawa.ui.fragments.RegistroFragment;
-import com.tinieblas.tokomegawa.ui.utils.BottomSheetDialog;
-import com.tinieblas.tokomegawa.ui.utils.FireBase;
-import com.tinieblas.tokomegawa.adptadores.Modelos.ModelohotSales;
-import com.tinieblas.tokomegawa.constants.Constants;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.tinieblas.tokomegawa.ui.fragments.SettingFragment;
+import com.tinieblas.tokomegawa.ui.fragments.iLoveFragment;
+import com.tinieblas.tokomegawa.utils.BottomSheetDialog;
+import com.tinieblas.tokomegawa.utils.FireBase;
+import com.tinieblas.tokomegawa.utils.NavigationContent;
 
 public class MainActivity extends AppCompatActivity implements /*RecyclerViewInterface, */View.OnClickListener {
 
@@ -112,8 +107,19 @@ public class MainActivity extends AppCompatActivity implements /*RecyclerViewInt
         replaceFragment(new HotSalesFragment());
     }
 
-    public void seeAllRecentlyViewed(View view){
-        //replaceFragment(new HotSalesFragment());
+    public void irHome(View view){
+        System.out.println("irHome");
+        NavigationContent.changeFragment(getSupportFragmentManager(), new HomeFragment(), R.id.frameLayoutHome);
+    }
+
+    public void irFavoritos(View view){
+        System.out.println("irFavoritos");
+        NavigationContent.changeFragment(getSupportFragmentManager(), new iLoveFragment(), R.id.frameLayoutHome);
+    }
+
+    public void irSettings(View view){
+        System.out.println("irSettings");
+        NavigationContent.changeFragment(getSupportFragmentManager(), new SettingFragment(), R.id.frameLayoutHome);
     }
 
     @Override

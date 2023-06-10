@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cv"
+    android:layout_width="match_parent"
+    android:layout_height="320dp"
+    android:animateLayoutChanges="true"
+    android:onClick="onClick">
+    <!--app:cardCornerRadius="15dp"-->
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textNombre"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="68dp"
+            android:layout_marginTop="36dp"
+            android:text="Languaje"
+            android:textColor="#000000"
+            android:textSize="20sp"
+            android:theme="@style/AppTheme.Light"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textNombre2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="68dp"
+            android:layout_marginTop="28dp"
+            android:text="Cupones"
+            android:textColor="#000000"
+            android:textSize="20sp"
+            android:textStyle="normal"
+            android:theme="@style/AppTheme.Light"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textNombre" />
+
+        <TextView
+            android:id="@+id/textNombre4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="68dp"
+            android:layout_marginTop="28dp"
+            android:text="Notifications"
+            android:textColor="#000000"
+            android:textSize="20sp"
+            android:textStyle="normal"
+            android:theme="@style/AppTheme.Light"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textNombre2" />
+
+        <TextView
+            android:id="@+id/textNombre3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="68dp"
+            android:layout_marginTop="28dp"
+            android:text="Dark Mode"
+            android:textColor="#000000"
+            android:textSize="20sp"
+            android:textStyle="normal"
+            android:theme="@style/AppTheme.Light"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textNombre4" />
+
+        <TextView
+            android:id="@+id/PersonalInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:text="Espanish"
+            android:textColor="#000000"
+            android:textStyle="bold"
+            android:theme="@style/AppTheme.Light"
+            app:layout_constraintEnd_toStartOf="@+id/buttonArrowDerecha"
+            app:layout_constraintHorizontal_bias="0.797"
+            app:layout_constraintStart_toEndOf="@+id/textNombre"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/buttonArrowDerecha"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="36dp"
+            android:layout_marginEnd="28dp"
+            android:background="@drawable/arrow_derecha"
+            android:onClick="onClick"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/buttonArrowDerecha2"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="28dp"
+            android:background="@drawable/arrow_derecha"
+            android:onClick="onClick"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toEndOf="@+id/textNombre2"
+            tools:layout_editor_absoluteY="146dp" />
+
+        <Button
+            android:id="@+id/buttonArrowDerecha4"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="28dp"
+            android:background="@drawable/arrow_derecha"
+            android:onClick="onClick"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toEndOf="@+id/textNombre2"
+            app:layout_constraintTop_toBottomOf="@+id/buttonArrowDerecha" />
+
+        <Switch
+            android:id="@+id/switch_dark_mode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:checked="false"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.911"
+            app:layout_constraintStart_toEndOf="@+id/textNombre3"
+            app:layout_constraintTop_toBottomOf="@+id/buttonArrowDerecha2"
+            tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+        <Button
+            android:id="@+id/buttonCerrarSession"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cerrar Sesion"
+            android:theme="@style/AppTheme.Light"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.538"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textNombre3"
+            app:layout_constraintVertical_bias="0.761" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</RelativeLayout>
+
+

@@ -1,4 +1,4 @@
-package com.tinieblas.tokomegawa.ui.ativities;
+package com.tinieblas.tokomegawa.ui.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;

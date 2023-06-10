@@ -1,4 +1,4 @@
-package com.tinieblas.tokomegawa.ui.utils;
+package com.tinieblas.tokomegawa.utils;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

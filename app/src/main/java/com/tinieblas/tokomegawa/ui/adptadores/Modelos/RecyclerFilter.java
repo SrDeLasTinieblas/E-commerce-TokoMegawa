@@ -1,12 +1,10 @@
-package com.tinieblas.tokomegawa.adptadores.Modelos;
+package com.tinieblas.tokomegawa.ui.adptadores.Modelos;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
-import android.widget.ListAdapter;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -15,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.tinieblas.tokomegawa.R;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class RecyclerFilter extends RecyclerView.Adapter<RecyclerFilter.ViewHolder> {
     ArrayList<Modelo> modelos;

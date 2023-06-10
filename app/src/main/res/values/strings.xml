@@ -3,7 +3,7 @@
     <!-- Strings used for fragments for navigation -->
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="textLove">iLove</string>
     <string name="invalid_mail">Ingrese mail valido</string>
     <string name="invalid_password">Ingrese un password mayor a 6 digitos</string>
     <string name="title_activity_authentication">AuthenticationActivity</string>

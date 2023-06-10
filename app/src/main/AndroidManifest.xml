@@ -17,17 +17,23 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".ui.ativities.AuthenticationActivity"
+            android:name=".ui.activities.MyCartActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activities.DetailsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activities.AuthenticationActivity"
             android:exported="false"
             android:label="@string/title_activity_authentication"
             android:theme="@style/NoActionBar" />
         <activity
-            android:name=".ui.ativities.MainActivity"
+            android:name=".ui.activities.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
     </application>

@@ -1,4 +1,4 @@
-package com.tinieblas.tokomegawa.adptadores;
+package com.tinieblas.tokomegawa.ui.adptadores;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.tinieblas.tokomegawa.R;
-import com.tinieblas.tokomegawa.adptadores.Modelos.Modelo;
+import com.tinieblas.tokomegawa.ui.adptadores.Modelos.Modelo;
 
 import java.util.ArrayList;
 

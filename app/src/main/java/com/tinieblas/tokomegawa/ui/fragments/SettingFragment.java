@@ -30,24 +30,14 @@ public class SettingFragment extends Fragment {
         settingFragment = this;
         fragmentSettingBinding = fragmentSettingBinding.inflate( inflater, container, false);
 
-        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-        myRef = firebaseDatabase.getReference("user");
 
-        fragmentSettingBinding.imageView.setOnClickListener(v -> fileUpload());
-
-        fragmentSettingBinding.button2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                replaceFragment(new HomeFragment());
-            }
-        });
         return fragmentSettingBinding.getRoot();
 
     }
     public void fileUpload(){
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.setType("*/*");
-        startActivityForResult(intent, File);
+        /*Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("**");
+        startActivityForResult(intent, File);*/
     }
 
     public void replaceFragment(Fragment fragment) {

@@ -1,4 +1,4 @@
-package com.tinieblas.tokomegawa.adptadores.Modelos;
+package com.tinieblas.tokomegawa.ui.adptadores.Modelos;
 
 public class Modelo {
 

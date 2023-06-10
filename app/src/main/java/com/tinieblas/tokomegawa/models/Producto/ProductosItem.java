@@ -1,8 +1,12 @@
 package com.tinieblas.tokomegawa.models.Producto;
 
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
-public class ProductosItem{
+import java.io.Serializable;
+
+public class ProductosItem implements Serializable {
 
 	@SerializedName("delivery")
 	private String delivery;

@@ -28,15 +28,16 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.tinieblas.tokomegawa.R;
-import com.tinieblas.tokomegawa.adptadores.ProductosAdapter;
+import com.tinieblas.tokomegawa.ui.adptadores.ProductosAdapter;
 import com.tinieblas.tokomegawa.models.Producto.ProductosItem;
-import com.tinieblas.tokomegawa.ui.ativities.MainActivity;
-import com.tinieblas.tokomegawa.adptadores.Modelos.Modelo;
-import com.tinieblas.tokomegawa.adptadores.Modelos.ModelohotSales;
-import com.tinieblas.tokomegawa.adptadores.Modelos.RecyclerFilter;
-import com.tinieblas.tokomegawa.adptadores.RecentlyViewedAdapterRecycler;
+import com.tinieblas.tokomegawa.ui.activities.MainActivity;
+import com.tinieblas.tokomegawa.ui.adptadores.Modelos.Modelo;
+import com.tinieblas.tokomegawa.ui.adptadores.Modelos.ModelohotSales;
+import com.tinieblas.tokomegawa.ui.adptadores.Modelos.RecyclerFilter;
+import com.tinieblas.tokomegawa.ui.adptadores.RecentlyViewedAdapterRecycler;
 //import com.tinieblas.tokomegawa.adptadores.hotSalesAdapterRecycler;
 import com.tinieblas.tokomegawa.databinding.FragmentHomeBinding;
+import com.tinieblas.tokomegawa.utils.NavigationContent;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -135,7 +136,6 @@ public class HomeFragment extends Fragment /*implements View.OnClickListener*/ {
                 if (response.isSuccessful()) {
                     String responseData = response.body().string();
                     //System.out.println("response" + responseData);
-
                     try {
                         // Parsear el JSON de respuesta en un objeto Response
                         Gson gson = new Gson();
@@ -149,7 +149,6 @@ public class HomeFragment extends Fragment /*implements View.OnClickListener*/ {
 
                         // Aquí puedes hacer lo que necesites con la lista productosList
                         System.out.println("==> productosList"+productosList);
-
 
                     } catch (JsonSyntaxException e) {
                         e.printStackTrace();
@@ -177,6 +176,7 @@ public class HomeFragment extends Fragment /*implements View.OnClickListener*/ {
         fragmentHomeBinding.reciclerViewHotSales.setLayoutManager(linearLayoutManager);
         fragmentHomeBinding.reciclerViewHotSales.setItemAnimator(new DefaultItemAnimator());
 
+        System.out.println("==> productosAdapter"+productosAdapter);
         // Asignar el adaptador al RecyclerView en el hilo principal de la UI utilizando un Handler
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
@@ -185,7 +185,6 @@ public class HomeFragment extends Fragment /*implements View.OnClickListener*/ {
             }
         });
     }
-
 
     public void replaceFragment(Fragment fragment) {
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
@@ -247,6 +246,10 @@ public class HomeFragment extends Fragment /*implements View.OnClickListener*/ {
     public void onDestroyView() {
         super.onDestroyView();
         fragmentHomeBinding = null;
+    }
+
+    public void irMyCart(View view){
+        NavigationContent.cambiarActividad(requireActivity(), MyCartFragment.class);
     }
 
     /*@Override

@@ -1,4 +1,4 @@
-package com.tinieblas.tokomegawa.adptadores;
+package com.tinieblas.tokomegawa.ui.adptadores;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.tinieblas.tokomegawa.R;
-import com.tinieblas.tokomegawa.adptadores.Modelos.ModelohotSales;
+import com.tinieblas.tokomegawa.ui.adptadores.Modelos.ModelohotSales;
 
 import java.util.List;
 

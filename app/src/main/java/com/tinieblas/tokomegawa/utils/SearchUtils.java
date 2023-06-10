@@ -1,4 +1,4 @@
-package com.tinieblas.tokomegawa.ui.utils;
+package com.tinieblas.tokomegawa.utils;
 
 public class SearchUtils {
 }

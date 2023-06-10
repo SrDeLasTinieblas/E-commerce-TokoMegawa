@@ -1,4 +1,4 @@
-package com.tinieblas.tokomegawa.adptadores;
+package com.tinieblas.tokomegawa.ui.adptadores;
 
 //import com.tinieblas.tokomegawa.databinding.RowItemBinding;
 

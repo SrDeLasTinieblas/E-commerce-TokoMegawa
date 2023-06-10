@@ -5,23 +5,19 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.GridView;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+
 import com.tinieblas.tokomegawa.R;
-import com.tinieblas.tokomegawa.adptadores.Modelos.ModelohotSales;
-import com.tinieblas.tokomegawa.adptadores.hotSalesAdapterGridView;
+import com.tinieblas.tokomegawa.ui.adptadores.Modelos.ModelohotSales;
+import com.tinieblas.tokomegawa.ui.adptadores.hotSalesAdapterGridView;
 //import com.tinieblas.tokomegawa.adptadores.hotSalesAdapterRecycler;
-import com.tinieblas.tokomegawa.constants.Constants;
+import com.tinieblas.tokomegawa.data.constants.Constants;
 import com.tinieblas.tokomegawa.databinding.FragmentHotSalesBinding;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -79,7 +75,7 @@ public class HotSalesFragment extends Fragment {
                 getParentFragmentManager().setFragmentResult("key", bundle);
                 //System.out.println(ListProducts);
                 //Log.e("lista",ListProducts.toString());
-                replaceFragment(new DetailsProductsFragment());
+                //replaceFragment(new DetailsProductsFragment());
 
                 /*Intent intent = new Intent(context.getContext(), DetailsProductsFragment.class);
                 intent.putExtra("ModelohotSales", ListProducts.get(i));

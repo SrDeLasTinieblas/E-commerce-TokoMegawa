@@ -1,6 +1,5 @@
 package com.tinieblas.tokomegawa.ui.fragments;
 
-//import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -28,6 +27,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.tinieblas.tokomegawa.R;
+import com.tinieblas.tokomegawa.respositories.ProductosCallback;
+import com.tinieblas.tokomegawa.ui.activities.MyCartActivity;
 import com.tinieblas.tokomegawa.ui.adptadores.ProductosAdapter;
 import com.tinieblas.tokomegawa.models.Producto.ProductosItem;
 import com.tinieblas.tokomegawa.ui.activities.MainActivity;
@@ -35,21 +36,18 @@ import com.tinieblas.tokomegawa.ui.adptadores.Modelos.Modelo;
 import com.tinieblas.tokomegawa.ui.adptadores.Modelos.ModelohotSales;
 import com.tinieblas.tokomegawa.ui.adptadores.Modelos.RecyclerFilter;
 import com.tinieblas.tokomegawa.ui.adptadores.RecentlyViewedAdapterRecycler;
-//import com.tinieblas.tokomegawa.adptadores.hotSalesAdapterRecycler;
 import com.tinieblas.tokomegawa.databinding.FragmentHomeBinding;
 import com.tinieblas.tokomegawa.utils.NavigationContent;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class HomeFragment extends Fragment /*implements View.OnClickListener*/ {
+public class HomeFragment extends Fragment implements View.OnClickListener {
     HomeFragment context;
     ArrayList<Modelo> models;
     RecentlyViewedAdapterRecycler recentlyViewedAdapterRecycler;
@@ -117,14 +115,30 @@ public class HomeFragment extends Fragment /*implements View.OnClickListener*/ {
         //System.out.println(" fetch ==>"+fetchProductos());
 
         //System.out.println("==> fetchProductos "+fetchProductos());
-        fetchProductos();
-        addCards(productosList);
+        fetchProductos(new ProductosCallback() {
+            @Override
+            public void onProductosFetched(List<ProductosItem> productos) {
+                context.getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        addCards(productos);
+                    }
+                });
+            }
+        });
+
+        //addCards(productosList);
+        fragmentHomeBinding.fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavigationContent.cambiarActividad(getContext(), MyCartActivity.class);
+            }
+        });
         setCardsFilter();
         return fragmentHomeBinding.getRoot();
     }
 
-    private List<ProductosItem> fetchProductos() {
-
+    private void fetchProductos(ProductosCallback callback) {
         OkHttpClient client = new OkHttpClient.Builder().build();
         Request request = new Request.Builder()
                 .url("http://tokomegawa.somee.com/getProductos")
@@ -135,21 +149,11 @@ public class HomeFragment extends Fragment /*implements View.OnClickListener*/ {
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 if (response.isSuccessful()) {
                     String responseData = response.body().string();
-                    //System.out.println("response" + responseData);
                     try {
-                        // Parsear el JSON de respuesta en un objeto Response
                         Gson gson = new Gson();
                         com.tinieblas.tokomegawa.models.Producto.Response responseObject = gson.fromJson(responseData, com.tinieblas.tokomegawa.models.Producto.Response.class);
-
-                        // Obtener la lista de productos del objeto Response
                         List<ProductosItem> productos = responseObject.getProductos();
-
-                        // Agregar todos los productos a la lista productosList
-                        productosList.addAll(productos);
-
-                        // Aquí puedes hacer lo que necesites con la lista productosList
-                        System.out.println("==> productosList"+productosList);
-
+                        callback.onProductosFetched(productos);
                     } catch (JsonSyntaxException e) {
                         e.printStackTrace();
                     }
@@ -161,9 +165,8 @@ public class HomeFragment extends Fragment /*implements View.OnClickListener*/ {
                 e.printStackTrace();
             }
         });
-
-        return productosList;
     }
+
 
     private void addCards(List<ProductosItem> productosItemList) {
         // Crear e inicializar el adaptador
@@ -173,18 +176,19 @@ public class HomeFragment extends Fragment /*implements View.OnClickListener*/ {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context.getActivity(),
                 LinearLayoutManager.HORIZONTAL,
                 false);
-        fragmentHomeBinding.reciclerViewHotSales.setLayoutManager(linearLayoutManager);
-        fragmentHomeBinding.reciclerViewHotSales.setItemAnimator(new DefaultItemAnimator());
+            fragmentHomeBinding.reciclerViewHotSales.setLayoutManager(linearLayoutManager);
+            fragmentHomeBinding.reciclerViewHotSales.setItemAnimator(new DefaultItemAnimator());
 
-        System.out.println("==> productosAdapter"+productosAdapter);
-        // Asignar el adaptador al RecyclerView en el hilo principal de la UI utilizando un Handler
-        new Handler(Looper.getMainLooper()).post(new Runnable() {
+
+        // Asignar el adaptador al RecyclerView en el hilo principal de la UI utilizando runOnUiThread()
+        context.getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 fragmentHomeBinding.reciclerViewHotSales.setAdapter(productosAdapter);
             }
         });
     }
+
 
     public void replaceFragment(Fragment fragment) {
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
@@ -248,9 +252,13 @@ public class HomeFragment extends Fragment /*implements View.OnClickListener*/ {
         fragmentHomeBinding = null;
     }
 
-    public void irMyCart(View view){
-        NavigationContent.cambiarActividad(requireActivity(), MyCartFragment.class);
+    @Override
+    public void onClick(View view) {
+
     }
+    /*public void irMyCart(){
+        NavigationContent.cambiarActividad(getContext(), MyCartActivity.class);
+    }*/
 
     /*@Override
     public void onClick(View view) {

@@ -6,13 +6,10 @@ import static com.tinieblas.tokomegawa.data.constants.Constants.PREFS_NAME_CARRI
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -20,11 +17,13 @@ import com.google.gson.Gson;
 import com.tinieblas.tokomegawa.R;
 import com.tinieblas.tokomegawa.databinding.ActivityDetailsBinding;
 import com.tinieblas.tokomegawa.models.Producto.ProductosItem;
+import com.tinieblas.tokomegawa.utils.Shared;
+
+import java.util.List;
 
 public class DetailsActivity extends AppCompatActivity implements View.OnClickListener {
-    Context context;
-    ProductosItem producto = (ProductosItem) getIntent().getSerializableExtra("producto");
 
+    Context context;
     ActivityDetailsBinding activityDetailsBinding;
 
     @Override
@@ -32,7 +31,12 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         activityDetailsBinding = ActivityDetailsBinding.inflate(getLayoutInflater());
         setContentView(activityDetailsBinding.getRoot());
+        context = this;
+        ProductosItem producto = (ProductosItem) getIntent().getSerializableExtra("producto");
 
+        activityDetailsBinding.animationView.setOnClickListener(view -> {
+            agregarProducto(context, producto);
+        });
 
         mostrarProducto(producto);
 
@@ -132,17 +136,20 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
-    public void guardarProducto(View view) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(PREFS_NAME_CARRITO, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
+    public static void agregarProducto(Context context, ProductosItem producto) {
+        List<ProductosItem> productosList = Shared.obtenerProductos(context);
+        productosList.add(producto);
 
         Gson gson = new Gson();
-        String productoJson = gson.toJson(producto);
+        String productosJson = gson.toJson(productosList);
 
-        editor.putString(KEY_PRODUCTO, productoJson);
+        SharedPreferences sharedPreferences = context.getSharedPreferences(PREFS_NAME_CARRITO, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(KEY_PRODUCTO, productosJson);
         editor.apply();
-        Toast.makeText(context, "Añadido al carrito", Toast.LENGTH_SHORT).show();
+        System.out.println("productosJson" + productosJson);
     }
+
 
     @Override
     public void onClick(View view) {

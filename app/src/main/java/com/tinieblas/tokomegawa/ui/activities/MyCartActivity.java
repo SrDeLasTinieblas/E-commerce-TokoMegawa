@@ -13,33 +13,24 @@ import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 import com.tinieblas.tokomegawa.R;
 import com.tinieblas.tokomegawa.models.Producto.ProductosItem;
+import com.tinieblas.tokomegawa.utils.Shared;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MyCartActivity extends AppCompatActivity {
-    public static Context context;
+    Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_cart);
 
-        System.out.println(" ==> obtenerProductos"+obtenerProductos());
+        context = this;
+
+        System.out.println(" ==> obtenerProductos "+Shared.obtenerProductos(context));
+
     }
-    public static List<ProductosItem> obtenerProductos() {
 
-        SharedPreferences sharedPreferences = context.getSharedPreferences(PREFS_NAME_CARRITO, Context.MODE_PRIVATE);
-
-        Gson gson = new Gson();
-        String productosJson = sharedPreferences.getString(KEY_PRODUCTO, null);
-
-        if (productosJson != null) {
-            Type productListType = new TypeToken<ArrayList<ProductosItem>>() {}.getType();
-            return gson.fromJson(productosJson, productListType);
-        } else {
-            return new ArrayList<>();
-        }
-    }
 }

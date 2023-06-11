@@ -20,7 +20,6 @@ public class NavigationContent {
         Intent intent = new Intent(contextoActual, claseNuevaActividad);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         contextoActual.startActivity(intent);
-
     }
 
 

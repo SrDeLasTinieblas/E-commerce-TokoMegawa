@@ -129,12 +129,12 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recicler_view_hotSales"
-        android:layout_width="399dp"
-        android:layout_height="204dp"
+        android:layout_width="392dp"
+        android:layout_height="208dp"
         android:layout_marginStart="15dp"
         android:layout_marginTop="20dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.666"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
@@ -191,7 +191,7 @@
         android:layout_marginBottom="36dp"
         android:background="#FFFF"
         android:contentDescription="submit"
-        android:onClick="irMyCart"
+        android:onClick="onClick"
         android:src="@drawable/shopping_cart"
         app:backgroundTint="#38C7A5"
         app:layout_constraintBottom_toBottomOf="parent"

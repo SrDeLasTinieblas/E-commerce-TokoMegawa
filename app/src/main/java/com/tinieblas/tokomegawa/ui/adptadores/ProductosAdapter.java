@@ -18,6 +18,7 @@ import com.tinieblas.tokomegawa.R;
 import com.tinieblas.tokomegawa.databinding.CardProductosHotSalesBinding;
 import com.tinieblas.tokomegawa.models.Producto.ProductosItem;
 import com.tinieblas.tokomegawa.ui.activities.DetailsActivity;
+import com.tinieblas.tokomegawa.utils.RandomColor;
 //import com.tinieblas.tokomegawa.ui.activities.DetailsProductos;
 
 import java.util.List;
@@ -46,6 +47,7 @@ public class ProductosAdapter extends RecyclerView.Adapter<ProductosAdapter.Prod
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ProductoViewHolder holder, int position) {
+
         ProductosItem producto = mProductos.get(position);
         holder.textViewTitulo.setText(producto.getNombreProducto());
         holder.textViewPrecio.setText("S/. " + producto.getPrecioUnitario());
@@ -67,6 +69,7 @@ public class ProductosAdapter extends RecyclerView.Adapter<ProductosAdapter.Prod
 
             }
         });
+
     }
 
     @Override
@@ -87,8 +90,10 @@ public class ProductosAdapter extends RecyclerView.Adapter<ProductosAdapter.Prod
             textViewPrecio = itemView.findViewById(R.id.textPrecioHotSales);
             textViewDescripcion = itemView.findViewById(R.id.textDescripcionHotSales);
             imageViewProducto = itemView.findViewById(R.id.imageImagenHotSales);
+            /*
 
-
+            RandomColor randomColor = new RandomColor();
+            itemView.cardImagenHotSales.setCardBackgroundColor(randomColor.getColor());*/
 
         }
     }

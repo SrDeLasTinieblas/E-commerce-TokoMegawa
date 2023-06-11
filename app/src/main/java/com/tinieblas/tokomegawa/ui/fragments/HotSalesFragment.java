@@ -26,7 +26,7 @@ public class HotSalesFragment extends Fragment {
     HotSalesFragment context;
     private final List<ModelohotSales> ListProducts = new ArrayList<>();
     GridView gridView;
-    hotSalesAdapterGridView adapterGridView;
+    //hotSalesAdapterGridView adapterGridView;
 
     //hotSalesAdapterRecycler hotSalesAdapterRecycler;
     private FragmentHotSalesBinding fragmentHotSalesBinding;

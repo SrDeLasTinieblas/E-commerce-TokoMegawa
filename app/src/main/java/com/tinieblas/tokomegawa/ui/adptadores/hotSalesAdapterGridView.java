@@ -55,10 +55,10 @@ public class hotSalesAdapterGridView extends BaseAdapter {
         float precioActual = modelohotSales.get(i).getPrecio();
         String imagen1Actual = modelohotSales.get(i).getImagen1();
 
-        TextView tittle = view.findViewById(R.id.textTView_Titulo_HotSales);
-        TextView descripcion = view.findViewById(R.id.textViewDescripcionHotSales);
-        TextView precio = view.findViewById(R.id.textViewPrecioHotSales);
-        ImageView imagen1 = view.findViewById(R.id.ImgView_hotSales);
+        TextView tittle = view.findViewById(R.id.textTView_Titulo_ImgView_recently);
+        TextView descripcion = view.findViewById(R.id.textViewDescripcionImgView_recently);
+        TextView precio = view.findViewById(R.id.textViewPrecio_recently);
+        ImageView imagen1 = view.findViewById(R.id.ImgView_Recently);
 
         tittle.setText(tituloActual);
         descripcion.setText(descripcionActual);

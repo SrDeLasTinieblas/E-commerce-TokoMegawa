@@ -19,7 +19,7 @@
 
 
         <ImageView
-            android:id="@+id/ImgView_hotSales"
+            android:id="@+id/ImgView_recently"
             android:layout_width="110dp"
             android:layout_height="114dp"
             android:scaleType="centerCrop"
@@ -28,7 +28,7 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/textTView_Titulo_HotSales"
+        android:id="@+id/textTView_Titulo_ImgView_recently"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -40,10 +40,10 @@
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/textViewDescripcionHotSales"
+        android:id="@+id/textViewDescripcionImgView_recently"
         android:layout_width="174dp"
         android:layout_height="32.5dp"
-        android:layout_below="@+id/textTView_Titulo_HotSales"
+        android:layout_below="@+id/textTView_Titulo_ImgView_recently"
         android:layout_marginStart="17dp"
         android:layout_marginTop="4dp"
         android:text="Decripcion"
@@ -51,10 +51,10 @@
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/textViewPrecioHotSales"
+        android:id="@+id/textViewPrecio_recently"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textViewDescripcionHotSales"
+        android:layout_below="@+id/textViewDescripcionImgView_recently"
         android:layout_alignParentStart="true"
         android:layout_marginStart="17dp"
         android:layout_marginTop="5dp"

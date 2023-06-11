@@ -1,6 +1,8 @@
 package com.tinieblas.tokomegawa.ui.fragments;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -12,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +25,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;*/
+import com.google.common.reflect.TypeToken;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.gson.Gson;
@@ -35,11 +39,14 @@ import com.tinieblas.tokomegawa.ui.activities.MainActivity;
 import com.tinieblas.tokomegawa.ui.adptadores.Modelos.Modelo;
 import com.tinieblas.tokomegawa.ui.adptadores.Modelos.ModelohotSales;
 import com.tinieblas.tokomegawa.ui.adptadores.Modelos.RecyclerFilter;
+import com.tinieblas.tokomegawa.ui.adptadores.ProductosVistosAdapter;
 import com.tinieblas.tokomegawa.ui.adptadores.RecentlyViewedAdapterRecycler;
 import com.tinieblas.tokomegawa.databinding.FragmentHomeBinding;
 import com.tinieblas.tokomegawa.utils.NavigationContent;
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -52,7 +59,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     ArrayList<Modelo> models;
     RecentlyViewedAdapterRecycler recentlyViewedAdapterRecycler;
     RecyclerFilter recyclerFilter;
-
+    private ProductosVistosAdapter productosVistosAdapter;
     Integer[] langLogo= new Integer[0];
     String[] langName = new String[0];
     String Nombre, Apellido, Direccion, Email, Username, ID;
@@ -81,7 +88,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
         langName = new String[]{"macbook_air_m1", "macbook_air_m2", "macbook_air_m3", "macbook_air_m4", "macbook_air_m5"};
         //setRecyclerViewHotSales();
-        setRecyclerViewRecentlyViewd();
+        //setRecyclerViewRecentlyViewd();
 
         fragmentHomeBinding.buttonSalida.setOnClickListener(v -> {
             //Intent intent = new Intent(getContext(), AuthenticationActivity.class);
@@ -135,6 +142,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             }
         });
         setCardsFilter();
+        getListaProductoVistos();
         return fragmentHomeBinding.getRoot();
     }
 
@@ -187,6 +195,38 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 fragmentHomeBinding.reciclerViewHotSales.setAdapter(productosAdapter);
             }
         });
+    }
+
+    private void getListaProductoVistos() {
+        // Obtener la instancia del SharedPreferences
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences("productos_vistos", Context.MODE_PRIVATE);
+        // Obtener los valores almacenados en el SharedPreferences
+        String productosVistosJson = sharedPreferences.getString("lista_productos_vistos", "");
+
+        if (productosVistosJson.isEmpty()) {
+            // No hay items en el SharedPreferences
+            Log.d("HomeFragment", "No hay items disponibles");
+            return;
+        }
+
+        Gson gson = new Gson();
+        Type listType = new TypeToken<List<ProductosItem>>() {}.getType();
+        List<ProductosItem> productosVistos = gson.fromJson(productosVistosJson, listType);
+
+        if (productosVistos == null) {
+            // La lista de productos vistos es nula
+            Log.d("HomeFragment", "La lista de productos vistos es nula");
+            return;
+        }
+
+        Collections.reverse(productosVistos);
+
+        fragmentHomeBinding.reciclerViewRecently.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        productosVistosAdapter = new ProductosVistosAdapter(getContext(), productosVistos);
+        fragmentHomeBinding.reciclerViewRecently.setAdapter(productosVistosAdapter);
+        System.out.println("productosVistosJson ==> "+productosVistosJson);
+        System.out.println(" cantidad de productos vistos ==> "+ productosList.size());
+
     }
 
 

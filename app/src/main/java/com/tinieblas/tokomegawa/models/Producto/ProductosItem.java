@@ -8,142 +8,143 @@ import java.io.Serializable;
 
 public class ProductosItem implements Serializable {
 
+	@SerializedName("idProducto")
+	private int idProducto;
+	@SerializedName("nombreProducto")
+	private String nombreProducto;
+	@SerializedName("descripcionProducto")
+	private String descripcionProducto;
+	@SerializedName("imagen1")
+	private String imagen1;
+	@SerializedName("imagen2")
+	private String imagen2;
+	@SerializedName("imagen3")
+	private String imagen3;
+	@SerializedName("precioUnitario")
+	private double precioUnitario;
+	@SerializedName("cantidadDisponible")
+	private int cantidadDisponible;
+	@SerializedName("categoria")
+	private String categoria;
 	@SerializedName("delivery")
 	private String delivery;
 
-	@SerializedName("precioUnitario")
-	private double precioUnitario;
-
-	@SerializedName("imagen3")
-	private String imagen3;
-
-	@SerializedName("descripcionProducto")
-	private String descripcionProducto;
-
-	@SerializedName("categoria")
-	private String categoria;
-
-	@SerializedName("imagen2")
-	private String imagen2;
-
-	@SerializedName("idProducto")
-	private int idProducto;
-
-	@SerializedName("imagen1")
-	private String imagen1;
-
-	@SerializedName("nombreProducto")
-	private String nombreProducto;
-
-	@SerializedName("cantidadDisponible")
-	private int cantidadDisponible;
-
-	public ProductosItem(String delivery, double precioUnitario, String imagen3, String descripcionProducto, String categoria, String imagen2, int idProducto, String imagen1, String nombreProducto, int cantidadDisponible) {
-		this.delivery = delivery;
-		this.precioUnitario = precioUnitario;
-		this.imagen3 = imagen3;
-		this.descripcionProducto = descripcionProducto;
-		this.categoria = categoria;
-		this.imagen2 = imagen2;
+	public ProductosItem(int idProducto, String nombreProducto, String descripcionProducto, String imagen1, String imagen2, String imagen3, double precioUnitario, int cantidadDisponible, String categoria, String delivery) {
 		this.idProducto = idProducto;
-		this.imagen1 = imagen1;
 		this.nombreProducto = nombreProducto;
+		this.descripcionProducto = descripcionProducto;
+		this.imagen1 = imagen1;
+		this.imagen2 = imagen2;
+		this.imagen3 = imagen3;
+		this.precioUnitario = precioUnitario;
 		this.cantidadDisponible = cantidadDisponible;
-	}
-
-	public void setDelivery(String delivery){
+		this.categoria = categoria;
 		this.delivery = delivery;
 	}
 
-	public String getDelivery(){
-		return delivery;
-	}
-
-	public void setPrecioUnitario(double precioUnitario){
-		this.precioUnitario = precioUnitario;
-	}
-
-	public double getPrecioUnitario(){
-		return precioUnitario;
-	}
-
-	public void setImagen3(String imagen3){
-		this.imagen3 = imagen3;
-	}
-
-	public String getImagen3(){
-		return imagen3;
-	}
-
-	public void setDescripcionProducto(String descripcionProducto){
-		this.descripcionProducto = descripcionProducto;
-	}
-
-	public String getDescripcionProducto(){
-		return descripcionProducto;
-	}
-
-	public void setCategoria(String categoria){
-		this.categoria = categoria;
-	}
-
-	public String getCategoria(){
-		return categoria;
-	}
-
-	public void setImagen2(String imagen2){
-		this.imagen2 = imagen2;
-	}
-
-	public String getImagen2(){
-		return imagen2;
-	}
-
-	public void setIdProducto(int idProducto){
-		this.idProducto = idProducto;
-	}
-
-	public int getIdProducto(){
+	public int getIdProducto() {
 		return idProducto;
 	}
 
-	public void setImagen1(String imagen1){
-		this.imagen1 = imagen1;
+	public void setIdProducto(int idProducto) {
+		this.idProducto = idProducto;
 	}
 
-	public String getImagen1(){
-		return imagen1;
-	}
-
-	public void setNombreProducto(String nombreProducto){
-		this.nombreProducto = nombreProducto;
-	}
-
-	public String getNombreProducto(){
+	public String getNombreProducto() {
 		return nombreProducto;
 	}
 
-	public void setCantidadDisponible(int cantidadDisponible){
+	public void setNombreProducto(String nombreProducto) {
+		this.nombreProducto = nombreProducto;
+	}
+
+	public String getDescripcionProducto() {
+		return descripcionProducto;
+	}
+
+	public void setDescripcionProducto(String descripcionProducto) {
+		this.descripcionProducto = descripcionProducto;
+	}
+
+	public String getImagen1() {
+		return imagen1;
+	}
+
+	public void setImagen1(String imagen1) {
+		this.imagen1 = imagen1;
+	}
+
+	public String getImagen2() {
+		return imagen2;
+	}
+
+	public void setImagen2(String imagen2) {
+		this.imagen2 = imagen2;
+	}
+
+	public String getImagen3() {
+		return imagen3;
+	}
+
+	public void setImagen3(String imagen3) {
+		this.imagen3 = imagen3;
+	}
+
+	public double getPrecioUnitario() {
+		return precioUnitario;
+	}
+
+	public void setPrecioUnitario(double precioUnitario) {
+		this.precioUnitario = precioUnitario;
+	}
+
+	public int getCantidadDisponible() {
+		return cantidadDisponible;
+	}
+
+	public void setCantidadDisponible(int cantidadDisponible) {
 		this.cantidadDisponible = cantidadDisponible;
 	}
 
-	public int getCantidadDisponible(){
-		return cantidadDisponible;
+	public String getCategoria() {
+		return categoria;
+	}
+
+	public void setCategoria(String categoria) {
+		this.categoria = categoria;
+	}
+
+	public String getDelivery() {
+		return delivery;
+	}
+
+	public void setDelivery(String delivery) {
+		this.delivery = delivery;
 	}
 
 	@Override
 	public String toString() {
 		return "ProductosItem{" +
-				"delivery='" + delivery + '\'' +
-				", precioUnitario=" + precioUnitario +
-				", imagen3='" + imagen3 + '\'' +
-				", descripcionProducto='" + descripcionProducto + '\'' +
-				", categoria='" + categoria + '\'' +
-				", imagen2='" + imagen2 + '\'' +
-				", idProducto=" + idProducto +
-				", imagen1='" + imagen1 + '\'' +
+				"idProducto=" + idProducto +
 				", nombreProducto='" + nombreProducto + '\'' +
+				", descripcionProducto='" + descripcionProducto + '\'' +
+				", imagen1='" + imagen1 + '\'' +
+				", imagen2='" + imagen2 + '\'' +
+				", imagen3='" + imagen3 + '\'' +
+				", precioUnitario=" + precioUnitario +
 				", cantidadDisponible=" + cantidadDisponible +
+				", categoria='" + categoria + '\'' +
+				", delivery='" + delivery + '\'' +
 				'}';
 	}
 }
+
+
+
+
+
+
+
+
+
+

@@ -19,6 +19,10 @@ import com.tinieblas.tokomegawa.databinding.ActivityDetailsBinding;
 import com.tinieblas.tokomegawa.models.Producto.ProductosItem;
 import com.tinieblas.tokomegawa.utils.Shared;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.List;
 
 public class DetailsActivity extends AppCompatActivity implements View.OnClickListener {
@@ -34,13 +38,25 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
         context = this;
         ProductosItem producto = (ProductosItem) getIntent().getSerializableExtra("producto");
 
-        activityDetailsBinding.animationView.setOnClickListener(view -> {
-            agregarProducto(context, producto);
-        });
-
+        /*activityDetailsBinding.animationView.setOnClickListener(view -> {
+            try {
+                agregarProducto(context, producto);
+            } catch (JSONException e) {
+                throw new RuntimeException(e);
+            }
+        });*/
+        //System.out.println("antes de limpiar ==> " + producto);
         mostrarProducto(producto);
 
         btnImages(producto);
+
+        //clearSharedPreferences("productos_vistos");
+        System.out.println("despues de limpiar ==> " + producto);
+        try {
+            guardarProductosVistos(producto);
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private void mostrarProducto(ProductosItem producto) {
@@ -136,8 +152,8 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
-    public static void agregarProducto(Context context, ProductosItem producto) {
-        List<ProductosItem> productosList = Shared.obtenerProductos(context);
+    public void agregarProducto(Context context, ProductosItem producto) throws JSONException {
+        /*List<ProductosItem> productosList = Shared.obtenerProductos(context);
         productosList.add(producto);
 
         Gson gson = new Gson();
@@ -147,10 +163,77 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(KEY_PRODUCTO, productosJson);
         editor.apply();
-        System.out.println("productosJson" + productosJson);
+        System.out.println("productosJson" + productosJson);*/
+
+        //Crea una instancia de SharedPreferences en la actividad de detalles:
+        SharedPreferences sharedPreferences = getSharedPreferences("carrito", MODE_PRIVATE);
+
+        //Obtiene una instancia del objeto Editor de SharedPreferences para editar el archivo:
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        //Obtiene la lista actual de productos vistos desde SharedPreferences:
+        //String listaProductosCarrito = sharedPreferences.getString("lista_carrito", "");
+
+        //Crea un objeto JSONObject para el producto actual y añade sus datos:
+        JSONObject productoActual = new JSONObject();
+
+            productoActual.put("idProducto", producto.getIdProducto());
+            productoActual.put("nombreProducto", producto.getNombreProducto());
+            productoActual.put("descripcionProducto", producto.getDescripcionProducto());
+            productoActual.put("imagen1", producto.getImagen1());
+            productoActual.put("imagen2", producto.getImagen2());
+            productoActual.put("imagen3", producto.getImagen3());
+            productoActual.put("precioUnitario", producto.getPrecioUnitario());
+            productoActual.put("cantidadDisponible", producto.getCantidadDisponible());
+            productoActual.put("categoria", producto.getCategoria());
+            productoActual.put("delivery", producto.getDelivery());
+
+    }
+    public void guardarProductosVistos(ProductosItem producto) throws JSONException {
+        // Crea una instancia de SharedPreferences en la actividad de detalles:
+        SharedPreferences sharedPreferences = getSharedPreferences("productos_vistos", MODE_PRIVATE);
+
+        // Obtiene una instancia del objeto Editor de SharedPreferences para editar el archivo:
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        // Convierte el objeto producto a JSON utilizando Gson:
+        Gson gson = new Gson();
+        String productoJson = gson.toJson(producto);
+
+        // Si la lista actual no está vacía, verifica si el producto actual ya está en la lista y muévelo al final si es así:
+        String listaProductosVistos = sharedPreferences.getString("lista_productos_vistos", "");
+
+        if (!listaProductosVistos.isEmpty()) {
+            try {
+                JSONArray lista = new JSONArray(listaProductosVistos);
+                for (int i = 0; i < lista.length(); i++) {
+                    JSONObject productoLista = lista.getJSONObject(i);
+                    if (productoLista.getString("nombreProducto").equals(producto.getNombreProducto())) {
+                        lista.remove(i);
+                        break;
+                    }
+                }
+                lista.put(new JSONObject(productoJson));
+                editor.putString("lista_productos_vistos", lista.toString());
+                editor.apply();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        } else {
+            JSONArray lista = new JSONArray();
+            lista.put(new JSONObject(productoJson));
+            editor.putString("lista_productos_vistos", lista.toString());
+            editor.apply();
+        }
     }
 
+    public void clearSharedPreferences(String s){
+        SharedPreferences preferences = context.getSharedPreferences(s, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.clear();
+        editor.apply();
 
+    }
     @Override
     public void onClick(View view) {
 

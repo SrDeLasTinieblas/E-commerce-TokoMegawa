@@ -24,9 +24,11 @@ public class Shared {
         SharedPreferences sharedPreferences = context.getSharedPreferences(PREFS_NAME_CARRITO, Context.MODE_PRIVATE);
         String productosJson = sharedPreferences.getString(KEY_PRODUCTO, null);
 
+        System.out.println("productosJson"+productosJson);
         if (productosJson != null) {
             Gson gson = new Gson();
             Type productListType = new TypeToken<ArrayList<ProductosItem>>() {}.getType();
+
             return gson.fromJson(productosJson, productListType);
         } else {
             return new ArrayList<>();

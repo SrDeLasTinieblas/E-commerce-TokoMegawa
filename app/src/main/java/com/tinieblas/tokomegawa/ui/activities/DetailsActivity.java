@@ -382,8 +382,6 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
-
-
     public void verificarProductoCarrito(ProductosItem producto) {
         // Crea una instancia de SharedPreferences en la actividad de detalles:
         SharedPreferences sharedPreferences = getSharedPreferences("productos_carrito", MODE_PRIVATE);

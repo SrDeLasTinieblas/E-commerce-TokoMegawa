@@ -4,6 +4,7 @@ import static com.tinieblas.tokomegawa.data.constants.Constants.KEY_PRODUCTO;
 import static com.tinieblas.tokomegawa.data.constants.Constants.PREFS_NAME_CARRITO;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,6 +19,7 @@ import com.google.gson.Gson;
 import com.tinieblas.tokomegawa.R;
 import com.tinieblas.tokomegawa.databinding.ActivityDetailsBinding;
 import com.tinieblas.tokomegawa.databinding.ActivityMyCartBinding;
+import com.tinieblas.tokomegawa.databinding.ItemsMycartBinding;
 import com.tinieblas.tokomegawa.models.Producto.ProductosItem;
 import com.tinieblas.tokomegawa.ui.adptadores.CarritoAdapter;
 import com.tinieblas.tokomegawa.utils.NavigationContent;
@@ -89,12 +91,55 @@ public class MyCartActivity extends AppCompatActivity {
             mCarritoAdapter = new CarritoAdapter(MyCartActivity.this, carrito);
             activityMyCartBinding.RecyclerViewMyCart.setAdapter(mCarritoAdapter);
             activityMyCartBinding.RecyclerViewMyCart.setLayoutManager(new LinearLayoutManager(MyCartActivity.this, RecyclerView.VERTICAL, false));
+            /*ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new SwipeToDeleteCallback(mCarritoAdapter, this, activityMyCartBinding.RecyclerMyCart));
+            itemTouchHelper.attachToRecyclerView(activityMyCartBinding.RecyclerMyCart);*/
         }else {
             Toast.makeText(context, "No hay datos en el carrito", Toast.LENGTH_SHORT).show();
         }
     }
 
+    public void btnAumentando(View view) {
+        // Obtener valor actual de cantidad
+        /**int cantidad = Integer.parseInt(activityMyCartBinding.textCantidad.getText().toString());
 
+        // Incrementar en uno la cantidad
+        cantidad++;
+
+        // Obtener precio unitario
+        double precioUnitario = Double.parseDouble(activityMyCartBinding.textPrecioDestailsProductos.getText().toString());
+
+        // Calcular precio total
+        double precioTotal = cantidad * precioUnitario;
+
+        // Actualizar los valores en la vista
+        activityMyCartBinding.textCantidad.setText(String.valueOf(cantidad));
+        activityMyCartBinding.textPrecioDestailsProductos.setText(String.format("%.2f", precioTotal));
+*/
+    }
+
+    public void btnDisminuyendo(View view) {
+        /**ProductosItem producto = (ProductosItem) getIntent().getSerializableExtra("producto");
+
+        ItemsMycartBinding itemsMycartBinding = null;
+        if (activityMyCartBinding != null) {
+            // Obtener valor actual de cantidad
+            double cantidad = Double.parseDouble(activityMyCartBinding.textCantidad.getText().toString().replaceAll("S/", ""));
+
+            // Disminuir en uno la cantidad si es mayor o igual a 1
+            if (cantidad >= 2) {
+                cantidad--;
+
+                // Calcular precio total
+                double precioTotal = cantidad * producto.getPrecioUnitario();
+
+                // Actualizar los valores en la vista
+                activityMyCartBinding.textCantidad.setText(String.valueOf(cantidad));
+                activityMyCartBinding.textPrecioDestailsProductos.setText(String.format("%.2f", precioTotal));
+            }else{
+                itemsMycartBinding.textViewAmount.setText(String.valueOf(1));
+            }
+        }*/
+    }
 
 
     public void volver(View view){

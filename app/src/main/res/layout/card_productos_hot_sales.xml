@@ -12,10 +12,10 @@
         android:layout_alignParentEnd="true"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
-
         android:orientation="vertical"
         app:cardBackgroundColor="#CDEFED"
         app:cardCornerRadius="15dp">
+        <!-- app:cardUseCompatPadding="true"-->
 
         <ImageView
             android:id="@+id/imageImagenHotSales"

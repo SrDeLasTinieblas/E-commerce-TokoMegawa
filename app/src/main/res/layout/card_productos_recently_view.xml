@@ -51,7 +51,7 @@
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/textViewPrecio_recently"
+        android:id="@+id/textViewPrecio_recently1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/textViewDescripcionImgView_recently"

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -19,92 +19,93 @@
 
         <ImageView
             android:id="@+id/imageView2"
-            android:layout_width="112dp"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/mbp_shop_" />
+            app:srcCompat="@drawable/frame_headphone" />
 
         <TextView
-            android:id="@+id/tvTituloMyCart"
+            android:id="@+id/textTituloCarrito"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="8dp"
             android:text="Titulo"
             android:textColor="#000000"
+            android:textSize="15sp"
             app:layout_constraintStart_toEndOf="@+id/imageView2"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/tvDescripcionMyCart"
+            android:id="@+id/textPrecioMyCart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="descripcion"
-            app:layout_constraintStart_toEndOf="@+id/imageView2"
-            app:layout_constraintTop_toBottomOf="@+id/tvTituloMyCart" />
-
-        <TextView
-            android:id="@+id/tvPrecioMyCart"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:layout_marginBottom="4dp"
-            android:text="$ 4000"
-            android:textColor="#000000"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/imageView2" />
-
-        <Button
-            android:id="@+id/button_minus"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_alignParentBottom="true"
-            android:layout_marginStart="140dp"
-            android:layout_marginBottom="4dp"
-            android:background="@drawable/fa_minus"
-            android:onClick="btnDisminuyendo"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/imageView2" />
-
-        <TextView
-            android:id="@+id/textCantidad"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="12dp"
             android:layout_marginBottom="8dp"
-            android:layout_toStartOf="@+id/button_plus"
-            android:layout_toEndOf="@+id/button_minus"
-            android:text="1"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            android:textStyle="bold"
+            android:text="$ 150"
+            android:textColor="#000000"
+            android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/button_plus"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/button_minus" />
+            app:layout_constraintStart_toEndOf="@+id/imageView2" />
+
+        <TextView
+            android:id="@+id/tvDescripcionMyCart"
+            android:layout_width="172dp"
+            android:layout_height="25dp"
+            android:layout_marginStart="14dp"
+            android:text="Descripcion"
+            android:textColor="#707070"
+            android:textSize="12dp"
+            app:layout_constraintStart_toEndOf="@+id/imageView2"
+            app:layout_constraintTop_toBottomOf="@+id/textTituloCarrito" />
 
         <Button
-            android:id="@+id/button_plus"
+            android:id="@+id/buttonArrowDerecha1"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="4dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="8dp"
             android:background="@drawable/fa_plus"
-            android:onClick="btnAumentando"
+            android:onClick="onClick"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
+
+        <Button
+            android:id="@+id/buttonArrowDerecha3"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="108dp"
+            android:layout_marginBottom="4dp"
+            android:background="@drawable/fa_minus"
+            android:onClick="onClick"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/textPrecioMyCart" />
+
+        <TextView
+            android:id="@+id/textViewAmount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:text="1"
+            android:textStyle="bold"
+            android:textSize="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/buttonArrowDerecha1"
+            app:layout_constraintHorizontal_bias="0.571"
+            app:layout_constraintStart_toEndOf="@+id/buttonArrowDerecha3" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-</androidx.cardview.widget.CardView>
+</RelativeLayout>
 
 
 

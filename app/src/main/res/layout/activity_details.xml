@@ -153,6 +153,7 @@
         android:layout_marginTop="32dp"
         android:background="@drawable/arrow_back_fill"
 
+        android:onClick="volver"
         app:layout_constraintEnd_toStartOf="@+id/textTituloDetailsProductos"
         app:layout_constraintHorizontal_bias="0.146"
         app:layout_constraintStart_toStartOf="parent"

@@ -29,7 +29,9 @@ public class ProductosItem implements Serializable {
 	@SerializedName("delivery")
 	private String delivery;
 
-	public ProductosItem(int idProducto, String nombreProducto, String descripcionProducto, String imagen1, String imagen2, String imagen3, double precioUnitario, int cantidadDisponible, String categoria, String delivery) {
+	private int amount;
+
+	public ProductosItem(int idProducto, String nombreProducto, String descripcionProducto, String imagen1, String imagen2, String imagen3, double precioUnitario, int cantidadDisponible, String categoria, String delivery, int amount) {
 		this.idProducto = idProducto;
 		this.nombreProducto = nombreProducto;
 		this.descripcionProducto = descripcionProducto;
@@ -40,6 +42,7 @@ public class ProductosItem implements Serializable {
 		this.cantidadDisponible = cantidadDisponible;
 		this.categoria = categoria;
 		this.delivery = delivery;
+		this.amount = amount;
 	}
 
 	public int getIdProducto() {
@@ -120,6 +123,14 @@ public class ProductosItem implements Serializable {
 
 	public void setDelivery(String delivery) {
 		this.delivery = delivery;
+	}
+
+	public int getAmount() {
+		return amount;
+	}
+
+	public void setAmount(int amount) {
+		this.amount = amount;
 	}
 
 	@Override

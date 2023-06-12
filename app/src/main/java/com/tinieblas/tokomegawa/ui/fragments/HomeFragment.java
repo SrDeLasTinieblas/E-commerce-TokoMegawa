@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -224,8 +225,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         fragmentHomeBinding.reciclerViewRecently.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         productosVistosAdapter = new ProductosVistosAdapter(getContext(), productosVistos);
         fragmentHomeBinding.reciclerViewRecently.setAdapter(productosVistosAdapter);
-        System.out.println("productosVistosJson ==> "+productosVistosJson);
-        System.out.println(" cantidad de productos vistos ==> "+ productosList.size());
+        //System.out.println("productosVistosJson ==> "+productosVistosJson);
+        //System.out.println(" cantidad de productos vistos ==> "+ productosList.size());
 
     }
 

@@ -53,6 +53,12 @@ public class ProductosAdapter extends RecyclerView.Adapter<ProductosAdapter.Prod
         holder.textViewPrecio.setText("S/. " + producto.getPrecioUnitario());
         holder.textViewDescripcion.setText(producto.getDescripcionProducto());
         Glide.with(mContext).load(producto.getImagen1()).into(holder.imageViewProducto);
+        // Generar un color aleatorio
+        //RandomColor randomColor = new RandomColor();
+        //int cardColor = randomColor.getColor();
+
+        // Establecer el color como fondo de la card
+
 
         // Configurar el clic en el elemento del RecyclerView
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -69,7 +75,7 @@ public class ProductosAdapter extends RecyclerView.Adapter<ProductosAdapter.Prod
 
             }
         });
-
+        //holder.itemView.findViewById(R.id.cardImagenHotSales).setBackgroundColor(cardColor);
     }
 
     @Override
@@ -90,10 +96,7 @@ public class ProductosAdapter extends RecyclerView.Adapter<ProductosAdapter.Prod
             textViewPrecio = itemView.findViewById(R.id.textPrecioHotSales);
             textViewDescripcion = itemView.findViewById(R.id.textDescripcionHotSales);
             imageViewProducto = itemView.findViewById(R.id.imageImagenHotSales);
-            /*
 
-            RandomColor randomColor = new RandomColor();
-            itemView.cardImagenHotSales.setCardBackgroundColor(randomColor.getColor());*/
 
         }
     }

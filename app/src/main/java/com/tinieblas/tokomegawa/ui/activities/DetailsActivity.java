@@ -18,6 +18,7 @@ import com.google.gson.Gson;
 import com.tinieblas.tokomegawa.R;
 import com.tinieblas.tokomegawa.databinding.ActivityDetailsBinding;
 import com.tinieblas.tokomegawa.models.Producto.ProductosItem;
+import com.tinieblas.tokomegawa.ui.fragments.HomeFragment;
 import com.tinieblas.tokomegawa.utils.NavigationContent;
 import com.tinieblas.tokomegawa.utils.Shared;
 

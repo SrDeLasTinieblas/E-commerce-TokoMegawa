@@ -64,32 +64,6 @@
             app:layout_constraintStart_toEndOf="@+id/imageView2"
             app:layout_constraintTop_toBottomOf="@+id/textTituloCarrito" />
 
-        <Button
-            android:id="@+id/buttonArrowDerecha1"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginEnd="32dp"
-            android:layout_marginBottom="8dp"
-            android:background="@drawable/fa_plus"
-            android:onClick="onClick"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
-
-        <Button
-            android:id="@+id/buttonArrowDerecha3"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginStart="108dp"
-            android:layout_marginBottom="9dp"
-            android:background="@drawable/fa_minus"
-            android:onClick="onClick"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/textPrecioMyCart" />
-
         <TextView
             android:id="@+id/textViewAmount"
             android:layout_width="wrap_content"
@@ -103,21 +77,40 @@
             app:layout_constraintHorizontal_bias="0.571"
             app:layout_constraintStart_toEndOf="@+id/buttonArrowDerecha3" />
 
+        <Button
+            android:id="@+id/buttonArrowDerecha3"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_toStartOf="@id/textViewAmount"
+            android:background="@drawable/fa_minus"
+            android:onClick="onClick"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/buttonArrowDerecha1"
+            app:layout_constraintStart_toEndOf="@+id/textPrecioMyCart"
+            app:layout_constraintTop_toBottomOf="@id/tvDescripcionMyCart"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <Button
+            android:id="@+id/buttonArrowDerecha1"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_toEndOf="@id/textViewAmount"
+            android:background="@drawable/fa_plus"
+            android:onClick="onClick"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/buttonArrowDerecha3"
+            app:layout_constraintTop_toBottomOf="@id/tvDescripcionMyCart"
+            app:layout_constraintVertical_bias="1.0" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-
 </RelativeLayout>
-
-
-
-
-
-
-
-
-
-
-
-
-

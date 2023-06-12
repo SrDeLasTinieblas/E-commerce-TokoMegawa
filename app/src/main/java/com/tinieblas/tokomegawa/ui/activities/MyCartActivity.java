@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -37,8 +38,8 @@ public class MyCartActivity extends AppCompatActivity {
     private View decorView;
     Context context;
     ActivityMyCartBinding activityMyCartBinding;
-
     CarritoAdapter mCarritoAdapter;
+    List<ProductosItem> carritoList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +49,7 @@ public class MyCartActivity extends AppCompatActivity {
         hideSystemBar();
         context = this;
         obtenerProductosDelCarrito();
+
 
         //System.out.println(" ==> obtenerProductos "+Shared.obtenerProductos(context));
         // Este código es para ocultar la barra de navegación y la barra de estado en una actividad
@@ -80,6 +82,7 @@ public class MyCartActivity extends AppCompatActivity {
         Type type = new TypeToken<List<ProductosItem>>(){}.getType();
         List<ProductosItem> listaProductosItems = gson.fromJson(listaProductosJson, type);
         mostrarCardsCarrito(listaProductosItems);
+        calcularSubTotal();
         return listaProductosItems;
     }
 
@@ -87,8 +90,9 @@ public class MyCartActivity extends AppCompatActivity {
         // Mostrar los datos del carrito
         //activityMyCartBinding.viewSwitcher.setDisplayedChild(0); // Muestra el RecyclerView
         //activityMyCartBinding.animateView.setVisibility(View.INVISIBLE);
+        carritoList = carrito;
         if (carrito != null && !carrito.isEmpty()) {
-            mCarritoAdapter = new CarritoAdapter(MyCartActivity.this, carrito);
+            mCarritoAdapter = new CarritoAdapter(MyCartActivity.this, carrito, activityMyCartBinding.textSubTotal);
             activityMyCartBinding.RecyclerViewMyCart.setAdapter(mCarritoAdapter);
             activityMyCartBinding.RecyclerViewMyCart.setLayoutManager(new LinearLayoutManager(MyCartActivity.this, RecyclerView.VERTICAL, false));
             /*ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new SwipeToDeleteCallback(mCarritoAdapter, this, activityMyCartBinding.RecyclerMyCart));
@@ -98,47 +102,26 @@ public class MyCartActivity extends AppCompatActivity {
         }
     }
 
-    public void btnAumentando(View view) {
-        // Obtener valor actual de cantidad
-        /**int cantidad = Integer.parseInt(activityMyCartBinding.textCantidad.getText().toString());
+    @SuppressLint("SetTextI18n")
+    public void calcularSubTotal() {
+        // Obtén la lista de productos desde SharedPreferences
+        SharedPreferences sharedPreferences = getSharedPreferences("productos_carrito", MODE_PRIVATE);
+        String listaProductosJson = sharedPreferences.getString("lista_productos_carrito", "");
 
-        // Incrementar en uno la cantidad
-        cantidad++;
+        // Convierte el JSON a una lista de ProductosItem utilizando Gson
+        Gson gson = new Gson();
+        Type type = new TypeToken<List<ProductosItem>>(){}.getType();
+        List<ProductosItem> listaProductosItems = gson.fromJson(listaProductosJson, type);
 
-        // Obtener precio unitario
-        double precioUnitario = Double.parseDouble(activityMyCartBinding.textPrecioDestailsProductos.getText().toString());
+        // Calcula el subtotal sumando los precios de los productos
+        double subTotal = 0;
+        for (ProductosItem producto : listaProductosItems) {
+            double precio = producto.getPrecioUnitario() * producto.getAmount();
+            subTotal += precio;
+        }
 
-        // Calcular precio total
-        double precioTotal = cantidad * precioUnitario;
-
-        // Actualizar los valores en la vista
-        activityMyCartBinding.textCantidad.setText(String.valueOf(cantidad));
-        activityMyCartBinding.textPrecioDestailsProductos.setText(String.format("%.2f", precioTotal));
-*/
-    }
-
-    public void btnDisminuyendo(View view) {
-        /**ProductosItem producto = (ProductosItem) getIntent().getSerializableExtra("producto");
-
-        ItemsMycartBinding itemsMycartBinding = null;
-        if (activityMyCartBinding != null) {
-            // Obtener valor actual de cantidad
-            double cantidad = Double.parseDouble(activityMyCartBinding.textCantidad.getText().toString().replaceAll("S/", ""));
-
-            // Disminuir en uno la cantidad si es mayor o igual a 1
-            if (cantidad >= 2) {
-                cantidad--;
-
-                // Calcular precio total
-                double precioTotal = cantidad * producto.getPrecioUnitario();
-
-                // Actualizar los valores en la vista
-                activityMyCartBinding.textCantidad.setText(String.valueOf(cantidad));
-                activityMyCartBinding.textPrecioDestailsProductos.setText(String.format("%.2f", precioTotal));
-            }else{
-                itemsMycartBinding.textViewAmount.setText(String.valueOf(1));
-            }
-        }*/
+        // Muestra el subtotal en el TextView
+        activityMyCartBinding.textSubTotal.setText("S/. " + subTotal);
     }
 
 

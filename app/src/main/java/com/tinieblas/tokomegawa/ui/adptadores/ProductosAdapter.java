@@ -4,6 +4,9 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Parcelable;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,16 +14,20 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.tinieblas.tokomegawa.R;
 import com.tinieblas.tokomegawa.databinding.CardProductosHotSalesBinding;
+import com.tinieblas.tokomegawa.databinding.FragmentHomeBinding;
 import com.tinieblas.tokomegawa.models.Producto.ProductosItem;
 import com.tinieblas.tokomegawa.ui.activities.DetailsActivity;
 import com.tinieblas.tokomegawa.utils.RandomColor;
 //import com.tinieblas.tokomegawa.ui.activities.DetailsProductos;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ProductosAdapter extends RecyclerView.Adapter<ProductosAdapter.ProductoViewHolder> {
@@ -39,10 +46,16 @@ public class ProductosAdapter extends RecyclerView.Adapter<ProductosAdapter.Prod
         return new ProductoViewHolder(view);
     }
 
-    public void setProductos(List<ProductosItem> productos) {
+    /*public void setProductos(List<ProductosItem> productos) {
         mProductos = productos;
         notifyDataSetChanged();
+    }*/
+    public void setProductos(List<ProductosItem> productosItem) {
+        mProductos.clear();
+        mProductos.addAll(productosItem);
+        notifyDataSetChanged();
     }
+
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -100,4 +113,98 @@ public class ProductosAdapter extends RecyclerView.Adapter<ProductosAdapter.Prod
 
         }
     }
+    /*public void filtrar(String texto, List<ProductosItem> productosItem) {
+        List<ProductosItem> productosFiltrados = new ArrayList<>();
+
+        // Recorre la lista de productos y agrega los que coincidan con el texto de búsqueda
+        for (ProductosItem producto : productosItem) {
+            if (producto.getNombreProducto().toLowerCase().contains(texto.toLowerCase())) {
+                productosFiltrados.add(producto);
+            }
+        }
+
+        // Actualiza la lista de productos del adaptador
+        setProductos(productosFiltrados);
+        Log.e("A filtrar ==> ", productosItem.toString());
+        Log.e("Filtrado ==> ", productosFiltrados.toString());
+
+    }*/
+    /*public void filtrar(String texto, List<ProductosItem> productosItem) {
+        List<ProductosItem> productosFiltrados = new ArrayList<>();
+
+        if (texto.isEmpty()) {
+            // Si el texto de búsqueda está vacío, mostrar todos los productos
+            productosFiltrados.addAll(productosItem);
+        } else {
+            // Recorre la lista de productos y agrega los que coincidan con el texto de búsqueda
+            for (ProductosItem producto : productosItem) {
+                if (producto.getNombreProducto().toLowerCase().contains(texto.toLowerCase())) {
+                    productosFiltrados.add(producto);
+                }
+            }
+        }
+
+        // Actualiza la lista de productos del adaptador
+        setProductos(productosFiltrados);
+    }*/
+    public void filtrarProductos(String texto, List<ProductosItem> productosCompletos) {
+        List<ProductosItem> productosFiltrados = new ArrayList<>();
+
+        if (texto.isEmpty()) {
+            // Si el texto de búsqueda está vacío, mostrar todos los productos
+            productosFiltrados.addAll(productosCompletos);
+        } else {
+            // Recorre la lista de productos completos y agrega los que coincidan con el texto de búsqueda
+            for (ProductosItem producto : productosCompletos) {
+                if (producto.getNombreProducto().toLowerCase().contains(texto.toLowerCase())) {
+                    productosFiltrados.add(producto);
+                }
+            }
+        }
+
+        // Actualiza la lista de productos del adaptador
+        setProductos(productosFiltrados);
+    }
+
+
+    public void filtrando(List<ProductosItem> productosItem) {
+        // Agrega el TextWatcher
+        TextWatcher textWatcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                String textoBusqueda = editable.toString();
+                filtrarProductos(textoBusqueda, productosItem);
+                Log.e("Texto Busqueda ==> ", textoBusqueda);
+            }
+        };
+
+        // Asigna el TextWatcher al EditText
+        /*fragmentHomeBinding.editTextSearch.addTextChangedListener(textWatcher);
+
+        // Configura el adaptador en el RecyclerView
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
+        fragmentHomeBinding.reciclerViewHotSales.setLayoutManager(linearLayoutManager);
+        fragmentHomeBinding.reciclerViewHotSales.setItemAnimator(new DefaultItemAnimator());
+        fragmentHomeBinding.reciclerViewHotSales.setAdapter(this);*/
+
+        // Filtra los productos al iniciar la aplicación
+        filtrarProductos("", productosItem);
+    }
+
+
+
+
+
+
+
+
+
 }

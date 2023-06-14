@@ -7,7 +7,7 @@
     tools:context=".ui.fragments.HomeFragment">
 
     <EditText
-        android:id="@+id/editTextTextPersonName"
+        android:id="@+id/editTextSearch"
         android:layout_width="298dp"
         android:layout_height="40dp"
         android:layout_marginTop="28dp"
@@ -245,7 +245,7 @@
         android:layout_height="46dp"
         android:text="."
         app:layout_constraintBottom_toTopOf="@+id/textView"
-        app:layout_constraintEnd_toStartOf="@+id/editTextTextPersonName"
+        app:layout_constraintEnd_toStartOf="@+id/editTextSearch"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

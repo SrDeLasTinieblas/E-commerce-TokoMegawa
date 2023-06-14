@@ -15,6 +15,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -118,24 +120,41 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             }
         });*/
 
-        //requestQueue = Volley.newRequestQueue(context.getActivity());
+
 
         //System.out.println(" fetch ==>"+fetchProductos());
-
+        /*getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                // Actualiza las vistas o realiza operaciones en la interfaz de usuario aquí
+                filtrando(productos);
+            }
+        });*/
+        //addCards(productosList);
+        //productosAdapter.filtrando(productosList);
         //System.out.println("==> fetchProductos "+fetchProductos());
         fetchProductos(new ProductosCallback() {
             @Override
             public void onProductosFetched(List<ProductosItem> productos) {
-                context.getActivity().runOnUiThread(new Runnable() {
+                getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        // Actualiza las vistas o realiza operaciones en la interfaz de usuario aquí
                         addCards(productos);
-                    }
+                        productosAdapter.filtrando(productosList);
+                        }
                 });
             }
         });
 
+
+
+
+
         //addCards(productosList);
+
+
+
         fragmentHomeBinding.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -163,6 +182,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                         com.tinieblas.tokomegawa.models.Producto.Response responseObject = gson.fromJson(responseData, com.tinieblas.tokomegawa.models.Producto.Response.class);
                         List<ProductosItem> productos = responseObject.getProductos();
                         callback.onProductosFetched(productos);
+
+
                     } catch (JsonSyntaxException e) {
                         e.printStackTrace();
                     }
@@ -297,6 +318,36 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
 
     }
+
+    /*private void filtrando(List<ProductosItem> productosItem) {
+        // Agrega el TextWatcher
+        fragmentHomeBinding.editTextSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                String textoBusqueda = editable.toString();
+                productosAdapter.filtrar(textoBusqueda, productosItem);
+                Log.e("Texto Busqueda ==> ", textoBusqueda);
+            }
+        });
+
+        // Configura el adaptador en el RecyclerView
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context.getActivity(), LinearLayoutManager.HORIZONTAL, false);
+        fragmentHomeBinding.reciclerViewHotSales.setLayoutManager(linearLayoutManager);
+        fragmentHomeBinding.reciclerViewHotSales.setItemAnimator(new DefaultItemAnimator());
+        fragmentHomeBinding.reciclerViewHotSales.setAdapter(productosAdapter);
+    }*/
+
+
+
+
     /*public void irMyCart(){
         NavigationContent.cambiarActividad(getContext(), MyCartActivity.class);
     }*/

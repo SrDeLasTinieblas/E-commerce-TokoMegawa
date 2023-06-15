@@ -1,7 +1,7 @@
-package com.tinieblas.tokomegawa.utils;
+package com.tinieblas.tokomegawa.domain.models;
 
 
-public class FireBase {
+public class FireBaseModel {
 
     String apellidos;
     String direccion;

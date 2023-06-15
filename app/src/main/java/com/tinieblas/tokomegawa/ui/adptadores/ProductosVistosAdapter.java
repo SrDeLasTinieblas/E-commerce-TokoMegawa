@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.tinieblas.tokomegawa.R;
-import com.tinieblas.tokomegawa.models.Producto.ProductosItem;
+import com.tinieblas.tokomegawa.domain.models.ProductosItem;
 
 import java.util.List;
 

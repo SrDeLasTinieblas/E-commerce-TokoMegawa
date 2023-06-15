@@ -1,26 +1,24 @@
 package com.tinieblas.tokomegawa.ui.fragments;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.tinieblas.tokomegawa.R;
-import com.tinieblas.tokomegawa.respositories.FirebaseData;
+import com.tinieblas.tokomegawa.data.remote.UserRepositoryImp;
 import com.tinieblas.tokomegawa.databinding.FragmentMyCartBinding;
 
 public class MyCartFragment extends Fragment {
 
     MyCartFragment myCartFragment;
-    private final FirebaseData firebaseData = new FirebaseData();
+
+    private final UserRepositoryImp repository = new UserRepositoryImp();
+
     private FragmentMyCartBinding fragmentMyCartBinding;
     String name;
 
@@ -30,7 +28,7 @@ public class MyCartFragment extends Fragment {
 
         myCartFragment = this;
         fragmentMyCartBinding = FragmentMyCartBinding.inflate(inflater, container, false);
-        firebaseData.uploadDataFireBase(getActivity());
+        //firebaseData.uploadDataFireBase(getActivity());
 
         buttonBack();
 
@@ -87,21 +85,24 @@ public class MyCartFragment extends Fragment {
 
     public void uploadDataFireBase() {
 
-        /*FireBase fireBase = new FireBase();
-        Toast.makeText(getContext(), "==:>> " + fireBase.getNombres(), Toast.LENGTH_SHORT).show();
-        fragmentMyCartBinding.textNombre.setText(fireBase.getNombres());*/
-        firebaseData.getDataUser(new EventListener<DocumentSnapshot>() {
-            @SuppressLint("SetTextI18n")
-            @Override
-            public void onEvent(DocumentSnapshot value, FirebaseFirestoreException error) {
-                name = value.getString("nombres");
-                fragmentMyCartBinding.textNombre.setText(name);
-            }
 
-        });
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                name = repository.getUser();
+                requireActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        fragmentMyCartBinding.textNombre.setText(name);
+                    }
+                });
+
+            }
+        }).start();
+
     }
 
-    private void buttonBack(){
+    private void buttonBack() {
         fragmentMyCartBinding.buttonBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

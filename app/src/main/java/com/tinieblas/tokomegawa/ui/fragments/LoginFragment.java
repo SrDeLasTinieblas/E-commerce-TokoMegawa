@@ -3,7 +3,6 @@ package com.tinieblas.tokomegawa.ui.fragments;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -17,13 +16,8 @@ import android.widget.Toast;
 
 import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.ValidationStyle;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.tinieblas.tokomegawa.R;
+import com.tinieblas.tokomegawa.data.remote.LoginRepositoryImp;
 import com.tinieblas.tokomegawa.databinding.FragmentLoginBinding;
 
 public class LoginFragment extends Fragment {
@@ -31,10 +25,9 @@ public class LoginFragment extends Fragment {
     LoginFragment loginFragment;
     AwesomeValidation awesomeValidation;
     private FragmentLoginBinding fragmentLoginBinding;
-    FirebaseAuth firebaseAuth;
-    FirebaseFirestore mFirestore;
-    //private Drawable drawableEnd;
-    //final int DRAWABLE_END= 0;
+
+
+    private final LoginRepositoryImp repository = new LoginRepositoryImp();
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -60,7 +53,6 @@ public class LoginFragment extends Fragment {
         });
 
         awesomeValidation = new AwesomeValidation(ValidationStyle.BASIC);
-        firebaseAuth = FirebaseAuth.getInstance();
 
         validatingLogin();
 
@@ -74,9 +66,9 @@ public class LoginFragment extends Fragment {
         return fragmentLoginBinding.getRoot();
     }
     private void validatingLogin() {
-        FirebaseAuth mAut = FirebaseAuth.getInstance();
-        FirebaseUser user = mAut.getCurrentUser();
-        if (user != null) {
+
+        boolean isLogged = repository.getCurrentUser();
+        if (isLogged) {
             replaceFragment(new HomeFragment());
         }
 
@@ -88,22 +80,28 @@ public class LoginFragment extends Fragment {
             if (awesomeValidation.validate()) {
                 String mail = fragmentLoginBinding.username.getText().toString();
                 String pass = fragmentLoginBinding.password.getText().toString();
-                firebaseAuth.signInWithEmailAndPassword(mail, pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+
+                new Thread(new Runnable() {
                     @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        try {
-                            if (task.isSuccessful()) {
-                                replaceFragment(new HomeFragment());
-                            } else {
-                                Toast.makeText(getContext(), "Contraseña Incorrecta", Toast.LENGTH_SHORT).show();
-                                //String errorCode = ((FirebaseAuthException) task.getException()).getErrorCode();
-                                //sweetAlertDialog.sweetAlertError(Login_Activity.this);
+                    public void run() {
+
+                        Boolean status = repository.login(mail, pass);
+                        requireActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (status) {
+                                    replaceFragment(new HomeFragment());
+                                } else {
+                                    Toast.makeText(getContext(), "Contraseña Incorrecta", Toast.LENGTH_SHORT).show();
+                                    //String errorCode = ((FirebaseAuthException) task.getException()).getErrorCode();
+                                    //sweetAlertDialog.sweetAlertError(Login_Activity.this);
+                                }
+
                             }
-                        } catch (Exception e) {
-                            System.err.println(e);
-                        }
+                        });
                     }
-                });
+                }).start();
+
             }
         } catch (Exception ex) {
             Toast.makeText(getContext(), ex.toString(), Toast.LENGTH_SHORT).show();

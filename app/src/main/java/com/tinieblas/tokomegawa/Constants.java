@@ -1,4 +1,4 @@
-package com.tinieblas.tokomegawa.data.constants;
+package com.tinieblas.tokomegawa;
 
 public class Constants {
 

@@ -6,15 +6,12 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,11 +32,11 @@ import com.tinieblas.tokomegawa.R;
 import com.tinieblas.tokomegawa.respositories.ProductosCallback;
 import com.tinieblas.tokomegawa.ui.activities.MyCartActivity;
 import com.tinieblas.tokomegawa.ui.adptadores.ProductosAdapter;
-import com.tinieblas.tokomegawa.models.Producto.ProductosItem;
+import com.tinieblas.tokomegawa.domain.models.ProductosItem;
 import com.tinieblas.tokomegawa.ui.activities.MainActivity;
-import com.tinieblas.tokomegawa.ui.adptadores.Modelos.Modelo;
-import com.tinieblas.tokomegawa.ui.adptadores.Modelos.ModelohotSales;
-import com.tinieblas.tokomegawa.ui.adptadores.Modelos.RecyclerFilter;
+import com.tinieblas.tokomegawa.domain.models.Modelo;
+import com.tinieblas.tokomegawa.domain.models.ModelohotSales;
+import com.tinieblas.tokomegawa.ui.adptadores.AdapterRecyclerFilter;
 import com.tinieblas.tokomegawa.ui.adptadores.ProductosVistosAdapter;
 import com.tinieblas.tokomegawa.ui.adptadores.RecentlyViewedAdapterRecycler;
 import com.tinieblas.tokomegawa.databinding.FragmentHomeBinding;
@@ -59,7 +56,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     HomeFragment context;
     ArrayList<Modelo> models;
     RecentlyViewedAdapterRecycler recentlyViewedAdapterRecycler;
-    RecyclerFilter recyclerFilter;
+    AdapterRecyclerFilter adapterRecyclerFilter;
     private ProductosVistosAdapter productosVistosAdapter;
     Integer[] langLogo= new Integer[0];
     String[] langName = new String[0];
@@ -160,7 +157,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                     String responseData = response.body().string();
                     try {
                         Gson gson = new Gson();
-                        com.tinieblas.tokomegawa.models.Producto.Response responseObject = gson.fromJson(responseData, com.tinieblas.tokomegawa.models.Producto.Response.class);
+                        com.tinieblas.tokomegawa.data.local.Response responseObject = gson.fromJson(responseData, com.tinieblas.tokomegawa.data.local.Response.class);
                         List<ProductosItem> productos = responseObject.getProductos();
                         callback.onProductosFetched(productos);
                     } catch (JsonSyntaxException e) {
@@ -261,8 +258,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         fragmentHomeBinding.cardFilterRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
         // Initial adaptador
-        recyclerFilter = new RecyclerFilter(context.getActivity(), models);
-        fragmentHomeBinding.cardFilterRecyclerView.setAdapter(recyclerFilter);
+        adapterRecyclerFilter = new AdapterRecyclerFilter(context.getActivity(), models);
+        fragmentHomeBinding.cardFilterRecyclerView.setAdapter(adapterRecyclerFilter);
 
 
     }

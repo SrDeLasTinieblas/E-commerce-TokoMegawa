@@ -3,12 +3,6 @@ package com.tinieblas.tokomegawa.ui.fragments;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-
 import android.text.InputType;
 import android.util.Patterns;
 import android.view.LayoutInflater;
@@ -18,31 +12,20 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
-//import com.android.volley.RequestQueue;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
-//import com.android.volley.toolbox.Volley;
 import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.ValidationStyle;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.firestore.FirebaseFirestore;
-
 import com.tinieblas.tokomegawa.R;
+import com.tinieblas.tokomegawa.data.remote.SignUpRepositoryImp;
 import com.tinieblas.tokomegawa.databinding.FragmentRegistroBinding;
 
 import org.json.JSONException;
 
 import java.io.IOException;
-
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -52,13 +35,13 @@ public class RegistroFragment extends Fragment {
 
     RegistroFragment registroFragment;
     private FragmentRegistroBinding fragmentRegistroBinding;
-    FirebaseFirestore mFirestore;
-    FirebaseAuth firebaseAuth;
     AwesomeValidation awesomeValidation;
     ArrayList<Integer> edades = new ArrayList<>();
-    DatabaseReference databaseReference;
 
 //    RequestQueue requestQueue;
+
+
+    private final SignUpRepositoryImp repository = new SignUpRepositoryImp();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -69,7 +52,7 @@ public class RegistroFragment extends Fragment {
         //requestQueue = Volley.newRequestQueue(registroFragment.getActivity());
 
         //ArrayList<Integer> edades = new ArrayList<>();
-        for (int i = 18; i < 91; i++){
+        for (int i = 18; i < 91; i++) {
             edades.add(i);
         }
 
@@ -84,10 +67,7 @@ public class RegistroFragment extends Fragment {
         awesomeValidation.addValidation((Activity) getContext(),
                 R.id.textPassword, ".{6,}",
                 R.string.invalid_password);
-        mFirestore = FirebaseFirestore.getInstance();
-        firebaseAuth = FirebaseAuth.getInstance();
 
-        databaseReference = FirebaseDatabase.getInstance().getReference();
 
         fragmentRegistroBinding.buttonRegistro.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,50 +95,31 @@ public class RegistroFragment extends Fragment {
         return fragmentRegistroBinding.getRoot();
     }
 
+
     //                          (nombres, apellidos, direccion, edad, mail, password, username
-    private void registerUser(String nombres, String apellidos, String direccion, Integer edad, String mail, String password, String username){
-        firebaseAuth.createUserWithEmailAndPassword(mail, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+    private void registerUser(String nombres, String apellidos, String direccion, Integer edad, String mail, String password, String username) {
+
+        new Thread(new Runnable() {
             @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                String id = firebaseAuth.getCurrentUser().getUid();
-                Map<String, Object> map = new HashMap<>();
-                map.put("id", id);
-                map.put("nombres", nombres);
-                map.put("apellidos", apellidos);
-                map.put("direccion", direccion);
-                map.put("edad", edad);
-                map.put("mail", mail);
-                map.put("password", password);
-                map.put("username", username);
-
-                //sweetAlertDialog.sweetAlertLoading(this);
-                mFirestore.collection("Usuarios").document(id).set(map).addOnSuccessListener(new OnSuccessListener<Void>() {
+            public void run() {
+                String userId = repository.createUser(mail, password);
+                Boolean status = repository.addUser(userId, nombres, apellidos, direccion, edad, mail, password, username );
+                requireActivity().runOnUiThread(new Runnable() {
                     @Override
-                    public void onSuccess(Void unused) {
-                        //getActivity().finish();
-                        Toast.makeText(getContext(), "Succesfull", Toast.LENGTH_SHORT).show();
+                    public void run() {
+                        if(status){
+                            Toast.makeText(getContext(), "Succesfull", Toast.LENGTH_SHORT).show();
+                            replaceFragment(new HomeFragment());
+                        } else {
 
-                        replaceFragment(new HomeFragment());
-                        /*
-                        startActivity(new Intent(Registrar_activity.this, Login_Activity.class));
-                        sweetAlertDialog.sweetAlertSuccessRegistro(Registrar_activity.this, nombre);
-                        Toast.makeText(Registrar_activity.this, "Usuario Registrado con exito", Toast.LENGTH_SHORT).show();
-                        UpDataToRealtimeDatabase();*/
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        //Toast.makeText(getContext(), e.toString(), Toast.LENGTH_SHORT).show();
-                        System.out.printf(e.toString());
+                        }
+
                     }
                 });
+
             }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                //Toast.makeText(Registrar_activity.this, "Error al Registrar", Toast.LENGTH_SHORT).show();
-            }
-        });
+        }).start();
+
     }
 
     public void UpDataToAuthentication() {
@@ -184,17 +145,17 @@ public class RegistroFragment extends Fragment {
                     registerUser(nombres, apellidos, direccion, edad, mail, password, username);
 
 
-                }else{
+                } else {
                     Toast.makeText(getContext(), "Debes poner los datos correctos", Toast.LENGTH_SHORT).show();
                 }
-            }catch (Exception E){
+            } catch (Exception E) {
                 Toast.makeText(getContext(), E.toString(), Toast.LENGTH_SHORT).show();
             }
 
         }
     }
 
-    private boolean dataIsEmpty (String nombres, String apellidos, String direccion, Integer edad, String mail, String password, String username) {
+    private boolean dataIsEmpty(String nombres, String apellidos, String direccion, Integer edad, String mail, String password, String username) {
         return mail.isEmpty() || username.isEmpty() || password.isEmpty() || nombres.isEmpty() || apellidos.isEmpty() || direccion.isEmpty() || edad == null;
     }// Vereficamos que el email y password no esten vacios, si estan vacios devolvemos true
 
@@ -207,11 +168,11 @@ public class RegistroFragment extends Fragment {
     }
 
     @SuppressLint("ClickableViewAccessibility")
-    public void showPassword(){
+    public void showPassword() {
         fragmentRegistroBinding.showPassword.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
 
-                switch ( event.getAction() ) {
+                switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         fragmentRegistroBinding.textPassword.setInputType(InputType.TYPE_CLASS_TEXT);
                         break;
@@ -231,7 +192,7 @@ public class RegistroFragment extends Fragment {
                 "id\": 0,\r\n  \"" +
                 "nombre\": \"alohaaaa\"\r\n}");
 
-        okhttp3.Request  request = new okhttp3.Request.Builder()
+        okhttp3.Request request = new okhttp3.Request.Builder()
 
                 .url("http://webapiventareal.somee.com/addCliente")
                 .method("POST", body)

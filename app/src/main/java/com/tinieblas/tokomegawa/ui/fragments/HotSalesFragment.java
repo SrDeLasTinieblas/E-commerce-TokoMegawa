@@ -12,10 +12,9 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 
 import com.tinieblas.tokomegawa.R;
-import com.tinieblas.tokomegawa.ui.adptadores.Modelos.ModelohotSales;
-import com.tinieblas.tokomegawa.ui.adptadores.hotSalesAdapterGridView;
+import com.tinieblas.tokomegawa.domain.models.ModelohotSales;
 //import com.tinieblas.tokomegawa.adptadores.hotSalesAdapterRecycler;
-import com.tinieblas.tokomegawa.data.constants.Constants;
+import com.tinieblas.tokomegawa.Constants;
 import com.tinieblas.tokomegawa.databinding.FragmentHotSalesBinding;
 
 import java.util.ArrayList;

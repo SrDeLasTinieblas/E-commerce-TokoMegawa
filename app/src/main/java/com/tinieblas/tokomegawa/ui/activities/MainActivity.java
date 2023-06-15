@@ -22,7 +22,7 @@ import com.tinieblas.tokomegawa.ui.fragments.RegistroFragment;
 import com.tinieblas.tokomegawa.ui.fragments.SettingFragment;
 import com.tinieblas.tokomegawa.ui.fragments.iLoveFragment;
 import com.tinieblas.tokomegawa.utils.BottomSheetDialog;
-import com.tinieblas.tokomegawa.utils.FireBase;
+import com.tinieblas.tokomegawa.domain.models.FireBaseModel;
 import com.tinieblas.tokomegawa.utils.NavigationContent;
 
 public class MainActivity extends AppCompatActivity implements /*RecyclerViewInterface, */View.OnClickListener {
@@ -169,10 +169,10 @@ public class MainActivity extends AppCompatActivity implements /*RecyclerViewInt
     }
 
     private void getDataFireBase(){
-        FireBase fireBase = new FireBase();
-        //fireBase.setApellidos("hola");
+        FireBaseModel fireBaseModel = new FireBaseModel();
+        //fireBaseModel.setApellidos("hola");
 
-        //Toast.makeText(this,fireBase.getApellidos() , Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this,fireBaseModel.getApellidos() , Toast.LENGTH_SHORT).show();
 
     }
 

@@ -1,4 +1,4 @@
-package com.tinieblas.tokomegawa.models.Producto;
+package com.tinieblas.tokomegawa.domain.models;
 
 import android.os.Parcelable;
 

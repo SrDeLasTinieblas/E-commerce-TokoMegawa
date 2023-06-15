@@ -1,4 +1,4 @@
-package com.tinieblas.tokomegawa.ui.adptadores.Modelos;
+package com.tinieblas.tokomegawa.ui.adptadores;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -11,10 +11,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.tinieblas.tokomegawa.R;
+import com.tinieblas.tokomegawa.domain.models.Modelo;
 
 import java.util.ArrayList;
 
-public class RecyclerFilter extends RecyclerView.Adapter<RecyclerFilter.ViewHolder> {
+public class AdapterRecyclerFilter extends RecyclerView.Adapter<AdapterRecyclerFilter.ViewHolder> {
     ArrayList<Modelo> modelos;
     Context context;
     //final AdapterView.OnItemClickListener listener;
@@ -23,21 +24,21 @@ public class RecyclerFilter extends RecyclerView.Adapter<RecyclerFilter.ViewHold
         void OnItemClick(Modelo item);
     }
 
-    public RecyclerFilter(Context context, ArrayList<Modelo> models ){
+    public AdapterRecyclerFilter(Context context, ArrayList<Modelo> models ){
         this.context = context;
         this.modelos = models;
     }
 
     @NonNull
     @Override
-    public RecyclerFilter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public AdapterRecyclerFilter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.items_filter_cards, parent, false);
-        return new RecyclerFilter.ViewHolder(view);
+        return new AdapterRecyclerFilter.ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerFilter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull AdapterRecyclerFilter.ViewHolder holder, int position) {
         // Set logo ImageView
         //holder.imageView
         holder.imageView.setImageResource(modelos.get(position).getLangLogo());

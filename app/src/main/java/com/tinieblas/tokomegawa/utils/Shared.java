@@ -1,22 +1,18 @@
 package com.tinieblas.tokomegawa.utils;
 
-import static com.tinieblas.tokomegawa.data.constants.Constants.KEY_PRODUCTO;
-import static com.tinieblas.tokomegawa.data.constants.Constants.PREFS_NAME_CARRITO;
+import static com.tinieblas.tokomegawa.Constants.KEY_PRODUCTO;
+import static com.tinieblas.tokomegawa.Constants.PREFS_NAME_CARRITO;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
-import com.tinieblas.tokomegawa.models.Producto.ProductosItem;
-
-import org.json.JSONArray;
-import org.json.JSONException;
+import com.tinieblas.tokomegawa.domain.models.ProductosItem;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 public class Shared {
 

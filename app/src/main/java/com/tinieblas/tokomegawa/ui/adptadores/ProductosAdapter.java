@@ -147,6 +147,7 @@ public class ProductosAdapter extends RecyclerView.Adapter<ProductosAdapter.Prod
         // Actualiza la lista de productos del adaptador
         setProductos(productosFiltrados);
     }*/
+    /*
     public void filtrarProductos(String texto, List<ProductosItem> productosCompletos) {
         List<ProductosItem> productosFiltrados = new ArrayList<>();
 
@@ -196,8 +197,8 @@ public class ProductosAdapter extends RecyclerView.Adapter<ProductosAdapter.Prod
         fragmentHomeBinding.reciclerViewHotSales.setAdapter(this);*/
 
         // Filtra los productos al iniciar la aplicación
-        filtrarProductos("", productosItem);
-    }
+       /* filtrarProductos("", productosItem);
+    }*/
 
 
 

@@ -88,15 +88,15 @@ public class MyCartActivity extends AppCompatActivity {
 
     public void mostrarCardsCarrito(List<ProductosItem> carrito){
         // Mostrar los datos del carrito
-        //activityMyCartBinding.viewSwitcher.setDisplayedChild(0); // Muestra el RecyclerView
-        //activityMyCartBinding.animateView.setVisibility(View.INVISIBLE);
         carritoList = carrito;
         if (carrito != null && !carrito.isEmpty()) {
             mCarritoAdapter = new CarritoAdapter(MyCartActivity.this, carrito, activityMyCartBinding.textSubTotal);
-            activityMyCartBinding.RecyclerViewMyCart.setAdapter(mCarritoAdapter);
-            activityMyCartBinding.RecyclerViewMyCart.setLayoutManager(new LinearLayoutManager(MyCartActivity.this, RecyclerView.VERTICAL, false));
+            activityMyCartBinding.RecyclerMyCart.setAdapter(mCarritoAdapter);
+            activityMyCartBinding.RecyclerMyCart.setLayoutManager(new LinearLayoutManager(MyCartActivity.this, RecyclerView.VERTICAL, false));
             /*ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new SwipeToDeleteCallback(mCarritoAdapter, this, activityMyCartBinding.RecyclerMyCart));
             itemTouchHelper.attachToRecyclerView(activityMyCartBinding.RecyclerMyCart);*/
+            activityMyCartBinding.viewSwitcher.setDisplayedChild(0); // Muestra el RecyclerView
+            activityMyCartBinding.animateView.setVisibility(View.INVISIBLE);
         }else {
             Toast.makeText(context, "No hay datos en el carrito", Toast.LENGTH_SHORT).show();
         }
@@ -110,23 +110,31 @@ public class MyCartActivity extends AppCompatActivity {
 
         // Convierte el JSON a una lista de ProductosItem utilizando Gson
         Gson gson = new Gson();
-        Type type = new TypeToken<List<ProductosItem>>(){}.getType();
+        Type type = new TypeToken<List<ProductosItem>>() {}.getType();
         List<ProductosItem> listaProductosItems = gson.fromJson(listaProductosJson, type);
 
-        // Calcula el subtotal sumando los precios de los productos
-        double subTotal = 0;
-        for (ProductosItem producto : listaProductosItems) {
-            double precio = producto.getPrecioUnitario() * producto.getAmount();
-            subTotal += precio;
+        // Verifica si la lista de productos está vacía
+        if (listaProductosItems != null && !listaProductosItems.isEmpty()) {
+            // Calcula el subtotal sumando los precios de los productos
+            double subTotal = 0;
+            for (ProductosItem producto : listaProductosItems) {
+                double precio = producto.getPrecioUnitario() * producto.getAmount();
+                subTotal += precio;
+            }
+            // Muestra el subtotal en el TextView
+            activityMyCartBinding.textSubTotal.setText("S/. " + subTotal);
+        } else {
+            // Si la lista de productos está vacía, muestra el subtotal como cero
+            activityMyCartBinding.textSubTotal.setText("S/. 0");
         }
-
-        // Muestra el subtotal en el TextView
-        activityMyCartBinding.textSubTotal.setText("S/. " + subTotal);
     }
-
 
     public void volver(View view){
         NavigationContent.cambiarActividad(this, MainActivity.class);
     }
 
+    @Override
+    public void onBackPressed() {
+
+    }
 }

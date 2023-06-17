@@ -50,7 +50,7 @@ public class ProductosAdapter extends RecyclerView.Adapter<ProductosAdapter.Prod
         mProductos = productos;
         notifyDataSetChanged();
     }*/
-    public void setProductos(List<ProductosItem> productosItem) {
+    public void setProductosList(List<ProductosItem> productosItem) {
         mProductos.clear();
         mProductos.addAll(productosItem);
         notifyDataSetChanged();

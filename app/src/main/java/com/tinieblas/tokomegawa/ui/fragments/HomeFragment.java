@@ -6,15 +6,12 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,27 +25,29 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;*/
 import com.google.common.reflect.TypeToken;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.tinieblas.tokomegawa.R;
+import com.tinieblas.tokomegawa.data.APIs;
+import com.tinieblas.tokomegawa.data.FetchRequest;
+import com.tinieblas.tokomegawa.models.Categorias.CategoriasResponse;
+import com.tinieblas.tokomegawa.respositories.CategoriasCallback;
 import com.tinieblas.tokomegawa.respositories.ProductosCallback;
 import com.tinieblas.tokomegawa.ui.activities.MyCartActivity;
 import com.tinieblas.tokomegawa.ui.adptadores.ProductosAdapter;
 import com.tinieblas.tokomegawa.models.Producto.ProductosItem;
 import com.tinieblas.tokomegawa.ui.activities.MainActivity;
-import com.tinieblas.tokomegawa.ui.adptadores.Modelos.Modelo;
-import com.tinieblas.tokomegawa.ui.adptadores.Modelos.ModelohotSales;
 import com.tinieblas.tokomegawa.ui.adptadores.Modelos.RecyclerFilter;
 import com.tinieblas.tokomegawa.ui.adptadores.ProductosVistosAdapter;
-import com.tinieblas.tokomegawa.ui.adptadores.RecentlyViewedAdapterRecycler;
 import com.tinieblas.tokomegawa.databinding.FragmentHomeBinding;
 import com.tinieblas.tokomegawa.utils.NavigationContent;
+
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -56,101 +55,66 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class HomeFragment extends Fragment implements View.OnClickListener {
-    HomeFragment context;
-    ArrayList<Modelo> models;
-    RecentlyViewedAdapterRecycler recentlyViewedAdapterRecycler;
-    RecyclerFilter recyclerFilter;
-    private ProductosVistosAdapter productosVistosAdapter;
-    Integer[] langLogo= new Integer[0];
-    String[] langName = new String[0];
-    String Nombre, Apellido, Direccion, Email, Username, ID;
-    Integer Edad;
-    FirebaseFirestore firebaseFirestore;
-    // Obtener una instancia de FirebaseAuth
-    FirebaseAuth mAuth = FirebaseAuth.getInstance();
-    //RequestQueue requestQueue;
-    //hotSalesAdapterRecycler hotSalesAdapterRecycler;
-    ProductosAdapter productosAdapter;
+    private HomeFragment context;
+    //private ArrayList<Modelo> models;
+    //private RecentlyViewedAdapterRecycler recentlyViewedAdapterRecycler;
+    private RecyclerFilter recyclerFilter;
+    //private Integer[] langLogo = new Integer[0];
+    //private String[] langName = new String[0];
+    //private String Nombre, Apellido, Direccion, Email, Username, ID;
+    //private Integer Edad;
+    //private FirebaseFirestore firebaseFirestore;
+    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
+
+    private ProductosAdapter productosAdapter;
     private FragmentHomeBinding fragmentHomeBinding;
-    List<ProductosItem> productosList = new ArrayList<>();
-    private final List<ModelohotSales> ListProducts = new ArrayList<>();
-    //private OnButtonSelectedListener mListener;
+    //private final List<ProductosItem> productosList = new ArrayList<>();
+    //private final List<ModelohotSales> ListProducts = new ArrayList<>();
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        context=this;
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        context = this;
         fragmentHomeBinding = FragmentHomeBinding.inflate(inflater, container, false);
 
+        // Crear el adaptador de productos
         productosAdapter = new ProductosAdapter(getContext(), new ArrayList<>());
 
-        langLogo = new Integer[]{R.drawable.macbook_air_m1, R.drawable.mbp_shop_,
-                R.drawable.mbp_shop_, R.drawable.macbook_air_m1, R.drawable.macbook_air_m1};
+        // Configurar el RecyclerView de productos destacados
+        fragmentHomeBinding.reciclerViewHotSales.setLayoutManager(new LinearLayoutManager(context.getActivity(), LinearLayoutManager.HORIZONTAL, false));
+        fragmentHomeBinding.reciclerViewHotSales.setItemAnimator(new DefaultItemAnimator());
+        fragmentHomeBinding.reciclerViewHotSales.setAdapter(productosAdapter);
 
-        langName = new String[]{"macbook_air_m1", "macbook_air_m2", "macbook_air_m3", "macbook_air_m4", "macbook_air_m5"};
-        //setRecyclerViewHotSales();
-        //setRecyclerViewRecentlyViewd();
+        // Configurar el RecyclerView de productos recientemente vistos
+        fragmentHomeBinding.reciclerViewRecently.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
 
+        // Botón de salida
         fragmentHomeBinding.buttonSalida.setOnClickListener(v -> {
-            //Intent intent = new Intent(getContext(), AuthenticationActivity.class);
-            //startActivity(intent);
             mAuth.signOut(); // Cerrar sesión
-            Intent i=new Intent(getContext(), MainActivity.class);
+            Intent i = new Intent(getContext(), MainActivity.class);
             startActivity(i);
         });
-/*
-        fragmentHomeBinding.buttonHome.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                replaceFragment(new HomeFragment());
-            }
-        });
-        fragmentHomeBinding.buttoniLove.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                replaceFragment(new iLoveFragment());
-            }
-        });
-        fragmentHomeBinding.buttonSetting.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                replaceFragment(new SettingFragment());
-            }
-        });*/
 
-        //requestQueue = Volley.newRequestQueue(context.getActivity());
+        // Botón para ir al carrito de compras
+        fragmentHomeBinding.fab.setOnClickListener(view -> NavigationContent.cambiarActividad(getContext(), MyCartActivity.class));
 
-        //System.out.println(" fetch ==>"+fetchProductos());
+        fetchProductos(productos -> context.requireActivity().runOnUiThread(() -> addCards(productos)));
 
-        //System.out.println("==> fetchProductos "+fetchProductos());
-        fetchProductos(new ProductosCallback() {
-            @Override
-            public void onProductosFetched(List<ProductosItem> productos) {
-                context.getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        addCards(productos);
-                    }
-                });
-            }
-        });
-
-        //addCards(productosList);
-        fragmentHomeBinding.fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                NavigationContent.cambiarActividad(getContext(), MyCartActivity.class);
-            }
-        });
-        setCardsFilter();
         getListaProductoVistos();
+        //fetchGet();
         return fragmentHomeBinding.getRoot();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getListaProductoVistos();
     }
 
     private void fetchProductos(ProductosCallback callback) {
         OkHttpClient client = new OkHttpClient.Builder().build();
         Request request = new Request.Builder()
-                .url("http://tokomegawa.somee.com/getProductos")
+                //.url("http://tokomegawa.somee.com/getProductos")
+                .url(APIs.ApiUrlBase + APIs.ApiProductos)
                 .build();
 
         client.newCall(request).enqueue(new Callback() {
@@ -176,26 +140,18 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         });
     }
 
+    private void fetchGet() {
+        FetchRequest fetcher = new FetchRequest();
+        //String apiUrl = APIs.ApiUrlBase + APIs.ApiProductos;
+
+        String apiUrl = APIs.ApiUrlBase + "/getCategorias";
+        fetcher.fetchCategorias(apiUrl, categoriasResponses -> Log.e("productos fetch ==> ", categoriasResponses.toString()));
+    }
+
 
     private void addCards(List<ProductosItem> productosItemList) {
-        // Crear e inicializar el adaptador
-        ProductosAdapter productosAdapter = new ProductosAdapter(requireContext(), productosItemList);
-
-        // Configurar el diseño del RecyclerView
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context.getActivity(),
-                LinearLayoutManager.HORIZONTAL,
-                false);
-        fragmentHomeBinding.reciclerViewHotSales.setLayoutManager(linearLayoutManager);
-        fragmentHomeBinding.reciclerViewHotSales.setItemAnimator(new DefaultItemAnimator());
-
-
-        // Asignar el adaptador al RecyclerView en el hilo principal de la UI utilizando runOnUiThread()
-        context.getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                fragmentHomeBinding.reciclerViewHotSales.setAdapter(productosAdapter);
-            }
-        });
+        // Actualizar la lista de productos destacados
+        productosAdapter.setProductosList(productosItemList);
     }
 
     private void getListaProductoVistos() {
@@ -222,14 +178,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
         Collections.reverse(productosVistos);
 
-        fragmentHomeBinding.reciclerViewRecently.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        productosVistosAdapter = new ProductosVistosAdapter(getContext(), productosVistos);
+        // Actualizar el adaptador de productos vistos recientemente
+        ProductosVistosAdapter productosVistosAdapter = new ProductosVistosAdapter(getContext(), productosVistos);
         fragmentHomeBinding.reciclerViewRecently.setAdapter(productosVistosAdapter);
-        //System.out.println("productosVistosJson ==> "+productosVistosJson);
-        //System.out.println(" cantidad de productos vistos ==> "+ productosList.size());
-
     }
-
 
     public void replaceFragment(Fragment fragment) {
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
@@ -237,54 +189,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         fragmentTransaction.replace(R.id.frameLayoutHome, fragment);
         fragmentTransaction.commit();
         fragmentTransaction.addToBackStack(null);
-    }
-
-    public void setCardsFilter(){
-        /*langLogo = new Integer[]{R.drawable.frame_headphone, R.drawable.earphone,
-                R.drawable.frame_headphone, R.drawable.earphone, R.drawable.frame_headphone};*/
-
-        //langName = new String[]{"Headset", "earphone", "Headset", "Headset", "Headset"};
-
-
-        models = new ArrayList<>();
-        for (int i=0; i<langLogo.length; i++){
-            Modelo model = new Modelo(langLogo[i], langName[i]);
-            models.add(model);
-        }
-
-        //Design Horizontal Layout
-        LinearLayoutManager linearLayoutManager2 = new LinearLayoutManager(context.getActivity(),
-                LinearLayoutManager.HORIZONTAL,
-                false);
-
-        fragmentHomeBinding.cardFilterRecyclerView.setLayoutManager(linearLayoutManager2);
-        fragmentHomeBinding.cardFilterRecyclerView.setItemAnimator(new DefaultItemAnimator());
-
-        // Initial adaptador
-        recyclerFilter = new RecyclerFilter(context.getActivity(), models);
-        fragmentHomeBinding.cardFilterRecyclerView.setAdapter(recyclerFilter);
-
-
-    }
-
-    public void setRecyclerViewRecentlyViewd(){
-
-        models = new ArrayList<>();
-        for (int i=0; i<langLogo.length; i++){
-            Modelo model = new Modelo(langLogo[i], langName[i]);
-            models.add(model);
-        }
-        //Design Horizontal Layout
-        LinearLayoutManager linearLayoutManager2 = new LinearLayoutManager(context.getActivity(),
-                LinearLayoutManager.HORIZONTAL,
-                false);
-        fragmentHomeBinding.reciclerViewRecently.setLayoutManager(linearLayoutManager2);
-        fragmentHomeBinding.reciclerViewRecently.setItemAnimator(new DefaultItemAnimator());
-
-        // Initial adaptador
-        recentlyViewedAdapterRecycler = new RecentlyViewedAdapterRecycler(context.getActivity(), models);
-        fragmentHomeBinding.reciclerViewRecently.setAdapter(recentlyViewedAdapterRecycler);
-
     }
 
     @Override
@@ -295,8 +199,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
-
+        // Aquí puedes manejar los eventos de clic si es necesario
     }
+}
+
     /*public void irMyCart(){
         NavigationContent.cambiarActividad(getContext(), MyCartActivity.class);
     }*/
@@ -328,4 +234,4 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                     + " must implement OnButtonSelectedListener");
         }*/
 
-}
+

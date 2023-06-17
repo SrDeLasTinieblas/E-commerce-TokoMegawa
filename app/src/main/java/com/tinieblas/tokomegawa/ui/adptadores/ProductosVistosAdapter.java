@@ -64,9 +64,9 @@ public class ProductosVistosAdapter extends RecyclerView.Adapter<ProductosVistos
             super(itemView);
 
             imageViewProducto = itemView.findViewById(R.id.ImgView_Recently);
-            textViewTitulo = itemView.findViewById(R.id.textTitulo_recently_viewd);
+            textViewTitulo = itemView.findViewById(R.id.textTView_Titulo_ImgView_recently);
             textViewPrecio = itemView.findViewById(R.id.textViewPrecio_recently);
-            textViewDescripcion = itemView.findViewById(R.id.textViewDescripcion);
+            textViewDescripcion = itemView.findViewById(R.id.textViewDescripcionImgView_recently);
 
 
         }

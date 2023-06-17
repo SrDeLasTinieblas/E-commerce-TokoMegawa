@@ -53,7 +53,7 @@ public class RecentlyViewedAdapterRecycler extends RecyclerView.Adapter<Recently
             super(itemView);
             //Assign Variable
             imageView = itemView.findViewById(R.id.ImgView_Recently);
-            textView = itemView.findViewById(R.id.textTitulo_recently_viewd);
+            textView = itemView.findViewById(R.id.textTView_Titulo_ImgView_recently);
         }
     }
 }

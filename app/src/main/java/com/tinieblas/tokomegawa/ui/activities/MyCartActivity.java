@@ -135,7 +135,7 @@ public class MyCartActivity extends AppCompatActivity {
                 String ciudad = addresses.get(0).getLocality();
                 String departamento = addresses.get(0).getAdminArea();
 
-                Log.d("MiUbicacion", "ciudad: " + ciudad + ", departamento: " + departamento);
+                //Log.d("MiUbicacion", "ciudad: " + ciudad + ", departamento: " + departamento);
 
                 // Obtener la instancia del SharedPreferences
                 SharedPreferences sharedPreferences = getSharedPreferences("MiUbicacion", Context.MODE_PRIVATE);
@@ -177,6 +177,7 @@ public class MyCartActivity extends AppCompatActivity {
         public void onStatusChanged(String provider, int status, Bundle extras) {}
     };
 
+    @SuppressLint("SetTextI18n")
     private void getLocation() {
         SharedPreferences sharedPreferences = getSharedPreferences("MiUbicacion", Context.MODE_PRIVATE);
         String departamentoGuardada = sharedPreferences.getString("departamento", "");
@@ -187,8 +188,8 @@ public class MyCartActivity extends AppCompatActivity {
             distritoGuardado = sharedPreferences.getString("distrito", "");
         }
 
-        activityMyCartBinding.Departamento.setText(departamentoGuardada);
-        activityMyCartBinding.Distrito.setText(distritoGuardado + ",");
+        activityMyCartBinding.Departamento.setText(departamentoGuardada + ",");
+        activityMyCartBinding.Distrito.setText(distritoGuardado);
     }
     @SuppressLint("SetTextI18n")
     private void getNombreUser(String userId) {
@@ -200,6 +201,7 @@ public class MyCartActivity extends AppCompatActivity {
                     String firstName = document.getString(User.KEY_NOMBRES);
                     if (firstName != null && !firstName.isEmpty()) {
                         activityMyCartBinding.textNombre.setText(firstName);
+                        saveNombre(firstName);
                     } else {
                         activityMyCartBinding.textNombre.setText("default");
                     }
@@ -212,6 +214,12 @@ public class MyCartActivity extends AppCompatActivity {
         });
     }
 
+    private void saveNombre(String userNombre) {
+        SharedPreferences sharedPreferences = getSharedPreferences("dataUser", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("userNombre", userNombre);
+        editor.apply();
+    }
     private int hideSystemBar() {
         decorView = getWindow().getDecorView();
         decorView.setOnSystemUiVisibilityChangeListener(i -> {

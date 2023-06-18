@@ -1,35 +1,23 @@
 package com.tinieblas.tokomegawa.ui.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.Manifest;
 import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.location.Address;
-import android.location.Geocoder;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Bundle;
-import android.provider.Settings;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.PopupWindow;
 import android.widget.Toast;
 
 import com.tinieblas.tokomegawa.ui.fragments.HomeFragment;
 import com.tinieblas.tokomegawa.ui.fragments.HotSalesFragment;
 import com.tinieblas.tokomegawa.ui.fragments.LoginFragment;
-import com.tinieblas.tokomegawa.ui.fragments.MyCartFragment;
 import com.tinieblas.tokomegawa.R;
 import com.tinieblas.tokomegawa.ui.fragments.RegistroFragment;
 import com.tinieblas.tokomegawa.ui.fragments.SettingFragment;
@@ -38,12 +26,9 @@ import com.tinieblas.tokomegawa.utils.BottomSheetDialog;
 import com.tinieblas.tokomegawa.utils.FireBase;
 import com.tinieblas.tokomegawa.utils.NavigationContent;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Locale;
-
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private View decorView;
+    private PopupWindow popupWindow; // Declarar como variable miembro en tu fragmento
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,15 +78,45 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void filtro(View view) {
-        View popupView = getLayoutInflater().inflate(R.layout.popup, null);
-        PopupWindow popupWindow = new PopupWindow(popupView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        popupWindow.showAtLocation(view, 0, 10, 0);
+        if (popupWindow != null && popupWindow.isShowing()) {
+            popupWindow.dismiss();
+        } else {
+            View popupView = getLayoutInflater().inflate(R.layout.popup, null);
+            popupWindow = new PopupWindow(popupView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+            // Obtener una referencia al botón button2
+            Button Check = popupView.findViewById(R.id.buttonCheck);
+
+            // Agregar el evento onClick al botón button2
+            Check.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Check.setBackgroundResource(R.drawable.check1);
+                    // Aquí puedes realizar las acciones que desees
+                    //Toast.makeText(MainActivity.this, "Button2 clicked", Toast.LENGTH_SHORT).show();
+
+                }
+            });
+
+            popupWindow.showAsDropDown(view, 0, 0);
+        }
     }
+
 
     public void scogerFiltro(View view) {
         filtro(view);
+        //vibrate(2000);
     }
-
+    public void vibrate(long milliseconds) {
+        Vibrator vibrator = (Vibrator)  getSystemService(Context.VIBRATOR_SERVICE);
+        if (vibrator != null && vibrator.hasVibrator()) {
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                vibrator.vibrate(VibrationEffect.createOneShot(milliseconds, VibrationEffect.DEFAULT_AMPLITUDE));
+            } else {
+                vibrator.vibrate(milliseconds);
+            }
+        }
+    }
     public void seeAllHotSales(View view) {
         replaceFragment(new HotSalesFragment());
     }

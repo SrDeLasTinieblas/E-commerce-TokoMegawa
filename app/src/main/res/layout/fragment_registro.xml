@@ -6,13 +6,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#E9E7F1"
-    tools:context=".ui.fragments.LoginFragment">
+    tools:context=".ui.fragments.RegistroFragment">
+
 
     <EditText
         android:id="@+id/username"
         android:layout_width="295dp"
         android:layout_height="57dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="44dp"
         android:background="@drawable/input_login"
         android:drawableStart="@drawable/button_white"
         android:drawablePadding="7dp"
@@ -21,7 +22,6 @@
         android:inputType="textPersonName"
         android:text="angelo22@gmail.com"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.51"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView16" />
 
@@ -79,7 +79,7 @@
         android:layout_height="57dp"
         android:layout_marginTop="64dp"
         android:background="@drawable/button_login"
-        android:text="Sing in"
+        android:text="Sign up"
         android:textColor="#FFFFFF"
         android:textStyle="bold"
         app:circularflow_radiusInDP="20dp"
@@ -104,7 +104,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="72dp"
-        android:text="¡Hola de nuevo!"
+        android:text="Hola regístrate ahora!"
         android:textColor="#272525"
         android:textSize="32dp"
         android:textStyle="bold"
@@ -114,10 +114,10 @@
 
     <TextView
         android:id="@+id/textView16"
-        android:layout_width="312dp"
-        android:layout_height="71dp"
+        android:layout_width="166dp"
+        android:layout_height="41dp"
         android:layout_marginTop="12dp"
-        android:text="Bienvenido de vuelta!"
+        android:text="Bienvenido!"
         android:textSize="32sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"

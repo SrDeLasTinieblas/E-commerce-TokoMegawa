@@ -33,6 +33,7 @@ import com.tinieblas.tokomegawa.data.FetchRequest;
 import com.tinieblas.tokomegawa.models.Categorias.CategoriasResponse;
 import com.tinieblas.tokomegawa.respositories.CategoriasCallback;
 import com.tinieblas.tokomegawa.respositories.ProductosCallback;
+import com.tinieblas.tokomegawa.ui.activities.AuthenticationActivity;
 import com.tinieblas.tokomegawa.ui.activities.MyCartActivity;
 import com.tinieblas.tokomegawa.ui.adptadores.ProductosAdapter;
 import com.tinieblas.tokomegawa.models.Producto.ProductosItem;
@@ -90,7 +91,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         // Botón de salida
         fragmentHomeBinding.buttonSalida.setOnClickListener(v -> {
             mAuth.signOut(); // Cerrar sesión
-            Intent i = new Intent(getContext(), MainActivity.class);
+            Intent i = new Intent(getContext(), AuthenticationActivity.class);
             startActivity(i);
         });
 
@@ -196,7 +197,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         super.onDestroyView();
         fragmentHomeBinding = null;
     }
-
+    public void SignOut(View view){
+        mAuth.signOut(); // Cerrar sesión
+        System.out.println("SignOut");
+    }
     @Override
     public void onClick(View view) {
         // Aquí puedes manejar los eventos de clic si es necesario
@@ -214,10 +218,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         System.out.println("2222222222222222222222222222");
     }
 
-    public void SignOut(){
-        //mAuth.signOut(); // Cerrar sesión
-        System.out.println("SignOut");
-    }
+
 */
     /*public interface OnButtonSelectedListener {
         void onButtonSelected(int buttonId);

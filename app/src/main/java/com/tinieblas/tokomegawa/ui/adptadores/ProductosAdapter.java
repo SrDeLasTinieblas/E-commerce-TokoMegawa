@@ -3,15 +3,19 @@ package com.tinieblas.tokomegawa.ui.adptadores;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Parcelable;
+import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -28,15 +32,20 @@ import com.tinieblas.tokomegawa.utils.RandomColor;
 //import com.tinieblas.tokomegawa.ui.activities.DetailsProductos;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class ProductosAdapter extends RecyclerView.Adapter<ProductosAdapter.ProductoViewHolder> {
     private final Context mContext;
     private List<ProductosItem> mProductos;
+    SharedPreferences sharedPreferences;
+    //sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 
     public ProductosAdapter(Context context, List<ProductosItem> productos) {
         mContext = context;
         mProductos = productos;
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
     @NonNull
@@ -60,7 +69,6 @@ public class ProductosAdapter extends RecyclerView.Adapter<ProductosAdapter.Prod
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ProductoViewHolder holder, int position) {
-
         ProductosItem producto = mProductos.get(position);
         holder.textViewTitulo.setText(producto.getNombreProducto());
         holder.textViewPrecio.setText("S/. " + producto.getPrecioUnitario());
@@ -70,8 +78,42 @@ public class ProductosAdapter extends RecyclerView.Adapter<ProductosAdapter.Prod
         //RandomColor randomColor = new RandomColor();
         //int cardColor = randomColor.getColor();
 
-        // Establecer el color como fondo de la card
+        // Verificar si el campo "delivery" es igual a "Free shipping"
+        if (producto.getDelivery().equals("Free shipping")) {
+            holder.buttonShipping.setVisibility(View.VISIBLE);
+        } else {
+            holder.buttonShipping.setVisibility(View.INVISIBLE);
+        }
 
+        // Configurar el OnClickListener para el botón
+        holder.favorito.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("MutatingSharedPrefs")
+            @Override
+            public void onClick(View v) {
+                // Obtener la lista actual de productos guardados en SharedPreferences
+                Set<String> productosGuardados = sharedPreferences.getStringSet("productos_guardados", new HashSet<String>());
+                int idProducto = producto.getIdProducto();
+
+                // Verificar si el producto ya está en la lista
+                if (productosGuardados.contains(String.valueOf(idProducto))) {
+                    // Si el producto ya está en la lista, eliminarlo
+                    productosGuardados.remove(String.valueOf(idProducto));
+                    Toast.makeText(holder.itemView.getContext(), "Producto eliminado" + producto.getIdProducto(), Toast.LENGTH_SHORT).show();
+                } else {
+                    // Si el producto no está en la lista, agregarlo
+                    productosGuardados.add(String.valueOf(idProducto));
+                    Toast.makeText(holder.itemView.getContext(), "Producto guardado" + producto.getIdProducto(), Toast.LENGTH_SHORT).show();
+                }
+
+                // Guardar la lista actualizada en SharedPreferences
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putStringSet("productos_guardados", productosGuardados);
+                editor.apply();
+
+                // Actualizar la apariencia del botón según si el producto está en la lista o no
+                actualizarAparienciaBoton(holder.favorito, productosGuardados.contains(String.valueOf(idProducto)));
+            }
+        });
 
         // Configurar el clic en el elemento del RecyclerView
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -85,10 +127,10 @@ public class ProductosAdapter extends RecyclerView.Adapter<ProductosAdapter.Prod
                 Intent intent = new Intent(mContext, DetailsActivity.class);
                 intent.putExtra("producto", productoSeleccionado);
                 mContext.startActivity(intent);
-
             }
         });
         //holder.itemView.findViewById(R.id.cardImagenHotSales).setBackgroundColor(cardColor);
+
     }
 
     @Override
@@ -97,11 +139,13 @@ public class ProductosAdapter extends RecyclerView.Adapter<ProductosAdapter.Prod
     }
 
     public static class ProductoViewHolder extends RecyclerView.ViewHolder {
-        CardProductosHotSalesBinding cardProductosHotSalesBinding;
+        //CardProductosHotSalesBinding cardProductosHotSalesBinding;
         public ImageView imageViewProducto;
         public TextView textViewTitulo;
         public TextView textViewPrecio;
         public TextView textViewDescripcion;
+        public Button buttonShipping, favorito;
+
 
         public ProductoViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -109,10 +153,23 @@ public class ProductosAdapter extends RecyclerView.Adapter<ProductosAdapter.Prod
             textViewPrecio = itemView.findViewById(R.id.textPrecioHotSales);
             textViewDescripcion = itemView.findViewById(R.id.textDescripcionHotSales);
             imageViewProducto = itemView.findViewById(R.id.imageImagenHotSales);
-
-
+            buttonShipping = itemView.findViewById(R.id.rectangle_5);
+            favorito = itemView.findViewById(R.id.akar_icons_);
         }
     }
+    private void actualizarAparienciaBoton(Button button, boolean productoGuardado) {
+        if (productoGuardado) {
+            // Producto guardado: establecer apariencia deseada
+            button.setBackgroundResource(R.drawable.vector_ilike1);
+            //button.setText("Producto guardado");
+        } else {
+            // Producto no guardado: establecer apariencia deseada
+            button.setBackgroundResource(R.drawable.vector_ilike);
+            //button.setText("Guardar producto");
+        }
+    }
+
+
     /*public void filtrar(String texto, List<ProductosItem> productosItem) {
         List<ProductosItem> productosFiltrados = new ArrayList<>();
 

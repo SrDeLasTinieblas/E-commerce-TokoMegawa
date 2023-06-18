@@ -115,7 +115,8 @@ public class LoginFragment extends Fragment {
                             if (task.isSuccessful()) {
                                 saveUserId(mAuth.getUid());
                                 //String firstName = document.getString(User.KEY_NOMBRES);
-                                replaceFragment(new HomeFragment());
+                                //replaceFragment(new HomeFragment());
+                                NavigationContent.cambiarActividad(requireActivity(), MainActivity.class);
 
                                 System.out.println("desde el login ==>"+mAuth.getUid());
                             } else {

@@ -1,17 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- res/drawable/background.xml -->
-<vector xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:aapt="http://schemas.android.com/aapt"
-    android:width="52dp"
-    android:height="44dp"
-    android:viewportWidth="264"
-    android:viewportHeight="169">
-
-    <path
-        android:pathData="M7 4H257C260.87 4 264 7.13 264 11V158.7C264 162.57 260.87 165.7 257 165.7H7C3.13 165.7 0 162.57 0 158.7V11C0 7.13 3.13 4 7 4Z"
-        android:fillColor="#FFFFFF"
-        android:strokeWidth="3"
-        android:strokeColor="#636363"/>
-
-
-</vector>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="#FFFFFF" />
+    <stroke
+        android:color="#38C7A5"
+        android:width="1dp" />
+    <corners android:radius="2dp" />
+    <size
+        android:width="52dp"
+        android:height="44dp" />
+</shape>

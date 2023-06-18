@@ -123,6 +123,15 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
         activityDetailsBinding.textViewDescripcionDetailsProducts.setText(producto.getDescripcionProducto());
         activityDetailsBinding.textViewDescripcionDetailsProducts.setMovementMethod(new ScrollingMovementMethod());
         activityDetailsBinding.textPrecioDestailsProductos.setText(String.valueOf(producto.getPrecioUnitario()));
+        activityDetailsBinding.buttonShippingDetails.setText(String.valueOf(producto.getDelivery()));
+
+        // Verificar si el campo "delivery" es igual a "Free shipping"
+        if (producto.getDelivery().equals("Free shipping")) {
+            activityDetailsBinding.buttonShippingDetails.setText(String.valueOf(producto.getDelivery()));
+        } else {
+            activityDetailsBinding.buttonShippingDetails.setText(String.valueOf(producto.getDelivery()));
+        }
+
 
         Glide.with(this).
                 load(producto.getImagen1()).

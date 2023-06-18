@@ -8,11 +8,16 @@
 
 
     <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/frameLayoutHome"
+        android:id="@+id/frameLayoutLogin"
         android:name="com.tinieblas.tokomegawa.ui.fragments.LoginFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:layout="@layout/fragment_login" />
+        android:layout_above="@+id/llButtons"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="0dp"
+        tools:layout="@layout/fragment_login"
+        />
+
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.PopupWindow;
 import android.widget.Toast;
 
+import com.tinieblas.tokomegawa.databinding.ActivityMainBinding;
 import com.tinieblas.tokomegawa.ui.fragments.HomeFragment;
 import com.tinieblas.tokomegawa.ui.fragments.HotSalesFragment;
 import com.tinieblas.tokomegawa.ui.fragments.LoginFragment;
@@ -27,6 +28,7 @@ import com.tinieblas.tokomegawa.utils.FireBase;
 import com.tinieblas.tokomegawa.utils.NavigationContent;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+    ActivityMainBinding activityMainBinding;
     private View decorView;
     private PopupWindow popupWindow; // Declarar como variable miembro en tu fragmento
 
@@ -49,7 +51,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Log.e("Error", e.toString());
         }
 
-        replaceFragment(new LoginFragment());
+
+        /*activityMainBinding.buttonHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavigationContent.changeFragment(getSupportFragmentManager(), new HomeFragment(), R.id.frameLayoutHome);
+            }
+        });*/
+
+
+
+
+    }
+
+    public void irHome(View view) {
+        NavigationContent.changeFragment(getSupportFragmentManager(), new HomeFragment(), R.id.frameLayoutHome);
+    }
+
+    public void irFavoritos(View view) {
+        NavigationContent.changeFragment(getSupportFragmentManager(), new iLoveFragment(), R.id.frameLayoutHome);
+    }
+
+    public void irSettings(View view) {
+        NavigationContent.changeFragment(getSupportFragmentManager(), new SettingFragment(), R.id.frameLayoutHome);
     }
 
     public void replaceFragment(Fragment fragment) {
@@ -121,17 +145,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         replaceFragment(new HotSalesFragment());
     }
 
-    public void irHome(View view) {
-        NavigationContent.changeFragment(getSupportFragmentManager(), new HomeFragment(), R.id.frameLayoutHome);
-    }
 
-    public void irFavoritos(View view) {
-        NavigationContent.changeFragment(getSupportFragmentManager(), new iLoveFragment(), R.id.frameLayoutHome);
-    }
-
-    public void irSettings(View view) {
-        NavigationContent.changeFragment(getSupportFragmentManager(), new SettingFragment(), R.id.frameLayoutHome);
-    }
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {

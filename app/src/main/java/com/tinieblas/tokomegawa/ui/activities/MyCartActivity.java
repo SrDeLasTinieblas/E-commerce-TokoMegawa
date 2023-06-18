@@ -87,7 +87,6 @@ public class MyCartActivity extends AppCompatActivity {
         gerPermission();
     }
 
-
     public void gerPermission() {
         // Verificar si ya se han otorgado los permisos de ubicación
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
@@ -185,12 +184,16 @@ public class MyCartActivity extends AppCompatActivity {
 
         while (TextUtils.isEmpty(departamentoGuardada) || TextUtils.isEmpty(distritoGuardado)) {
             departamentoGuardada = sharedPreferences.getString("departamento", "");
+            if (departamentoGuardada.contains("departamento")){
+                departamentoGuardada.replaceAll("Provincia de ","");
+            }
             distritoGuardado = sharedPreferences.getString("distrito", "");
         }
 
         activityMyCartBinding.Departamento.setText(departamentoGuardada + ",");
         activityMyCartBinding.Distrito.setText(distritoGuardado);
     }
+
     @SuppressLint("SetTextI18n")
     private void getNombreUser(String userId) {
         DocumentReference docRef = mFirestore.collection("Usuarios").document(userId);
@@ -220,6 +223,7 @@ public class MyCartActivity extends AppCompatActivity {
         editor.putString("userNombre", userNombre);
         editor.apply();
     }
+
     private int hideSystemBar() {
         decorView = getWindow().getDecorView();
         decorView.setOnSystemUiVisibilityChangeListener(i -> {
@@ -288,4 +292,5 @@ public class MyCartActivity extends AppCompatActivity {
     public void onBackPressed() {
         // Eliminado el método onBackPressed() ya que no hay ninguna implementación específica para este caso
     }
+
 }

@@ -25,15 +25,41 @@
             android:scaleType="centerCrop"
             android:src="@drawable/macbook_air_m1" />
 
-        <!--<ImageButton
-            android:id="@+id/imageButton"
+        <!--<Button
+            android:id="@+id/buttonfree"
+            android:layout_width="95dp"
+            android:layout_height="21dp"
+            android:background="@drawable/card_black_shipping"
+            android:text="Free shipping"
+            android:textColor="@color/white" />-->
+
+        <Button
+            android:id="@+id/rectangle_5"
+            android:layout_width="80dp"
+            android:layout_height="17dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="90dp"
+            android:background="@drawable/rectangle_5"
+            android:text="Free shipping"
+            android:textColor="@color/white"
+            android:textSize="10dp"
+            android:textStyle="normal|bold"
+            />
+
+        <Button
+            android:id="@+id/akar_icons_"
             android:layout_width="24dp"
-            android:layout_height="18dp"
-            android:layout_alignParentBottom="true"
-            android:layout_marginStart="100dp"
-            android:layout_marginTop="26dp"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/vector_ilike" />-->
+            android:layout_height="24dp"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="100dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="87dp"
+            android:background="@drawable/vector_ilike"
+            />
+
+
 
     </androidx.cardview.widget.CardView>
 
@@ -76,6 +102,7 @@
         android:text="Decripcion"
         android:textSize="10sp"
         android:textStyle="bold" />
+
 
 
 

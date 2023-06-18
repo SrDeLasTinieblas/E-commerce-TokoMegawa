@@ -5,15 +5,23 @@
     android:layout_height="match_parent"
     tools:context=".ui.activities.MainActivity">
 
-    <FrameLayout
+    <androidx.fragment.app.FragmentContainerView
         android:id="@+id/frameLayoutHome"
+        android:name="com.tinieblas.tokomegawa.ui.fragments.HomeFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/llButtons"
         android:layout_alignParentTop="true"
-
         android:layout_marginTop="0dp"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home"
+        />
+
+    <!--     <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/frameLayoutLogin"
+        android:name="com.tinieblas.tokomegawa.ui.fragments.LoginFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout="@layout/fragment_login" />-->
 
     <LinearLayout
         android:id="@+id/llButtons"

@@ -10,7 +10,7 @@
         android:id="@+id/editTextSearch"
         android:layout_width="298dp"
         android:layout_height="40dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="44dp"
         android:background="@drawable/search"
         android:drawableStart="@drawable/search"
         android:drawableEnd="@drawable/ic_baseline_search_24"
@@ -22,18 +22,6 @@
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <!--<include
-        android:id="@+id/include"
-        layout="@layout/grid_view_card_filter"
-        android:layout_width="296dp"
-        android:layout_height="81dp"
-        android:layout_marginTop="12dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/button"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName" />
-    -->
 
     <Button
         android:id="@+id/button"
@@ -48,18 +36,20 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/card_filter_RecyclerView"
-        android:layout_width="346dp"
-        android:layout_height="83dp"
+        android:layout_width="306dp"
+        android:layout_height="74dp"
         android:layout_marginBottom="4dp"
         app:layout_constraintBottom_toTopOf="@+id/textView"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.847"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="34dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
         android:text="Hot Sales"
         android:textColor="@color/black"
         android:textSize="20sp"
@@ -71,77 +61,32 @@
         android:id="@+id/SeeAll"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:onClick="seeAllHotSales"
         android:text="See All"
         android:textColor="#BBBBBB"
         android:textSize="15sp"
-        android:onClick="seeAllHotSales"
         app:layout_constraintBottom_toBottomOf="@+id/textView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.921"
+        app:layout_constraintHorizontal_bias="0.939"
         app:layout_constraintStart_toEndOf="@+id/textView" />
-
-    <!--<GridView
-        android:id="@+id/grid_view_hotSales"
-        android:layout_width="match_parent"
-        android:layout_height="178dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginStart="0dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
-        android:columnWidth="100dp"
-        android:gravity="center"
-        android:horizontalSpacing="1dp"
-        android:numColumns="500"
-        android:scrollbarAlwaysDrawHorizontalTrack="true"
-        android:scrollbarAlwaysDrawVerticalTrack="true"
-        android:scrollbars="horizontal"
-        android:stretchMode="none"
-        android:verticalSpacing="1dp"
-        />-->
-
-    <!--<GridView
-        android:id="@+id/grid_view_hotSales"
-        android:layout_width="match_parent"
-        android:layout_height="178dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginStart="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:orientation="horizontal"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />-->
-
-    <!--<include
-        android:id="@+id/grid_view_hotSales"
-        layout="@layout/grid_view_hot_sales"
-        android:layout_width="390dp"
-        android:layout_height="200dp"
-        android:layout_marginTop="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.333"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />-->
-
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recicler_view_hotSales"
-        android:layout_width="392dp"
-        android:layout_height="208dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
         android:layout_marginTop="20dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.666"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <TextView
         android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="160dp"
+        android:layout_height="33dp"
         android:layout_marginStart="16dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginTop="24dp"
         android:text="Recently Viewed"
         android:textColor="@color/black"
         android:textSize="20sp"
@@ -149,7 +94,7 @@
         app:layout_constraintBottom_toTopOf="@+id/recicler_view_recently"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/recicler_view_hotSales"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/seeAll"
@@ -161,10 +106,10 @@
         android:textSize="15sp"
         app:layout_constraintBottom_toTopOf="@+id/recicler_view_recently"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.919"
+        app:layout_constraintHorizontal_bias="0.844"
         app:layout_constraintStart_toEndOf="@+id/textView3"
         app:layout_constraintTop_toBottomOf="@+id/recicler_view_hotSales"
-        app:layout_constraintVertical_bias="0.4" />
+        app:layout_constraintVertical_bias="0.416" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recicler_view_recently"
@@ -185,7 +130,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
         android:layout_margin="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="28dp"
         android:layout_marginBottom="36dp"
         android:background="#FFFF"
         android:contentDescription="submit"
@@ -195,47 +140,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/recicler_view_hotSales"
-        app:layout_constraintVertical_bias="0.706" />
-<!--
-    <Button
-        android:id="@+id/buttonHome"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="44dp"
-        android:layout_marginBottom="16dp"
-        android:background="@drawable/group_home"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recicler_view_recently"
-        app:layout_constraintVertical_bias="0.937" />
-
-    <Button
-        android:id="@+id/buttoniLove"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginBottom="16dp"
-        android:background="@drawable/group_like"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/buttonSetting"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toEndOf="@+id/buttonHome"
-        app:layout_constraintTop_toBottomOf="@+id/recicler_view_recently"
-        app:layout_constraintVertical_bias="0.932" />
-
-    <Button
-        android:id="@+id/buttonSetting"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginEnd="44dp"
-        android:layout_marginBottom="16dp"
-        android:background="@drawable/group_setting"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recicler_view_recently"
-        app:layout_constraintVertical_bias="0.932" />
--->
-    <!-- Código en el método onViewCreated del fragmento -->
-
+        app:layout_constraintVertical_bias="0.699" />
 
     <Button
         android:id="@+id/buttonSalida"
@@ -248,15 +153,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.237" />
-
-    <!--<androidx.fragment.app.FragmentContainerView
-        android:id="@+id/fragmentContainerView"
-        android:name="com.tinieblas.tokomegawa.ui.fragments.SettingFragment"
-        android:layout_width="416dp"
-        android:layout_height="664dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />-->
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -36,5 +36,5 @@ jobs:
       run: ./gradlew build -x lint
         
     - name: ejecutando mi primera prueba
-      run: .\gradlew app:testDebugUnitTest --tests 'com.tinieblas.tokomegawa.utils.SumaTest'
+      run: ./gradlew app:testDebugUnitTest --tests 'com.tinieblas.tokomegawa.utils.SumaTest'
     

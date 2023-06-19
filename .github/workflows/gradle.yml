@@ -30,10 +30,11 @@ jobs:
         distribution: 'temurin'
     - name: permisos
       run: chmod +x gradlew
-    - name: Build with Gradle
-      uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
-      with:
-        arguments: build
+    - name: Setup Gradle
+      uses: gradle/gradle-build-action@v2
+    - name: Run build with Gradle Wrapper
+      run: ./gradlew build -x lint
         
     - name: ejecutando mi primera prueba
       run: .\gradlew app:testDebugUnitTest --tests 'com.tinieblas.tokomegawa.utils.SumaTest'
+    

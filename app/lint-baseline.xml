@@ -1,0 +1,2554 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<issues format="6" by="lint 7.4.2" type="baseline" client="gradle" dependencies="false" name="AGP (7.4.2)" variant="all" version="7.4.2">
+
+    <issue
+        id="CommitPrefEdits"
+        message="`SharedPreferences.edit()` without a corresponding `commit()` or `apply()` call"
+        errorLine1="        SharedPreferences.Editor editor = sharedPreferences.edit();"
+        errorLine2="                                          ~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/tinieblas/tokomegawa/ui/activities/DetailsActivity.java"
+            line="493"
+            column="43"/>
+    </issue>
+
+    <issue
+        id="DefaultLocale"
+        message="Implicitly using the default locale is a common source of bugs: Use `String.format(Locale, ...)` instead"
+        errorLine1="        activityDetailsBinding.textPrecioDestailsProductos.setText(String.format(&quot;%.2f&quot;, precioTotal));"
+        errorLine2="                                                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/tinieblas/tokomegawa/ui/activities/DetailsActivity.java"
+            line="196"
+            column="68"/>
+    </issue>
+
+    <issue
+        id="DefaultLocale"
+        message="Implicitly using the default locale is a common source of bugs: Use `String.format(Locale, ...)` instead"
+        errorLine1="                activityDetailsBinding.textPrecioDestailsProductos.setText(String.format(&quot;%.2f&quot;, precioTotal));"
+        errorLine2="                                                                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/tinieblas/tokomegawa/ui/activities/DetailsActivity.java"
+            line="216"
+            column="76"/>
+    </issue>
+
+    <issue
+        id="DefaultLocale"
+        message="Implicitly using the default locale is a common source of bugs: Use `toLowerCase(Locale)` instead. For strings meant to be internal use `Locale.ROOT`, otherwise `Locale.getDefault()`."
+        errorLine1="            if (item.getNombreProducto().toLowerCase().contains(texto.toLowerCase())){"
+        errorLine2="                                         ~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/tinieblas/tokomegawa/ui/fragments/HomeFragment.java"
+            line="188"
+            column="42"/>
+    </issue>
+
+    <issue
+        id="DefaultLocale"
+        message="Implicitly using the default locale is a common source of bugs: Use `toLowerCase(Locale)` instead. For strings meant to be internal use `Locale.ROOT`, otherwise `Locale.getDefault()`."
+        errorLine1="            if (item.getNombreProducto().toLowerCase().contains(texto.toLowerCase())){"
+        errorLine2="                                                                      ~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/tinieblas/tokomegawa/ui/fragments/HomeFragment.java"
+            line="188"
+            column="71"/>
+    </issue>
+
+    <issue
+        id="DuplicateIncludedIds"
+        message="Duplicate id @+id/PersonalInfo, defined or included multiple times in layout\fragment_setting.xml: [layout\fragment_setting.xml => layout\card_settings_app.xml defines @+id/PersonalInfo, layout\fragment_setting.xml => layout\card_settings_user.xml defines @+id/PersonalInfo]"
+        errorLine1="        &lt;include"
+        errorLine2="        ^">
+        <location
+            file="src/main/res/layout/fragment_setting.xml"
+            line="86"
+            column="9"
+            message="Duplicate id @+id/PersonalInfo, defined or included multiple times in layout\fragment_setting.xml: [layout\fragment_setting.xml => layout\card_settings_app.xml defines @+id/PersonalInfo, layout\fragment_setting.xml => layout\card_settings_user.xml defines @+id/PersonalInfo]"/>
+        <location
+            file="src/main/res/layout/card_settings_app.xml"
+            line="74"
+            column="13"
+            message="Defined here, included via layout\fragment_setting.xml => layout\card_settings_app.xml defines @+id/PersonalInfo"/>
+        <location
+            file="src/main/res/layout/card_settings_user.xml"
+            line="40"
+            column="13"
+            message="Defined here, included via layout\fragment_setting.xml => layout\card_settings_user.xml defines @+id/PersonalInfo"/>
+    </issue>
+
+    <issue
+        id="DuplicateIncludedIds"
+        message="Duplicate id @+id/cv, defined or included multiple times in layout\fragment_setting.xml: [layout\fragment_setting.xml => layout\card_settings_app.xml defines @+id/cv, layout\fragment_setting.xml => layout\card_settings_user.xml defines @+id/cv]"
+        errorLine1="        &lt;include"
+        errorLine2="        ^">
+        <location
+            file="src/main/res/layout/fragment_setting.xml"
+            line="86"
+            column="9"
+            message="Duplicate id @+id/cv, defined or included multiple times in layout\fragment_setting.xml: [layout\fragment_setting.xml => layout\card_settings_app.xml defines @+id/cv, layout\fragment_setting.xml => layout\card_settings_user.xml defines @+id/cv]"/>
+        <location
+            file="src/main/res/layout/card_settings_app.xml"
+            line="5"
+            column="5"
+            message="Defined here, included via layout\fragment_setting.xml => layout\card_settings_app.xml defines @+id/cv"/>
+        <location
+            file="src/main/res/layout/card_settings_user.xml"
+            line="5"
+            column="5"
+            message="Defined here, included via layout\fragment_setting.xml => layout\card_settings_user.xml defines @+id/cv"/>
+    </issue>
+
+    <issue
+        id="NotificationPermission"
+        message="When targeting Android 13 or higher, posting a permission requires holding the `POST_NOTIFICATIONS` permission (usage from com.bumptech.glide.request.target.NotificationTarget)">
+        <location
+            file="src/main/AndroidManifest.xml"/>
+    </issue>
+
+    <issue
+        id="InflateParams"
+        message="Avoid passing `null` as the view root (needed to resolve layout parameters on the inflated layout&apos;s root element)"
+        errorLine1="            View popupView = LayoutInflater.from(requireActivity()).inflate(R.layout.popup, null);"
+        errorLine2="                                                                                            ~~~~">
+        <location
+            file="src/main/java/com/tinieblas/tokomegawa/ui/fragments/HomeFragment.java"
+            line="138"
+            column="93"/>
+    </issue>
+
+    <issue
+        id="VectorRaster"
+        message="Limit vector icons sizes to 200×200 to keep icon drawing fast; see https://developer.android.com/studio/write/vector-asset-studio#when for more"
+        errorLine1="    android:width=&quot;264dp&quot;"
+        errorLine2="                   ~~~~~">
+        <location
+            file="src/main/res/drawable/background.xml"
+            line="5"
+            column="20"/>
+    </issue>
+
+    <issue
+        id="SpUsage"
+        message="Should use &quot;`sp`&quot; instead of &quot;`dp`&quot; for text sizes"
+        errorLine1="        android:textSize=&quot;30dp&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_details.xml"
+            line="108"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="SpUsage"
+        message="Should use &quot;`sp`&quot; instead of &quot;`dp`&quot; for text sizes"
+        errorLine1="        android:textSize=&quot;20dp&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_details.xml"
+            line="119"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="SpUsage"
+        message="Should use &quot;`sp`&quot; instead of &quot;`dp`&quot; for text sizes"
+        errorLine1="        android:textSize=&quot;30dp&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_details.xml"
+            line="132"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="SpUsage"
+        message="Should use &quot;`sp`&quot; instead of &quot;`dp`&quot; for text sizes"
+        errorLine1="        android:textSize=&quot;20dp&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_details.xml"
+            line="142"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="SpUsage"
+        message="Should use &quot;`sp`&quot; instead of &quot;`dp`&quot; for text sizes"
+        errorLine1="            android:textSize=&quot;10dp&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/card_productos_hot_sales.xml"
+            line="47"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="SpUsage"
+        message="Should use &quot;`sp`&quot; instead of &quot;`dp`&quot; for text sizes"
+        errorLine1="        android:textSize=&quot;40dp&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_i_love.xml"
+            line="13"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="SpUsage"
+        message="Should use &quot;`sp`&quot; instead of &quot;`dp`&quot; for text sizes"
+        errorLine1="        android:textSize=&quot;32dp&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_login.xml"
+            line="109"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="SpUsage"
+        message="Should use &quot;`sp`&quot; instead of &quot;`dp`&quot; for text sizes"
+        errorLine1="        android:textSize=&quot;32dp&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_registro.xml"
+            line="109"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="SpUsage"
+        message="Should use &quot;`sp`&quot; instead of &quot;`dp`&quot; for text sizes"
+        errorLine1="            android:textSize=&quot;12dp&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/items_mycart.xml"
+            line="61"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="SpUsage"
+        message="Should use &quot;`sp`&quot; instead of &quot;`dp`&quot; for text sizes"
+        errorLine1="            android:textSize=&quot;16dp&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/items_mycart.xml"
+            line="74"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UsingOnClickInXml"
+        message="Use databinding or explicit wiring of click listener in code"
+        errorLine1="        android:onClick=&quot;volver&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_details.xml"
+            line="155"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="UsingOnClickInXml"
+        message="Use databinding or explicit wiring of click listener in code"
+        errorLine1="        android:onClick=&quot;btnDisminuyendo&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_details.xml"
+            line="169"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="UsingOnClickInXml"
+        message="Use databinding or explicit wiring of click listener in code"
+        errorLine1="        android:onClick=&quot;btnAumentando&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_details.xml"
+            line="202"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="UsingOnClickInXml"
+        message="Use databinding or explicit wiring of click listener in code"
+        errorLine1="            android:onClick=&quot;irHome&quot; />"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_main.xml"
+            line="49"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UsingOnClickInXml"
+        message="Use databinding or explicit wiring of click listener in code"
+        errorLine1="            android:onClick=&quot;irFavoritos&quot; />"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_main.xml"
+            line="64"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UsingOnClickInXml"
+        message="Use databinding or explicit wiring of click listener in code"
+        errorLine1="            android:onClick=&quot;irSettings&quot; />"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_main.xml"
+            line="79"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UsingOnClickInXml"
+        message="Use databinding or explicit wiring of click listener in code"
+        errorLine1="        android:onClick=&quot;volver&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_my_cart.xml"
+            line="190"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="UsingOnClickInXml"
+        message="Use databinding or explicit wiring of click listener in code"
+        errorLine1="    android:onClick=&quot;onClick&quot;>"
+        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/card_settings_app.xml"
+            line="9"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="UsingOnClickInXml"
+        message="Use databinding or explicit wiring of click listener in code"
+        errorLine1="            android:onClick=&quot;onClick&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/card_settings_app.xml"
+            line="96"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UsingOnClickInXml"
+        message="Use databinding or explicit wiring of click listener in code"
+        errorLine1="            android:onClick=&quot;onClick&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/card_settings_app.xml"
+            line="109"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UsingOnClickInXml"
+        message="Use databinding or explicit wiring of click listener in code"
+        errorLine1="            android:onClick=&quot;onClick&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/card_settings_app.xml"
+            line="124"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UsingOnClickInXml"
+        message="Use databinding or explicit wiring of click listener in code"
+        errorLine1="    android:onClick=&quot;onClick&quot;>"
+        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/card_settings_user.xml"
+            line="9"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="UsingOnClickInXml"
+        message="Use databinding or explicit wiring of click listener in code"
+        errorLine1="            android:onClick=&quot;onClick&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/card_settings_user.xml"
+            line="62"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UsingOnClickInXml"
+        message="Use databinding or explicit wiring of click listener in code"
+        errorLine1="        android:onClick=&quot;seeAllHotSales&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_home.xml"
+            line="63"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="UsingOnClickInXml"
+        message="Use databinding or explicit wiring of click listener in code"
+        errorLine1="        android:onClick=&quot;onClick&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_home.xml"
+            line="136"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="UsingOnClickInXml"
+        message="Use databinding or explicit wiring of click listener in code"
+        errorLine1="        android:onClick=&quot;buttonBack&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_hot_sales.xml"
+            line="17"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="UsingOnClickInXml"
+        message="Use databinding or explicit wiring of click listener in code"
+        errorLine1="        android:onClick=&quot;seeModalLower&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_my_cart.xml"
+            line="88"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="UsingOnClickInXml"
+        message="Use databinding or explicit wiring of click listener in code"
+        errorLine1="        android:onClick=&quot;buttonBack&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_my_cart.xml"
+            line="199"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="UsingOnClickInXml"
+        message="Use databinding or explicit wiring of click listener in code"
+        errorLine1="            android:onClick=&quot;onClick&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/items_mycart.xml"
+            line="90"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UsingOnClickInXml"
+        message="Use databinding or explicit wiring of click listener in code"
+        errorLine1="            android:onClick=&quot;onClick&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/items_mycart.xml"
+            line="107"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="NotifyDataSetChanged"
+        message="It will always be more efficient to use more specific change events if you can. Rely on `notifyDataSetChanged` as a last resort."
+        errorLine1="        notifyDataSetChanged();"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/tinieblas/tokomegawa/ui/adptadores/CarritoAdapter.java"
+            line="41"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="NotifyDataSetChanged"
+        message="It will always be more efficient to use more specific change events if you can. Rely on `notifyDataSetChanged` as a last resort."
+        errorLine1="        notifyDataSetChanged();"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/tinieblas/tokomegawa/ui/adptadores/CarritoAdapter.java"
+            line="132"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="NotifyDataSetChanged"
+        message="It will always be more efficient to use more specific change events if you can. Rely on `notifyDataSetChanged` as a last resort."
+        errorLine1="            notifyDataSetChanged();"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/tinieblas/tokomegawa/ui/adptadores/CarritoAdapter.java"
+            line="142"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="NotifyDataSetChanged"
+        message="It will always be more efficient to use more specific change events if you can. Rely on `notifyDataSetChanged` as a last resort."
+        errorLine1="        notifyDataSetChanged();"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/tinieblas/tokomegawa/ui/adptadores/ProductosVistosAdapter.java"
+            line="49"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="ObsoleteLayoutParam"
+        message="Invalid layout param in a `LinearLayout`: `layout_alignParentStart`"
+        errorLine1="            android:layout_alignParentStart=&quot;true&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_main.xml"
+            line="45"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="ObsoleteLayoutParam"
+        message="Invalid layout param in a `LinearLayout`: `layout_centerVertical`"
+        errorLine1="            android:layout_centerVertical=&quot;true&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_main.xml"
+            line="46"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="ObsoleteLayoutParam"
+        message="Invalid layout param in a `LinearLayout`: `layout_centerHorizontal`"
+        errorLine1="            android:layout_centerHorizontal=&quot;true&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_main.xml"
+            line="60"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="ObsoleteLayoutParam"
+        message="Invalid layout param in a `LinearLayout`: `layout_centerVertical`"
+        errorLine1="            android:layout_centerVertical=&quot;true&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_main.xml"
+            line="61"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="ObsoleteLayoutParam"
+        message="Invalid layout param in a `LinearLayout`: `layout_alignParentEnd`"
+        errorLine1="            android:layout_alignParentEnd=&quot;true&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_main.xml"
+            line="75"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="ObsoleteLayoutParam"
+        message="Invalid layout param in a `LinearLayout`: `layout_centerVertical`"
+        errorLine1="            android:layout_centerVertical=&quot;true&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_main.xml"
+            line="76"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="Overdraw"
+        message="Possible overdraw: Root element paints background `@color/white` with a theme that also paints a background (inferred theme is `@style/Theme.Design.Light.NoActionBar`)"
+        errorLine1="    android:background=&quot;@color/white&quot;>"
+        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/bottom_sheet_layout.xml"
+            line="8"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="Overdraw"
+        message="Possible overdraw: Root element paints background `#FF0000` with a theme that also paints a background (inferred theme is `@style/Theme.Design.Light.NoActionBar`)"
+        errorLine1="    android:background=&quot;#FF0000&quot;"
+        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_i_love.xml"
+            line="6"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="Overdraw"
+        message="Possible overdraw: Root element paints background `#E9E7F1` with a theme that also paints a background (inferred theme is `@style/Theme.Design.Light.NoActionBar`)"
+        errorLine1="    android:background=&quot;#E9E7F1&quot;"
+        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_login.xml"
+            line="8"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="Overdraw"
+        message="Possible overdraw: Root element paints background `#E9E7F1` with a theme that also paints a background (inferred theme is `@style/Theme.Design.Light.NoActionBar`)"
+        errorLine1="    android:background=&quot;#E9E7F1&quot;"
+        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_registro.xml"
+            line="8"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.drawable.card_black_shipping` appears to be unused"
+        errorLine1="&lt;shape xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;>"
+        errorLine2="^">
+        <location
+            file="src/main/res/drawable/card_black_shipping.xml"
+            line="2"
+            column="1"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.drawable.check_vacio` appears to be unused">
+        <location
+            file="src/main/res/drawable/check_vacio.png"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.background_color_dark` appears to be unused"
+        errorLine1="    &lt;color name=&quot;background_color_dark&quot;>#000000&lt;/color>"
+        errorLine2="           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/colors.xml"
+            line="5"
+            column="12"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.text_color` appears to be unused"
+        errorLine1="    &lt;color name=&quot;text_color&quot;>#000000&lt;/color>"
+        errorLine2="           ~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/colors.xml"
+            line="8"
+            column="12"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.text_color_dark` appears to be unused"
+        errorLine1="    &lt;color name=&quot;text_color_dark&quot;>#FFFFFF&lt;/color>"
+        errorLine2="           ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/colors.xml"
+            line="9"
+            column="12"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.purple_500` appears to be unused"
+        errorLine1="    &lt;color name=&quot;purple_500&quot;>#FF6200EE&lt;/color>"
+        errorLine2="           ~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/colors.xml"
+            line="12"
+            column="12"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.purple_700` appears to be unused"
+        errorLine1="    &lt;color name=&quot;purple_700&quot;>#FF3700B3&lt;/color>"
+        errorLine2="           ~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/colors.xml"
+            line="13"
+            column="12"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.color.teal_700` appears to be unused"
+        errorLine1="    &lt;color name=&quot;teal_700&quot;>#FF018786&lt;/color>"
+        errorLine2="           ~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/colors.xml"
+            line="15"
+            column="12"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.dimen.fab_margin` appears to be unused"
+        errorLine1="    &lt;dimen name=&quot;fab_margin&quot;>16dp&lt;/dimen>"
+        errorLine2="           ~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/dimens.xml"
+            line="2"
+            column="12"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.drawable.earphone` appears to be unused">
+        <location
+            file="src/main/res/drawable/earphone.png"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.raw.edition_heart` appears to be unused">
+        <location
+            file="src/main/res/raw/edition_heart.json"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.raw.heart_fav` appears to be unused">
+        <location
+            file="src/main/res/raw/heart_fav.json"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.drawable.mbp_shop_` appears to be unused">
+        <location
+            file="src/main/res/drawable/mbp_shop_.png"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.drawable.rounded_background` appears to be unused"
+        errorLine1="&lt;shape xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;"
+        errorLine2="^">
+        <location
+            file="src/main/res/drawable/rounded_background.xml"
+            line="1"
+            column="1"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.invalid_mail` appears to be unused"
+        errorLine1="    &lt;string name=&quot;invalid_mail&quot;>Ingrese mail valido&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="7"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.invalid_password` appears to be unused"
+        errorLine1="    &lt;string name=&quot;invalid_password&quot;>Ingrese un password mayor a 6 digitos&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="8"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.first_fragment_label` appears to be unused"
+        errorLine1="    &lt;string name=&quot;first_fragment_label&quot;>First Fragment&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="11"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.second_fragment_label` appears to be unused"
+        errorLine1="    &lt;string name=&quot;second_fragment_label&quot;>Second Fragment&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="12"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.next` appears to be unused"
+        errorLine1="    &lt;string name=&quot;next&quot;>Next&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="13"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.previous` appears to be unused"
+        errorLine1="    &lt;string name=&quot;previous&quot;>Previous&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="14"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.hello_first_fragment` appears to be unused"
+        errorLine1="    &lt;string name=&quot;hello_first_fragment&quot;>Hello first fragment&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="16"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.hello_second_fragment` appears to be unused"
+        errorLine1="    &lt;string name=&quot;hello_second_fragment&quot;>Hello second fragment. Arg: %1$s&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="17"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.hello_blank_fragment` appears to be unused"
+        errorLine1="    &lt;string name=&quot;hello_blank_fragment&quot;>Hello blank fragment&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="19"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.style.AppTheme_Dark` appears to be unused"
+        errorLine1="    &lt;style name=&quot;AppTheme.Dark&quot; parent=&quot;@style/Theme.Material3.Dark.NoActionBar&quot;>"
+        errorLine2="           ~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/styles.xml"
+            line="12"
+            column="12"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.style.discover_yo` appears to be unused"
+        errorLine1="    &lt;style name=&quot;discover_yo&quot;>"
+        errorLine2="           ~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/styles.xml"
+            line="18"
+            column="12"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.style.explore_all` appears to be unused"
+        errorLine1="    &lt;style name=&quot;explore_all&quot;>"
+        errorLine2="           ~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/styles.xml"
+            line="23"
+            column="12"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.style.NoActionBar` appears to be unused"
+        errorLine1="    &lt;style name=&quot;NoActionBar&quot;>"
+        errorLine2="           ~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/themes.xml"
+            line="5"
+            column="12"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.style.AppBarOverlay` appears to be unused"
+        errorLine1="    &lt;style name=&quot;AppBarOverlay&quot; parent=&quot;ThemeOverlay.AppCompat.Dark.ActionBar&quot; />"
+        errorLine2="           ~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/themes.xml"
+            line="10"
+            column="12"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.style.PopupOverlay` appears to be unused"
+        errorLine1="    &lt;style name=&quot;PopupOverlay&quot; parent=&quot;ThemeOverlay.AppCompat.Light&quot; />"
+        errorLine2="           ~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/themes.xml"
+            line="12"
+            column="12"/>
+    </issue>
+
+    <issue
+        id="UselessParent"
+        message="This `RelativeLayout` layout or its `LinearLayout` parent is unnecessary"
+        errorLine1="        &lt;RelativeLayout"
+        errorLine2="         ~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/items_filter_cards.xml"
+            line="19"
+            column="10"/>
+    </issue>
+
+    <issue
+        id="MonochromeLauncherIcon"
+        message="The application adaptive icon is missing a monochrome tag"
+        errorLine1="&lt;adaptive-icon xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;>"
+        errorLine2="^">
+        <location
+            file="src/main/res/mipmap-anydpi-v26/ic_launcher.xml"
+            line="2"
+            column="1"/>
+    </issue>
+
+    <issue
+        id="MonochromeLauncherIcon"
+        message="The application adaptive roundIcon is missing a monochrome tag"
+        errorLine1="&lt;adaptive-icon xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;>"
+        errorLine2="^">
+        <location
+            file="src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml"
+            line="2"
+            column="1"/>
+    </issue>
+
+    <issue
+        id="IconLocation"
+        message="Found bitmap drawable `res/drawable/arrow_back_fill.png` in densityless folder">
+        <location
+            file="src/main/res/drawable/arrow_back_fill.png"/>
+    </issue>
+
+    <issue
+        id="IconLocation"
+        message="Found bitmap drawable `res/drawable/arrow_derecha.png` in densityless folder">
+        <location
+            file="src/main/res/drawable/arrow_derecha.png"/>
+    </issue>
+
+    <issue
+        id="IconLocation"
+        message="Found bitmap drawable `res/drawable/check1.png` in densityless folder">
+        <location
+            file="src/main/res/drawable/check1.png"/>
+    </issue>
+
+    <issue
+        id="IconLocation"
+        message="Found bitmap drawable `res/drawable/check_vacio.png` in densityless folder">
+        <location
+            file="src/main/res/drawable/check_vacio.png"/>
+    </issue>
+
+    <issue
+        id="IconLocation"
+        message="Found bitmap drawable `res/drawable/earphone.png` in densityless folder">
+        <location
+            file="src/main/res/drawable/earphone.png"/>
+    </issue>
+
+    <issue
+        id="IconLocation"
+        message="Found bitmap drawable `res/drawable/eye.png` in densityless folder">
+        <location
+            file="src/main/res/drawable/eye.png"/>
+    </issue>
+
+    <issue
+        id="IconLocation"
+        message="Found bitmap drawable `res/drawable/fa_minus.png` in densityless folder">
+        <location
+            file="src/main/res/drawable/fa_minus.png"/>
+    </issue>
+
+    <issue
+        id="IconLocation"
+        message="Found bitmap drawable `res/drawable/fa_plus.png` in densityless folder">
+        <location
+            file="src/main/res/drawable/fa_plus.png"/>
+    </issue>
+
+    <issue
+        id="IconLocation"
+        message="Found bitmap drawable `res/drawable/facebook.png` in densityless folder">
+        <location
+            file="src/main/res/drawable/facebook.png"/>
+    </issue>
+
+    <issue
+        id="IconLocation"
+        message="Found bitmap drawable `res/drawable/frame_headphone.png` in densityless folder">
+        <location
+            file="src/main/res/drawable/frame_headphone.png"/>
+    </issue>
+
+    <issue
+        id="IconLocation"
+        message="Found bitmap drawable `res/drawable/google.png` in densityless folder">
+        <location
+            file="src/main/res/drawable/google.png"/>
+    </issue>
+
+    <issue
+        id="IconLocation"
+        message="Found bitmap drawable `res/drawable/group_home.png` in densityless folder">
+        <location
+            file="src/main/res/drawable/group_home.png"/>
+    </issue>
+
+    <issue
+        id="IconLocation"
+        message="Found bitmap drawable `res/drawable/group_like.png` in densityless folder">
+        <location
+            file="src/main/res/drawable/group_like.png"/>
+    </issue>
+
+    <issue
+        id="IconLocation"
+        message="Found bitmap drawable `res/drawable/group_setting.png` in densityless folder">
+        <location
+            file="src/main/res/drawable/group_setting.png"/>
+    </issue>
+
+    <issue
+        id="IconLocation"
+        message="Found bitmap drawable `res/drawable/macbook_air_m1.png` in densityless folder">
+        <location
+            file="src/main/res/drawable/macbook_air_m1.png"/>
+    </issue>
+
+    <issue
+        id="IconLocation"
+        message="Found bitmap drawable `res/drawable/mbp_shop_.png` in densityless folder">
+        <location
+            file="src/main/res/drawable/mbp_shop_.png"/>
+    </issue>
+
+    <issue
+        id="IconLocation"
+        message="Found bitmap drawable `res/drawable/mi_filter.png` in densityless folder">
+        <location
+            file="src/main/res/drawable/mi_filter.png"/>
+    </issue>
+
+    <issue
+        id="IconLocation"
+        message="Found bitmap drawable `res/drawable/place_holder.jpg` in densityless folder">
+        <location
+            file="src/main/res/drawable/place_holder.jpg"/>
+    </issue>
+
+    <issue
+        id="IconLocation"
+        message="Found bitmap drawable `res/drawable/shopping_cart.png` in densityless folder">
+        <location
+            file="src/main/res/drawable/shopping_cart.png"/>
+    </issue>
+
+    <issue
+        id="IconLocation"
+        message="Found bitmap drawable `res/drawable/user.png` in densityless folder">
+        <location
+            file="src/main/res/drawable/user.png"/>
+    </issue>
+
+    <issue
+        id="IconLocation"
+        message="Found bitmap drawable `res/drawable/vector_ilike.png` in densityless folder">
+        <location
+            file="src/main/res/drawable/vector_ilike.png"/>
+    </issue>
+
+    <issue
+        id="IconLocation"
+        message="Found bitmap drawable `res/drawable/vector_ilike1.png` in densityless folder">
+        <location
+            file="src/main/res/drawable/vector_ilike1.png"/>
+    </issue>
+
+    <issue
+        id="SmallSp"
+        message="Avoid using sizes smaller than `11sp`: `10sp`"
+        errorLine1="        android:textSize=&quot;10sp&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/card_productos_hot_sales.xml"
+            line="103"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="Autofill"
+        message="Missing `autofillHints` attribute"
+        errorLine1="    &lt;EditText"
+        errorLine2="     ~~~~~~~~">
+        <location
+            file="src/main/res/layout/bottom_sheet_layout.xml"
+            line="20"
+            column="6"/>
+    </issue>
+
+    <issue
+        id="Autofill"
+        message="Missing `autofillHints` attribute"
+        errorLine1="    &lt;EditText"
+        errorLine2="     ~~~~~~~~">
+        <location
+            file="src/main/res/layout/bottom_sheet_layout.xml"
+            line="38"
+            column="6"/>
+    </issue>
+
+    <issue
+        id="Autofill"
+        message="Missing `autofillHints` attribute"
+        errorLine1="    &lt;EditText"
+        errorLine2="     ~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_home.xml"
+            line="9"
+            column="6"/>
+    </issue>
+
+    <issue
+        id="Autofill"
+        message="Missing `autofillHints` attribute"
+        errorLine1="    &lt;EditText"
+        errorLine2="     ~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_login.xml"
+            line="11"
+            column="6"/>
+    </issue>
+
+    <issue
+        id="Autofill"
+        message="Missing `autofillHints` attribute"
+        errorLine1="    &lt;EditText"
+        errorLine2="     ~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_login.xml"
+            line="28"
+            column="6"/>
+    </issue>
+
+    <issue
+        id="Autofill"
+        message="Missing `autofillHints` attribute"
+        errorLine1="    &lt;EditText"
+        errorLine2="     ~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_registro.xml"
+            line="12"
+            column="6"/>
+    </issue>
+
+    <issue
+        id="Autofill"
+        message="Missing `autofillHints` attribute"
+        errorLine1="    &lt;EditText"
+        errorLine2="     ~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_registro.xml"
+            line="28"
+            column="6"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        message="Missing `contentDescription` attribute on image"
+        errorLine1="        &lt;ImageView"
+        errorLine2="         ~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_details.xml"
+            line="21"
+            column="10"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        message="Empty `contentDescription` attribute on image"
+        errorLine1="            android:contentDescription=&quot;TODO&quot; />"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_details.xml"
+            line="66"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        message="Empty `contentDescription` attribute on image"
+        errorLine1="            android:contentDescription=&quot;TODO&quot; />"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_details.xml"
+            line="75"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        message="Empty `contentDescription` attribute on image"
+        errorLine1="            android:contentDescription=&quot;TODO&quot; />"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_details.xml"
+            line="84"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        message="Missing `contentDescription` attribute on image"
+        errorLine1="        &lt;ImageView"
+        errorLine2="         ~~~~~~~~~">
+        <location
+            file="src/main/res/layout/card_productos_hot_sales.xml"
+            line="20"
+            column="10"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        message="Missing `contentDescription` attribute on image"
+        errorLine1="        &lt;ImageView"
+        errorLine2="         ~~~~~~~~~">
+        <location
+            file="src/main/res/layout/card_productos_recently_view.xml"
+            line="19"
+            column="10"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        message="Missing `contentDescription` attribute on image"
+        errorLine1="        &lt;ImageView"
+        errorLine2="         ~~~~~~~~~">
+        <location
+            file="src/main/res/layout/card_settings_user.xml"
+            line="18"
+            column="10"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        message="Missing `contentDescription` attribute on image"
+        errorLine1="    &lt;ImageButton"
+        errorLine2="     ~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_login.xml"
+            line="62"
+            column="6"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        message="Missing `contentDescription` attribute on image"
+        errorLine1="    &lt;ImageButton"
+        errorLine2="     ~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_login.xml"
+            line="137"
+            column="6"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        message="Missing `contentDescription` attribute on image"
+        errorLine1="    &lt;ImageButton"
+        errorLine2="     ~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_login.xml"
+            line="151"
+            column="6"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        message="Missing `contentDescription` attribute on image"
+        errorLine1="    &lt;ImageButton"
+        errorLine2="     ~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_registro.xml"
+            line="62"
+            column="6"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        message="Missing `contentDescription` attribute on image"
+        errorLine1="    &lt;ImageButton"
+        errorLine2="     ~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_registro.xml"
+            line="137"
+            column="6"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        message="Missing `contentDescription` attribute on image"
+        errorLine1="    &lt;ImageButton"
+        errorLine2="     ~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_registro.xml"
+            line="151"
+            column="6"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        message="Missing `contentDescription` attribute on image"
+        errorLine1="            &lt;ImageView"
+        errorLine2="             ~~~~~~~~~">
+        <location
+            file="src/main/res/layout/items_filter_cards.xml"
+            line="25"
+            column="14"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        message="Missing `contentDescription` attribute on image"
+        errorLine1="        &lt;ImageView"
+        errorLine2="         ~~~~~~~~~">
+        <location
+            file="src/main/res/layout/items_mycart.xml"
+            line="20"
+            column="10"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        message="Missing `contentDescription` attribute on image"
+        errorLine1="        &lt;ImageView"
+        errorLine2="         ~~~~~~~~~">
+        <location
+            file="src/main/res/layout/row_item_recently_viewed.xml"
+            line="19"
+            column="10"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;Free shipping&quot;, should use `@string` resource"
+        errorLine1="            android:text=&quot;Free shipping&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_details.xml"
+            line="35"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;TODO&quot;, should use `@string` resource"
+        errorLine1="            android:contentDescription=&quot;TODO&quot; />"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_details.xml"
+            line="66"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;TODO&quot;, should use `@string` resource"
+        errorLine1="            android:contentDescription=&quot;TODO&quot; />"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_details.xml"
+            line="75"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;TODO&quot;, should use `@string` resource"
+        errorLine1="            android:contentDescription=&quot;TODO&quot; />"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_details.xml"
+            line="84"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;Siguiente&quot;, should use `@string` resource"
+        errorLine1="        android:text=&quot;Siguiente&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_details.xml"
+            line="96"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;Titulo&quot;, should use `@string` resource"
+        errorLine1="        android:text=&quot;Titulo&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_details.xml"
+            line="107"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;Descripcion&quot;, should use `@string` resource"
+        errorLine1="        android:text=&quot;Descripcion&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_details.xml"
+            line="118"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;$ 4.999&quot;, should use `@string` resource"
+        errorLine1="        android:text=&quot;$ 4.999&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_details.xml"
+            line="131"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;Details Products&quot;, should use `@string` resource"
+        errorLine1="        android:text=&quot;Details Products&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_details.xml"
+            line="141"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;1&quot;, should use `@string` resource"
+        errorLine1="        android:text=&quot;1&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_details.xml"
+            line="184"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;My Cart&quot;, should use `@string` resource"
+        errorLine1="        android:text=&quot;My Cart&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_my_cart.xml"
+            line="14"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;Deliver to &quot;, should use `@string` resource"
+        errorLine1="        android:text=&quot;Deliver to &quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_my_cart.xml"
+            line="29"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;Siguiente&quot;, should use `@string` resource"
+        errorLine1="        android:text=&quot;Siguiente&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_my_cart.xml"
+            line="78"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;---------------------------------------------------------------------------------------------&quot;, should use `@string` resource"
+        errorLine1="        android:text=&quot;---------------------------------------------------------------------------------------------&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_my_cart.xml"
+            line="90"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;Subtotal :&quot;, should use `@string` resource"
+        errorLine1="        android:text=&quot;Subtotal :&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_my_cart.xml"
+            line="103"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;Delivery Fee :&quot;, should use `@string` resource"
+        errorLine1="        android:text=&quot;Delivery Fee :&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_my_cart.xml"
+            line="113"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;Discount :&quot;, should use `@string` resource"
+        errorLine1="        android:text=&quot;Discount :&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_my_cart.xml"
+            line="123"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;Total :&quot;, should use `@string` resource"
+        errorLine1="        android:text=&quot;Total :&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_my_cart.xml"
+            line="133"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;$ 80.00&quot;, should use `@string` resource"
+        errorLine1="        android:text=&quot;$ 80.00&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_my_cart.xml"
+            line="142"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;$ 5.00&quot;, should use `@string` resource"
+        errorLine1="        android:text=&quot;$ 5.00&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_my_cart.xml"
+            line="153"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;50%&quot;, should use `@string` resource"
+        errorLine1="        android:text=&quot;50%&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_my_cart.xml"
+            line="165"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;$ 406.60&quot;, should use `@string` resource"
+        errorLine1="        android:text=&quot;$ 406.60&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_my_cart.xml"
+            line="177"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;Login&quot;, should use `@string` resource"
+        errorLine1="        android:text=&quot;Login&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/bottom_sheet_layout.xml"
+            line="13"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;Username&quot;, should use `@string` resource"
+        errorLine1="        android:hint=&quot;Username&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/bottom_sheet_layout.xml"
+            line="29"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;Password&quot;, should use `@string` resource"
+        errorLine1="        android:hint=&quot;Password&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/bottom_sheet_layout.xml"
+            line="48"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;Login&quot;, should use `@string` resource"
+        errorLine1="        android:text=&quot;Login&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/bottom_sheet_layout.xml"
+            line="63"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;Free shipping&quot;, should use `@string` resource"
+        errorLine1="            android:text=&quot;Free shipping&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/card_productos_hot_sales.xml"
+            line="45"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;Titulo&quot;, should use `@string` resource"
+        errorLine1="        android:text=&quot;Titulo&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/card_productos_hot_sales.xml"
+            line="76"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;$ 1300&quot;, should use `@string` resource"
+        errorLine1="        android:text=&quot;$ 1300&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/card_productos_hot_sales.xml"
+            line="88"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;Decripcion&quot;, should use `@string` resource"
+        errorLine1="        android:text=&quot;Decripcion&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/card_productos_hot_sales.xml"
+            line="102"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;Titulo&quot;, should use `@string` resource"
+        errorLine1="        android:text=&quot;Titulo&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/card_productos_recently_view.xml"
+            line="36"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;Decripcion&quot;, should use `@string` resource"
+        errorLine1="        android:text=&quot;Decripcion&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/card_productos_recently_view.xml"
+            line="50"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;$ 3000&quot;, should use `@string` resource"
+        errorLine1="        android:text=&quot;$ 3000&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/card_productos_recently_view.xml"
+            line="62"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;Languaje&quot;, should use `@string` resource"
+        errorLine1="            android:text=&quot;Languaje&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/card_settings_app.xml"
+            line="24"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;Cupones&quot;, should use `@string` resource"
+        errorLine1="            android:text=&quot;Cupones&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/card_settings_app.xml"
+            line="37"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;Notifications&quot;, should use `@string` resource"
+        errorLine1="            android:text=&quot;Notifications&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/card_settings_app.xml"
+            line="51"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;Dark Mode&quot;, should use `@string` resource"
+        errorLine1="            android:text=&quot;Dark Mode&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/card_settings_app.xml"
+            line="65"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;Espanish&quot;, should use `@string` resource"
+        errorLine1="            android:text=&quot;Espanish&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/card_settings_app.xml"
+            line="78"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;Cerrar Sesion&quot;, should use `@string` resource"
+        errorLine1="            android:text=&quot;Cerrar Sesion&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/card_settings_app.xml"
+            line="147"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;Nombre&quot;, should use `@string` resource"
+        errorLine1="            android:text=&quot;Nombre&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/card_settings_user.xml"
+            line="33"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;Personal info&quot;, should use `@string` resource"
+        errorLine1="            android:text=&quot;Personal info&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/card_settings_user.xml"
+            line="45"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;Search for a product&quot;, should use `@string` resource"
+        errorLine1="        android:hint=&quot;Search for a product&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_home.xml"
+            line="19"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;Hot Sales&quot;, should use `@string` resource"
+        errorLine1="        android:text=&quot;Hot Sales&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_home.xml"
+            line="52"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;See All&quot;, should use `@string` resource"
+        errorLine1="        android:text=&quot;See All&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_home.xml"
+            line="64"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;Recently Viewed&quot;, should use `@string` resource"
+        errorLine1="        android:text=&quot;Recently Viewed&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_home.xml"
+            line="89"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;See All&quot;, should use `@string` resource"
+        errorLine1="        android:text=&quot;See All&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_home.xml"
+            line="103"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;submit&quot;, should use `@string` resource"
+        errorLine1="        android:contentDescription=&quot;submit&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_home.xml"
+            line="135"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;.&quot;, should use `@string` resource"
+        errorLine1="        android:text=&quot;.&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_home.xml"
+            line="148"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;Hot Sales&quot;, should use `@string` resource"
+        errorLine1="        android:text=&quot;Hot Sales&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_hot_sales.xml"
+            line="26"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;Correo&quot;, should use `@string` resource"
+        errorLine1="        android:hint=&quot;Correo&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_login.xml"
+            line="20"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;angelo22@gmail.com&quot;, should use `@string` resource"
+        errorLine1="        android:text=&quot;angelo22@gmail.com&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_login.xml"
+            line="22"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;Password&quot;, should use `@string` resource"
+        errorLine1="        android:hint=&quot;Password&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_login.xml"
+            line="38"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;darkangelo&quot;, should use `@string` resource"
+        errorLine1="        android:text=&quot;darkangelo&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_login.xml"
+            line="41"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;Sing in&quot;, should use `@string` resource"
+        errorLine1="        android:text=&quot;Sing in&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_login.xml"
+            line="82"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;Recovery Password&quot;, should use `@string` resource"
+        errorLine1="        android:text=&quot;Recovery Password&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_login.xml"
+            line="96"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;¡Hola de nuevo!&quot;, should use `@string` resource"
+        errorLine1="        android:text=&quot;¡Hola de nuevo!&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_login.xml"
+            line="107"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;Bienvenido de vuelta!&quot;, should use `@string` resource"
+        errorLine1="        android:text=&quot;Bienvenido de vuelta!&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_login.xml"
+            line="120"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;Or continue with&quot;, should use `@string` resource"
+        errorLine1="        android:text=&quot;Or continue with&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_login.xml"
+            line="132"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;Button&quot;, should use `@string` resource"
+        errorLine1="        android:text=&quot;Button&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_login.xml"
+            line="145"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;Button&quot;, should use `@string` resource"
+        errorLine1="        android:text=&quot;Button&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_login.xml"
+            line="159"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;My Cart&quot;, should use `@string` resource"
+        errorLine1="        android:text=&quot;My Cart&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_my_cart.xml"
+            line="14"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;Deliver to &quot;, should use `@string` resource"
+        errorLine1="        android:text=&quot;Deliver to &quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_my_cart.xml"
+            line="29"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;Siguiente&quot;, should use `@string` resource"
+        errorLine1="        android:text=&quot;Siguiente&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_my_cart.xml"
+            line="87"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;---------------------------------------------------------------------------------------------&quot;, should use `@string` resource"
+        errorLine1="        android:text=&quot;---------------------------------------------------------------------------------------------&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_my_cart.xml"
+            line="99"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;Subtotal :&quot;, should use `@string` resource"
+        errorLine1="        android:text=&quot;Subtotal :&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_my_cart.xml"
+            line="112"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;Delivery Fee :&quot;, should use `@string` resource"
+        errorLine1="        android:text=&quot;Delivery Fee :&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_my_cart.xml"
+            line="122"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;Discount :&quot;, should use `@string` resource"
+        errorLine1="        android:text=&quot;Discount :&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_my_cart.xml"
+            line="132"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;Total :&quot;, should use `@string` resource"
+        errorLine1="        android:text=&quot;Total :&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_my_cart.xml"
+            line="142"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;$ 80.00&quot;, should use `@string` resource"
+        errorLine1="        android:text=&quot;$ 80.00&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_my_cart.xml"
+            line="151"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;$ 5.00&quot;, should use `@string` resource"
+        errorLine1="        android:text=&quot;$ 5.00&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_my_cart.xml"
+            line="162"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;50%&quot;, should use `@string` resource"
+        errorLine1="        android:text=&quot;50%&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_my_cart.xml"
+            line="174"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;$ 406.60&quot;, should use `@string` resource"
+        errorLine1="        android:text=&quot;$ 406.60&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_my_cart.xml"
+            line="186"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;Correo&quot;, should use `@string` resource"
+        errorLine1="        android:hint=&quot;Correo&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_registro.xml"
+            line="21"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;angelo22@gmail.com&quot;, should use `@string` resource"
+        errorLine1="        android:text=&quot;angelo22@gmail.com&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_registro.xml"
+            line="23"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;Password&quot;, should use `@string` resource"
+        errorLine1="        android:hint=&quot;Password&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_registro.xml"
+            line="38"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;darkangelo&quot;, should use `@string` resource"
+        errorLine1="        android:text=&quot;darkangelo&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_registro.xml"
+            line="41"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;Sign up&quot;, should use `@string` resource"
+        errorLine1="        android:text=&quot;Sign up&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_registro.xml"
+            line="82"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;Recovery Password&quot;, should use `@string` resource"
+        errorLine1="        android:text=&quot;Recovery Password&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_registro.xml"
+            line="96"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;Hola regístrate ahora!&quot;, should use `@string` resource"
+        errorLine1="        android:text=&quot;Hola regístrate ahora!&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_registro.xml"
+            line="107"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;Bienvenido!&quot;, should use `@string` resource"
+        errorLine1="        android:text=&quot;Bienvenido!&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_registro.xml"
+            line="120"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;Or continue with&quot;, should use `@string` resource"
+        errorLine1="        android:text=&quot;Or continue with&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_registro.xml"
+            line="132"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;Button&quot;, should use `@string` resource"
+        errorLine1="        android:text=&quot;Button&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_registro.xml"
+            line="145"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;Button&quot;, should use `@string` resource"
+        errorLine1="        android:text=&quot;Button&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_registro.xml"
+            line="159"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;Settings&quot;, should use `@string` resource"
+        errorLine1="        android:text=&quot;Settings&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_setting.xml"
+            line="16"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;Account&quot;, should use `@string` resource"
+        errorLine1="        android:text=&quot;Account&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_setting.xml"
+            line="40"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;Settings&quot;, should use `@string` resource"
+        errorLine1="        android:text=&quot;Settings&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_setting.xml"
+            line="71"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;Headset&quot;, should use `@string` resource"
+        errorLine1="                android:text=&quot;Headset&quot;"
+        errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/items_filter_cards.xml"
+            line="46"
+            column="17"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;Titulo&quot;, should use `@string` resource"
+        errorLine1="            android:text=&quot;Titulo&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/items_mycart.xml"
+            line="36"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;$ 150&quot;, should use `@string` resource"
+        errorLine1="            android:text=&quot;$ 150&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/items_mycart.xml"
+            line="48"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;Descripcion&quot;, should use `@string` resource"
+        errorLine1="            android:text=&quot;Descripcion&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/items_mycart.xml"
+            line="59"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;1&quot;, should use `@string` resource"
+        errorLine1="            android:text=&quot;1&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/items_mycart.xml"
+            line="72"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;Precio&quot;, should use `@string` resource"
+        errorLine1="        android:text=&quot;Precio&quot; />"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/popup.xml"
+            line="16"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;Mas populares&quot;, should use `@string` resource"
+        errorLine1="        android:text=&quot;Mas populares&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/popup.xml"
+            line="27"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;Favoritos&quot;, should use `@string` resource"
+        errorLine1="        android:text=&quot;Favoritos&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/popup.xml"
+            line="39"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;0&quot;, should use `@string` resource"
+        errorLine1="            android:text=&quot;0&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/popup.xml"
+            line="72"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;50&quot;, should use `@string` resource"
+        errorLine1="            android:text=&quot;50&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/popup.xml"
+            line="79"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;100&quot;, should use `@string` resource"
+        errorLine1="            android:text=&quot;100&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/popup.xml"
+            line="86"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;Titulo&quot;, should use `@string` resource"
+        errorLine1="        android:text=&quot;Titulo&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/row_item_recently_viewed.xml"
+            line="36"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;Decripcion&quot;, should use `@string` resource"
+        errorLine1="        android:text=&quot;Decripcion&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/row_item_recently_viewed.xml"
+            line="50"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;$ 3000&quot;, should use `@string` resource"
+        errorLine1="        android:text=&quot;$ 3000&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/row_item_recently_viewed.xml"
+            line="62"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="RtlSymmetry"
+        message="When you define `paddingEnd` you should probably also define `paddingStart` for right-to-left symmetry"
+        errorLine1="        android:paddingEnd=&quot;20dp&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/bottom_sheet_layout.xml"
+            line="51"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="RtlSymmetry"
+        message="When you define `paddingEnd` you should probably also define `paddingStart` for right-to-left symmetry"
+        errorLine1="        android:paddingEnd=&quot;20dp&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_login.xml"
+            line="40"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="RtlSymmetry"
+        message="When you define `paddingEnd` you should probably also define `paddingStart` for right-to-left symmetry"
+        errorLine1="        android:paddingEnd=&quot;20dp&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_registro.xml"
+            line="40"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Consider replacing `android:layout_alignParentLeft` with `android:layout_alignParentStart=&quot;true&quot;` to better support right-to-left layouts"
+        errorLine1="            android:layout_alignParentLeft=&quot;true&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/card_productos_hot_sales.xml"
+            line="40"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Consider replacing `android:layout_marginLeft` with `android:layout_marginStart=&quot;5dp&quot;` to better support right-to-left layouts"
+        errorLine1="            android:layout_marginLeft=&quot;5dp&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/card_productos_hot_sales.xml"
+            line="42"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Consider replacing `android:layout_alignParentLeft` with `android:layout_alignParentStart=&quot;true&quot;` to better support right-to-left layouts"
+        errorLine1="            android:layout_alignParentLeft=&quot;true&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/card_productos_hot_sales.xml"
+            line="55"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Consider replacing `android:layout_marginLeft` with `android:layout_marginStart=&quot;100dp&quot;` to better support right-to-left layouts"
+        errorLine1="            android:layout_marginLeft=&quot;100dp&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/card_productos_hot_sales.xml"
+            line="56"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Redundant attribute `layout_alignParentLeft`; already defining `layout_alignParentStart` with `targetSdkVersion` 33"
+        errorLine1="                android:layout_alignParentLeft=&quot;true&quot;"
+        errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/items_filter_cards.xml"
+            line="30"
+            column="17"/>
+    </issue>
+
+</issues>

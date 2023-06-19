@@ -100,10 +100,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         BottomSheetDialog bottomSheet = new BottomSheetDialog();
         bottomSheet.show(getSupportFragmentManager(), "ModalBottomSheet");
     }
+    private boolean isChecked = false;
 
-    public void filtro(View view) {
+    /*public void filtro(View view) {
         if (popupWindow != null && popupWindow.isShowing()) {
             popupWindow.dismiss();
+            isChecked = false; // Reiniciar el estado al cerrar el popup
         } else {
             View popupView = getLayoutInflater().inflate(R.layout.popup, null);
             popupWindow = new PopupWindow(popupView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -111,24 +113,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             // Obtener una referencia al botón button2
             Button Check = popupView.findViewById(R.id.buttonCheck);
 
+            // Actualizar el fondo del botón según el estado actual
+            if (isChecked) {
+                Check.setBackgroundResource(R.drawable.check1);
+            }
+
             // Agregar el evento onClick al botón button2
             Check.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Check.setBackgroundResource(R.drawable.check1);
-                    // Aquí puedes realizar las acciones que desees
-                    //Toast.makeText(MainActivity.this, "Button2 clicked", Toast.LENGTH_SHORT).show();
+                    isChecked = !isChecked; // Alternar el estado al hacer clic
 
+                    if (isChecked) {
+                        Check.setBackgroundResource(R.drawable.check1);
+                    } else {
+                        // Aquí puedes establecer el fondo deseado cuando no está marcado
+                        Check.setBackgroundResource(R.drawable.check);
+                    }
+
+                    // Aquí puedes realizar otras acciones según el estado
                 }
             });
 
             popupWindow.showAsDropDown(view, 0, 0);
         }
-    }
+    }*/
 
 
     public void scogerFiltro(View view) {
-        filtro(view);
+        //filtro(view);
         //vibrate(2000);
     }
     public void vibrate(long milliseconds) {

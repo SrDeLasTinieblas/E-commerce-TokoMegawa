@@ -12,10 +12,14 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.PopupWindow;
 /*
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -23,6 +27,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;*/
+import com.google.android.material.slider.RangeSlider;
 import com.google.common.reflect.TypeToken;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.gson.Gson;
@@ -30,14 +35,11 @@ import com.google.gson.JsonSyntaxException;
 import com.tinieblas.tokomegawa.R;
 import com.tinieblas.tokomegawa.data.APIs;
 import com.tinieblas.tokomegawa.data.FetchRequest;
-import com.tinieblas.tokomegawa.models.Categorias.CategoriasResponse;
-import com.tinieblas.tokomegawa.respositories.CategoriasCallback;
 import com.tinieblas.tokomegawa.respositories.ProductosCallback;
 import com.tinieblas.tokomegawa.ui.activities.AuthenticationActivity;
 import com.tinieblas.tokomegawa.ui.activities.MyCartActivity;
 import com.tinieblas.tokomegawa.ui.adptadores.ProductosAdapter;
 import com.tinieblas.tokomegawa.models.Producto.ProductosItem;
-import com.tinieblas.tokomegawa.ui.activities.MainActivity;
 import com.tinieblas.tokomegawa.ui.adptadores.Modelos.RecyclerFilter;
 import com.tinieblas.tokomegawa.ui.adptadores.ProductosVistosAdapter;
 import com.tinieblas.tokomegawa.databinding.FragmentHomeBinding;
@@ -57,20 +59,12 @@ import okhttp3.Response;
 
 public class HomeFragment extends Fragment implements View.OnClickListener {
     private HomeFragment context;
-    //private ArrayList<Modelo> models;
-    //private RecentlyViewedAdapterRecycler recentlyViewedAdapterRecycler;
     private RecyclerFilter recyclerFilter;
-    //private Integer[] langLogo = new Integer[0];
-    //private String[] langName = new String[0];
-    //private String Nombre, Apellido, Direccion, Email, Username, ID;
-    //private Integer Edad;
-    //private FirebaseFirestore firebaseFirestore;
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
-
+    private PopupWindow popupWindow;
     private ProductosAdapter productosAdapter;
     private FragmentHomeBinding fragmentHomeBinding;
-    //private final List<ProductosItem> productosList = new ArrayList<>();
-    //private final List<ModelohotSales> ListProducts = new ArrayList<>();
+    private final List<ProductosItem> productosListOriginal = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -78,7 +72,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         fragmentHomeBinding = FragmentHomeBinding.inflate(inflater, container, false);
 
         // Crear el adaptador de productos
-        productosAdapter = new ProductosAdapter(getContext(), new ArrayList<>());
+        productosAdapter = new ProductosAdapter(getContext());
 
         // Configurar el RecyclerView de productos destacados
         fragmentHomeBinding.reciclerViewHotSales.setLayoutManager(new LinearLayoutManager(context.getActivity(), LinearLayoutManager.HORIZONTAL, false));
@@ -98,11 +92,117 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         // Botón para ir al carrito de compras
         fragmentHomeBinding.fab.setOnClickListener(view -> NavigationContent.cambiarActividad(getContext(), MyCartActivity.class));
 
-        fetchProductos(productos -> context.requireActivity().runOnUiThread(() -> addCards(productos)));
+        fetchProductos(new ProductosCallback() {
+            @Override
+            public void onProductosFetched(List<ProductosItem> productos) {
+                context.requireActivity().runOnUiThread(() -> addCards(productos));
+                productosListOriginal.addAll(productos);
+            }
+        });
+
+        fragmentHomeBinding.editTextSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                filtrarTitulo(editable.toString());
+            }
+        });
+
+        fragmentHomeBinding.buttonFiltrar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                filtro(view);
+            }
+        });
 
         getListaProductoVistos();
         //fetchGet();
         return fragmentHomeBinding.getRoot();
+    }
+
+    private boolean isChecked = false;
+    public void filtro(View view) {
+        if (popupWindow != null && popupWindow.isShowing()) {
+            popupWindow.dismiss();
+            isChecked = false; // Reiniciar el estado al cerrar el popup
+        } else {
+            View popupView = LayoutInflater.from(requireActivity()).inflate(R.layout.popup, null);
+            //View popupView = getLayoutInflater().inflate(R.layout.popup, null);
+            popupWindow = new PopupWindow(popupView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+            // Obtener una referencia al botón button2
+            Button Check = popupView.findViewById(R.id.buttonCheck);
+
+            // Actualizar el fondo del botón según el estado actual
+            if (isChecked) {
+                Check.setBackgroundResource(R.drawable.check1);
+            }
+
+            // Agregar el evento onClick al botón button2
+            Check.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    isChecked = !isChecked; // Alternar el estado al hacer clic
+
+                    if (isChecked) {
+                        Check.setBackgroundResource(R.drawable.check1);
+                    } else {
+                        // Aquí puedes establecer el fondo deseado cuando no está marcado
+                        Check.setBackgroundResource(R.drawable.check);
+                    }
+
+                    // Aquí puedes realizar otras acciones según el estado
+                }
+            });
+
+            RangeSlider rangeSlider = popupView.findViewById(R.id.rangeSlider);
+            rangeSlider.addOnSliderTouchListener(new RangeSlider.OnSliderTouchListener() {
+                @Override
+                public void onStartTrackingTouch(@NonNull RangeSlider slider) {
+
+                }
+
+                @Override
+                public void onStopTrackingTouch(@NonNull RangeSlider slider) {
+                    List<Float> values = slider.getValues();
+                    float desde = values.get(0);
+                    float hasta = values.get(1);
+                    filtrarPrecio(desde, hasta);
+                }
+            });
+            popupWindow.showAsDropDown(view, 0, 0);
+        }
+    }
+    private void filtrarTitulo(String texto){
+        List<ProductosItem> listaFiltrar = new ArrayList<>();
+        for (ProductosItem item: productosListOriginal){
+            if (item.getNombreProducto().toLowerCase().contains(texto.toLowerCase())){
+                listaFiltrar.add(item);
+            }
+
+        }
+        //productosAdapter.differ.submitList(new ArrayList<>(listaFiltrar));
+        productosAdapter.setProductosList(listaFiltrar);
+        Log.e("listaFiltrar",listaFiltrar.toString());
+        Log.e("productosListOriginal",productosListOriginal.toString());
+    }
+    private void filtrarPrecio(float desde, float hasta){
+        List<ProductosItem> filtrarLista = new ArrayList<>();
+        for (ProductosItem item: productosListOriginal){
+            if ( desde <= item.getPrecioUnitario() && item.getPrecioUnitario() <= hasta ){
+                filtrarLista.add(item);
+            }
+        }
+        productosAdapter.setProductosList(filtrarLista);
     }
 
     @Override
@@ -206,33 +306,5 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         // Aquí puedes manejar los eventos de clic si es necesario
     }
 }
-
-    /*public void irMyCart(){
-        NavigationContent.cambiarActividad(getContext(), MyCartActivity.class);
-    }*/
-
-    /*@Override
-    public void onClick(View view) {
-        System.out.println("onClick");
-        SignOut();
-        System.out.println("2222222222222222222222222222");
-    }
-
-
-*/
-    /*public interface OnButtonSelectedListener {
-        void onButtonSelected(int buttonId);
-    }*/
-
-    //@Override
-    /*public void onAttach(Context context) {
-        super.onAttach(context);
-
-        try {
-            mListener = (OnButtonSelectedListener) context;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(context.toString()
-                    + " must implement OnButtonSelectedListener");
-        }*/
 
 

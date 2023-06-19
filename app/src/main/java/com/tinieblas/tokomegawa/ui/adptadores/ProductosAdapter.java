@@ -18,7 +18,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.AsyncListDiffer;
 import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -38,13 +40,12 @@ import java.util.Set;
 
 public class ProductosAdapter extends RecyclerView.Adapter<ProductosAdapter.ProductoViewHolder> {
     private final Context mContext;
-    private List<ProductosItem> mProductos;
+    //private List<ProductosItem> mProductos;
     SharedPreferences sharedPreferences;
-    //sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 
-    public ProductosAdapter(Context context, List<ProductosItem> productos) {
+    public ProductosAdapter(Context context/*, List<ProductosItem> productos*/) {
         mContext = context;
-        mProductos = productos;
+        //mProductos = productos;
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
@@ -59,17 +60,19 @@ public class ProductosAdapter extends RecyclerView.Adapter<ProductosAdapter.Prod
         mProductos = productos;
         notifyDataSetChanged();
     }*/
+
     public void setProductosList(List<ProductosItem> productosItem) {
-        mProductos.clear();
-        mProductos.addAll(productosItem);
-        notifyDataSetChanged();
+        //mProductos.clear();
+        //mProductos.addAll(productosItem);
+        //notifyDataSetChanged();
+        differ.submitList(new ArrayList<>(productosItem));
     }
 
 
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ProductoViewHolder holder, int position) {
-        ProductosItem producto = mProductos.get(position);
+        ProductosItem producto = differ.getCurrentList().get(position);
         holder.textViewTitulo.setText(producto.getNombreProducto());
         holder.textViewPrecio.setText("S/. " + producto.getPrecioUnitario());
         holder.textViewDescripcion.setText(producto.getDescripcionProducto());
@@ -121,7 +124,7 @@ public class ProductosAdapter extends RecyclerView.Adapter<ProductosAdapter.Prod
             public void onClick(View view) {
 
                 // Obtener el producto seleccionado
-                ProductosItem productoSeleccionado = mProductos.get(holder.getAdapterPosition());
+                ProductosItem productoSeleccionado = differ.getCurrentList().get(holder.getAdapterPosition());
 
                 // Crear un intent para abrir la actividad DetailsActivity
                 Intent intent = new Intent(mContext, DetailsActivity.class);
@@ -135,7 +138,7 @@ public class ProductosAdapter extends RecyclerView.Adapter<ProductosAdapter.Prod
 
     @Override
     public int getItemCount() {
-        return mProductos.size();
+        return differ.getCurrentList().size();
     }
 
     public static class ProductoViewHolder extends RecyclerView.ViewHolder {
@@ -168,6 +171,23 @@ public class ProductosAdapter extends RecyclerView.Adapter<ProductosAdapter.Prod
             //button.setText("Guardar producto");
         }
     }
+
+    private final DiffUtil.ItemCallback<ProductosItem> differCallback = new DiffUtil.ItemCallback<ProductosItem>() {
+        @Override
+        public boolean areItemsTheSame(ProductosItem oldItem, ProductosItem newItem) {
+            return oldItem.getIdProducto() == newItem.getIdProducto();
+        }
+
+        @SuppressLint("DiffUtilEquals")
+        @Override
+        public boolean areContentsTheSame(ProductosItem oldItem, ProductosItem newItem) {
+            return oldItem.equals(newItem);
+        }
+    };
+
+    public final AsyncListDiffer<ProductosItem> differ = new AsyncListDiffer<ProductosItem>(this, differCallback);
+
+
 
 
     /*public void filtrar(String texto, List<ProductosItem> productosItem) {

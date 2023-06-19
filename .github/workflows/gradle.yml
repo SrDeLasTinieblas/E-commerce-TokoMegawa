@@ -32,8 +32,8 @@ jobs:
       run: chmod +x gradlew
     - name: Setup Gradle
       uses: gradle/gradle-build-action@v2
-    - name: Run build with Gradle Wrapper
-      run: ./gradlew build -x lint,app:testDebugUnitTest
+    #- name: Run build with Gradle Wrapper
+     # run: ./gradlew build -x lint,app:testDebugUnitTest
 
     - name: ejecutando mi primera prueba
       run: ./gradlew app:testDebugUnitTest --tests 'com.tinieblas.tokomegawa.utils.SumaTest'

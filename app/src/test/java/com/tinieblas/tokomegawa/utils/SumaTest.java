@@ -1,6 +1,8 @@
 package com.tinieblas.tokomegawa.utils;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -59,8 +61,7 @@ public class SumaTest {
     private FirebaseAuth mAuth;
 
     @Test
-    public boolean loginTest() {
-
+    public void loginTest() {
         mAuth = FirebaseAuth.getInstance();
 
         // Aquí puedes ingresar el correo electrónico y la contraseña para hacer el testing
@@ -84,8 +85,10 @@ public class SumaTest {
                     }
                 });
 
-        return loginResult[0]; // Retornar el resultado del inicio de sesión
+        // Verificar el resultado esperado
+        assertTrue(loginResult[0]);
     }
+
 }
 
 

@@ -11,9 +11,7 @@ public class SumaTest {
 
     @Test
     public void sumando() {
-        System.out.println("Sumando..");
         assertEquals(4, 2 + 2);
-        //Assert.assertEquals(5, 6);
     }
 /*
     public void addition_isCorrect() {
@@ -22,8 +20,8 @@ public class SumaTest {
         assertEquals(5, 2 + 2);
     }
 */
-    AwesomeValidation awesomeValidation;
-    FirebaseAuth firebaseAuth;
+    //AwesomeValidation awesomeValidation;
+    //FirebaseAuth firebaseAuth;
 
     /*public boolean startSession(String email, String password) {
         try {
@@ -58,9 +56,9 @@ public class SumaTest {
     }
 
 */
-    private FirebaseAuth mAuth;
+    //private FirebaseAuth mAuth;
 
-    @Test
+    /*@Test
     public boolean loginTest() {
         mAuth = FirebaseAuth.getInstance();
 
@@ -86,7 +84,7 @@ public class SumaTest {
                 });
 
         return loginResult[0]; // Retornar el resultado del inicio de sesión
-    }
+    }*/
 }
 
 

@@ -35,7 +35,7 @@ jobs:
     #- name: Run build with Gradle Wrapper
      #  run: ./gradlew build -x lint,app:testDebugUnitTest
 
-    - name: ejecutando mi primera prueba
+    - name: Testing Login
       run: ./gradlew app:testDebugUnitTest --tests 'com.tinieblas.tokomegawa.utils.SumaTest.loginTest'
 
     #- name: ejecutando mi segunda prueba

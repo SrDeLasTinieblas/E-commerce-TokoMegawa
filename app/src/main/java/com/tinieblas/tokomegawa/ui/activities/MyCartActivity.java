@@ -1,13 +1,8 @@
 package com.tinieblas.tokomegawa.ui.activities;
 
-import static com.tinieblas.tokomegawa.data.constants.Constants.CODIGO_PERMISOS_UBICACION;
-import static com.tinieblas.tokomegawa.data.constants.Constants.KEY_PRODUCTO;
-import static com.tinieblas.tokomegawa.data.constants.Constants.PREFS_NAME_CARRITO;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -25,7 +20,6 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -35,23 +29,14 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.gson.Gson;
-import com.tinieblas.tokomegawa.R;
-import com.tinieblas.tokomegawa.databinding.ActivityDetailsBinding;
 import com.tinieblas.tokomegawa.databinding.ActivityMyCartBinding;
-import com.tinieblas.tokomegawa.databinding.ItemsMycartBinding;
-import com.tinieblas.tokomegawa.models.Producto.ProductosItem;
-import com.tinieblas.tokomegawa.models.User;
+import com.tinieblas.tokomegawa.domain.models.ProductosItem;
+import com.tinieblas.tokomegawa.domain.models.User;
 import com.tinieblas.tokomegawa.ui.adptadores.CarritoAdapter;
 import com.tinieblas.tokomegawa.utils.NavigationContent;
-import com.tinieblas.tokomegawa.utils.Shared;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 

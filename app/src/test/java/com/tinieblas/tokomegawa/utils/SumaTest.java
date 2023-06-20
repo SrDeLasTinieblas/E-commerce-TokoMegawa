@@ -1,19 +1,11 @@
 package com.tinieblas.tokomegawa.utils;
 
-
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
 import com.basgeekball.awesomevalidation.AwesomeValidation;
-import com.google.android.gms.tasks.Task;
-import com.google.android.gms.tasks.Tasks;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-
+import com.google.firebase.auth.FirebaseUser;
 import org.junit.Test;
 
-import java.util.concurrent.ExecutionException;
 
 public class SumaTest {
 
@@ -23,13 +15,13 @@ public class SumaTest {
         assertEquals(4, 2 + 2);
         //Assert.assertEquals(5, 6);
     }
-
+/*
     public void addition_isCorrect() {
         //System.out.println("adition");
         //Log.d("TAG", "Este es un mensaje de prueba");
         assertEquals(5, 2 + 2);
     }
-
+*/
     AwesomeValidation awesomeValidation;
     FirebaseAuth firebaseAuth;
 
@@ -66,7 +58,35 @@ public class SumaTest {
     }
 
 */
+    private FirebaseAuth mAuth;
 
+    @Test
+    public boolean loginTest() {
+        mAuth = FirebaseAuth.getInstance();
+
+        // Aquí puedes ingresar el correo electrónico y la contraseña para hacer el testing
+        String email = "angelo22@gmail.com";
+        String password = "darkangelo";
+
+        final boolean[] loginResult = {false}; // Variable booleana para almacenar el resultado del inicio de sesión
+
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        // El inicio de sesión fue exitoso
+                        FirebaseUser user = mAuth.getCurrentUser();
+                        if (user != null) {
+                            // El usuario está autenticado, puedes realizar acciones adicionales aquí
+                            loginResult[0] = true; // Establecer el resultado del inicio de sesión como verdadero
+                        }
+                    } else {
+                        // El inicio de sesión falló
+                        loginResult[0] = false; // Establecer el resultado del inicio de sesión como falso
+                    }
+                });
+
+        return loginResult[0]; // Retornar el resultado del inicio de sesión
+    }
 }
 
 

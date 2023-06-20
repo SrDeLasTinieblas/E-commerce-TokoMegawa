@@ -17,7 +17,7 @@ import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 import com.tinieblas.tokomegawa.R;
 import com.tinieblas.tokomegawa.databinding.ActivityMyCartBinding;
-import com.tinieblas.tokomegawa.models.Producto.ProductosItem;
+import com.tinieblas.tokomegawa.domain.models.ProductosItem;
 
 import java.lang.reflect.Type;
 import java.math.BigDecimal;

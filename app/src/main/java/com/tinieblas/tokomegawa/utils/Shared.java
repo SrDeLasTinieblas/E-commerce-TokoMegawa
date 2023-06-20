@@ -8,15 +8,11 @@ import android.content.SharedPreferences;
 
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
-import com.tinieblas.tokomegawa.models.Producto.ProductosItem;
-
-import org.json.JSONArray;
-import org.json.JSONException;
+import com.tinieblas.tokomegawa.domain.models.ProductosItem;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 public class Shared {
 

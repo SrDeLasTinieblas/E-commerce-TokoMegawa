@@ -2,12 +2,9 @@ package com.tinieblas.tokomegawa.ui.fragments;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,15 +13,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.tinieblas.tokomegawa.R;
 import com.tinieblas.tokomegawa.databinding.FragmentSettingBinding;
-import com.tinieblas.tokomegawa.models.User;
-import com.tinieblas.tokomegawa.ui.activities.MyCartActivity;
-import com.tinieblas.tokomegawa.utils.NavigationContent;
 
 public class SettingFragment extends Fragment implements View.OnClickListener {
 

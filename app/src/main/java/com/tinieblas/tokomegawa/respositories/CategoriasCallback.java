@@ -1,6 +1,6 @@
 package com.tinieblas.tokomegawa.respositories;
 
-import com.tinieblas.tokomegawa.models.Categorias.CategoriasResponse;
+import com.tinieblas.tokomegawa.domain.models.CategoriasResponse;
 
 import java.util.List;
 

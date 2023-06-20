@@ -1,4 +1,4 @@
-package com.tinieblas.tokomegawa.models;
+package com.tinieblas.tokomegawa.domain.models;
 
 
 public class User {

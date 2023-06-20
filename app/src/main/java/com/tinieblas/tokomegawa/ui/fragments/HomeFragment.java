@@ -39,7 +39,7 @@ import com.tinieblas.tokomegawa.respositories.ProductosCallback;
 import com.tinieblas.tokomegawa.ui.activities.AuthenticationActivity;
 import com.tinieblas.tokomegawa.ui.activities.MyCartActivity;
 import com.tinieblas.tokomegawa.ui.adptadores.ProductosAdapter;
-import com.tinieblas.tokomegawa.models.Producto.ProductosItem;
+import com.tinieblas.tokomegawa.domain.models.ProductosItem;
 import com.tinieblas.tokomegawa.ui.adptadores.Modelos.RecyclerFilter;
 import com.tinieblas.tokomegawa.ui.adptadores.ProductosVistosAdapter;
 import com.tinieblas.tokomegawa.databinding.FragmentHomeBinding;
@@ -225,7 +225,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                     String responseData = response.body().string();
                     try {
                         Gson gson = new Gson();
-                        com.tinieblas.tokomegawa.models.Producto.Response responseObject = gson.fromJson(responseData, com.tinieblas.tokomegawa.models.Producto.Response.class);
+                        com.tinieblas.tokomegawa.data.local.Response responseObject = gson.fromJson(responseData, com.tinieblas.tokomegawa.data.local.Response.class);
                         List<ProductosItem> productos = responseObject.getProductos();
                         callback.onProductosFetched(productos);
                     } catch (JsonSyntaxException e) {

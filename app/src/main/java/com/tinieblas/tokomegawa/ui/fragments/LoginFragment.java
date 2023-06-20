@@ -25,12 +25,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.tinieblas.tokomegawa.R;
 import com.tinieblas.tokomegawa.databinding.FragmentLoginBinding;
-import com.tinieblas.tokomegawa.models.User;
 import com.tinieblas.tokomegawa.ui.activities.MainActivity;
 import com.tinieblas.tokomegawa.utils.NavigationContent;
 

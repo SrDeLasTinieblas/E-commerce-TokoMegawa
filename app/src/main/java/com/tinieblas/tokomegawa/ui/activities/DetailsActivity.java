@@ -1,15 +1,11 @@
 package com.tinieblas.tokomegawa.ui.activities;
 
-import static com.tinieblas.tokomegawa.data.constants.Constants.KEY_PRODUCTO;
-import static com.tinieblas.tokomegawa.data.constants.Constants.PREFS_NAME_CARRITO;
-
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -17,16 +13,11 @@ import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.tinieblas.tokomegawa.R;
 import com.tinieblas.tokomegawa.databinding.ActivityDetailsBinding;
-import com.tinieblas.tokomegawa.models.Producto.ProductosItem;
-import com.tinieblas.tokomegawa.ui.fragments.HomeFragment;
-import com.tinieblas.tokomegawa.utils.NavigationContent;
-import com.tinieblas.tokomegawa.utils.Shared;
+import com.tinieblas.tokomegawa.domain.models.ProductosItem;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.List;
 
 public class DetailsActivity extends AppCompatActivity implements View.OnClickListener {
 

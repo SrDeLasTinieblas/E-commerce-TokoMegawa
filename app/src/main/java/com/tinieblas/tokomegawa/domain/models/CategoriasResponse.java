@@ -1,4 +1,4 @@
-package com.tinieblas.tokomegawa.models.Categorias;
+package com.tinieblas.tokomegawa.domain.models;
 
 import java.util.List;
 import com.google.gson.annotations.SerializedName;

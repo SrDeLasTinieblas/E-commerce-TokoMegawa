@@ -5,7 +5,7 @@ import android.os.AsyncTask;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
-import com.tinieblas.tokomegawa.models.Categorias.CategoriasResponse;
+import com.tinieblas.tokomegawa.domain.models.CategoriasResponse;
 import com.tinieblas.tokomegawa.respositories.CategoriasCallback;
 
 import java.io.IOException;

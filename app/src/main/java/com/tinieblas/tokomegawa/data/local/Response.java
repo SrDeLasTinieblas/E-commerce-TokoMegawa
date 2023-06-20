@@ -1,7 +1,8 @@
-package com.tinieblas.tokomegawa.models.Producto;
+package com.tinieblas.tokomegawa.data.local;
 
 import java.util.List;
 import com.google.gson.annotations.SerializedName;
+import com.tinieblas.tokomegawa.domain.models.ProductosItem;
 
 public class Response{
 

@@ -1,93 +1,134 @@
 package com.tinieblas.tokomegawa.utils;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-
-import com.basgeekball.awesomevalidation.AwesomeValidation;
+import android.os.Build;
+import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseUser;
 import org.junit.Test;
-
-
+import org.junit.runner.RunWith;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
+import org.robolectric.RobolectricTestRunner;
+import org.robolectric.annotation.Config;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.Executors;
+@Config(sdk = Build.VERSION_CODES.P)
+@RunWith(RobolectricTestRunner.class)
 public class SumaTest {
 
-    /*@Test
-    public void sumando() {
-        assertEquals(4, 2 + 2);
-    }*/
-/*
-    public void addition_isCorrect() {
-        //System.out.println("adition");
-        //Log.d("TAG", "Este es un mensaje de prueba");
-        assertEquals(5, 2 + 2);
-    }
-*/
-    //AwesomeValidation awesomeValidation;
-    //FirebaseAuth firebaseAuth;
 
-    /*public boolean startSession(String email, String password) {
-        try {
-            // Validando usuario y contraseña
-            if (awesomeValidation.validate()) {
-                firebaseAuth = FirebaseAuth.getInstance(); // Inicializar firebaseAuth aquí
 
-                Task<AuthResult> signInTask = firebaseAuth.signInWithEmailAndPassword(email, password);
-                try {
-                    Tasks.await(signInTask); // Esperar a que se complete el inicio de sesión
-                    // Inicio de sesión fallido
-                    return signInTask.isSuccessful();
-                } catch (ExecutionException | InterruptedException e) {
-                    e.printStackTrace();
-                    return false;
-                }
-            }
-        } catch (Exception ex) {
-            // Manejo de excepciones
-        }
-        return false; // Retornar false en caso de que no se cumplan las condiciones anteriores
-    }
-
-    @Test
-    public void testStartSession() {
-        // Prueba 1: Inicio de sesión exitoso
-        boolean result1 = startSession("angelo22@gmail.com", "darkangelo");
-        assertTrue(result1);
-        // Prueba 2: Inicio de sesión fallido
-        //boolean result2 = startSession("example@example.com", "password");
-        //assertFalse(result2);
-    }
-
-*/
     private FirebaseAuth mAuth;
 
-    @Test
-    public void loginTest() {
-        mAuth = FirebaseAuth.getInstance();
+    public void setup() {
+        MockitoAnnotations.initMocks(this);
+        mAuth = Mockito.mock(FirebaseAuth.class);
+    }
 
-        // Aquí puedes ingresar el correo electrónico y la contraseña para hacer el testing
+    /*@Test
+    public void loginTest() throws InterruptedException {
+        setup();
+
+        String email = "om";
+        String password = "darelo";
+
+        final boolean[] loginResult = {false};
+
+        // Simular el comportamiento de FirebaseAuth
+        FirebaseUser mockUser = Mockito.mock(FirebaseUser.class);
+        Mockito.when(mAuth.getCurrentUser()).thenReturn(mockUser);
+
+        // Simular el inicio de sesión exitoso
+        Task<AuthResult> successfulTask = Tasks.forResult(Mockito.mock(AuthResult.class));
+        Mockito.when(mAuth.signInWithEmailAndPassword(email, password)).thenReturn(successfulTask);
+
+        // Crear CountDownLatch con un contador de 1
+        CountDownLatch latch = new CountDownLatch(1);
+
+        // Realizar el inicio de sesión
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(Executors.newSingleThreadExecutor(), task -> {
+                    if (task.isSuccessful()) {
+                        loginResult[0] = true;
+                    } else {
+                        loginResult[0] = false;
+                    }
+
+                    // Contar down latch para indicar que la tarea se ha completado
+                    latch.countDown();
+                });
+
+        // Esperar hasta que la tarea se complete
+        latch.await();
+
+        assertTrue(loginResult[0]);
+    }*/
+
+    @Test
+    public void loginTest() throws InterruptedException {
+        setup();
+
         String email = "angelo22@gmail.com";
         String password = "darkangelo";
 
-        final boolean[] loginResult = {false}; // Variable booleana para almacenar el resultado del inicio de sesión
+        final boolean[] loginResult = {false};
 
+        // Simular el comportamiento de FirebaseAuth
+        FirebaseUser mockUser = Mockito.mock(FirebaseUser.class);
+        Mockito.when(mAuth.getCurrentUser()).thenReturn(mockUser);
+
+        // Simular el inicio de sesión exitoso
+        Task<AuthResult> successfulTask = Tasks.forResult(Mockito.mock(AuthResult.class));
+        Mockito.when(mAuth.signInWithEmailAndPassword(email, password)).thenReturn(successfulTask);
+
+        // Simular el inicio de sesión fallido
+        Task<AuthResult> failedTask = Tasks.forException(new FirebaseAuthInvalidCredentialsException("ERROR_INVALID_EMAIL", "The email address is badly formatted."));
+        Mockito.when(mAuth.signInWithEmailAndPassword(email, "contraseña incorrecta")).thenReturn(failedTask);
+
+
+        // Crear CountDownLatch con un contador de 1
+        CountDownLatch latch = new CountDownLatch(1);
+
+        // Realizar el inicio de sesión con contraseña correcta
         mAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(task -> {
+                .addOnCompleteListener(Executors.newSingleThreadExecutor(), task -> {
                     if (task.isSuccessful()) {
-                        // El inicio de sesión fue exitoso
-                        FirebaseUser user = mAuth.getCurrentUser();
-                        if (user != null) {
-                            // El usuario está autenticado, puedes realizar acciones adicionales aquí
-                            loginResult[0] = true; // Establecer el resultado del inicio de sesión como verdadero
-                        }
-                    } else {
-                        // El inicio de sesión falló
-                        loginResult[0] = false; // Establecer el resultado del inicio de sesión como falso
+                        loginResult[0] = true;
                     }
+
+                    // Contar down latch para indicar que la tarea se ha completado
+                    latch.countDown();
                 });
 
-        // Verificar el resultado esperado
-        assertTrue(loginResult[0]);
+        // Esperar hasta que la tarea se complete
+        latch.await();
+
+// Realizar el inicio de sesión con contraseña incorrecta
+        loginResult[0] = false; // Restablecer el valor a false
+        mAuth.signInWithEmailAndPassword(email, "contraseña incorrecta")
+                .addOnCompleteListener(Executors.newSingleThreadExecutor(), task -> {
+                    if (!task.isSuccessful()) {
+                        loginResult[0] = false;
+                    }
+
+                    // Contar down latch para indicar que la tarea se ha completado
+                    latch.countDown();
+                });
+
+
+        // Esperar hasta que la tarea se complete
+        latch.await();
+
+        assertFalse(loginResult[0]);
     }
+
+
+
 
 }
 

@@ -9,10 +9,10 @@ import org.junit.Test;
 
 public class SumaTest {
 
-    @Test
+    /*@Test
     public void sumando() {
         assertEquals(4, 2 + 2);
-    }
+    }*/
 /*
     public void addition_isCorrect() {
         //System.out.println("adition");
@@ -56,10 +56,11 @@ public class SumaTest {
     }
 
 */
-    //private FirebaseAuth mAuth;
+    private FirebaseAuth mAuth;
 
-    /*@Test
+    @Test
     public boolean loginTest() {
+
         mAuth = FirebaseAuth.getInstance();
 
         // Aquí puedes ingresar el correo electrónico y la contraseña para hacer el testing
@@ -84,7 +85,7 @@ public class SumaTest {
                 });
 
         return loginResult[0]; // Retornar el resultado del inicio de sesión
-    }*/
+    }
 }
 
 

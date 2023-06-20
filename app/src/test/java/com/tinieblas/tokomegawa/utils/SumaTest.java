@@ -21,8 +21,6 @@ import java.util.concurrent.Executors;
 @RunWith(RobolectricTestRunner.class)
 public class SumaTest {
 
-
-
     private FirebaseAuth mAuth;
 
     public void setup() {
@@ -30,12 +28,12 @@ public class SumaTest {
         mAuth = Mockito.mock(FirebaseAuth.class);
     }
 
-    /*@Test
+    @Test
     public void loginTest() throws InterruptedException {
         setup();
 
-        String email = "om";
-        String password = "darelo";
+        String email = "angelo21@gmail.com";
+        String password = "darkangelo";
 
         final boolean[] loginResult = {false};
 
@@ -53,11 +51,7 @@ public class SumaTest {
         // Realizar el inicio de sesión
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(Executors.newSingleThreadExecutor(), task -> {
-                    if (task.isSuccessful()) {
-                        loginResult[0] = true;
-                    } else {
-                        loginResult[0] = false;
-                    }
+                    loginResult[0] = task.isSuccessful();
 
                     // Contar down latch para indicar que la tarea se ha completado
                     latch.countDown();
@@ -67,8 +61,9 @@ public class SumaTest {
         latch.await();
 
         assertTrue(loginResult[0]);
-    }*/
+    }
 
+    /*
     @Test
     public void loginTest() throws InterruptedException {
         setup();
@@ -126,7 +121,7 @@ public class SumaTest {
 
         assertFalse(loginResult[0]);
     }
-
+*/
 
 
 

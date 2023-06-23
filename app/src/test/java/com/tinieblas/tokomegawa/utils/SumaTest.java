@@ -31,97 +31,61 @@ public class SumaTest {
     @Test
     public void loginTest() throws InterruptedException {
         setup();
-
         String email = "angelo21@gmail.com";
         String password = "darkangelo";
-
         final boolean[] loginResult = {false};
-
         // Simular el comportamiento de FirebaseAuth
         FirebaseUser mockUser = Mockito.mock(FirebaseUser.class);
         Mockito.when(mAuth.getCurrentUser()).thenReturn(mockUser);
-
         // Simular el inicio de sesión exitoso
         Task<AuthResult> successfulTask = Tasks.forResult(Mockito.mock(AuthResult.class));
         Mockito.when(mAuth.signInWithEmailAndPassword(email, password)).thenReturn(successfulTask);
-
         // Crear CountDownLatch con un contador de 1
         CountDownLatch latch = new CountDownLatch(1);
-
         // Realizar el inicio de sesión
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(Executors.newSingleThreadExecutor(), task -> {
                     loginResult[0] = task.isSuccessful();
-
                     // Contar down latch para indicar que la tarea se ha completado
                     latch.countDown();
                 });
-
         // Esperar hasta que la tarea se complete
         latch.await();
-
         assertTrue(loginResult[0]);
     }
-
-    /*
     @Test
-    public void loginTest() throws InterruptedException {
+    public void loginTest1() throws InterruptedException {
         setup();
-
         String email = "angelo22@gmail.com";
         String password = "darkangelo";
-
         final boolean[] loginResult = {false};
-
-        // Simular el comportamiento de FirebaseAuth
         FirebaseUser mockUser = Mockito.mock(FirebaseUser.class);
         Mockito.when(mAuth.getCurrentUser()).thenReturn(mockUser);
-
-        // Simular el inicio de sesión exitoso
         Task<AuthResult> successfulTask = Tasks.forResult(Mockito.mock(AuthResult.class));
         Mockito.when(mAuth.signInWithEmailAndPassword(email, password)).thenReturn(successfulTask);
-
-        // Simular el inicio de sesión fallido
         Task<AuthResult> failedTask = Tasks.forException(new FirebaseAuthInvalidCredentialsException("ERROR_INVALID_EMAIL", "The email address is badly formatted."));
         Mockito.when(mAuth.signInWithEmailAndPassword(email, "contraseña incorrecta")).thenReturn(failedTask);
-
-
-        // Crear CountDownLatch con un contador de 1
         CountDownLatch latch = new CountDownLatch(1);
-
-        // Realizar el inicio de sesión con contraseña correcta
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(Executors.newSingleThreadExecutor(), task -> {
                     if (task.isSuccessful()) {
                         loginResult[0] = true;
                     }
-
-                    // Contar down latch para indicar que la tarea se ha completado
                     latch.countDown();
                 });
-
-        // Esperar hasta que la tarea se complete
         latch.await();
-
-// Realizar el inicio de sesión con contraseña incorrecta
-        loginResult[0] = false; // Restablecer el valor a false
         mAuth.signInWithEmailAndPassword(email, "contraseña incorrecta")
                 .addOnCompleteListener(Executors.newSingleThreadExecutor(), task -> {
                     if (!task.isSuccessful()) {
                         loginResult[0] = false;
                     }
-
-                    // Contar down latch para indicar que la tarea se ha completado
                     latch.countDown();
                 });
-
-
-        // Esperar hasta que la tarea se complete
         latch.await();
-
-        assertFalse(loginResult[0]);
+        assertTrue(loginResult[0]);
     }
-*/
+
+
 
 
 

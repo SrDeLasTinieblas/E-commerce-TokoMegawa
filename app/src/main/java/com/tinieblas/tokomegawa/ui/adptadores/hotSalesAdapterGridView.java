@@ -66,7 +66,7 @@ public class hotSalesAdapterGridView extends BaseAdapter {
 
         Glide.with(view)
                 .load(imagen1Actual)
-                .placeholder(R.drawable.frame_headphone)
+                .placeholder(R.drawable.macbook_air_m1)
                 .into(imagen1);
         return view;
     }

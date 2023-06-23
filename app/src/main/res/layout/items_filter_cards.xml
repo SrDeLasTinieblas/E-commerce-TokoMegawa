@@ -33,7 +33,7 @@
                 android:background="@drawable/degradado"
                 android:paddingLeft="14dp"
                 android:paddingRight="14dp"
-                app:srcCompat="@drawable/frame_headphone" />
+                app:srcCompat="@drawable/macbook_air_m1" />
 
             <TextView
                 android:id="@+id/textTitulo"

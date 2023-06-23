@@ -1,0 +1,26 @@
+
+X	java:S125"<This block of commented-out lines of code should be removed.(’ëïÃ8ç‚’º1
+]	java:S1257"<This block of commented-out lines of code should be removed.(¿é’ëûÿÿÿÿ8ç‚’º1
+[
+java:S1128">Remove this unused import 'com.google.android.gms.tasks.Task'.(¦âÏô8êŒÜÍ1
+\
+java:S1128"?Remove this unused import 'com.google.android.gms.tasks.Tasks'.(²¢Ô†8êŒÜÍ1
+d
+java:S1128"BRemove this unused import 'com.google.firebase.auth.FirebaseAuth'.(İÄğöûÿÿÿÿ8êŒÜÍ1
+g
+java:S1128"JRemove this unused import 'com.google.firebase.database.FirebaseDatabase'.(×Ë—8êŒÜÍ1
+i
+java:S1128"LRemove this unused import 'com.google.firebase.firestore.DocumentReference'.(«Ë8êŒÜÍ1
+m
+java:S1128"KRemove this unused import 'com.google.firebase.firestore.DocumentSnapshot'.(´Ëá¿ÿÿÿÿÿ8êŒÜÍ1
+e
+java:S1128	"HRemove this unused import 'com.google.firebase.firestore.EventListener'.(˜¥¨Õ8êŒÜÍ1
+i
+java:S1128
+"LRemove this unused import 'com.google.firebase.firestore.FirebaseFirestore'.(§ä…ª8êŒÜÍ1
+r
+java:S1128"URemove this unused import 'com.google.firebase.firestore.FirebaseFirestoreException'.(Å˜šÅ8êŒÜÍ1
+s
+java:S1128"VRemove this unused import 'com.tinieblas.tokomegawa.domain.repository.UserRepository'.(ÜÉ–Ÿ8êŒÜÍ1
+r
+java:S1128"PRemove this unused import 'com.tinieblas.tokomegawa.respositories.FirebaseData'.(¨·¥çıÿÿÿÿ8êŒÜÍ1

@@ -1,0 +1,42 @@
+
+t
+java:S1104"YMake ApiCategorias a static final constant or non-public and provide accessors if needed.(Ù¡¤¾ûÿÿÿÿ
+l
+java:S1104"VMake ApiUrlBase a static final constant or non-public and provide accessors if needed.(˜˜ôä
+n
+java:S1104"XMake ApiProductos a static final constant or non-public and provide accessors if needed.(þ¼ŒÖ
+}
+java:S1104
+"bMake ApiBorrarCarritoPorUID a static final constant or non-public and provide accessors if needed.(µš¨°ùÿÿÿÿ
+q
+java:S1104"VMake Categorias a static final constant or non-public and provide accessors if needed.(Ðì†Ïþÿÿÿÿ
+t
+java:S1104"^Make ApiGeolocalitation a static final constant or non-public and provide accessors if needed.(¬ß°Ã
+N
+java:S1444"3Make this "public static ApiCategorias" field final(Ù¡¤¾ûÿÿÿÿ
+F
+java:S1444"0Make this "public static ApiUrlBase" field final(˜˜ôä
+H
+java:S1444"2Make this "public static ApiProductos" field final(þ¼ŒÖ
+W
+java:S1444
+"<Make this "public static ApiBorrarCarritoPorUID" field final(µš¨°ùÿÿÿÿ
+K
+java:S1444"0Make this "public static Categorias" field final(Ðì†Ïþÿÿÿÿ
+N
+java:S1444"8Make this "public static ApiGeolocalitation" field final(¬ß°Ã
+s
+java:S3008"XRename this field "ApiCategorias" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ù¡¤¾ûÿÿÿÿ
+k
+java:S3008"URename this field "ApiUrlBase" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(˜˜ôä
+m
+java:S3008"WRename this field "ApiProductos" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(þ¼ŒÖ
+|
+java:S3008
+"aRename this field "ApiBorrarCarritoPorUID" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(µš¨°ùÿÿÿÿ
+p
+java:S3008"URename this field "Categorias" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ðì†Ïþÿÿÿÿ
+s
+java:S3008"]Rename this field "ApiGeolocalitation" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¬ß°Ã
+U
+java:S1118":Add a private constructor to hide the implicit public one.(»¾Ê›ùÿÿÿÿ

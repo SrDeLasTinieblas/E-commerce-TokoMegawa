@@ -1,0 +1,12 @@
+
+9
+java:S1700"Rename field "settingFragment"(ÖæÈüÿÿÿÿ
+t	java:S115"ZRename this constant name to match the regular expression '^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$'.(ãŒ×ßúÿÿÿÿ
+V	java:S125*"<This block of commented-out lines of code should be removed.(ûÎ¸êùÿÿÿÿ
+Q	java:S125A"<This block of commented-out lines of code should be removed.(ùñÔó
+C
+java:S1068"(Remove this unused "File" private field.(ãŒ×ßúÿÿÿÿ
+H
+java:S1068"-Remove this unused "RESULT_OK" private field.(Æ×äÁıÿÿÿÿ
+I
+java:S1068".Remove this unused "mFirestore" private field.(‘Üÿÿÿÿÿÿ

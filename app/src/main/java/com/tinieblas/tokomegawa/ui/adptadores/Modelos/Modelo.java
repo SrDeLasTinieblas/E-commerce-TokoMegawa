@@ -5,6 +5,14 @@ public class Modelo {
     Integer langLogo;
     String langName;
 
+    public void setLangLogo(Integer langLogo) {
+        this.langLogo = langLogo;
+    }
+
+    public void setLangName(String langName) {
+        this.langName = langName;
+    }
+
     public Modelo(Integer langLogo, String langName){
         this.langLogo = langLogo;
         this.langName = langName;
@@ -18,4 +26,11 @@ public class Modelo {
         return langName;
     }
 
+    @Override
+    public String toString() {
+        return "Modelo{" +
+                "langLogo=" + langLogo +
+                ", langName='" + langName + '\'' +
+                '}';
+    }
 }

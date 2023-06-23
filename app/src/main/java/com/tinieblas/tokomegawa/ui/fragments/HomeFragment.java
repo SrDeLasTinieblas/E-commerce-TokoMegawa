@@ -38,6 +38,7 @@ import com.tinieblas.tokomegawa.data.FetchRequest;
 import com.tinieblas.tokomegawa.respositories.ProductosCallback;
 import com.tinieblas.tokomegawa.ui.activities.AuthenticationActivity;
 import com.tinieblas.tokomegawa.ui.activities.MyCartActivity;
+import com.tinieblas.tokomegawa.ui.adptadores.Modelos.Modelo;
 import com.tinieblas.tokomegawa.ui.adptadores.ProductosAdapter;
 import com.tinieblas.tokomegawa.domain.models.ProductosItem;
 import com.tinieblas.tokomegawa.ui.adptadores.Modelos.RecyclerFilter;
@@ -65,6 +66,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private ProductosAdapter productosAdapter;
     private FragmentHomeBinding fragmentHomeBinding;
     private final List<ProductosItem> productosListOriginal = new ArrayList<>();
+    Integer[] langLogo = new Integer[]{R.drawable.earphones, R.drawable.alexa, R.drawable.audifonos,
+            R.drawable.camaras, R.drawable.sillas_gamer, R.drawable.tablets, R.drawable.celurales };
+/**
+ *  Integer[] langLogo = new Integer[]{R.drawable.earphones, R.drawable.alexa, R.drawable.audifonos,
+ *                 R.drawable.camaras, R.drawable.silla_gamer, R.drawable.tablets };
+ * */
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -97,6 +104,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             public void onProductosFetched(List<ProductosItem> productos) {
                 context.requireActivity().runOnUiThread(() -> addCards(productos));
                 productosListOriginal.addAll(productos);
+                setCardsFilter(productos);
+
             }
         });
 
@@ -120,7 +129,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         fragmentHomeBinding.buttonFiltrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                filtro(view);
+                Showfiltro(view);
             }
         });
 
@@ -129,8 +138,85 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         return fragmentHomeBinding.getRoot();
     }
 
+    public void setCardsFilter(List<ProductosItem> productos) {
+        Log.e("products", productos.toString());
+
+        ArrayList<Modelo> productosList = new ArrayList<>();
+        ArrayList<String> categorias = new ArrayList<>(); // Lista para almacenar las categorías únicas
+
+        for (int i = 0; i < productos.size(); i++) {
+            ProductosItem producto = productos.get(i);
+            String categoria = producto.getCategoria();
+            int imageResource = getImageResourceForCategory(categoria, langLogo);
+            String nombre = categoria;
+            Modelo model = new Modelo(imageResource, nombre);
+            productosList.add(model);
+
+            if (!categorias.contains(categoria)) {
+                categorias.add(categoria);
+            }
+        }
+
+        Log.e("categories", productosList.toString());
+
+        requireActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                createRecyclerView(productosList, categorias);
+            }
+        });
+    }
+
+    private int getImageResourceForCategory(String categoria, Integer[] langLogo) {
+        String categoriaMinuscula = categoria.toLowerCase().replace(" ", "_");
+
+        for (int i = 0; i < langLogo.length; i++) {
+            String nombreRecurso = context.getResources().getResourceEntryName(langLogo[i]);
+            String nombreRecursoMinuscula = nombreRecurso.toLowerCase();
+
+            if (categoriaMinuscula.equals(nombreRecursoMinuscula)) {
+                return langLogo[i];
+            }
+        }
+
+        // Si no se encuentra una imagen correspondiente a la categoría, se puede devolver un valor predeterminado
+        return R.drawable.place_holder;
+    }
+
+
+
+
+    private void createRecyclerView(ArrayList<Modelo> productosList, ArrayList<String> categorias) {
+        LinearLayoutManager linearLayoutManager2 = new LinearLayoutManager(context.getActivity(),
+                LinearLayoutManager.HORIZONTAL,
+                false);
+
+        fragmentHomeBinding.cardFilterRecyclerView.setLayoutManager(linearLayoutManager2);
+        fragmentHomeBinding.cardFilterRecyclerView.setItemAnimator(new DefaultItemAnimator());
+
+        /*Integer[] langLogo = new Integer[]{R.drawable.earphones, R.drawable.alexa, R.drawable.audifonos,
+                R.drawable.camaras, R.drawable.silla_gamer, R.drawable.tablets };*/
+
+        for (Modelo producto : productosList) {
+            int imageResource = getImageResourceForCategory(producto.getLangName(), langLogo);
+            producto.setLangLogo(imageResource); // Actualiza el atributo langLogo en el modelo Modelo
+        }
+
+        requireActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                recyclerFilter = new RecyclerFilter(context.getActivity(), productosList);
+                fragmentHomeBinding.cardFilterRecyclerView.setAdapter(recyclerFilter);
+            }
+        });
+    }
+
+
+
+
+
     private boolean isChecked = false;
-    public void filtro(View view) {
+    public void Showfiltro(View view) {
         if (popupWindow != null && popupWindow.isShowing()) {
             popupWindow.dismiss();
             isChecked = false; // Reiniciar el estado al cerrar el popup
@@ -248,6 +334,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         String apiUrl = APIs.ApiUrlBase + "/getCategorias";
         fetcher.fetchCategorias(apiUrl, categoriasResponses -> Log.e("productos fetch ==> ", categoriasResponses.toString()));
     }
+
 
 
     private void addCards(List<ProductosItem> productosItemList) {

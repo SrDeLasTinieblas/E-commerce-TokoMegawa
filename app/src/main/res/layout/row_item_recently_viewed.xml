@@ -21,7 +21,7 @@
             android:layout_width="110dp"
             android:layout_height="114dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/frame_headphone" />
+            android:src="@drawable/macbook_air_m1" />
 
     </LinearLayout>
 

@@ -1,5 +1,6 @@
 package com.tinieblas.tokomegawa.ui.activities;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -14,6 +15,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.tinieblas.tokomegawa.R;
+import com.tinieblas.tokomegawa.databinding.ActivityMainBinding;
+import com.tinieblas.tokomegawa.databinding.ActivityMyCartBinding;
 import com.tinieblas.tokomegawa.domain.models.FireBaseModel;
 import com.tinieblas.tokomegawa.ui.fragments.HomeFragment;
 import com.tinieblas.tokomegawa.ui.fragments.HotSalesFragment;
@@ -25,49 +28,36 @@ import com.tinieblas.tokomegawa.utils.BottomSheetDialog;
 import com.tinieblas.tokomegawa.utils.NavigationContent;
 
 public class MainActivity extends AppCompatActivity implements /*RecyclerViewInterface, */View.OnClickListener {
-
-    /*private ModelohotSales modelohotSales;
-    private SharedPreferences preferences;*/
     private View decorView;
-    /*private final List<ModelohotSales> ListProducts = new ArrayList<>();
-    boolean beSharedPreferences = true;
-    boolean inCarrito = false;
-    private final List<ModelohotSales> ListProductsCarrito = new ArrayList<>();*/
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Este código es para ocultar la barra de navegación y la barra de estado en una actividad
+        // Ocultar barra de navegación y barra de estado
         decorView = getWindow().getDecorView();
-
-        decorView.setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
-            @Override
-            public void onSystemUiVisibilityChange(int i) {
-                if (i == 0) {
-                    decorView.setSystemUiVisibility(hideSystemBar());
-                }
+        decorView.setOnSystemUiVisibilityChangeListener(i -> {
+            if (i == 0) {
+                decorView.setSystemUiVisibility(hideSystemBar());
             }
         });
-/**/
+
         try {
             getDataFireBase();
         } catch (Exception e) {
-            Log.d("Error", e + "");
+            Log.e("Error", e.toString());
         }
-
-        replaceFragment(new LoginFragment());
 
     }
 
-    public void replaceFragment(Fragment fragment) {
+    private void replaceFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.frameLayoutHome, fragment);
         fragmentTransaction.commit();
         fragmentTransaction.addToBackStack(null);
     }
+
 
     public void buttonFlotante(View view) {
         replaceFragment(new MyCartFragment());
@@ -130,6 +120,15 @@ public class MainActivity extends AppCompatActivity implements /*RecyclerViewInt
     }
 
     private int hideSystemBar(){
+        decorView = getWindow().getDecorView();
+        decorView.setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
+            @Override
+            public void onSystemUiVisibilityChange(int i) {
+                if (i == 0) {
+                    decorView.setSystemUiVisibility(hideSystemBar());
+                }
+            }
+        });
         return View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                 | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
                 | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN

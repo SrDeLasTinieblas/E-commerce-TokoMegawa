@@ -56,10 +56,6 @@ u
 Eapp/src/main/java/com/tinieblas/tokomegawa/utils/SessionCallback.java,9\a\9a88f0e1342ac74dcbd2421c0cba3a39156710f5
 z
 Japp/src/main/java/com/tinieblas/tokomegawa/ui/fragments/iLoveFragment.java,2\e\2ed041aa2307bd7d2ffb8c2d681aba3a3fad1dab
-|
-Lapp/src/main/java/com/tinieblas/tokomegawa/ui/fragments/SettingFragment.java,b\7\b79a4fd2e0bb52d6eee536a9bc364ca8c0edd408
-w
-Gapp/src/main/java/com/tinieblas/tokomegawa/utils/NavigationContent.java,0\5\05e9fad6569dc1b1a9621a1bb24490faa045664a
 €
 Papp/src/main/java/com/tinieblas/tokomegawa/domain/repository/UserRepository.java,c\5\c5fc4a2626837e36198c9f3712ea1e26fea84ee5
 p
@@ -108,7 +104,5 @@ Dapp/src/main/java/com/tinieblas/tokomegawa/domain/models/Modelo.java,5\4\54098
 Sapp/src/main/java/com/tinieblas/tokomegawa/ui/adptadores/AdapterRecyclerFilter.java,8\d\8dadfca70bc0730a2d05311a75c189b90e2acc20
 „
 Tapp/src/main/java/com/tinieblas/tokomegawa/ui/adptadores/ProductosVistosAdapter.java,1\9\1935aabddc451b066945539c049e4ee13b8abeba
-}
-Mapp/src/main/java/com/tinieblas/tokomegawa/ui/fragments/HotSalesFragment.java,a\c\ac673fde4f9011cdba556b150761b3ba8cd5400d
 ‹
 [app/src/main/java/com/tinieblas/tokomegawa/ui/adptadores/RecentlyViewedAdapterRecycler.java,8\a\8a2f923dd3306cf85945e5699cd5ee224144bb87

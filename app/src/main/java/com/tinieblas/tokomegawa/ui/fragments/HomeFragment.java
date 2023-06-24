@@ -68,6 +68,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         fragmentHomeBinding = FragmentHomeBinding.inflate(inflater, container, false);
+
         LinearLayoutManager linearLayoutManager2 = new LinearLayoutManager(requireActivity(),
                 LinearLayoutManager.HORIZONTAL,
                 false);

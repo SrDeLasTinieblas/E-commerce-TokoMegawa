@@ -19,9 +19,11 @@ import com.basgeekball.awesomevalidation.ValidationStyle;
 import com.tinieblas.tokomegawa.R;
 import com.tinieblas.tokomegawa.data.remote.LoginRepositoryImp;
 import com.tinieblas.tokomegawa.databinding.FragmentLoginBinding;
+import com.tinieblas.tokomegawa.ui.activities.MainActivity;
+import com.tinieblas.tokomegawa.utils.NavigationContent;
 
 public class LoginFragment extends Fragment {
-
+    LoginFragment loginFragment;
     private FragmentLoginBinding fragmentLoginBinding;
     private LoginRepositoryImp repository;
 
@@ -29,9 +31,10 @@ public class LoginFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        loginFragment = this;
         fragmentLoginBinding = FragmentLoginBinding.inflate(inflater, container, false);
         repository = new LoginRepositoryImp();
-
+        validateLogin();
         fragmentLoginBinding.showPassword.setOnTouchListener((v, event) -> {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
@@ -44,7 +47,7 @@ public class LoginFragment extends Fragment {
             return true;
         });
 
-        validateLogin();
+
 
         fragmentLoginBinding.buttonLogin.setOnClickListener(view -> startSession());
 
@@ -54,7 +57,9 @@ public class LoginFragment extends Fragment {
     private void validateLogin() {
         boolean isLogged = repository.getCurrentUser();
         if (isLogged) {
-            replaceFragment(new HomeFragment());
+            //NavigationContent.replaceFragment(getContext(), new HomeFragment());
+            //replaceFragment(new HomeFragment());
+            NavigationContent.cambiarActividad(getActivity(), MainActivity.class);
         }
     }
 
@@ -68,7 +73,8 @@ public class LoginFragment extends Fragment {
                 boolean status = repository.login(email, password);
                 requireActivity().runOnUiThread(() -> {
                     if (status) {
-                        replaceFragment(new HomeFragment());
+                        NavigationContent.cambiarActividad(getActivity(), MainActivity.class);
+                        //replaceFragment(new HomeFragment());
                     } else {
                         Toast.makeText(getContext(), "Contraseña Incorrecta", Toast.LENGTH_SHORT).show();
                     }
@@ -87,13 +93,13 @@ public class LoginFragment extends Fragment {
         return awesomeValidation.validate();
     }
 
-    private void replaceFragment(Fragment fragment) {
-        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+    /*private void replaceFragment(Fragment fragment) {
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.frameLayoutHome, fragment);
+        fragmentTransaction.replace(R.id.frameLayoutLogin, fragment);
         fragmentTransaction.commit();
         fragmentTransaction.addToBackStack(null);
-    }
+    }*/
 }
 
 

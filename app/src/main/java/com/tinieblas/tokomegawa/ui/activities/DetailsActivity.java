@@ -1,13 +1,13 @@
 package com.tinieblas.tokomegawa.ui.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
@@ -114,15 +114,6 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
         activityDetailsBinding.textViewDescripcionDetailsProducts.setText(producto.getDescripcionProducto());
         activityDetailsBinding.textViewDescripcionDetailsProducts.setMovementMethod(new ScrollingMovementMethod());
         activityDetailsBinding.textPrecioDestailsProductos.setText(String.valueOf(producto.getPrecioUnitario()));
-        activityDetailsBinding.buttonShippingDetails.setText(String.valueOf(producto.getDelivery()));
-
-        // Verificar si el campo "delivery" es igual a "Free shipping"
-        if (producto.getDelivery().equals("Free shipping")) {
-            activityDetailsBinding.buttonShippingDetails.setText(String.valueOf(producto.getDelivery()));
-        } else {
-            activityDetailsBinding.buttonShippingDetails.setText(String.valueOf(producto.getDelivery()));
-        }
-
 
         Glide.with(this).
                 load(producto.getImagen1()).

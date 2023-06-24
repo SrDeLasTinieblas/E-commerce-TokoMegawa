@@ -1,22 +1,20 @@
 package com.tinieblas.tokomegawa.ui.fragments;
 
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
+import com.tinieblas.tokomegawa.Constants;
 import com.tinieblas.tokomegawa.R;
-import com.tinieblas.tokomegawa.ui.adptadores.Modelos.ModelohotSales;
-import com.tinieblas.tokomegawa.ui.adptadores.hotSalesAdapterGridView;
-//import com.tinieblas.tokomegawa.adptadores.hotSalesAdapterRecycler;
-import com.tinieblas.tokomegawa.data.constants.Constants;
 import com.tinieblas.tokomegawa.databinding.FragmentHotSalesBinding;
+import com.tinieblas.tokomegawa.domain.models.ModelohotSales;
 
 import java.util.ArrayList;
 import java.util.List;

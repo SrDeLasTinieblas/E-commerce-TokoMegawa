@@ -74,7 +74,6 @@ public class ProductosVistosAdapter extends RecyclerView.Adapter<ProductosVistos
 
 
 
-
 }
 
 

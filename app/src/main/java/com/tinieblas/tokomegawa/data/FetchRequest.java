@@ -22,7 +22,7 @@ public class FetchRequest {
         client = new OkHttpClient.Builder().build();
     }
 
-    @SuppressLint("StaticFieldLeak")
+    /*@SuppressLint("StaticFieldLeak")
     public void fetchCategorias(final String url, final CategoriasCallback callback) {
         new AsyncTask<Void, Void, List<String>>() {
             @Override
@@ -57,6 +57,6 @@ public class FetchRequest {
                 }
             }
         }.execute();
-    }
+    }*/
 
 }

@@ -16,13 +16,6 @@
         tools:layout="@layout/fragment_home"
         />
 
-    <!--     <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/frameLayoutLogin"
-        android:name="com.tinieblas.tokomegawa.ui.fragments.LoginFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:layout="@layout/fragment_login" />-->
-
     <LinearLayout
         android:id="@+id/llButtons"
         android:layout_width="match_parent"

@@ -28,13 +28,13 @@
             android:exported="false"
             />
         <activity
-            android:name=".ui.activities.AuthenticationActivity"
+            android:name=".ui.activities.MainActivity"
             android:exported="false"
             android:label="@string/title_activity_authentication"
 
             />
         <activity
-            android:name=".ui.activities.MainActivity"
+            android:name=".ui.activities.AuthenticationActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

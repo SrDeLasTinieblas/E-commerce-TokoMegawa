@@ -1,7 +1,7 @@
 package com.tinieblas.tokomegawa.utils;
 
-import static com.tinieblas.tokomegawa.data.constants.Constants.KEY_PRODUCTO;
-import static com.tinieblas.tokomegawa.data.constants.Constants.PREFS_NAME_CARRITO;
+import static com.tinieblas.tokomegawa.Constants.KEY_PRODUCTO;
+import static com.tinieblas.tokomegawa.Constants.PREFS_NAME_CARRITO;
 
 import android.content.Context;
 import android.content.SharedPreferences;

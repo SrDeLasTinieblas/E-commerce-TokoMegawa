@@ -1,0 +1,24 @@
+
+X	java:S125"<This block of commented-out lines of code should be removed.(²Â…½8øÜ²1
+^
+java:S1128"<Remove this unused import 'android.annotation.SuppressLint'.(ÕƒóÏûÿÿÿÿ8ùÜ²1
+N
+java:S1128"1Remove this unused import 'android.os.AsyncTask'.(À»¥—8ùÜ²1
+N
+java:S1128"1Remove this unused import 'com.google.gson.Gson'.(–§8ùÜ²1
+\
+java:S1128"@Remove this unused import 'com.google.gson.JsonSyntaxException'.(èİ£68ùÜ²1
+s
+java:S1128"VRemove this unused import 'com.tinieblas.tokomegawa.domain.models.CategoriasResponse'.(¥“°¶8ùÜ²1
+x
+java:S1128	"VRemove this unused import 'com.tinieblas.tokomegawa.respositories.CategoriasCallback'.(Ù¤Ã˜ıÿÿÿÿ8ùÜ²1
+R
+java:S1128"0Remove this unused import 'java.io.IOException'.(ªº»Úıÿÿÿÿ8ùÜ²1
+M
+java:S1128"+Remove this unused import 'java.util.List'.(Õë±Äøÿÿÿÿ8ùÜ²1
+N
+java:S1128",Remove this unused import 'okhttp3.Request'.(¬ßØÿÿÿÿÿ8ùÜ²1
+O
+java:S1128"-Remove this unused import 'okhttp3.Response'.(Ï‚ñ—øÿÿÿÿ8ùÜ²1
+G
+java:S1068"*Remove this unused "client" private field.(¾ß¾™8ùÜ²1

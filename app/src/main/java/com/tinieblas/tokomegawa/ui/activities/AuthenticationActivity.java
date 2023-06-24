@@ -5,40 +5,31 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.tinieblas.tokomegawa.R;
 import com.tinieblas.tokomegawa.databinding.ActivityAuthenticationBinding;
 import com.tinieblas.tokomegawa.ui.fragments.LoginFragment;
 import com.tinieblas.tokomegawa.utils.NavigationContent;
+//import com.tinieblas.tokomegawa.ui.ativities.databinding.ActivityAuthenticationBinding;
 
 
 public class AuthenticationActivity extends AppCompatActivity {
-    private View decorView;
     ActivityAuthenticationBinding activityAuthenticationBinding;
+    private View decorView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        hideSystemBar();
         activityAuthenticationBinding = ActivityAuthenticationBinding.inflate(getLayoutInflater());
+        // Ocultar barra de sistema
+        getWindow().getDecorView().setSystemUiVisibility(hideSystemBar());
 
-
-        /*LinearLayout llButtons = findViewById(R.id.llButtons);
-        llButtons.setVisibility(View.GONE);*/
         replaceFragment(new LoginFragment());
-        //FragmentManager fragmentManager;
-        //NavigationContent.changeFragment(getSupportFragmentManager(), new LoginFragment(), R.id.frameLayoutHome);
-        //NavigationContent.changeFragment(getSupportFragmentManager(), new SettingFragment(), R.id.frameLayoutHome);
         setContentView(activityAuthenticationBinding.getRoot());
     }
-    public void replaceFragment(Fragment fragment) {
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.frameLayoutLogin, fragment);
-        fragmentTransaction.commit();
-        fragmentTransaction.addToBackStack(null);
-    }
-    private int hideSystemBar(){
+
+    private int hideSystemBar() {
         decorView = getWindow().getDecorView();
         decorView.setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
             @Override
@@ -55,4 +46,12 @@ public class AuthenticationActivity extends AppCompatActivity {
                 | View.SYSTEM_UI_FLAG_FULLSCREEN
                 | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
     }
+
+    public void replaceFragment(Fragment fragment) {
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.frameLayoutLogin, fragment);
+        fragmentTransaction.commit();
+        fragmentTransaction.addToBackStack(null);
+    }
+
 }

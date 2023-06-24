@@ -1,0 +1,6 @@
+
+|
+java:S1319"fThe type of "models" should be an interface such as "List" rather than the implementation "ArrayList".(ùﬂß¿
+Q	java:S125"<This block of commented-out lines of code should be removed.(¶•·ã
+h	java:S100"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(∞œñù˘ˇˇˇˇ
+Q	java:S125>"<This block of commented-out lines of code should be removed.(¥á‘ı

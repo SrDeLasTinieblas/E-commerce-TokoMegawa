@@ -20,9 +20,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.tinieblas.tokomegawa.R;
+import com.tinieblas.tokomegawa.databinding.CardProductosHotSalesBinding;
 import com.tinieblas.tokomegawa.domain.models.ProductosItem;
 import com.tinieblas.tokomegawa.ui.activities.DetailsActivity;
-//import com.tinieblas.tokomegawa.ui.activities.DetailsProductos;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -264,16 +264,8 @@ public class ProductosAdapter extends RecyclerView.Adapter<ProductosAdapter.Prod
         fragmentHomeBinding.reciclerViewHotSales.setItemAnimator(new DefaultItemAnimator());
         fragmentHomeBinding.reciclerViewHotSales.setAdapter(this);*/
 
-        // Filtra los productos al iniciar la aplicación
+    // Filtra los productos al iniciar la aplicación
        /* filtrarProductos("", productosItem);
     }*/
-
-
-
-
-
-
-
-
 
 }

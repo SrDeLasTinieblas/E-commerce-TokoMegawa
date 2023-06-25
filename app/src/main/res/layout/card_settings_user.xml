@@ -7,7 +7,7 @@
     android:layout_height="123dp"
     android:animateLayoutChanges="true"
     android:onClick="onClick">
-    <!--app:cardCornerRadius="15dp"-->
+    <!--app:cardCornerRadius="15dp"
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -65,7 +65,7 @@
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
+-->
 
 </RelativeLayout>
 

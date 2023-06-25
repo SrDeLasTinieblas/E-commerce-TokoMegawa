@@ -1,6 +1,5 @@
 package com.tinieblas.tokomegawa.ui.activities;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -15,12 +14,9 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.tinieblas.tokomegawa.R;
-import com.tinieblas.tokomegawa.databinding.ActivityMainBinding;
-import com.tinieblas.tokomegawa.databinding.ActivityMyCartBinding;
 import com.tinieblas.tokomegawa.domain.models.FireBaseModel;
 import com.tinieblas.tokomegawa.ui.fragments.HomeFragment;
 import com.tinieblas.tokomegawa.ui.fragments.HotSalesFragment;
-import com.tinieblas.tokomegawa.ui.fragments.LoginFragment;
 import com.tinieblas.tokomegawa.ui.fragments.MyCartFragment;
 import com.tinieblas.tokomegawa.ui.fragments.SettingFragment;
 import com.tinieblas.tokomegawa.ui.fragments.iLoveFragment;
@@ -50,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements /*RecyclerViewInt
 
     }
 
+
     private void replaceFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -57,7 +54,6 @@ public class MainActivity extends AppCompatActivity implements /*RecyclerViewInt
         fragmentTransaction.commit();
         fragmentTransaction.addToBackStack(null);
     }
-
 
     public void buttonFlotante(View view) {
         replaceFragment(new MyCartFragment());

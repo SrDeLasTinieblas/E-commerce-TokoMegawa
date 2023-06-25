@@ -26,19 +26,15 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.tinieblas.tokomegawa.R;
-import com.tinieblas.tokomegawa.data.APIs;
 import com.tinieblas.tokomegawa.databinding.FragmentHomeBinding;
 import com.tinieblas.tokomegawa.domain.models.CategoriaModelo;
 import com.tinieblas.tokomegawa.domain.models.CategoriasAdapter;
-import com.tinieblas.tokomegawa.domain.models.Modelo;
 import com.tinieblas.tokomegawa.domain.models.ProductosItem;
 import com.tinieblas.tokomegawa.respositories.ProductosCallback;
 import com.tinieblas.tokomegawa.ui.activities.AuthenticationActivity;
 import com.tinieblas.tokomegawa.ui.activities.MyCartActivity;
-import com.tinieblas.tokomegawa.ui.adptadores.AdapterRecyclerFilter;
 import com.tinieblas.tokomegawa.ui.adptadores.ProductosAdapter;
 import com.tinieblas.tokomegawa.ui.adptadores.ProductosVistosAdapter;
-import com.tinieblas.tokomegawa.ui.adptadores.RecentlyViewedAdapterRecycler;
 import com.tinieblas.tokomegawa.utils.NavigationContent;
 
 import java.io.IOException;
@@ -158,13 +154,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
         fragmentHomeBinding.cardFilterRecyclerView.setLayoutManager(linearLayoutManager2);
         fragmentHomeBinding.cardFilterRecyclerView.setItemAnimator(new DefaultItemAnimator());
-*/
+        */
         for (CategoriaModelo producto : productosList) {
             int imageResource = getImageResourceForCategory(producto.getLangName(), langLogo);
             producto.setLangLogo(imageResource); // Actualiza el atributo langLogo en el modelo Modelo
         }
 
-        //List<ProductosItem> allProductosList = productosList
         // Reemplaza obtenerTodosLosProductos() con el método adecuado para obtener la lista de todos los productos
 /*
         requireActivity().runOnUiThread(new Runnable() {

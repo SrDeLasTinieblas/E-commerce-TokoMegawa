@@ -36,7 +36,7 @@ jobs:
      #  run: ./gradlew build -x lint,app:testDebugUnitTest
 
     - name: Testing Login
-      run: ./gradlew app:testDebugUnitTest --tests 'com.tinieblas.tokomegawa.utils.SumaTest.loginTest'
+      run: ./gradlew app:testDebugUnitTest --tests 'com.tinieblas.tokomegawa.utils.FirebaseAuthenticationTest.testSignInWithEmailAndPassword'
 
     #- name: ejecutando mi segunda prueba
      # run: ./gradlew app:testDebugUnitTest --tests 'com.tinieblas.tokomegawa.utils.SumaTest.loginTest'

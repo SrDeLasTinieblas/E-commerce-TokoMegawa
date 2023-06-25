@@ -15,7 +15,7 @@ import com.tinieblas.tokomegawa.domain.models.Modelo;
 
 import java.util.ArrayList;
 
-public class AdapterRecyclerFilter extends RecyclerView.Adapter<AdapterRecyclerFilter.ViewHolder> {
+public class CategoriaAdapter extends RecyclerView.Adapter<CategoriaAdapter.ViewHolder> {
     ArrayList<Modelo> modelos;
     Context context;
     //final AdapterView.OnItemClickListener listener;
@@ -24,7 +24,7 @@ public class AdapterRecyclerFilter extends RecyclerView.Adapter<AdapterRecyclerF
         void OnItemClick(Modelo item);
     }
 
-    public AdapterRecyclerFilter(Context context, ArrayList<Modelo> models ){
+    public CategoriaAdapter(Context context, ArrayList<Modelo> models ){
         this.context = context;
         this.modelos = models;
     }

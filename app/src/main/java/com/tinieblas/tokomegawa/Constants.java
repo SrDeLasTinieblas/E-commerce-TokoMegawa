@@ -10,5 +10,5 @@ public class Constants {
     //------------------------------------------------------------
     public static final String PREFS_NAME_CARRITO = "carrito";
     public static final String KEY_PRODUCTO = "producto";
-
+    public static final String KEY_DARK_MODE = "darkMode";
 }

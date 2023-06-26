@@ -120,8 +120,6 @@ Mapp/src/main/java/com/tinieblas/tokomegawa/domain/models/CategoriaModelo.java,
 Mapp/src/main/java/com/tinieblas/tokomegawa/ui/activities/DetailsActivity.java,d\b\db84a5601574ccef831425a76437bd31277f7b1c
 |
 Lapp/src/main/java/com/tinieblas/tokomegawa/ui/adptadores/CarritoAdapter.java,1\c\1cf762b30a39a011e7f0f940fdc1fcd52ea0a4de
-L
-.github/workflows/gradle.yml,c\3\c36c878e4a824e41b1b476ece36b9a80ca94ffec
 ~
 Napp/src/main/java/com/tinieblas/tokomegawa/ui/adptadores/ProductosAdapter.java,3\2\32e75307acd0efbb887101f32726bd21d203a5d9
 Å

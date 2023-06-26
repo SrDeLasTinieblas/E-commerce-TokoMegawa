@@ -105,8 +105,6 @@ u
 Eapp/src/main/java/com/tinieblas/tokomegawa/utils/TestFirebaseApp.java,2\7\2797c58eb6813e6be98f11500a7fd726f7ffecf0
 {
 Kapp/src/main/java/com/tinieblas/tokomegawa/domain/models/ProductosItem.java,9\4\94aa5ad0973b0a2419010891b7739d4f2c15fb35
-L
-.github/workflows/gradle.yml,c\3\c36c878e4a824e41b1b476ece36b9a80ca94ffec
 :
 
 .gitignore,a\5\a5cc2925ca8258af241be7e5b0381edf30266302

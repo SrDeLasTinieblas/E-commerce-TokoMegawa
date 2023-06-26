@@ -149,11 +149,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private int getImageResourceForCategory(String categoria, Integer[] langLogo) {
         String categoriaMinuscula = categoria.toLowerCase().replace(" ", "_");
 
-        for (int i = 0; i < langLogo.length; i++) {
-            String nombreRecurso = getResources().getResourceEntryName(langLogo[i]).toLowerCase();
-
+        for (Integer logo : langLogo) {
+            String nombreRecurso = getResources().getResourceEntryName(logo).toLowerCase();
             if (categoriaMinuscula.equals(nombreRecurso)) {
-                return langLogo[i];
+                return logo;
             }
         }
 
@@ -172,24 +171,21 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
         categoriaAdapter = new CategoriasAdapter(requireContext(),
                 categorias,
-                productosList, new CategoriasAdapter.OnCategoriaClickListener() {
-            @Override
-            public void onCategoriaClick(CategoriaModelo categoria) {
-                if (isCategoriaSeleccionada && categoria.equals(categoria.langName)) {
-                    // Restablecer el estado para mostrar todos los productos
-                    productosAdapter.setProductosList(todosLosProductos);
-                    Toast.makeText(getContext(), "Mostrando todos los productos", Toast.LENGTH_SHORT).show();
-                    //Log.e("todos los productos", todosLosProductos.toString());
-                    isCategoriaSeleccionada = false;
-                } else {
-                    // Filtrar los productos por la categoría seleccionada
-                    filterProductosByCategoria(categoria);
-                    Toast.makeText(getContext(), categoria.getLangName(), Toast.LENGTH_SHORT).show();
-                    isCategoriaSeleccionada = true;
-                    //Log.e("categoria", categoria.getLangName());
-                }
-            }
-        });
+                productosList, categoria -> {
+                    if (isCategoriaSeleccionada && categoria.equals(categoria.langName)) {
+                        // Restablecer el estado para mostrar todos los productos
+                        productosAdapter.setProductosList(todosLosProductos);
+                        Toast.makeText(getContext(), "Mostrando todos los productos", Toast.LENGTH_SHORT).show();
+                        //Log.e("todos los productos", todosLosProductos.toString());
+                        isCategoriaSeleccionada = false;
+                    } else {
+                        // Filtrar los productos por la categoría seleccionada
+                        filterProductosByCategoria(categoria);
+                        Toast.makeText(getContext(), categoria.getLangName(), Toast.LENGTH_SHORT).show();
+                        isCategoriaSeleccionada = true;
+                        //Log.e("categoria", categoria.getLangName());
+                    }
+                });
 
 
         fragmentHomeBinding.cardFilterRecyclerView.setAdapter(categoriaAdapter);

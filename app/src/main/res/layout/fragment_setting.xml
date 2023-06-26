@@ -210,12 +210,13 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
 
+        android:layout_marginTop="16dp"
         android:background="@drawable/arrow_derecha"
         android:onClick="onClick"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.824"
         app:layout_constraintStart_toEndOf="@+id/textNombre2"
-        tools:layout_editor_absoluteY="546dp" />
+        app:layout_constraintTop_toBottomOf="@+id/textNombre4" />
 
     <Button
         android:id="@+id/buttonCerrarSession"
@@ -232,7 +233,7 @@
         app:layout_constraintVertical_bias="0.75" />
 
     <Switch
-        android:id="@+id/switch1"
+        android:id="@+id/switchDarkMode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"

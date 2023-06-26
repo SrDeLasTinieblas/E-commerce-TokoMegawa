@@ -68,7 +68,7 @@ public class MyCartActivity extends AppCompatActivity {
 
         //getNombreUser(UID);
         System.out.println("my cart UID ===>" + UID);
-        getPermission();
+        //getPermission();
     }
 
     public void getPermission() {
@@ -181,17 +181,18 @@ public class MyCartActivity extends AppCompatActivity {
         String departamentoGuardada = sharedPreferences.getString("departamento", "");
         String distritoGuardado = sharedPreferences.getString("distrito", "");
 
-        while (TextUtils.isEmpty(departamentoGuardada) || TextUtils.isEmpty(distritoGuardado)) {
-            departamentoGuardada = sharedPreferences.getString("departamento", "");
-            if (departamentoGuardada.contains("departamento")){
-                departamentoGuardada.replaceAll("Provincia de ","");
+        if (!TextUtils.isEmpty(departamentoGuardada) && !TextUtils.isEmpty(distritoGuardado)) {
+            if (departamentoGuardada.contains("departamento")) {
+                departamentoGuardada = departamentoGuardada.replaceAll("Provincia de ", "");
             }
-            distritoGuardado = sharedPreferences.getString("distrito", "");
-        }
 
-        activityMyCartBinding.Departamento.setText(departamentoGuardada + ",");
-        activityMyCartBinding.Distrito.setText(distritoGuardado);
+            activityMyCartBinding.Departamento.setText(departamentoGuardada + ",");
+            activityMyCartBinding.Distrito.setText(distritoGuardado);
+        } else {
+            // Los valores están vacíos, puedes mostrar un mensaje o realizar otras acciones
+        }
     }
+
     private int hideSystemBar(){
         decorView = getWindow().getDecorView();
         decorView.setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {

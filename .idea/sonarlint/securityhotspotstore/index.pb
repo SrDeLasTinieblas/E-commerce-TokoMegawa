@@ -33,8 +33,6 @@ o
 ?app/src/test/java/com/tinieblas/tokomegawa/ExampleUnitTest.java,a\a\aad0d8e749e36fb6e1b7418e53b7b694c5cea7ae
 s
 Capp/src/main/java/com/tinieblas/tokomegawa/data/local/Response.java,1\c\1cbd50119d5f019f9712a371ded89028d5a68e86
-i
-9app/src/main/java/com/tinieblas/tokomegawa/data/APIs.java,d\5\d514a6f010c53a614f38673d01fe97c0ac33645b
 H
 .scannerwork/.sonar_lock,d\1\d14cfce755b0c90b517e77467879808c5d561511
 L
@@ -81,8 +79,6 @@ w
 Gapp/src/main/java/com/tinieblas/tokomegawa/utils/NavigationContent.java,0\5\05e9fad6569dc1b1a9621a1bb24490faa045664a
 k
 ;app/src/main/java/com/tinieblas/tokomegawa/utils/Login.java,5\b\5b96149a2ecdac689c96d91a3b6ee3a823f34def
-~
-Napp/src/main/java/com/tinieblas/tokomegawa/data/remote/LoginRepositoryImp.java,e\7\e7e3f5c4fb70c7e10ba8f1a2fd6e781015365caa
 i
 9app/src/main/java/com/tinieblas/tokomegawa/Constants.java,3\c\3c4f2532cd745f8c5f4cc3611f3f14272ba7f81f
 z

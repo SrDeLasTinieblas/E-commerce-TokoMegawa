@@ -33,7 +33,7 @@ import com.tinieblas.tokomegawa.databinding.FragmentHomeBinding;
 import com.tinieblas.tokomegawa.domain.models.CategoriaModelo;
 import com.tinieblas.tokomegawa.domain.models.ProductosCategorias;
 import com.tinieblas.tokomegawa.domain.models.ProductosItem;
-import com.tinieblas.tokomegawa.respositories.ProductosCallback;
+import com.tinieblas.tokomegawa.domain.repository.respositories.ProductosCallback;
 import com.tinieblas.tokomegawa.ui.activities.AuthenticationActivity;
 import com.tinieblas.tokomegawa.ui.activities.MyCartActivity;
 import com.tinieblas.tokomegawa.ui.adptadores.ProductosAdapter;

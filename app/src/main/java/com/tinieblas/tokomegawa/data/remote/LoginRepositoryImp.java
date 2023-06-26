@@ -36,6 +36,7 @@ public class LoginRepositoryImp implements LoginRepository {
     @Override
     public Boolean login(String email, String password) {
         try {
+            definingFirebase();
 
             // Realiza el inicio de sesión de forma asíncrona
             Task<AuthResult> signInTask = mAuth.signInWithEmailAndPassword(email, password);
@@ -51,6 +52,12 @@ public class LoginRepositoryImp implements LoginRepository {
         return false;
     }
 
+    @Override
+    public String getNameUser() {
+        definingFirebase();
+        FirebaseUser user = mAuth.getCurrentUser();
+        return user.getEmail();
+    }
 
 
 

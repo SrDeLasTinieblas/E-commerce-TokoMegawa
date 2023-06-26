@@ -1,4 +1,4 @@
-package com.tinieblas.tokomegawa.respositories;
+package com.tinieblas.tokomegawa.domain.repository.respositories;
 
 import com.tinieblas.tokomegawa.domain.models.ProductosItem;
 

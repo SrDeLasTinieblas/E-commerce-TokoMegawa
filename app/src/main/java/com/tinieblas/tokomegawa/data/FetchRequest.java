@@ -1,19 +1,6 @@
 package com.tinieblas.tokomegawa.data;
 
-import android.annotation.SuppressLint;
-import android.os.AsyncTask;
-
-import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
-import com.tinieblas.tokomegawa.domain.models.CategoriasResponse;
-import com.tinieblas.tokomegawa.respositories.CategoriasCallback;
-
-import java.io.IOException;
-import java.util.List;
-
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 
 public class FetchRequest {
     private OkHttpClient client;

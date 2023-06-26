@@ -91,8 +91,6 @@ z
 Japp/src/main/java/com/tinieblas/tokomegawa/ui/fragments/iLoveFragment.java,2\e\2ed041aa2307bd7d2ffb8c2d681aba3a3fad1dab
 }
 Mapp/src/main/java/com/tinieblas/tokomegawa/ui/fragments/HotSalesFragment.java,a\c\ac673fde4f9011cdba556b150761b3ba8cd5400d
-}
-Mapp/src/main/java/com/tinieblas/tokomegawa/ui/activities/DetailsActivity.java,d\b\db84a5601574ccef831425a76437bd31277f7b1c
 „
 Tapp/src/main/java/com/tinieblas/tokomegawa/ui/activities/AuthenticationActivity.java,6\3\63dbcac6a576701e7a4eb06417ee5f36b363afd1
 {

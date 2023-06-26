@@ -69,7 +69,7 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
                         activityDetailsBinding.animationView.setProgress(0);
                         activityDetailsBinding.animationView.pauseAnimation();
                     } else {
-                        Toast.makeText(context, "El producto no esta en el carrito", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "Añadido al carrito", Toast.LENGTH_SHORT).show();
                         // El producto no está en el carrito, así que lo añadimos
                         guardarProductoCarrito(producto);
                         // Mostrar animación de añadir al carrito
@@ -452,8 +452,6 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
             }
         }
     }*/
-
-
 
     public void agregarProducto(Context context, ProductosItem producto) throws JSONException {
         /*List<ProductosItem> productosList = Shared.obtenerProductos(context);

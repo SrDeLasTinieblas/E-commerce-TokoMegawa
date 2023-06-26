@@ -61,7 +61,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
     private ProductosCategorias productosCategorias;
     private ArrayList<ProductosItem> todosLosProductos = new ArrayList<>();
-
+    private boolean isCategoriaSeleccionada = false;
+    private boolean isChecked = false;
     private final List<ProductosItem> productosListOriginal = new ArrayList<>();
     private Integer[] langLogo = new Integer[]{R.drawable.earphones, R.drawable.alexa, R.drawable.audifonos,
             R.drawable.camaras, R.drawable.sillas_gamer, R.drawable.tablets, R.drawable.celurales};
@@ -145,8 +146,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         Log.e("categorias",categorias.toString());
         requireActivity().runOnUiThread(() -> createRecyclerView(productosList, categorias));
     }
-
-
     private int getImageResourceForCategory(String categoria, Integer[] langLogo) {
         String categoriaMinuscula = categoria.toLowerCase().replace(" ", "_");
 
@@ -160,7 +159,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
         return R.drawable.place_holder;
     }
-
 
     private void createRecyclerView(ArrayList<CategoriaModelo> productosList,
                                     ArrayList<String> categorias) {
@@ -177,12 +175,19 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 productosList, new CategoriasAdapter.OnCategoriaClickListener() {
             @Override
             public void onCategoriaClick(CategoriaModelo categoria) {
-                Toast.makeText(getContext(), ":p" + categoria.getLangName(), Toast.LENGTH_SHORT).show();
-
-                // Filtrar los productos por la categoría seleccionada
-                filterProductosByCategoria(categoria);
-
-
+                if (isCategoriaSeleccionada && categoria.equals(categoria.langName)) {
+                    // Restablecer el estado para mostrar todos los productos
+                    productosAdapter.setProductosList(todosLosProductos);
+                    Toast.makeText(getContext(), "Mostrando todos los productos", Toast.LENGTH_SHORT).show();
+                    //Log.e("todos los productos", todosLosProductos.toString());
+                    isCategoriaSeleccionada = false;
+                } else {
+                    // Filtrar los productos por la categoría seleccionada
+                    filterProductosByCategoria(categoria);
+                    Toast.makeText(getContext(), categoria.getLangName(), Toast.LENGTH_SHORT).show();
+                    isCategoriaSeleccionada = true;
+                    //Log.e("categoria", categoria.getLangName());
+                }
             }
         });
 
@@ -207,7 +212,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     }
 
 
-    private boolean isChecked = false;
     public void Showfiltro(View view) {
         if (popupWindow != null && popupWindow.isShowing()) {
             popupWindow.dismiss();

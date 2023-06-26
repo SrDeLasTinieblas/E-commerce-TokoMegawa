@@ -1,0 +1,37 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="190dp"
+    android:layout_height="wrap_content"
+    android:background="@drawable/background_idiomas">
+    <LinearLayout
+        android:layout_width="190dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Otros elementos de tu diseño -->
+
+        <RadioGroup
+            android:id="@+id/radioGroupIdiomas"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RadioButton
+                android:id="@+id/radioButtonIdioma1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="Español" />
+
+            <RadioButton
+                android:id="@+id/radioButtonIdioma2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ingles" />
+
+            <!-- Agrega más RadioButton según tus necesidades -->
+
+        </RadioGroup>
+    </LinearLayout>
+
+</RelativeLayout>

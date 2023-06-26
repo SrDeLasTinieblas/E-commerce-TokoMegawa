@@ -48,36 +48,37 @@
         android:id="@+id/imageView2"
         android:layout_width="112dp"
         android:layout_height="88dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="28dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4"
         app:srcCompat="@drawable/user" />
+
 
     <TextView
         android:id="@+id/textNombreSettings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="36dp"
         android:text="Nombre"
         android:textSize="20sp"
         android:theme="@style/AppTheme.Light"
         app:layout_constraintStart_toEndOf="@+id/imageView2"
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
+
     <TextView
-        android:id="@+id/PersonalInfo"
+        android:id="@+id/Localitation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="8dp"
 
         android:text="Personal info"
         android:theme="@style/AppTheme.Light"
         app:layout_constraintStart_toEndOf="@+id/imageView2"
         app:layout_constraintTop_toBottomOf="@+id/textNombreSettings" />
-
 
     <Button
         android:id="@+id/buttonArrowDerecha1"
@@ -91,7 +92,7 @@
         android:onClick="onClick"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/PersonalInfo"
+        app:layout_constraintStart_toEndOf="@+id/Localitation"
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
     <TextView
@@ -171,13 +172,11 @@
         android:textColor="#000000"
         android:textStyle="bold"
         android:theme="@style/AppTheme.Light"
-        app:layout_constraintEnd_toStartOf="@+id/buttonArrowDerecha6"
-        app:layout_constraintHorizontal_bias="0.033"
         app:layout_constraintStart_toEndOf="@+id/textNombre3"
         app:layout_constraintTop_toBottomOf="@+id/buttonArrowCupon" />
 
     <Button
-        android:id="@+id/buttonArrowDerecha"
+        android:id="@+id/btnLenguaje"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_alignParentEnd="true"
@@ -185,7 +184,6 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="48dp"
         android:background="@drawable/arrow_derecha"
-        android:onClick="onClick"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/textNombre"
@@ -197,28 +195,13 @@
         android:layout_height="30dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginTop="388dp"
         android:layout_marginEnd="28dp"
         android:background="@drawable/arrow_derecha"
         android:onClick="onClick"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.878"
         app:layout_constraintStart_toEndOf="@+id/textNombre2"
-        app:layout_constraintTop_toBottomOf="@+id/buttonArrowDerecha4" />
-
-    <Button
-        android:id="@+id/buttonArrowDerecha4"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginTop="14dp"
-        android:background="@drawable/arrow_derecha"
-        android:onClick="onClick"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.799"
-        app:layout_constraintStart_toEndOf="@+id/textNombre4"
-        app:layout_constraintTop_toBottomOf="@+id/buttonArrowDerecha" />
+        tools:layout_editor_absoluteY="918dp" />
 
     <Button
         android:id="@+id/buttonArrowCupon"
@@ -226,39 +209,13 @@
         android:layout_height="30dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginTop="16dp"
 
         android:background="@drawable/arrow_derecha"
         android:onClick="onClick"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.824"
         app:layout_constraintStart_toEndOf="@+id/textNombre2"
-        app:layout_constraintTop_toBottomOf="@+id/buttonArrowDerecha4" />
-
-    <Button
-        android:id="@+id/buttonArrowDerecha6"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="48dp"
-        android:background="@drawable/arrow_derecha"
-        android:onClick="onClick"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonArrowCupon" />
-
-    <Switch
-        android:id="@+id/switch_dark_mode"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:checked="false"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.911"
-        app:layout_constraintStart_toEndOf="@+id/textNombre3"
-        app:layout_constraintTop_toBottomOf="@+id/buttonArrowDerecha2"
-        tools:ignore="UseSwitchCompatOrMaterialXml" />
+        tools:layout_editor_absoluteY="546dp" />
 
     <Button
         android:id="@+id/buttonCerrarSession"
@@ -273,6 +230,32 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textNombre3"
         app:layout_constraintVertical_bias="0.75" />
+
+    <Switch
+        android:id="@+id/switch1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="40dp"
+        app:layout_constraintBottom_toTopOf="@+id/buttonCerrarSession"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/personalInfo"
+        app:layout_constraintTop_toBottomOf="@+id/buttonArrowCupon"
+        app:layout_constraintVertical_bias="0.153"
+        tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+    <Switch
+        android:id="@+id/switch2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/buttonArrowCupon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.856"
+        app:layout_constraintStart_toEndOf="@+id/textNombre4"
+        app:layout_constraintTop_toBottomOf="@+id/btnLenguaje"
+        app:layout_constraintVertical_bias="0.454"
+        tools:ignore="UseSwitchCompatOrMaterialXml" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

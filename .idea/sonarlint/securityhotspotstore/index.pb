@@ -27,8 +27,6 @@ F
 build.gradle,f\0\f07866736216be0ee2aba49e392191aeae700a35
 E
 app/lint-baseline.xml,1\f\1fc23505a3dfbb530e3d9c3d9063cabfef39c55f
-|
-Lapp/src/main/java/com/tinieblas/tokomegawa/ui/adptadores/CarritoAdapter.java,1\c\1cf762b30a39a011e7f0f940fdc1fcd52ea0a4de
 …
 Uapp/src/main/java/com/tinieblas/tokomegawa/ui/adptadores/hotSalesAdapterRecycler.java,0\1\01d0584510d225121d2fe84f8c1ee0a218fd0689
 o
@@ -67,12 +65,8 @@ z
 Japp/src/main/java/com/tinieblas/tokomegawa/respositories/FirebaseData.java,1\b\1b9f82637cd09be457606d1b78f2acc2f224c0fd
 q
 Aapp/src/main/java/com/tinieblas/tokomegawa/data/FetchRequest.java,2\2\2232f12c1892fcd632467da37513c2c80b97f3bf
-}
-Mapp/src/main/java/com/tinieblas/tokomegawa/domain/models/CategoriaModelo.java,2\f\2f190775a71ea9c0f176fb6925b6f1981538b52a
 j
 :app/src/main/java/com/tinieblas/tokomegawa/utils/Suma.java,3\a\3aa886f3e2e37b0a34d657dde8243581d364b158
-|
-Lapp/src/test/java/com/tinieblas/tokomegawa/utils/setCardsCategoriasTest.java,9\3\933ac60484a53c8d87c7fe2f874388849ae4f56f
 €
 Papp/src/main/java/com/tinieblas/tokomegawa/domain/models/CategoriasResponse.java,1\d\1da1507a8ae46de12d5bb5d5300b6632ce9bef86
 |
@@ -83,8 +77,6 @@ Dapp/src/main/java/com/tinieblas/tokomegawa/domain/models/Modelo.java,5\4\54098
 Tapp/src/main/java/com/tinieblas/tokomegawa/ui/adptadores/ProductosVistosAdapter.java,1\9\1935aabddc451b066945539c049e4ee13b8abeba
 ‹
 [app/src/main/java/com/tinieblas/tokomegawa/ui/adptadores/RecentlyViewedAdapterRecycler.java,8\a\8a2f923dd3306cf85945e5699cd5ee224144bb87
-
-Oapp/src/main/java/com/tinieblas/tokomegawa/domain/models/CategoriasAdapter.java,7\4\745a42cdcad269fbd9ddb2d8deedeefb86e915b6
 w
 Gapp/src/main/java/com/tinieblas/tokomegawa/utils/NavigationContent.java,0\5\05e9fad6569dc1b1a9621a1bb24490faa045664a
 k

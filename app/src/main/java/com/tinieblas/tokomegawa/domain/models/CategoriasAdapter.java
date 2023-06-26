@@ -22,18 +22,30 @@ public class CategoriasAdapter extends RecyclerView.Adapter<CategoriasAdapter.Vi
     private Context context;
     private OnCategoriaClickListener onCategoriaClickListener;
     private int selectedPosition = -1;
-    private List<ProductosItem> productosList;
+    private ArrayList<CategoriaModelo> productosList;
+    private ArrayList<String> categorias;
+
+    private OnItemClickListener listener;
+
+    public interface OnItemClickListener {
+        void onItemClick(ProductosItem item);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
+    }
+
     public interface OnCategoriaClickListener {
         void onCategoriaClick(CategoriaModelo categoria);
     }
 
-    public CategoriasAdapter(Context context, ArrayList<CategoriaModelo> categoriaModelos, List<ProductosItem> productosList,
-                             OnCategoriaClickListener onCategoriaClickListener) {
+    public CategoriasAdapter(Context context, ArrayList<String> categorias, ArrayList<CategoriaModelo> productosList, OnCategoriaClickListener onCategoriaClickListener) {
         this.context = context;
-        this.categoriaModelos = categoriaModelos;
+        this.categorias = categorias;
         this.productosList = productosList;
         this.onCategoriaClickListener = onCategoriaClickListener;
     }
+
 
     @NonNull
     @Override
@@ -45,7 +57,8 @@ public class CategoriasAdapter extends RecyclerView.Adapter<CategoriasAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        CategoriaModelo categoria = categoriaModelos.get(position);
+        CategoriaModelo categoria = productosList.get(position);
+
         holder.imageView.setImageResource(categoria.getLangLogo());
         holder.textView.setText(categoria.getLangName());
 
@@ -67,7 +80,8 @@ public class CategoriasAdapter extends RecyclerView.Adapter<CategoriasAdapter.Vi
                 notifyItemChanged(selectedPosition);
 
                 // Obtener la categoría seleccionada
-                CategoriaModelo categoriaSeleccionada = categoriaModelos.get(selectedPosition);
+                CategoriaModelo categoriaSeleccionada = productosList.get(selectedPosition);
+
 
                 // Llamar al método de clic en la categoría del listener
                 onCategoriaClickListener.onCategoriaClick(categoriaSeleccionada);
@@ -77,8 +91,13 @@ public class CategoriasAdapter extends RecyclerView.Adapter<CategoriasAdapter.Vi
 
     @Override
     public int getItemCount() {
-        return categoriaModelos.size();
+        if (categorias != null) {
+            return categorias.size();
+        } else {
+            return 0;
+        }
     }
+
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;

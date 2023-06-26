@@ -6,8 +6,8 @@ import java.util.List;
 
 public class CategoriaModelo {
 
-    Integer langLogo;
-    String langName;
+    public Integer langLogo;
+    public String langName;
     private List<ProductosItem> productosList;
 
     public void setLangLogo(Integer langLogo) {
@@ -44,4 +44,6 @@ public class CategoriaModelo {
                 ", langName='" + langName + '\'' +
                 '}';
     }
+
+
 }

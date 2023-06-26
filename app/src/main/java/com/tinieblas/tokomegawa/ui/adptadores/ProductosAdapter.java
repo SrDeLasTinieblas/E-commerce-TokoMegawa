@@ -20,7 +20,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.tinieblas.tokomegawa.R;
-import com.tinieblas.tokomegawa.databinding.CardProductosHotSalesBinding;
 import com.tinieblas.tokomegawa.domain.models.ProductosItem;
 import com.tinieblas.tokomegawa.ui.activities.DetailsActivity;
 
@@ -31,12 +30,12 @@ import java.util.Set;
 
 public class ProductosAdapter extends RecyclerView.Adapter<ProductosAdapter.ProductoViewHolder> {
     private final Context mContext;
-    //private List<ProductosItem> mProductos;
+    private List<ProductosItem> mProductos;
     SharedPreferences sharedPreferences;
 
-    public ProductosAdapter(Context context/*, List<ProductosItem> productos*/) {
+    public ProductosAdapter(Context context, List<ProductosItem> productos) {
         mContext = context;
-        //mProductos = productos;
+        mProductos = productos;
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
@@ -47,10 +46,10 @@ public class ProductosAdapter extends RecyclerView.Adapter<ProductosAdapter.Prod
         return new ProductoViewHolder(view);
     }
 
-    /*public void setProductos(List<ProductosItem> productos) {
+    public void setProductos(List<ProductosItem> productos) {
         mProductos = productos;
         notifyDataSetChanged();
-    }*/
+    }
 
     public void setProductosList(List<ProductosItem> productosItem) {
         //mProductos.clear();

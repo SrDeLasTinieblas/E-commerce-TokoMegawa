@@ -11,22 +11,27 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.tinieblas.tokomegawa.R;
-import com.tinieblas.tokomegawa.domain.models.Modelo;
+import com.tinieblas.tokomegawa.domain.models.ProductosItem;
 
-import java.util.ArrayList;
-
+import java.util.List;
+/**
 public class CategoriaAdapter extends RecyclerView.Adapter<CategoriaAdapter.ViewHolder> {
-    ArrayList<Modelo> modelos;
-    Context context;
-    //final AdapterView.OnItemClickListener listener;
+
+    private List<ProductosItem> modelos;
+    private Context context;
+    private OnItemClickListener listener;
 
     public interface OnItemClickListener {
-        void OnItemClick(Modelo item);
+        void onItemClick(ProductosItem item);
     }
 
-    public CategoriaAdapter(Context context, ArrayList<Modelo> models ){
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
+    }
+
+    public CategoriaAdapter(Context context, List<ProductosItem> modelos) {
         this.context = context;
-        this.modelos = models;
+        this.modelos = modelos;
     }
 
     @NonNull
@@ -39,10 +44,9 @@ public class CategoriaAdapter extends RecyclerView.Adapter<CategoriaAdapter.View
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        // Set logo ImageView
-        //holder.imageView
-        holder.imageView.setImageResource(modelos.get(position).getLangLogo());
-        holder.textView.setText(modelos.get(position).getLangName());
+        ProductosItem item = modelos.get(position);
+        holder.imageView.setImageResource(item.getLangLogo());
+        holder.textView.setText(item.getLangName());
     }
 
     @Override
@@ -50,61 +54,26 @@ public class CategoriaAdapter extends RecyclerView.Adapter<CategoriaAdapter.View
         return modelos.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         ImageView imageView;
         TextView textView;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            //Assign Variable
             imageView = itemView.findViewById(R.id.iconImageView);
             textView = itemView.findViewById(R.id.textTitulo);
+            itemView.setOnClickListener(this);
         }
-        /*void bindData(final ListElement item){
 
-        }*/
-
+        @Override
+        public void onClick(View v) {
+            int position = getAdapterPosition();
+            if (position != RecyclerView.NO_POSITION && listener != null) {
+                listener.onItemClick(modelos.get(position));
+            }
+        }
     }
+
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+ */

@@ -98,7 +98,6 @@ public class CategoriasAdapter extends RecyclerView.Adapter<CategoriasAdapter.Vi
         }
     }
 
-
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
         TextView textView;
@@ -109,6 +108,16 @@ public class CategoriasAdapter extends RecyclerView.Adapter<CategoriasAdapter.Vi
             textView = itemView.findViewById(R.id.textTitulo);
         }
     }
+
+    public CategoriaModelo getSelectedCategoria() {
+        if (selectedPosition != -1 && selectedPosition < productosList.size()) {
+            return productosList.get(selectedPosition);
+        }
+        return null;
+    }
+
+
+
 }
 
 

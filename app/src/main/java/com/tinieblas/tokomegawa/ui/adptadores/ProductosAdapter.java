@@ -46,11 +46,11 @@ public class ProductosAdapter extends RecyclerView.Adapter<ProductosAdapter.Prod
         return new ProductoViewHolder(view);
     }
 
-    public void setProductos(List<ProductosItem> productos) {
+    /*public void setProductos(List<ProductosItem> productos) {
         mProductos = productos;
         notifyDataSetChanged();
     }
-
+*/
     public void setProductosList(List<ProductosItem> productosItem) {
         //mProductos.clear();
         //mProductos.addAll(productosItem);

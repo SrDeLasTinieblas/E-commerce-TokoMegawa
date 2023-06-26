@@ -60,6 +60,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private ProductosAdapter productosAdapter;
 
     private ProductosCategorias productosCategorias;
+    private ArrayList<ProductosItem> todosLosProductos = new ArrayList<>();
 
     private final List<ProductosItem> productosListOriginal = new ArrayList<>();
     private Integer[] langLogo = new Integer[]{R.drawable.earphones, R.drawable.alexa, R.drawable.audifonos,
@@ -177,13 +178,33 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onCategoriaClick(CategoriaModelo categoria) {
                 Toast.makeText(getContext(), ":p" + categoria.getLangName(), Toast.LENGTH_SHORT).show();
+
+                // Filtrar los productos por la categoría seleccionada
+                filterProductosByCategoria(categoria);
+
+
             }
         });
 
 
         fragmentHomeBinding.cardFilterRecyclerView.setAdapter(categoriaAdapter);
     }
+    private void filterProductosByCategoria(CategoriaModelo categoria) {
+        // Obtener la categoría seleccionada
+        String categoriaSeleccionada = categoria.getLangName();
 
+        // Filtrar los productos por la categoría seleccionada
+        ArrayList<ProductosItem> productosFiltrados = new ArrayList<>();
+        for (ProductosItem producto : productosListOriginal) {
+            if (producto.getCategoria().equals(categoriaSeleccionada)) {
+                productosFiltrados.add(producto);
+            }
+        }
+
+        Log.e("productosfiltrados", productosFiltrados.toString());
+        // Actualizar el adaptador del RecyclerView de productos con la lista filtrada
+        productosAdapter.setProductosList(productosFiltrados);
+    }
 
 
     private boolean isChecked = false;

@@ -20,9 +20,6 @@ public class UserRepositoryImp implements UserRepository {
         database = FirebaseDatabase.getInstance();
 
     }
-
-
-
     String userCollections = "Usuarios";
     String nameValue = "nombres";
 
@@ -69,11 +66,6 @@ public class UserRepositoryImp implements UserRepository {
 //            }
 //        });
     }
-
-
-
-
-
 
     @Override
     public String getCurrentUserId() {

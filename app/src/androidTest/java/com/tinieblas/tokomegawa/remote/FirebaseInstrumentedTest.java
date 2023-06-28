@@ -31,7 +31,7 @@ public class FirebaseInstrumentedTest {
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
         String email = "axopotamre@gmail.com";
-        String password = "123456789";
+        String password = "1234567890";
 
         Task<AuthResult> signInTask = mAuth.signInWithEmailAndPassword(email, password);
         AuthResult authResult = Tasks.await(signInTask);

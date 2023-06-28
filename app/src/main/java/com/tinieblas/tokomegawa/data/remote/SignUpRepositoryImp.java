@@ -24,12 +24,11 @@ public class SignUpRepositoryImp implements SignUpRepository {
         mAuth = FirebaseAuth.getInstance();
         firebaseFirestore = FirebaseFirestore.getInstance();
         database = FirebaseDatabase.getInstance();
-
     }
 
     @Override
     public String createUser(String email, String password) {
-
+        definingFirebase();
         try {
             Task<AuthResult> signInTask = mAuth.createUserWithEmailAndPassword(email, password);
             AuthResult authResult = Tasks.await(signInTask);
@@ -37,16 +36,14 @@ public class SignUpRepositoryImp implements SignUpRepository {
             return authResult.getUser().getUid();
         } catch (Exception exception) {
             exception.printStackTrace();
+            return exception.toString();
         }
-        return null;
-
 
     }
 
     @Override
     public Boolean addUser(String userId, String name, String lasName, String direction, Integer age, String email, String password, String username) {
         try {
-
             Map<String, Object> map = new HashMap<>();
             map.put("id", userId);
             map.put("nombres", name);
@@ -62,7 +59,6 @@ public class SignUpRepositoryImp implements SignUpRepository {
             // Realiza la operación de escritura de forma asíncrona
             Task<Void> setTask = documentRef.set(map);
             Tasks.await(setTask);
-
             return true;
 
         } catch (Exception e) {

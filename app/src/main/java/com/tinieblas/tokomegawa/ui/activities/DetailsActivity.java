@@ -14,6 +14,7 @@ import com.google.gson.Gson;
 import com.tinieblas.tokomegawa.R;
 import com.tinieblas.tokomegawa.databinding.ActivityDetailsBinding;
 import com.tinieblas.tokomegawa.domain.models.ProductosItem;
+import com.tinieblas.tokomegawa.utils.hideMenu;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -31,82 +32,51 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         activityDetailsBinding = ActivityDetailsBinding.inflate(getLayoutInflater());
         setContentView(activityDetailsBinding.getRoot());
-        hideSystemBar();
+
+        decorView = getWindow().getDecorView();
+        getWindow().getDecorView().setSystemUiVisibility(hideMenu.hideSystemBar(decorView));
+
         context = this;
         ProductosItem producto = (ProductosItem) getIntent().getSerializableExtra("producto");
-
-        
-        /*activityDetailsBinding.animationView.setOnClickListener(view -> {
-            try {
-                agregarProducto(context, producto);
-            } catch (JSONException e) {
-                throw new RuntimeException(e);
-            }
-        });*/
-        //System.out.println("antes de limpiar ==> " + producto);
         mostrarProducto(producto);
-
         btnImages(producto);
 
-        //clearSharedPreferences("productos_vistos");
-        //System.out.println("despues de limpiar ==> " + producto);
         try {
             guardarProductosVistos(producto);
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
-        verificarProductoCarrito(producto);
-            activityDetailsBinding.animationView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    // Verificar si el producto está en el carrito
-                    //borrarProductoCarrito(producto);
-                    if (/*productoEnCarrito(producto)*/ EstaEnCarrito) {
-                        // El producto está en el carrito, así que lo eliminamos
-                        //Toast.makeText(context, "El producto ya esta en el carrito", Toast.LENGTH_SHORT).show();
-                        borrarProductoCarrito(producto);
-                        // Mostrar animación de eliminación
-                        activityDetailsBinding.animationView.setProgress(0);
-                        activityDetailsBinding.animationView.pauseAnimation();
-                    } else {
-                        Toast.makeText(context, "Añadido al carrito", Toast.LENGTH_SHORT).show();
-                        // El producto no está en el carrito, así que lo añadimos
-                        guardarProductoCarrito(producto);
-                        // Mostrar animación de añadir al carrito
-                        activityDetailsBinding.animationView.playAnimation();
-                    }
-                }
-            });
 
-
+        btnCarrito(producto);
     }
 
-    /*public boolean productoEnCarrito(ProductosItem producto) {
-        // Crea una instancia de SharedPreferences en la actividad de detalles:
-        SharedPreferences sharedPreferences = getSharedPreferences("productos_carrito", MODE_PRIVATE);
 
-        // Verifica si el producto actual ya está guardado en SharedPreferences:
-        Gson gson = new Gson();
-        String productoJson = gson.toJson(producto);
+    public void btnCarrito(ProductosItem producto) {
+        verificarProductoCarrito(producto);
+        activityDetailsBinding.animationView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                verificarProductoCarrito(producto);
 
-        String listaProductosCarrito = sharedPreferences.getString("lista_productos_carrito", "");
-        if (!listaProductosCarrito.isEmpty()) {
-            try {
-                JSONArray lista = new JSONArray(listaProductosCarrito);
-                for (int i = 0; i < lista.length(); i++) {
-                    JSONObject productoLista = lista.getJSONObject(i);
-                    if (productoLista.toString().equals(productoJson)) {
-                        // El producto está en el carrito
-                        return true;
-                    }
+                if (EstaEnCarrito) {
+                    // El producto está en el carrito, así que lo eliminamos
+                    Toast.makeText(context, "Eliminado del carrito", Toast.LENGTH_SHORT).show();
+                    borrarUnProductoDelCarrito(producto);
+                    // Mostrar animación de eliminación
+                    activityDetailsBinding.animationView.setProgress(0);
+                    activityDetailsBinding.animationView.pauseAnimation();
+                    EstaEnCarrito = false; // Actualizar el estado de EstaEnCarrito
+                } else {
+                    // El producto no está en el carrito, así que lo añadimos
+                    Toast.makeText(context, "Agregando al carrito", Toast.LENGTH_SHORT).show();
+                    guardarProductoCarrito(producto);
+                    // Mostrar animación de añadir al carrito
+                    activityDetailsBinding.animationView.playAnimation();
+                    EstaEnCarrito = true; // Actualizar el estado de EstaEnCarrito
                 }
-            } catch (JSONException e) {
-                e.printStackTrace();
             }
-        }
-        // El producto no está en el carrito
-        return false;
-    }*/
+        });
+    }
 
 
     private void mostrarProducto(ProductosItem producto) {
@@ -202,102 +172,6 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
-    /**public void GuardarCarrito(ProductosItem producto) {
-        // Crea una instancia de SharedPreferences en la actividad de detalles:
-        SharedPreferences sharedPreferences = getSharedPreferences("productos_carrito", MODE_PRIVATE);
-
-        // Obtiene una instancia del objeto Editor de SharedPreferences para editar el archivo:
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-
-        // Convierte el objeto producto a JSON utilizando Gson:
-        Gson gson = new Gson();
-        String productoJson = gson.toJson(producto);
-
-        // Guarda el producto en SharedPreferences
-        try {
-            JSONArray lista;
-            String listaProductosCarrito = sharedPreferences.getString("lista_productos_carrito", "");
-            if (!listaProductosCarrito.isEmpty()) {
-                lista = new JSONArray(listaProductosCarrito);
-            } else {
-                lista = new JSONArray();
-            }
-            lista.put(new JSONObject(productoJson));
-            editor.putString("lista_productos_carrito", lista.toString());
-            editor.apply();
-
-            // Muestra la animación si se guardó correctamente
-            activityDetailsBinding.animationView.playAnimation();
-        } catch (JSONException e) {
-            // Si ocurre un error al guardar el producto, muestra un Toast y registra el error en el Log
-            Toast.makeText(this, "Error al guardar el producto en el carrito", Toast.LENGTH_SHORT).show();
-            Log.e("GuardarCarrito", "Error al guardar el producto en SharedPreferences", e);
-        }
-    }
-
-    public void verificarProductoGuardado(ProductosItem producto) {
-        // Crea una instancia de SharedPreferences en la actividad de detalles:
-        SharedPreferences sharedPreferences = getSharedPreferences("productos_carrito", MODE_PRIVATE);
-
-        // Verifica si el producto actual ya está guardado en SharedPreferences:
-        Gson gson = new Gson();
-        String productoJson = gson.toJson(producto);
-
-        String listaProductosCarrito = sharedPreferences.getString("lista_productos_carrito", "");
-        if (!listaProductosCarrito.isEmpty()) {
-            try {
-                JSONArray lista = new JSONArray(listaProductosCarrito);
-                for (int i = 0; i < lista.length(); i++) {
-                    JSONObject productoLista = lista.getJSONObject(i);
-                    if (productoLista.toString().equals(productoJson)) {
-                        // El producto ya está guardado, muestra la animación
-                        activityDetailsBinding.animationView.playAnimation();
-                        Toast.makeText(context, "Producto no guardado", Toast.LENGTH_SHORT).show();
-                        break;
-                    }
-                    else {
-                        //activityDetailsBinding.animationView.playAnimation();
-                        Toast.makeText(context, "Producto ya guardado", Toast.LENGTH_SHORT).show();
-                        //borrarProductoGuardado(producto);
-                    }
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    public void borrarProductoGuardado(ProductosItem producto) {
-        // Crea una instancia de SharedPreferences en la actividad de detalles:
-        SharedPreferences sharedPreferences = getSharedPreferences("productos_carrito", MODE_PRIVATE);
-
-        // Obtiene una instancia del objeto Editor de SharedPreferences para editar el archivo:
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-
-        // Convierte el objeto producto a JSON utilizando Gson:
-        Gson gson = new Gson();
-        String productoJson = gson.toJson(producto);
-
-        String listaProductosCarrito = sharedPreferences.getString("lista_productos_carrito", "");
-        if (!listaProductosCarrito.isEmpty()) {
-            try {
-                JSONArray lista = new JSONArray(listaProductosCarrito);
-                for (int i = 0; i < lista.length(); i++) {
-                    JSONObject productoLista = lista.getJSONObject(i);
-                    if (productoLista.toString().equals(productoJson)) {
-                        // Remover el producto de la lista
-                        lista.remove(i);
-                        editor.putString("lista_productos_carrito", lista.toString());
-                        editor.apply();
-                        break;
-                    }
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-    }*/
-
     public void guardarProductoCarrito(ProductosItem producto) {
         // Crea una instancia de SharedPreferences en la actividad de detalles:
         SharedPreferences sharedPreferences = getSharedPreferences("productos_carrito", MODE_PRIVATE);
@@ -331,7 +205,7 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
-    public void borrarProductoCarrito(ProductosItem producto) {
+    public void borrarUnProductoDelCarrito(ProductosItem producto) {
         // Crea una instancia de SharedPreferences en la actividad de detalles:
         SharedPreferences sharedPreferences = getSharedPreferences("productos_carrito", MODE_PRIVATE);
 
@@ -401,95 +275,7 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
             }
         }
     }
-    public boolean productoEnCarrito(ProductosItem producto) {
-        // Crea una instancia de SharedPreferences en la actividad de detalles:
-        SharedPreferences sharedPreferences = getSharedPreferences("productos_carrito", MODE_PRIVATE);
 
-        // Verifica si el producto actual ya está guardado en SharedPreferences:
-        Gson gson = new Gson();
-        //String productoJson = gson.toJson(producto);
-
-        String listaProductosCarrito = sharedPreferences.getString("lista_productos_carrito", "");
-        if (!listaProductosCarrito.isEmpty()) {
-            try {
-                JSONArray lista = new JSONArray(listaProductosCarrito);
-                for (int i = 0; i < lista.length(); i++) {
-                    JSONObject productoLista = lista.getJSONObject(i);
-                    ProductosItem productoGuardado = gson.fromJson(productoLista.toString(), ProductosItem.class);
-                    // El producto ya está guardado, muestra la animación
-                    return productoGuardado.getIdProducto() == (producto.getIdProducto());
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-        return false;
-    }
-    /*
-    public void verificarProductoCarritoOnClick(ProductosItem producto) {
-        // Crea una instancia de SharedPreferences en la actividad de detalles:
-        SharedPreferences sharedPreferences = getSharedPreferences("productos_carrito", MODE_PRIVATE);
-
-        // Verifica si el producto actual ya está guardado en SharedPreferences:
-        Gson gson = new Gson();
-        String productoJson = gson.toJson(producto);
-
-        String listaProductosCarrito = sharedPreferences.getString("lista_productos_carrito", "");
-        if (!listaProductosCarrito.isEmpty()) {
-            try {
-                JSONArray lista = new JSONArray(listaProductosCarrito);
-                for (int i = 0; i < lista.length(); i++) {
-                    JSONObject productoLista = lista.getJSONObject(i);
-                    if (productoLista.toString().equals(productoJson)) {
-                        // El producto ya está guardado, borra el producto del carrito
-                        borrarProductoCarrito(producto);
-                        Toast.makeText(context, "Producto eliminado del carrito", Toast.LENGTH_SHORT).show();
-                        break;
-                    }
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-    }*/
-
-    public void agregarProducto(Context context, ProductosItem producto) throws JSONException {
-        /*List<ProductosItem> productosList = Shared.obtenerProductos(context);
-        productosList.add(producto);
-
-        Gson gson = new Gson();
-        String productosJson = gson.toJson(productosList);
-
-        SharedPreferences sharedPreferences = context.getSharedPreferences(PREFS_NAME_CARRITO, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(KEY_PRODUCTO, productosJson);
-        editor.apply();
-        System.out.println("productosJson" + productosJson);*/
-
-        //Crea una instancia de SharedPreferences en la actividad de detalles:
-        SharedPreferences sharedPreferences = getSharedPreferences("carrito", MODE_PRIVATE);
-
-        //Obtiene una instancia del objeto Editor de SharedPreferences para editar el archivo:
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-
-        //Obtiene la lista actual de productos vistos desde SharedPreferences:
-        //String listaProductosCarrito = sharedPreferences.getString("lista_carrito", "");
-
-        //Crea un objeto JSONObject para el producto actual y añade sus datos:
-        JSONObject productoActual = new JSONObject();
-
-            productoActual.put("idProducto", producto.getIdProducto());
-            productoActual.put("nombreProducto", producto.getNombreProducto());
-            productoActual.put("descripcionProducto", producto.getDescripcionProducto());
-            productoActual.put("imagen1", producto.getImagen1());
-            productoActual.put("imagen2", producto.getImagen2());
-            productoActual.put("imagen3", producto.getImagen3());
-            productoActual.put("precioUnitario", producto.getPrecioUnitario());
-            productoActual.put("cantidadDisponible", producto.getCantidadDisponible());
-            productoActual.put("categoria", producto.getCategoria());
-            productoActual.put("delivery", producto.getDelivery());
-
-    }
     public void guardarProductosVistos(ProductosItem producto) throws JSONException {
         // Crea una instancia de SharedPreferences en la actividad de detalles:
         SharedPreferences sharedPreferences = getSharedPreferences("productos_vistos", MODE_PRIVATE);
@@ -532,12 +318,7 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
         finish();
         this.onBackPressed();
     }
-    public void clearSharedPreferences(String s){
-        SharedPreferences preferences = context.getSharedPreferences(s, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.clear();
-        editor.apply();
-    }
+
     @Override
     public void onClick(View view) {
 
@@ -547,21 +328,5 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
     public void onBackPressed() {
 
     }
-    private int hideSystemBar(){
-        decorView = getWindow().getDecorView();
-        decorView.setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
-            @Override
-            public void onSystemUiVisibilityChange(int i) {
-                if (i == 0) {
-                    decorView.setSystemUiVisibility(hideSystemBar());
-                }
-            }
-        });
-        return View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                | View.SYSTEM_UI_FLAG_FULLSCREEN
-                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
-    }
+
 }

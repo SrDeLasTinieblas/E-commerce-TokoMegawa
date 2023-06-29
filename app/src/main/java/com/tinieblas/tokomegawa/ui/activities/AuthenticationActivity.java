@@ -12,6 +12,7 @@ import com.tinieblas.tokomegawa.R;
 import com.tinieblas.tokomegawa.databinding.ActivityAuthenticationBinding;
 import com.tinieblas.tokomegawa.ui.fragments.LoginFragment;
 import com.tinieblas.tokomegawa.utils.NavigationContent;
+import com.tinieblas.tokomegawa.utils.hideMenu;
 
 
 public class AuthenticationActivity extends AppCompatActivity {
@@ -20,7 +21,10 @@ public class AuthenticationActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().getDecorView().setSystemUiVisibility(hideSystemBar());
+        //getWindow().getDecorView().setSystemUiVisibility(hideSystemBar());
+        decorView = getWindow().getDecorView();
+        getWindow().getDecorView().setSystemUiVisibility(hideMenu.hideSystemBar(decorView));
+
         activityAuthenticationBinding = ActivityAuthenticationBinding.inflate(getLayoutInflater());
 
         replaceFragment(new LoginFragment());
@@ -32,21 +36,5 @@ public class AuthenticationActivity extends AppCompatActivity {
         fragmentTransaction.commit();
         fragmentTransaction.addToBackStack(null);
     }
-    private int hideSystemBar() {
-        decorView = getWindow().getDecorView();
-        decorView.setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
-            @Override
-            public void onSystemUiVisibilityChange(int i) {
-                if (i == 0) {
-                    decorView.setSystemUiVisibility(hideSystemBar());
-                }
-            }
-        });
-        return View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                | View.SYSTEM_UI_FLAG_FULLSCREEN
-                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
-    }
+
 }

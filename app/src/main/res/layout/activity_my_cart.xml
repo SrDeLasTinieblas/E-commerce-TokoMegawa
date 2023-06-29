@@ -70,13 +70,14 @@
 
 
     <Button
-        android:id="@+id/buttonSiguiente"
+        android:id="@+id/btnCheckout"
         android:layout_width="269dp"
         android:layout_height="48dp"
         android:layout_marginBottom="28dp"
         android:background="@drawable/button_background_cart"
-        android:text="Siguiente"
+        android:onClick="Shopping"
 
+        android:text="Siguiente"
         android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -131,7 +132,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginBottom="8dp"
         android:text="Total :"
-        app:layout_constraintBottom_toTopOf="@+id/buttonSiguiente"
+        app:layout_constraintBottom_toTopOf="@+id/btnCheckout"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
@@ -176,7 +177,7 @@
         android:layout_marginBottom="8dp"
         android:text="$ 406.60"
         android:textColor="#38C7A5"
-        app:layout_constraintBottom_toTopOf="@+id/buttonSiguiente"
+        app:layout_constraintBottom_toTopOf="@+id/btnCheckout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.48"
         app:layout_constraintStart_toEndOf="@+id/textView10" />
@@ -232,6 +233,19 @@
         app:lottie_autoPlay="true"
         app:lottie_loop="true"
         app:lottie_url="https://assets5.lottiefiles.com/packages/lf20_xfic2syi.json" />
+
+    <Button
+        android:id="@+id/btnBorrarCarrito"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="BorrarTodosLosProductosDelCarrito"
+        android:text="Borrar"
+        app:layout_constraintBottom_toTopOf="@+id/viewSwitcher"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.807"
+        app:layout_constraintStart_toEndOf="@+id/textView2"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.2" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

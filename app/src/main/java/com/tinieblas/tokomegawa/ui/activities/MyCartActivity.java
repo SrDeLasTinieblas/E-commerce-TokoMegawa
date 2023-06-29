@@ -32,6 +32,7 @@ import com.tinieblas.tokomegawa.databinding.ActivityMyCartBinding;
 import com.tinieblas.tokomegawa.domain.models.ProductosItem;
 import com.tinieblas.tokomegawa.ui.adptadores.CarritoAdapter;
 import com.tinieblas.tokomegawa.utils.NavigationContent;
+import com.tinieblas.tokomegawa.utils.hideMenu;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -41,12 +42,13 @@ import java.util.Locale;
 
 public class MyCartActivity extends AppCompatActivity {
     private View decorView;
-    Context context;
-    ActivityMyCartBinding activityMyCartBinding;
-    CarritoAdapter mCarritoAdapter;
-    List<ProductosItem> carritoList = new ArrayList<>();
+    private Context context;
+    private ActivityMyCartBinding activityMyCartBinding;
+    private CarritoAdapter mCarritoAdapter;
+    private List<ProductosItem> carritoList = new ArrayList<>();
     private FirebaseFirestore mFirestore;
     private static final int CODIGO_PERMISOS_UBICACION = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,10 +59,21 @@ public class MyCartActivity extends AppCompatActivity {
         // Ocultar barra de sistema
         getWindow().getDecorView().setSystemUiVisibility(hideSystemBar());
 
-        obtenerProductosDelCarrito();
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
-        mFirestore = FirebaseFirestore.getInstance();
+        setupFirebase();
+        setupSharedPreferences();
+        getPermission();
 
+        obtenerProductosDelCarrito(); // Llamar a la función para mostrar las tarjetas del carrito
+    }
+
+    // Función para configurar Firebase Firestore
+    private void setupFirebase() {
+        //FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        mFirestore = FirebaseFirestore.getInstance();
+    }
+
+    // Función para configurar SharedPreferences
+    private void setupSharedPreferences() {
         // Obtener la instancia del SharedPreferences
         SharedPreferences sharedPreferences = getSharedPreferences("dataUser", Context.MODE_PRIVATE);
         // Obtener los valores almacenados en el SharedPreferences
@@ -68,9 +81,34 @@ public class MyCartActivity extends AppCompatActivity {
 
         //getNombreUser(UID);
         System.out.println("my cart UID ===>" + UID);
-        //getPermission();
     }
 
+    // Función para ocultar la barra de sistema
+    private int hideSystemBar() {
+        decorView = getWindow().getDecorView();
+        decorView.setOnSystemUiVisibilityChangeListener(i -> {
+            if (i == 0) {
+                decorView.setSystemUiVisibility(hideSystemBar());
+            }
+        });
+        return View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
+    }
+
+    // Función para borrar todos los productos del carrito
+    public void BorrarTodosLosProductosDelCarrito(View view) {
+        clearSharedPreferences("productos_carrito");
+    }
+    // Función para realizar la compra
+    public void Shopping(View view) {
+        Toast.makeText(context, "Enviado", Toast.LENGTH_SHORT).show();
+    }
+
+    // Función para solicitar permisos de ubicación
     public void getPermission() {
         // Verificar si ya se han otorgado los permisos de ubicación
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
@@ -85,6 +123,7 @@ public class MyCartActivity extends AppCompatActivity {
         }
     }
 
+    // Función para obtener la ubicación del usuario
     public void obtenerUbicacion() {
         // Crear una instancia de LocationManager
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -103,32 +142,7 @@ public class MyCartActivity extends AppCompatActivity {
                 if (lastKnownLocation != null) {
                     double latitud = lastKnownLocation.getLatitude();
                     double longitud = lastKnownLocation.getLongitude();
-
-                    String latitudString = String.valueOf(latitud);
-                    String longitudString = String.valueOf(longitud);
-
-                    Geocoder geocoder = new Geocoder(this, Locale.getDefault());
-                    List<Address> addresses;
-                    try {
-                        addresses = geocoder.getFromLocation(latitud, longitud, 1);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        return;
-                    }
-
-                    if (!addresses.isEmpty()) {
-                        String ciudad = addresses.get(0).getLocality();
-                        String departamento = addresses.get(0).getAdminArea();
-
-                        // Obtener la instancia del SharedPreferences
-                        SharedPreferences sharedPreferences = getSharedPreferences("MiUbicacion", Context.MODE_PRIVATE);
-
-                        // Editar el SharedPreferences
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.putString("departamento", ciudad);
-                        editor.putString("distrito", departamento);
-                        editor.apply();
-                    }
+                    saveLocationData(latitud, longitud);
                 } else {
                     // Si no se encuentra una ubicación, solicitar una actualización de ubicación
                     locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
@@ -141,6 +155,32 @@ public class MyCartActivity extends AppCompatActivity {
         }
     }
 
+    // Función para guardar los datos de ubicación en SharedPreferences
+    private void saveLocationData(double latitud, double longitud) {
+        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+        List<Address> addresses;
+        try {
+            addresses = geocoder.getFromLocation(latitud, longitud, 1);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
+
+        if (!addresses.isEmpty()) {
+            String ciudad = addresses.get(0).getLocality();
+            String departamento = addresses.get(0).getAdminArea();
+
+            // Obtener la instancia del SharedPreferences
+            SharedPreferences sharedPreferences = getSharedPreferences("MiUbicacion", Context.MODE_PRIVATE);
+
+            // Editar el SharedPreferences
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString("departamento", ciudad);
+            editor.putString("distrito", departamento);
+            editor.apply();
+        }
+    }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -149,6 +189,7 @@ public class MyCartActivity extends AppCompatActivity {
                 // Permiso de ubicación otorgado
                 obtenerUbicacion();
             } else {
+                Toast.makeText(context, "Es necesario su ubicación para poder enviarle el producto", Toast.LENGTH_SHORT).show();
                 // Permiso de ubicación denegado
                 // Realizar acciones adicionales o mostrar un mensaje al usuario
             }
@@ -163,16 +204,21 @@ public class MyCartActivity extends AppCompatActivity {
 
             LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
             locationManager.removeUpdates(locationListener);
+
+            saveLocationData(latitud, longitud);
         }
 
         @Override
-        public void onProviderDisabled(String provider) {}
+        public void onProviderDisabled(String provider) {
+        }
 
         @Override
-        public void onProviderEnabled(String provider) {}
+        public void onProviderEnabled(String provider) {
+        }
 
         @Override
-        public void onStatusChanged(String provider, int status, Bundle extras) {}
+        public void onStatusChanged(String provider, int status, Bundle extras) {
+        }
     };
 
     @SuppressLint("SetTextI18n")
@@ -193,22 +239,11 @@ public class MyCartActivity extends AppCompatActivity {
         }
     }
 
-    private int hideSystemBar(){
-        decorView = getWindow().getDecorView();
-        decorView.setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
-            @Override
-            public void onSystemUiVisibilityChange(int i) {
-                if (i == 0) {
-                    decorView.setSystemUiVisibility(hideSystemBar());
-                }
-            }
-        });
-        return View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                | View.SYSTEM_UI_FLAG_FULLSCREEN
-                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
+    public void clearSharedPreferences(String s) {
+        SharedPreferences preferences = context.getSharedPreferences(s, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.clear();
+        editor.apply();
     }
 
     public List<ProductosItem> obtenerProductosDelCarrito() {
@@ -218,14 +253,14 @@ public class MyCartActivity extends AppCompatActivity {
 
         // Convierte el JSON a una lista de ProductosItem utilizando Gson
         Gson gson = new Gson();
-        Type type = new TypeToken<List<ProductosItem>>(){}.getType();
+        Type type = new TypeToken<List<ProductosItem>>() {}.getType();
         List<ProductosItem> listaProductosItems = gson.fromJson(listaProductosJson, type);
         mostrarCardsCarrito(listaProductosItems);
         calcularSubTotal();
         return listaProductosItems;
     }
 
-    public void mostrarCardsCarrito(List<ProductosItem> carrito){
+    public void mostrarCardsCarrito(List<ProductosItem> carrito) {
         // Mostrar los datos del carrito
         carritoList = carrito;
         if (carrito != null && !carrito.isEmpty()) {
@@ -234,37 +269,27 @@ public class MyCartActivity extends AppCompatActivity {
             activityMyCartBinding.RecyclerMyCart.setLayoutManager(new LinearLayoutManager(MyCartActivity.this, RecyclerView.VERTICAL, false));
             /*ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new SwipeToDeleteCallback(mCarritoAdapter, this, activityMyCartBinding.RecyclerMyCart));
             itemTouchHelper.attachToRecyclerView(activityMyCartBinding.RecyclerMyCart);*/
-            activityMyCartBinding.viewSwitcher.setDisplayedChild(0); // Muestra el RecyclerView
-            activityMyCartBinding.animateView.setVisibility(View.INVISIBLE);
-        }else {
-            Toast.makeText(context, "No hay datos en el carrito", Toast.LENGTH_SHORT).show();
+            activityMyCartBinding.viewSwitcher.setDisplayedChild(1);
+            activityMyCartBinding.animateView.setVisibility(View.GONE);
+            activityMyCartBinding.btnCheckout.setEnabled(true);
+        } else {
+            activityMyCartBinding.animateView.setVisibility(View.VISIBLE);
+            activityMyCartBinding.viewSwitcher.setDisplayedChild(0);
+            activityMyCartBinding.btnCheckout.setEnabled(false);
         }
     }
 
     @SuppressLint("SetTextI18n")
     public void calcularSubTotal() {
-        // Obtén la lista de productos desde SharedPreferences
-        SharedPreferences sharedPreferences = getSharedPreferences("productos_carrito", MODE_PRIVATE);
-        String listaProductosJson = sharedPreferences.getString("lista_productos_carrito", "");
-
-        // Convierte el JSON a una lista de ProductosItem utilizando Gson
-        Gson gson = new Gson();
-        Type type = new TypeToken<List<ProductosItem>>() {}.getType();
-        List<ProductosItem> listaProductosItems = gson.fromJson(listaProductosJson, type);
-
-        // Verifica si la lista de productos está vacía
-        if (listaProductosItems != null && !listaProductosItems.isEmpty()) {
-            // Calcula el subtotal sumando los precios de los productos
+        if (carritoList != null && !carritoList.isEmpty()) {
             double subTotal = 0;
-            for (ProductosItem producto : listaProductosItems) {
-                double precio = producto.getPrecioUnitario() * producto.getAmount();
-                subTotal += precio;
+            for (ProductosItem item : carritoList) {
+                subTotal += item.getPrecioUnitario();
             }
-            // Muestra el subtotal en el TextView
-            activityMyCartBinding.textSubTotal.setText("S/. " + subTotal);
+            activityMyCartBinding.textSubTotal.setText("S/ "+ String.format(Locale.getDefault(), "%.2f", subTotal));
         } else {
-            // Si la lista de productos está vacía, muestra el subtotal como cero
-            activityMyCartBinding.textSubTotal.setText("S/. 0");
+            // La lista está vacía o nula, realiza alguna acción o muestra un mensaje adecuado
+            activityMyCartBinding.textSubTotal.setText("S/ 0.00");
         }
     }
 
@@ -272,8 +297,5 @@ public class MyCartActivity extends AppCompatActivity {
         NavigationContent.cambiarActividad(this, MainActivity.class);
     }
 
-    @Override
-    public void onBackPressed() {
 
-    }
 }

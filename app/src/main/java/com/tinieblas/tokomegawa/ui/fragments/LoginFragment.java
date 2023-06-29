@@ -62,6 +62,9 @@ public class LoginFragment extends Fragment {
         if (isLogged) {
             NavigationContent.cambiarActividad(getActivity(), MainActivity.class);
         }
+        else {
+            Toast.makeText(getContext(), "Error al Iniciar sesion", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void startSession() {

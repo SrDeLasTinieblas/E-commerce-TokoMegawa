@@ -77,7 +77,7 @@
         android:background="@drawable/button_background_cart"
         android:onClick="Shopping"
 
-        android:text="Siguiente"
+        android:text="Enviar Pedido"
         android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -111,7 +111,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginBottom="8dp"
-        android:text="Delivery Fee :"
+        android:text="Delivery :"
         app:layout_constraintBottom_toTopOf="@+id/textView9"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -140,7 +140,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:text="$ 80.00"
+        android:text="S/ 80.00"
         app:layout_constraintBottom_toTopOf="@+id/textDelivery"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.877"
@@ -151,10 +151,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:text="$ 5.00"
+        android:text="S/ 5.00"
         app:layout_constraintBottom_toTopOf="@+id/textView13"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.842"
+        app:layout_constraintHorizontal_bias="0.856"
         app:layout_constraintStart_toEndOf="@+id/textView8" />
 
     <TextView
@@ -175,7 +175,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="252dp"
         android:layout_marginBottom="8dp"
-        android:text="$ 406.60"
+        android:text="S/ 406.60"
         android:textColor="#38C7A5"
         app:layout_constraintBottom_toTopOf="@+id/btnCheckout"
         app:layout_constraintEnd_toEndOf="parent"
@@ -234,18 +234,25 @@
         app:lottie_loop="true"
         app:lottie_url="https://assets5.lottiefiles.com/packages/lf20_xfic2syi.json" />
 
-    <Button
+
+    <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/btnBorrarCarrito"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="154dp"
+        android:layout_height="48dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="52dp"
         android:onClick="BorrarTodosLosProductosDelCarrito"
-        android:text="Borrar"
         app:layout_constraintBottom_toTopOf="@+id/viewSwitcher"
+        app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.807"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/textView2"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.2" />
+        app:layout_constraintWidth_percent="0.4"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        android:visibility="invisible"
+        app:lottie_rawRes="@raw/delete" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

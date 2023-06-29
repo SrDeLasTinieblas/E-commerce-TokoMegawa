@@ -10,6 +10,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.AsyncListDiffer;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -17,165 +19,147 @@ import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 import com.tinieblas.tokomegawa.R;
 import com.tinieblas.tokomegawa.databinding.ActivityMyCartBinding;
+import com.tinieblas.tokomegawa.databinding.ItemsMycartBinding;
 import com.tinieblas.tokomegawa.domain.models.ProductosItem;
 
 import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.ArrayList;
 import java.util.List;
-
 
 public class CarritoAdapter extends RecyclerView.Adapter<CarritoAdapter.ViewHolder> {
 
     private Context mContext;
     private List<ProductosItem> mCarrito;
-    TextView textView;
-
+    private TextView textView;
+    private final AsyncListDiffer<ProductosItem> differ;
     public CarritoAdapter(Context mContext, List<ProductosItem> mCarrito, TextView textView) {
         this.mContext = mContext;
         this.mCarrito = mCarrito;
         this.textView = textView;
-    }
-    public void setCarrito(List<ProductosItem> carrito) {
-        mCarrito = carrito;
-        notifyDataSetChanged();
+        this.mCarrito = mCarrito != null ? mCarrito : new ArrayList<>(); // Inicializar la lista mCarrito
+
+        // Configurar el diferenciador de listas
+        differ = new AsyncListDiffer<>(this, new CarritoDiffCallback());
     }
 
+    public void setCarrito(List<ProductosItem> carrito) {
+        differ.submitList(carrito);
+    }
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.items_mycart, parent, false);
-        return new ViewHolder(view);
+        ItemsMycartBinding binding = ItemsMycartBinding.inflate(LayoutInflater.from(mContext), parent, false);
+        return new ViewHolder(binding);
     }
 
-    @SuppressLint("SetTextI18n")
+
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
-        ProductosItem carrito = mCarrito.get(position);
-
-        double totalPrice = carrito.getPrecioUnitario() * carrito.getAmount();
-
-        // Crear un objeto BigDecimal con el valor del precio total
-        BigDecimal bd = new BigDecimal(totalPrice);
-
-        // Redondear el valor a dos decimales
-        bd = bd.setScale(2, RoundingMode.HALF_UP);
-
-        // Obtener el valor redondeado como un double
-        double roundedPrice = bd.doubleValue();
-
-        holder.nombreTextView.setText(carrito.getNombreProducto());
-        holder.descripcion.setText(carrito.getDescripcionProducto());
-        holder.precioUnitario.setText("S/. " + roundedPrice);
-        holder.amount.setText(String.valueOf(carrito.getAmount()));
-
-        Glide.with(mContext).load(carrito.getImagen1()).into(holder.ImageView);
-
-        holder.buttonAumentar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                aumentarCantidad(position);
-                calcularSubTotal();
-            }
-        });
-        holder.buttonDisminuir.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                disminuirCantidad(position);
-                calcularSubTotal();
-            }
-        });
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        ProductosItem carrito = differ.getCurrentList().get(position);
+        holder.bind(carrito);
     }
 
     @Override
     public int getItemCount() {
-        return mCarrito.size();
+        return differ.getCurrentList().size();
     }
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        ActivityMyCartBinding activityMyCartBinding;
-        public Button buttonDisminuir, buttonAumentar;
-        public TextView nombreTextView, precioUnitario, descripcion, amount, SubTotal;
 
-        public android.widget.ImageView ImageView;
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        private ItemsMycartBinding binding;
 
-        public ViewHolder(View itemView) {
-            super(itemView);
-
-            nombreTextView = itemView.findViewById(R.id.textTituloCarrito);
-            descripcion = itemView.findViewById(R.id.tvDescripcionMyCart);
-            precioUnitario = itemView.findViewById(R.id.textPrecioMyCart);
-            amount = itemView.findViewById(R.id.textViewAmount);
-            buttonDisminuir = itemView.findViewById(R.id.buttonArrowDerecha3);
-            buttonAumentar = itemView.findViewById(R.id.buttonArrowDerecha1);
-            SubTotal = itemView.findViewById(R.id.textSubTotal);
-            ImageView = itemView.findViewById(R.id.imageView2);
-
+        public ViewHolder(ItemsMycartBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
         }
-    }
 
-    private void actualizarCarritoEnSharedPreferences(List<ProductosItem> carrito) {
-        // Convierte la lista de productos a JSON utilizando Gson
-        Gson gson = new Gson();
-        String carritoJson = gson.toJson(carrito);
+        public void bind(ProductosItem carrito) {
+            double totalPrice = carrito.getPrecioUnitario() * carrito.getAmount();
+            BigDecimal bd = new BigDecimal(totalPrice).setScale(2, RoundingMode.HALF_UP);
+            double roundedPrice = bd.doubleValue();
 
-        // Guarda el carrito actualizado en SharedPreferences
-        SharedPreferences sharedPreferences = mContext.getSharedPreferences("productos_carrito", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("lista_productos_carrito", carritoJson);
-        editor.apply();
-    }
+            binding.textTituloCarrito.setText(carrito.getNombreProducto());
+            binding.tvDescripcionMyCart.setText(carrito.getDescripcionProducto());
+            binding.textPrecioMyCart.setText("S/. " + roundedPrice);
+            binding.textViewAmount.setText(String.valueOf(carrito.getAmount()));
 
-    public void aumentarCantidad(int position) {
-        ProductosItem producto = mCarrito.get(position);
-        int cantidadActual = producto.getAmount();
-        producto.setAmount(cantidadActual + 1);
-        notifyDataSetChanged();
-        // Actualiza el carrito en SharedPreferences
-        actualizarCarritoEnSharedPreferences(mCarrito);
-    }
+            Glide.with(itemView.getContext()).load(carrito.getImagen1()).into(binding.imageView2);
 
-    public void disminuirCantidad(int position) {
-        ProductosItem producto = mCarrito.get(position);
-        int cantidadActual = producto.getAmount();
-        if (cantidadActual > 1) {
-            producto.setAmount(cantidadActual - 1);
+            binding.buttonArrowDerecha1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    aumentarCantidad(carrito);
+                }
+            });
+            binding.buttonArrowDerecha3.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    disminuirCantidad(carrito);
+                }
+            });
+        }
+
+        private void aumentarCantidad(ProductosItem carrito) {
+            int cantidadActual = carrito.getAmount();
+            carrito.setAmount(cantidadActual + 1);
             notifyDataSetChanged();
             // Actualiza el carrito en SharedPreferences
-            actualizarCarritoEnSharedPreferences(mCarrito);
+            actualizarCarritoEnSharedPreferences();
+        }
+
+        private void disminuirCantidad(ProductosItem carrito) {
+            int cantidadActual = carrito.getAmount();
+            if (cantidadActual > 1) {
+                carrito.setAmount(cantidadActual - 1);
+                notifyDataSetChanged();
+                // Actualiza el carrito en SharedPreferences
+                actualizarCarritoEnSharedPreferences();
+            }
+        }
+
+        private void actualizarCarritoEnSharedPreferences() {
+            // Obtén el adaptador del RecyclerView
+            RecyclerView recyclerView = (RecyclerView) itemView.getParent();
+            CarritoAdapter adapter = (CarritoAdapter) recyclerView.getAdapter();
+            List<ProductosItem> carrito = adapter.differ.getCurrentList();
+
+            // Convierte la lista de productos a JSON utilizando Gson
+            Gson gson = new Gson();
+            String carritoJson = gson.toJson(carrito);
+
+            // Guarda el carrito actualizado en SharedPreferences
+            SharedPreferences sharedPreferences = itemView.getContext().getSharedPreferences("productos_carrito", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString("lista_productos_carrito", carritoJson);
+            editor.apply();
+
+            // Calcula el subtotal y lo muestra en el TextView
+            adapter.calcularSubTotal();
         }
     }
 
-    @SuppressLint("SetTextI18n")
-    public void calcularSubTotal() {
-        // Obtén la lista de productos desde SharedPreferences
-        SharedPreferences sharedPreferences = mContext.getSharedPreferences("productos_carrito", Context.MODE_PRIVATE);
-        String listaProductosJson = sharedPreferences.getString("lista_productos_carrito", "");
-
-        // Convierte el JSON a una lista de ProductosItem utilizando Gson
-        Gson gson = new Gson();
-        Type type = new TypeToken<List<ProductosItem>>(){}.getType();
-        List<ProductosItem> listaProductosItems = gson.fromJson(listaProductosJson, type);
-
-        // Calcula el subtotal sumando los precios de los productos
+    private void calcularSubTotal() {
         double subTotal = 0;
-        for (ProductosItem producto : listaProductosItems) {
+        for (ProductosItem producto : differ.getCurrentList()) {
             double precio = producto.getPrecioUnitario() * producto.getAmount();
             subTotal += precio;
         }
-
-        // Crear un objeto BigDecimal con el valor del precio total
-        BigDecimal bd = new BigDecimal(subTotal);
-
-        // Redondear el valor a dos decimales
-        bd = bd.setScale(2, RoundingMode.HALF_UP);
-
-        // Obtener el valor redondeado como un double
+        BigDecimal bd = new BigDecimal(subTotal).setScale(2, RoundingMode.HALF_UP);
         double roundedPrice = bd.doubleValue();
-
-
-        // Muestra el subtotal en el TextView
         textView.setText("S/. " + roundedPrice);
     }
 
+    private static class CarritoDiffCallback extends DiffUtil.ItemCallback<ProductosItem> {
+        @Override
+        public boolean areItemsTheSame(ProductosItem oldItem, ProductosItem newItem) {
+            return oldItem.getIdProducto() == newItem.getIdProducto();
+        }
+
+        @Override
+        public boolean areContentsTheSame(ProductosItem oldItem, ProductosItem newItem) {
+            return oldItem.getAmount() == newItem.getAmount();
+        }
+    }
 
 }

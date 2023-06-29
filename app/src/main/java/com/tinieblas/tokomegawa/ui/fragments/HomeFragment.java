@@ -60,11 +60,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private ProductosAdapter productosAdapter;
 
     private ProductosCategorias productosCategorias;
-    private ArrayList<ProductosItem> todosLosProductos = new ArrayList<>();
+    private final ArrayList<ProductosItem> todosLosProductos = new ArrayList<>();
     private boolean isCategoriaSeleccionada = false;
     private boolean isChecked = false;
     private final List<ProductosItem> productosListOriginal = new ArrayList<>();
-    private Integer[] langLogo = new Integer[]{R.drawable.earphones, R.drawable.alexa, R.drawable.audifonos,
+    private final Integer[] langLogo = new Integer[]{R.drawable.earphones, R.drawable.alexa, R.drawable.audifonos,
             R.drawable.camaras, R.drawable.sillas_gamer, R.drawable.tablets, R.drawable.celurales};
 
     private FragmentHomeBinding fragmentHomeBinding;
@@ -206,7 +206,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         // Actualizar el adaptador del RecyclerView de productos con la lista filtrada
         productosAdapter.setProductosList(productosFiltrados);
     }
-
 
     public void Showfiltro(View view) {
         if (popupWindow != null && popupWindow.isShowing()) {

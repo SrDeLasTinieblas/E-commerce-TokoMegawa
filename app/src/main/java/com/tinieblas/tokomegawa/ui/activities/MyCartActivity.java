@@ -12,6 +12,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.Settings;
 import android.text.TextUtils;
 import android.view.View;
@@ -21,6 +22,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -31,6 +33,7 @@ import com.google.gson.Gson;
 import com.tinieblas.tokomegawa.databinding.ActivityMyCartBinding;
 import com.tinieblas.tokomegawa.domain.models.ProductosItem;
 import com.tinieblas.tokomegawa.ui.adptadores.CarritoAdapter;
+import com.tinieblas.tokomegawa.ui.adptadores.ProductosAdapter;
 import com.tinieblas.tokomegawa.utils.NavigationContent;
 import com.tinieblas.tokomegawa.utils.hideMenu;
 
@@ -62,8 +65,18 @@ public class MyCartActivity extends AppCompatActivity {
         setupFirebase();
         setupSharedPreferences();
         getPermission();
+        activityMyCartBinding.btnBorrarCarrito.setVisibility(View.VISIBLE);
+        //obtenerProductosDelCarrito(); // Llamar a la función para mostrar las tarjetas del carrito
+        initViews(); // Configurar el RecyclerView
+    }
 
-        obtenerProductosDelCarrito(); // Llamar a la función para mostrar las tarjetas del carrito
+    private void initViews() {
+        mCarritoAdapter = new CarritoAdapter(MyCartActivity.this, carritoList, activityMyCartBinding.textSubTotal);
+        activityMyCartBinding.RecyclerMyCart.setAdapter(mCarritoAdapter);
+        activityMyCartBinding.RecyclerMyCart.setLayoutManager(new LinearLayoutManager(MyCartActivity.this, RecyclerView.VERTICAL, false));
+
+        obtenerProductosDelCarrito(); // Llamar a la función después de inicializar el adaptador
+        mCarritoAdapter.setCarrito(obtenerProductosDelCarrito());
     }
 
     // Función para configurar Firebase Firestore
@@ -101,7 +114,28 @@ public class MyCartActivity extends AppCompatActivity {
 
     // Función para borrar todos los productos del carrito
     public void BorrarTodosLosProductosDelCarrito(View view) {
+        // Configurar la animación de Lottie y ejecutarla
+        //animationView.setAnimation(R.raw.loading_animation);
+        //animationView.playAnimation();
+
+        // Borrar los productos del carrito y volver a cargar el adaptador
         clearSharedPreferences("productos_carrito");
+
+
+        // Detener y ocultar la animación después de un tiempo (por ejemplo, 2 segundos)
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                activityMyCartBinding.btnBorrarCarrito.cancelAnimation();
+                activityMyCartBinding.btnBorrarCarrito.setVisibility(View.INVISIBLE);
+
+                activityMyCartBinding.RecyclerMyCart.setVisibility(View.INVISIBLE);
+               //obtenerProductosDelCarrito(); // Volver a cargar el adaptador del carrito
+
+                mCarritoAdapter.setCarrito(obtenerProductosDelCarrito());
+            }
+        }, 2000);
+        activityMyCartBinding.btnBorrarCarrito.setVisibility(View.VISIBLE);
     }
     // Función para realizar la compra
     public void Shopping(View view) {
@@ -256,6 +290,9 @@ public class MyCartActivity extends AppCompatActivity {
         Type type = new TypeToken<List<ProductosItem>>() {}.getType();
         List<ProductosItem> listaProductosItems = gson.fromJson(listaProductosJson, type);
         mostrarCardsCarrito(listaProductosItems);
+        mCarritoAdapter.setCarrito(listaProductosItems);
+        //Toast.makeText(context, ""+listaProductosItems, Toast.LENGTH_SHORT).show();
+
         calcularSubTotal();
         return listaProductosItems;
     }
@@ -264,11 +301,10 @@ public class MyCartActivity extends AppCompatActivity {
         // Mostrar los datos del carrito
         carritoList = carrito;
         if (carrito != null && !carrito.isEmpty()) {
-            mCarritoAdapter = new CarritoAdapter(MyCartActivity.this, carrito, activityMyCartBinding.textSubTotal);
+            mCarritoAdapter.setCarrito(carrito);
             activityMyCartBinding.RecyclerMyCart.setAdapter(mCarritoAdapter);
             activityMyCartBinding.RecyclerMyCart.setLayoutManager(new LinearLayoutManager(MyCartActivity.this, RecyclerView.VERTICAL, false));
-            /*ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new SwipeToDeleteCallback(mCarritoAdapter, this, activityMyCartBinding.RecyclerMyCart));
-            itemTouchHelper.attachToRecyclerView(activityMyCartBinding.RecyclerMyCart);*/
+
             activityMyCartBinding.viewSwitcher.setDisplayedChild(1);
             activityMyCartBinding.animateView.setVisibility(View.GONE);
             activityMyCartBinding.btnCheckout.setEnabled(true);
@@ -292,6 +328,8 @@ public class MyCartActivity extends AppCompatActivity {
             activityMyCartBinding.textSubTotal.setText("S/ 0.00");
         }
     }
+
+
 
     public void volver(View view){
         NavigationContent.cambiarActividad(this, MainActivity.class);

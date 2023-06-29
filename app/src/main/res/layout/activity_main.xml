@@ -9,12 +9,12 @@
         android:id="@+id/frameLayoutHome"
         android:name="com.tinieblas.tokomegawa.ui.fragments.HomeFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="663dp"
         android:layout_above="@+id/llButtons"
         android:layout_alignParentTop="true"
         android:layout_marginTop="0dp"
-        tools:layout="@layout/fragment_home"
-        />
+        android:layout_marginBottom="-10dp"
+        tools:layout="@layout/fragment_home" />
 
     <LinearLayout
         android:id="@+id/llButtons"

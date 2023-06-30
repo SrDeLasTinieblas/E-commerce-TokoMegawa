@@ -118,16 +118,10 @@ Oapp/src/main/java/com/tinieblas/tokomegawa/data/remote/SignUpRepositoryImp.java
 Uapp/src/androidTest/java/com/tinieblas/tokomegawa/remote/SignUpRepositoryImpTest.java,e\f\efba76a513771a081a00363f711aae8711ddee29
 P
  app/src/main/AndroidManifest.xml,8\c\8c55c3ccc257e5907959013f99656e4c8ec3903e
-@
-app/build.gradle,f\4\f4a01d6a4fcb971362ec00a83903fd3902f52164
-q
-Aapp/src/main/java/com/tinieblas/tokomegawa/utils/alertDialog.java,2\8\280a38b83760429f1cd671a82aa513b906047a45
 {
 Kapp/src/main/java/com/tinieblas/tokomegawa/domain/models/FireBaseModel.java,2\3\2313ca8089f6769e5d85ad6ca70073d1e465dd4e
 }
 Mapp/src/main/java/com/tinieblas/tokomegawa/domain/models/CategoriaModelo.java,2\f\2f190775a71ea9c0f176fb6925b6f1981538b52a
-r
-Bapp/src/main/java/com/tinieblas/tokomegawa/domain/models/User.java,8\0\80372f124a63d6572dc9de4892ec07d55216909f
 {
 Kapp/src/main/java/com/tinieblas/tokomegawa/domain/models/ProductosItem.java,9\4\94aa5ad0973b0a2419010891b7739d4f2c15fb35
 Å
@@ -142,5 +136,3 @@ Tapp/src/main/java/com/tinieblas/tokomegawa/ui/activities/AuthenticationActivity
 Mapp/src/main/java/com/tinieblas/tokomegawa/ui/activities/DetailsActivity.java,d\b\db84a5601574ccef831425a76437bd31277f7b1c
 k
 ;app/src/main/java/com/tinieblas/tokomegawa/utils/Login.java,5\b\5b96149a2ecdac689c96d91a3b6ee3a823f34def
-z
-Japp/src/main/java/com/tinieblas/tokomegawa/ui/fragments/LoginFragment.java,1\8\180071543c37f77a4d946806d9faae2f47b3f206

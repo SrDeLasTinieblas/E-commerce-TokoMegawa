@@ -81,7 +81,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textNombreSettings" />
 
     <Button
-        android:id="@+id/buttonArrowDerecha1"
+        android:id="@+id/buttonArrowNombre"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_alignParentEnd="true"
@@ -189,7 +189,7 @@
         app:layout_constraintStart_toEndOf="@+id/textNombre"
         app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
-    <Button
+    <!--<Button
         android:id="@+id/buttonArrowDerecha2"
         android:layout_width="30dp"
         android:layout_height="30dp"
@@ -201,7 +201,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.878"
         app:layout_constraintStart_toEndOf="@+id/textNombre2"
-        tools:layout_editor_absoluteY="918dp" />
+        tools:layout_editor_absoluteY="918dp" /> -->
 
     <Button
         android:id="@+id/buttonArrowCupon"

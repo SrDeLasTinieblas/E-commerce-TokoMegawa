@@ -34,6 +34,7 @@ public class LoginFragment extends Fragment {
                              Bundle savedInstanceState) {
         loginFragment = this;
         fragmentLoginBinding = FragmentLoginBinding.inflate(inflater, container, false);
+
         repository = new LoginRepositoryImp();
         Login login = new Login();
         login.validateLogin(getActivity());
@@ -53,6 +54,9 @@ public class LoginFragment extends Fragment {
         validateLogin();
 
         fragmentLoginBinding.buttonLogin.setOnClickListener(view -> startSession());
+        onClickIniciarSesionMasTarde();
+        onClickRegistrarse();
+
 
         return fragmentLoginBinding.getRoot();
     }
@@ -63,7 +67,7 @@ public class LoginFragment extends Fragment {
             NavigationContent.cambiarActividad(getActivity(), MainActivity.class);
         }
         else {
-            Toast.makeText(getContext(), "Error al Iniciar sesion", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getContext(), "Error al Iniciar sesion", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -96,6 +100,22 @@ public class LoginFragment extends Fragment {
         return awesomeValidation.validate();
     }
 
+    private void onClickIniciarSesionMasTarde(){
+        fragmentLoginBinding.iniciarSesionMasTarde.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavigationContent.cambiarActividad(getActivity(), MainActivity.class);
+            }
+        });
+    }
+    private void onClickRegistrarse(){
+        fragmentLoginBinding.textRegistrarse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavigationContent.replaceFragment(getActivity(), new RegistrarseFragment());
+            }
+        });
+    }
     /*private void replaceFragment(Fragment fragment) {
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();

@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -209,8 +210,8 @@ public class MyCartActivity extends AppCompatActivity {
 
             // Editar el SharedPreferences
             SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putString("departamento", ciudad);
-            editor.putString("distrito", departamento);
+            editor.putString("distrito", ciudad);
+            editor.putString("departamento", departamento);
             editor.apply();
         }
     }
@@ -255,6 +256,12 @@ public class MyCartActivity extends AppCompatActivity {
         }
     };
 
+    @Override
+    protected void onResume() {
+        getLocation();
+        super.onResume();
+    }
+
     @SuppressLint("SetTextI18n")
     private void getLocation() {
         SharedPreferences sharedPreferences = getSharedPreferences("MiUbicacion", Context.MODE_PRIVATE);
@@ -262,12 +269,16 @@ public class MyCartActivity extends AppCompatActivity {
         String distritoGuardado = sharedPreferences.getString("distrito", "");
 
         if (!TextUtils.isEmpty(departamentoGuardada) && !TextUtils.isEmpty(distritoGuardado)) {
-            if (departamentoGuardada.contains("departamento")) {
+            if (departamentoGuardada.contains("Provincia de ")) {
                 departamentoGuardada = departamentoGuardada.replaceAll("Provincia de ", "");
             }
 
             activityMyCartBinding.Departamento.setText(departamentoGuardada + ",");
             activityMyCartBinding.Distrito.setText(distritoGuardado);
+            //Log.d("Departamento: ", departamentoGuardada);
+            //Log.d("Distrito: ", distritoGuardado);
+            //Toast.makeText(context, "Departamento" + departamentoGuardada, Toast.LENGTH_LONG).show();
+            //Toast.makeText(context, "Distrito" + distritoGuardado, Toast.LENGTH_LONG).show();
         } else {
             // Los valores están vacíos, puedes mostrar un mensaje o realizar otras acciones
         }

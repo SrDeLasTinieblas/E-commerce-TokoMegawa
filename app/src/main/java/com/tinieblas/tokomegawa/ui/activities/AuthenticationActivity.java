@@ -28,6 +28,7 @@ public class AuthenticationActivity extends AppCompatActivity {
         activityAuthenticationBinding = ActivityAuthenticationBinding.inflate(getLayoutInflater());
 
         replaceFragment(new LoginFragment());
+        System.out.println("Authentication activity");
         setContentView(activityAuthenticationBinding.getRoot());
     }
     public void replaceFragment(Fragment fragment) {
@@ -37,4 +38,9 @@ public class AuthenticationActivity extends AppCompatActivity {
         fragmentTransaction.addToBackStack(null);
     }
 
+    @Override
+    public void onBackPressed() {
+        finish();
+        //super.onBackPressed();
+    }
 }

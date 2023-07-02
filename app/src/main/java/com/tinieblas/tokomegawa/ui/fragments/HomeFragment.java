@@ -93,15 +93,17 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     }
 
     private void setListeners() {
-        fragmentHomeBinding.buttonSalida.setOnClickListener(v -> {
+        /*fragmentHomeBinding.buttonSalida.setOnClickListener(v -> {
             mAuth.signOut();
             Intent i = new Intent(getContext(), AuthenticationActivity.class);
             startActivity(i);
-        });
+        });*/
 
         fragmentHomeBinding.fab.setOnClickListener(view -> NavigationContent.cambiarActividad(getContext(), MyCartActivity.class));
 
         fragmentHomeBinding.buttonFiltrar.setOnClickListener(view -> Showfiltro(view));
+
+
         fragmentHomeBinding.editTextSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
@@ -112,6 +114,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             @Override
             public void afterTextChanged(Editable editable) {
                 filtrarTitulo(editable.toString());
+                fragmentHomeBinding.editTextSearch.setCursorVisible(false);
+                fragmentHomeBinding.editTextSearch.setFocusable(false);
+
             }
         });
     }

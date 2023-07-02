@@ -7,20 +7,21 @@
     android:layout_height="match_parent"
     tools:context=".ui.fragments.HomeFragment">
 
+
     <EditText
         android:id="@+id/editTextSearch"
         android:layout_width="298dp"
         android:layout_height="40dp"
-        android:layout_marginTop="44dp"
-        android:background="@drawable/search"
-        android:drawableStart="@drawable/search"
+        android:layout_marginTop="38dp"
+        android:background="@drawable/edittext_no_border_style"
         android:drawableEnd="@drawable/ic_baseline_search_24"
-        android:drawablePadding="40dp"
+        android:drawablePadding="8dp"
         android:ems="10"
+        android:gravity="center_vertical"
         android:hint="Search for a product"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintHorizontal_bias="0.646"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -29,15 +30,17 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="20dp"
         android:background="@drawable/mi_filter"
+        app:layout_constraintBottom_toTopOf="@+id/textView"
         app:layout_constraintEnd_toStartOf="@+id/card_filter_RecyclerView"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextSearch" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/card_filter_RecyclerView"
-        android:layout_width="363dp"
+        android:layout_width="353dp"
         android:layout_height="65dp"
         android:layout_marginBottom="4dp"
         app:layout_constraintBottom_toTopOf="@+id/textView"
@@ -48,13 +51,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
         android:text="Hot Sales"
         android:textColor="@color/black"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonFiltrar" />
+        tools:layout_editor_absoluteY="160dp" />
 
     <TextView
         android:id="@+id/SeeAll"
@@ -141,16 +143,16 @@
         app:layout_constraintTop_toBottomOf="@+id/recicler_view_hotSales"
         app:layout_constraintVertical_bias="0.699" />
 
-    <Button
+    <!--<Button
         android:id="@+id/buttonSalida"
         android:layout_width="42dp"
         android:layout_height="46dp"
         android:text="."
         app:layout_constraintBottom_toTopOf="@+id/textView"
         app:layout_constraintEnd_toStartOf="@+id/editTextSearch"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.531"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.237" />
+        app:layout_constraintVertical_bias="0.22" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

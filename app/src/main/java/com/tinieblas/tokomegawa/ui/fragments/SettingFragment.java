@@ -30,6 +30,7 @@ import com.tinieblas.tokomegawa.domain.models.User;
 import com.tinieblas.tokomegawa.ui.activities.AuthenticationActivity;
 import com.tinieblas.tokomegawa.ui.activities.MainActivity;
 import com.tinieblas.tokomegawa.utils.Alertdialog;
+import com.tinieblas.tokomegawa.utils.OnSignOutListener;
 
 import java.util.List;
 
@@ -42,6 +43,7 @@ public class SettingFragment extends Fragment {
     SharedPreferences sharedPreferences;
     private PopupWindow popupWindow;
     private boolean isChecked = false;
+    private boolean isSessionClosed = false;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -86,10 +88,12 @@ public class SettingFragment extends Fragment {
         fragmentSettingBinding.buttonCerrarSession.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Alertdialog alertdialog = new Alertdialog();
-                alertdialog.alertLoading(getContext());
-
                 SignOut();
+                //SignOut();
+                /*Alertdialog alertdialog = new Alertdialog();
+                alertdialog.alertLoading(getContext());*/
+
+
             }
         });
 
@@ -97,26 +101,35 @@ public class SettingFragment extends Fragment {
     }
     private void SignOut() {
         // Realiza el proceso de cierre de sesión
-        mAuth.signOut();
-        // Una vez que se complete el proceso de cierre de sesión
-        /*mAuth.signOut().addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if (task.isSuccessful()) {
-                    // Cierre de sesión exitoso
-                } else {
-                    // Error en el cierre de sesión
-                }
+        Alertdialog alertdialog = new Alertdialog();
 
-                // Ocultar o cerrar el diálogo de carga
-                //alertdialog.dismiss();
+        alertdialog.alertLoading(getContext(), new OnSignOutListener() {
+            @Override
+            public void onSignOutComplete() {
+                // Aquí puedes realizar las acciones después de que el cierre de sesión se haya completado
+                mAuth.signOut();
+                Intent i = new Intent(getContext(), AuthenticationActivity.class);
+                startActivity(i);
+
+                // Finaliza la actividad actual (Main Activity)
+                requireActivity().finish();
             }
-        });*/
+        });
     }
 
+/*
+    @Override
+    public void onSignOutComplete() {
+        // Se llama cuando el cierre de sesión se haya completado
+        mAuth.signOut();
+        Intent i = new Intent(getContext(), AuthenticationActivity.class);
+        startActivity(i);
+    }*/
+
+
     public void updateData(){
-        Alertdialog alertdialog = new Alertdialog();
-        alertdialog.alertLoading(getContext());
+        //Alertdialog alertdialog = new Alertdialog();
+        //alertdialog.alertLoading(getContext(), );
 
 
         /*UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()

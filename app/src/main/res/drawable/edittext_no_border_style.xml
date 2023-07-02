@@ -1,0 +1,4 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Establece el color de fondo del EditText -->
+    <solid android:color="#FFFFFF" />
+</shape>

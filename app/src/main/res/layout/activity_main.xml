@@ -13,7 +13,7 @@
         android:layout_above="@+id/llButtons"
         android:layout_alignParentTop="true"
         android:layout_marginTop="0dp"
-        android:layout_marginBottom="-10dp"
+        android:layout_marginBottom="-15dp"
         tools:layout="@layout/fragment_home" />
 
     <LinearLayout
@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="17dp"
         android:orientation="horizontal"
         android:paddingTop="10dp">
 

@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -11,30 +10,30 @@
         android:id="@+id/textView18"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="36dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="30dp"
         android:text="Registrate"
-        android:textSize="25dp"
+        android:textSize="25sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView19"
         android:layout_width="360dp"
-        android:layout_height="41dp"
-        android:layout_marginTop="36dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:text="Ingresa tus datos personales y disfruta de una experiencia de compra más rápida."
-        android:textSize="18dp"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.515"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView18" />
 
     <EditText
         android:id="@+id/editTextNombre"
-        android:layout_width="355dp"
-        android:layout_height="47dp"
-        android:layout_marginTop="32dp"
+        android:layout_width="380dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:ems="10"
         android:hint="Ingresa tu nombre"
         android:inputType="text"
@@ -44,9 +43,9 @@
 
     <EditText
         android:id="@+id/editTextApelllidos"
-        android:layout_width="355dp"
-        android:layout_height="47dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="380dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:ems="10"
         android:hint="Ingresa tu apellido"
         android:inputType="text"
@@ -56,28 +55,28 @@
 
     <EditText
         android:id="@+id/editTextCorreoElectronico"
-        android:layout_width="355dp"
-        android:layout_height="47dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="380dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:ems="10"
         android:hint="Ingresa tu correo electronico"
         android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.535"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextApelllidos" />
 
     <EditText
         android:id="@+id/editTextPhone"
-        android:layout_width="305dp"
-        android:layout_height="47dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="28dp"
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="8dp"
         android:ems="10"
         android:hint="Ingresa tu numero de celular"
         android:inputType="phone"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/textView21"
         app:layout_constraintTop_toBottomOf="@+id/editTextCorreoElectronico" />
 
@@ -85,28 +84,27 @@
         android:id="@+id/textView21"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="27dp"
+        android:layout_marginStart="24dp"
         android:text="+51"
-        android:textSize="20dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextCorreoElectronico" />
+        android:textSize="20sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/editTextPhone"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Spinner
         android:id="@+id/spinnerTipoDocumento"
-        android:layout_width="355dp"
-        android:layout_height="47dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="380dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.535"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextPhone" />
 
     <EditText
         android:id="@+id/editTextNumDeDocumento"
-        android:layout_width="355dp"
-        android:layout_height="47dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="380dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:ems="10"
         android:hint="N° de documento"
         android:inputType="phone"
@@ -116,14 +114,14 @@
 
     <EditText
         android:id="@+id/editTextContrasena"
-        android:layout_width="355dp"
-        android:layout_height="47dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="380dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:ems="10"
         android:hint="Ingresa una contraseña"
         android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.535"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextNumDeDocumento" />
 
@@ -131,24 +129,21 @@
         android:id="@+id/textView22"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="8dp"
         android:text="Acepto los terminos y condiciones"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextContrasena" />
-
 
     <Switch
         android:id="@+id/switch1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/buttonRegistro"
+        android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.637"
+        app:layout_constraintHorizontal_bias="0.684"
         app:layout_constraintStart_toEndOf="@+id/textView22"
-        app:layout_constraintTop_toBottomOf="@+id/editTextContrasena"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextContrasena" />
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/animateView"
@@ -157,9 +152,7 @@
         android:layout_marginTop="4dp"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.421"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView22"
         app:layout_constraintWidth_percent="0.4"
@@ -171,56 +164,15 @@
         android:id="@+id/buttonRegistro"
         android:layout_width="296dp"
         android:layout_height="57dp"
-        android:layout_marginBottom="32dp"
         android:background="@drawable/button_login"
         android:enabled="false"
         android:text="Registrarme"
         android:textColor="#FFFFFF"
         android:textStyle="bold"
         app:circularflow_radiusInDP="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/animateView" />
 
-
 </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

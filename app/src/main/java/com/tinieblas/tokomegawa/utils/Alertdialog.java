@@ -7,9 +7,9 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class Alertdialog {
 
-    public void alertSuccess(Context context){
+    public void alertSuccess(Context context, String message){
         new SweetAlertDialog(context)
-        .setTitleText("Here's a message!")
+        .setTitleText(message)
         .show();
     }
 

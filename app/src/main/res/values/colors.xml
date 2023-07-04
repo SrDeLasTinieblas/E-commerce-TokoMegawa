@@ -15,4 +15,6 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFF</color>
+    <color name="your_divider_color">#FF0000</color>
+
 </resources>

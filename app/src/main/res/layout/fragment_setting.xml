@@ -69,7 +69,7 @@
 
 
     <TextView
-        android:id="@+id/Localitation"
+        android:id="@+id/inforUser"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
@@ -92,7 +92,7 @@
         android:onClick="onClick"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/Localitation"
+        app:layout_constraintStart_toEndOf="@+id/inforUser"
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
     <TextView
@@ -163,7 +163,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textNombre2" />
 
     <TextView
-        android:id="@+id/personalInfo"
+        android:id="@+id/textBlack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="164dp"
@@ -241,7 +241,7 @@
         app:layout_constraintBottom_toTopOf="@+id/buttonCerrarSession"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/personalInfo"
+        app:layout_constraintStart_toEndOf="@+id/textBlack"
         app:layout_constraintTop_toBottomOf="@+id/buttonArrowCupon"
         app:layout_constraintVertical_bias="0.153"
         tools:ignore="UseSwitchCompatOrMaterialXml" />

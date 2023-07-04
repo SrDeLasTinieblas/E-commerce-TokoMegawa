@@ -3,15 +3,19 @@ package com.tinieblas.tokomegawa.ui.adptadores;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.ViewSwitcher;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.AsyncListDiffer;
 import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -30,16 +34,29 @@ import java.util.List;
 
 public class CarritoAdapter extends RecyclerView.Adapter<CarritoAdapter.ViewHolder> {
 
-    private Context mContext;
+    private final Context mContext;
     private List<ProductosItem> mCarrito;
-    private TextView textView;
+    private final TextView textSubTotal;
+    private final TextView textTotal;
     private final AsyncListDiffer<ProductosItem> differ;
-    public CarritoAdapter(Context mContext, List<ProductosItem> mCarrito, TextView textView) {
+    private RecyclerView recyclerView;
+
+    private ViewSwitcher viewSwitcher;
+
+    public CarritoAdapter(Context mContext, List<ProductosItem> mCarrito,
+                          TextView textSubTotal, TextView textTotal,
+                          RecyclerView recyclerView,
+                          ViewSwitcher viewSwitcher
+
+    ) {
         this.mContext = mContext;
         this.mCarrito = mCarrito;
-        this.textView = textView;
+        this.textSubTotal = textSubTotal;
+        this.textTotal = textTotal;
+        this.recyclerView = recyclerView; // Agrega esta línea para asignar el RecyclerView
         this.mCarrito = mCarrito != null ? mCarrito : new ArrayList<>(); // Inicializar la lista mCarrito
 
+        this.viewSwitcher = viewSwitcher;
         // Configurar el diferenciador de listas
         differ = new AsyncListDiffer<>(this, new CarritoDiffCallback());
     }
@@ -118,7 +135,7 @@ public class CarritoAdapter extends RecyclerView.Adapter<CarritoAdapter.ViewHold
             }
         }
 
-        private void actualizarCarritoEnSharedPreferences() {
+        public void actualizarCarritoEnSharedPreferences() {
             // Obtén el adaptador del RecyclerView
             RecyclerView recyclerView = (RecyclerView) itemView.getParent();
             CarritoAdapter adapter = (CarritoAdapter) recyclerView.getAdapter();
@@ -136,19 +153,55 @@ public class CarritoAdapter extends RecyclerView.Adapter<CarritoAdapter.ViewHold
 
             // Calcula el subtotal y lo muestra en el TextView
             adapter.calcularSubTotal();
-        }
-    }
+            adapter.calcularTotal();
 
+
+        }
+
+
+
+    }
     private void calcularSubTotal() {
         double subTotal = 0;
         for (ProductosItem producto : differ.getCurrentList()) {
             double precio = producto.getPrecioUnitario() * producto.getAmount();
             subTotal += precio;
+            Toast.makeText(mContext, "amount " + producto.getAmount(), Toast.LENGTH_SHORT).show();
         }
+
         BigDecimal bd = new BigDecimal(subTotal).setScale(2, RoundingMode.HALF_UP);
         double roundedPrice = bd.doubleValue();
-        textView.setText("S/. " + roundedPrice);
+        // Actualiza el valor en el adaptador en lugar de actualizar directamente el TextView
+        textSubTotal.setText("S/. " + roundedPrice);
+
     }
+
+    private void calcularTotal() {
+        double subTotal = 0;
+        for (ProductosItem producto : differ.getCurrentList()) {
+            double precio = producto.getPrecioUnitario() * producto.getAmount();
+            Toast.makeText(mContext, "amount " + producto.getAmount(), Toast.LENGTH_SHORT).show();
+            subTotal += precio;
+        }
+
+        // Calcula el descuento y el monto de entrega
+        double descuento = 10.0; // Ejemplo: 10% de descuento
+        double delivery = 5.0; // Ejemplo: S/. 5 de entrega
+
+        // Aplica el descuento al subtotal
+        double descuentoAmount = subTotal * (descuento / 100);
+        double subtotalConDescuento = subTotal - descuentoAmount;
+
+        // Calcula el total sumando el subtotal con descuento y el monto de entrega
+        double total = subtotalConDescuento + delivery;
+
+        BigDecimal bd = new BigDecimal(total).setScale(2, RoundingMode.HALF_UP);
+        double roundedPrice = bd.doubleValue();
+        // Actualiza el valor en el adaptador en lugar de actualizar directamente el TextView
+        textTotal.setText("S/. " + roundedPrice);
+    }
+
+
 
     private static class CarritoDiffCallback extends DiffUtil.ItemCallback<ProductosItem> {
         @Override
@@ -161,5 +214,61 @@ public class CarritoAdapter extends RecyclerView.Adapter<CarritoAdapter.ViewHold
             return oldItem.getAmount() == newItem.getAmount();
         }
     }
+
+    public final ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
+        @Override
+        public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+            return false;
+        }
+
+        @Override
+        public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+            int position = viewHolder.getAdapterPosition();
+            ProductosItem producto = differ.getCurrentList().get(position);
+            borrarUnProductoDelCarrito(producto);
+
+        }
+    };
+    @SuppressLint("SetTextI18n")
+    public void borrarUnProductoDelCarrito(ProductosItem producto) {
+        CarritoAdapter adapter = (CarritoAdapter) recyclerView.getAdapter();
+
+        // Obtén la lista actual de productos en el carrito
+        List<ProductosItem> carrito = new ArrayList<>(adapter.differ.getCurrentList());
+
+        // Elimina el producto de la lista
+        carrito.remove(producto);
+
+        if (carrito.isEmpty()) {
+            // El carrito está vacío
+            adapter.setCarrito(new ArrayList<>());
+            Toast.makeText(mContext, "El carrito está vacío", Toast.LENGTH_SHORT).show();
+        } else {
+            // El carrito todavía tiene productos
+            adapter.setCarrito(carrito);
+        }
+
+        // Convierte la lista de productos a JSON utilizando Gson
+        Gson gson = new Gson();
+        String carritoJson = gson.toJson(carrito);
+
+        // Guarda el carrito actualizado en SharedPreferences
+        SharedPreferences sharedPreferences = mContext.getSharedPreferences("productos_carrito", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("lista_productos_carrito", carritoJson);
+        editor.apply();
+
+        // Actualiza la lista y el subtotal en el adaptador
+        adapter.setCarrito(carrito);
+        adapter.calcularSubTotal();
+        adapter.calcularTotal();
+
+        // Muestra un mensaje de confirmación
+        Toast.makeText(mContext, "Producto eliminado del carrito", Toast.LENGTH_SHORT).show();
+    }
+
+
+
+
 
 }

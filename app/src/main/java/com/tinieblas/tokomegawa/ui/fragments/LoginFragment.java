@@ -58,6 +58,9 @@ public class LoginFragment extends Fragment {
         onClickRegistrarse();
 
 
+
+        fragmentLoginBinding.recovery.setText("");
+
         return fragmentLoginBinding.getRoot();
     }
 

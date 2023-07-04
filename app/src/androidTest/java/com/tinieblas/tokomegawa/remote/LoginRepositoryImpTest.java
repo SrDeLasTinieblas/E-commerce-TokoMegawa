@@ -40,6 +40,13 @@ public class LoginRepositoryImpTest {
         Boolean isLogged = repository.login(email, password);
         assertEquals(true, isLogged);
     }
+
+    @Test
+    public void getUIDUser() {
+        String uidUser = repository.getUIDUser();
+        assertEquals("oMomAiwuy4hszwiNaUXf5Fwebml2", uidUser);
+    }
+
     @Test
     public void login(){
         Boolean isLogged = repository.login(email, password);

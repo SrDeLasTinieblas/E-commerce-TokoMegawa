@@ -24,6 +24,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -40,6 +41,8 @@ import com.tinieblas.tokomegawa.utils.hideMenu;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -66,18 +69,31 @@ public class MyCartActivity extends AppCompatActivity {
         setupFirebase();
         setupSharedPreferences();
         getPermission();
+
         activityMyCartBinding.btnBorrarCarrito.setVisibility(View.VISIBLE);
+
         //obtenerProductosDelCarrito(); // Llamar a la función para mostrar las tarjetas del carrito
         initViews(); // Configurar el RecyclerView
     }
 
     private void initViews() {
-        mCarritoAdapter = new CarritoAdapter(MyCartActivity.this, carritoList, activityMyCartBinding.textSubTotal);
+        mCarritoAdapter = new CarritoAdapter(MyCartActivity.this, carritoList,
+                activityMyCartBinding.textSubTotal, activityMyCartBinding.textTotal,
+                activityMyCartBinding.RecyclerMyCart,
+                activityMyCartBinding.viewSwitcher
+        );
+
         activityMyCartBinding.RecyclerMyCart.setAdapter(mCarritoAdapter);
         activityMyCartBinding.RecyclerMyCart.setLayoutManager(new LinearLayoutManager(MyCartActivity.this, RecyclerView.VERTICAL, false));
 
         obtenerProductosDelCarrito(); // Llamar a la función después de inicializar el adaptador
         mCarritoAdapter.setCarrito(obtenerProductosDelCarrito());
+
+
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(mCarritoAdapter.itemTouchHelperCallback);
+        itemTouchHelper.attachToRecyclerView(activityMyCartBinding.RecyclerMyCart);
+
+
     }
 
     // Función para configurar Firebase Firestore
@@ -305,6 +321,7 @@ public class MyCartActivity extends AppCompatActivity {
         //Toast.makeText(context, ""+listaProductosItems, Toast.LENGTH_SHORT).show();
 
         calcularSubTotal();
+        calcularTotal();
         return listaProductosItems;
     }
 
@@ -339,8 +356,36 @@ public class MyCartActivity extends AppCompatActivity {
             activityMyCartBinding.textSubTotal.setText("S/ 0.00");
         }
     }
+    @SuppressLint("SetTextI18n")
+    public void calcularTotal() {
+        if (carritoList != null && !carritoList.isEmpty()) {
+            double subTotal = 0;
+            for (ProductosItem item : carritoList) {
+                double precio = item.getPrecioUnitario() * item.getAmount();
+                subTotal += precio;
+            }
 
+            // Calcula el descuento y el monto de entrega
+            double descuento = 10.0; // Ejemplo: 10% de descuento
+            double delivery = 5.0; // Ejemplo: S/. 5 de entrega
 
+            // Aplica el descuento al subtotal
+            double descuentoAmount = subTotal * (descuento / 100);
+            double subtotalConDescuento = subTotal - descuentoAmount;
+
+            // Calcula el total sumando el subtotal con descuento y el monto de entrega
+            double total = subtotalConDescuento + delivery;
+
+            BigDecimal bd = new BigDecimal(total).setScale(2, RoundingMode.HALF_UP);
+            double roundedPrice = bd.doubleValue();
+            activityMyCartBinding.textTotal.setText("S/ " + String.format(Locale.getDefault(), "%.2f", roundedPrice));
+            //Log.d("cantidad: ", carritoList.toString());
+            //Toast.makeText(context, "==> "+ carritoList.toString(), Toast.LENGTH_SHORT).show();
+        } else {
+            // La lista está vacía o nula, realiza alguna acción o muestra un mensaje adecuado
+            activityMyCartBinding.textTotal.setText("S/ 0.00");
+        }
+    }
 
     public void volver(View view){
         NavigationContent.cambiarActividad(this, MainActivity.class);

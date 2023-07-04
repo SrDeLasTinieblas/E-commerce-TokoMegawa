@@ -83,17 +83,32 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <TextView
+    <!--<TextView
         android:id="@+id/textView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="12dp"
-        android:text="---------------------------------------------------------------------------------------------"
+        android:text="-"
         app:layout_constraintBottom_toTopOf="@+id/textView7"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.476"
         app:layout_constraintStart_toStartOf="parent"
         tools:ignore="UnknownId" />
+    -->
+    <TextView
+        android:id="@+id/dividerLine"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:text="@string/LineaDivider"
+        android:singleLine="true"
+        app:layout_constraintBottom_toTopOf="@+id/textView7"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.476"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="UnknownId" />
+
+
 
     <TextView
         android:id="@+id/textView7"
@@ -163,23 +178,24 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="232dp"
         android:layout_marginBottom="16dp"
-        android:text="50%"
-        app:layout_constraintBottom_toTopOf="@+id/textView14"
+        android:text="0%"
+        app:layout_constraintBottom_toTopOf="@+id/textTotal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.266"
         app:layout_constraintStart_toEndOf="@+id/textView9" />
 
     <TextView
-        android:id="@+id/textView14"
+        android:id="@+id/textTotal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="252dp"
+        android:layout_marginStart="240dp"
         android:layout_marginBottom="8dp"
-        android:text="S/ 406.60"
+        android:text="S/ 80.00"
         android:textColor="#38C7A5"
+
         app:layout_constraintBottom_toTopOf="@+id/btnCheckout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.48"
+        app:layout_constraintHorizontal_bias="0.453"
         app:layout_constraintStart_toEndOf="@+id/textView10" />
 
     <Button
@@ -199,8 +215,8 @@
     <ViewSwitcher
         android:id="@+id/viewSwitcher"
         android:layout_width="389dp"
-        android:layout_height="395dp"
-        app:layout_constraintBottom_toTopOf="@+id/textView6"
+        android:layout_height="495dp"
+        app:layout_constraintBottom_toTopOf="@+id/dividerLine"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -209,7 +225,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/RecyclerMyCart"
             android:layout_width="395dp"
-            android:layout_height="392dp"
+            android:layout_height="492dp"
             android:layout_marginBottom="20dp"
             app:layout_constraintBottom_toBottomOf="@+id/textView6"
             app:layout_constraintEnd_toEndOf="parent"

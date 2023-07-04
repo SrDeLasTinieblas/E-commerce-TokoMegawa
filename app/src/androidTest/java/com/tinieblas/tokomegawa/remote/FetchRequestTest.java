@@ -25,7 +25,7 @@ public class FetchRequestTest {
         registroData.setNumDocumento("12345678");
         registroData.setContrasena("contrasena123");
         registroData.setIUD("IUD de ejemplo");
-        registroData.setCorreoElectronico("ejemplo@example.com");
+        registroData.setCorreoElectronico("ejfewfemplo111@example.com");
         registroData.setDepartamento("Lima");
         registroData.setProvincia("Lima");
         registroData.setDistrito("SMPorres");

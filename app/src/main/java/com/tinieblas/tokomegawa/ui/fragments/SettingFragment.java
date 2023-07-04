@@ -25,6 +25,7 @@ import com.google.android.material.slider.RangeSlider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.tinieblas.tokomegawa.R;
+import com.tinieblas.tokomegawa.data.remote.LoginRepositoryImp;
 import com.tinieblas.tokomegawa.databinding.FragmentSettingBinding;
 import com.tinieblas.tokomegawa.domain.models.User;
 import com.tinieblas.tokomegawa.ui.activities.AuthenticationActivity;
@@ -96,6 +97,14 @@ public class SettingFragment extends Fragment {
 
             }
         });
+        LoginRepositoryImp loginRepositoryImp = new LoginRepositoryImp();
+        String uidUser = loginRepositoryImp.getUIDUser();
+        String emailUser = loginRepositoryImp.getEmailUser();
+
+        fragmentSettingBinding.inforUser.setText(uidUser);
+        fragmentSettingBinding.textNombreSettings.setText(emailUser);
+        //String uidUser = LoginRepositoryImp.getUIDUser();
+        //fragmentSettingBinding.inforUser.setText( repository.getUIDUser());
 
         return fragmentSettingBinding.getRoot();
     }

@@ -49,11 +49,18 @@ public class LoginRepositoryImp implements LoginRepository {
     }
 
     @Override
-    public String getNameUser() {
+    public String getUIDUser() {
+        definingFirebase();
+        return mAuth.getUid();
+    }
+
+    @Override
+    public String getEmailUser() {
         definingFirebase();
         FirebaseUser user = mAuth.getCurrentUser();
         return user.getEmail();
     }
+
 
     public String CreateAcount(String email, String password){
         try {

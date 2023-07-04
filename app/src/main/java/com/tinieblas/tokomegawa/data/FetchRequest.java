@@ -1,5 +1,8 @@
 package com.tinieblas.tokomegawa.data;
 
+import android.annotation.SuppressLint;
+import android.os.AsyncTask;
+
 import com.tinieblas.tokomegawa.domain.models.RegistroDataModelo;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -55,28 +58,73 @@ public class FetchRequest {
                 return response.message();
             }
         }
-    /*public String fetchRegistro(final String urlapi, RegistroDataModelo registroData) throws IOException {
+
+    }
+
+    /*public String fetchRegistro(final String urlapi, RegistroDataModelo registroData) {
         // Crear un objeto JSON con los datos del registro
-        OkHttpClient client = new OkHttpClient().newBuilder()
-                .build();
+        JSONObject json = new JSONObject();
+        try {
+            // ... tu código para crear el objeto JSON ...
+            json.put("nombre", registroData.getNombre());
+            json.put("apellido", registroData.getApellidos());
+            json.put("phone", registroData.getTelefono());
+            json.put("tipoDeDocumento", registroData.getTipoDocumento());
+            json.put("numDocumento", registroData.getNumDocumento());
+            json.put("contrasena", registroData.getContrasena());
+            json.put("iD_USER", registroData.getIUD());
+            json.put("email", registroData.getCorreoElectronico());
+            json.put("departamento", registroData.getDepartamento());
+            json.put("provincia", registroData.getProvincia());
+            json.put("distrito", registroData.getDistrito());
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return e.toString();
+        }
+
+        // Crear una solicitud HTTP POST
+        OkHttpClient client = new OkHttpClient().newBuilder().build();
         MediaType mediaType = MediaType.parse("application/json");
-        RequestBody body = RequestBody.create(mediaType, "{\r\n  \"nombre\": \"23rfd23rdge\"," +
-                "\r\n  \"apellido\": \"Luna\",\r\n  \"phone\": \"432421\"," +
-                "\r\n  \"tipoDeDocumento\": \"DNI\",\r\n  \"numDocumento\": \"2343424\"," +
-                "\r\n  \"contrasena\": \"darkangelo\",\r\n  \"iD_USER\": \"FEWFEWFWFW\"," +
-                "\r\n  \"email\": \"alohaaaa@gmail.com\",\r\n  \"departamento\": \"Lima\"," +
-                "\r\n  \"provincia\": \"Lima\",\r\n  \"distrito\": \"SMP\"\r\n}");
+        RequestBody body = RequestBody.create(mediaType, json.toString());
 
         Request request = new Request.Builder()
                 .url(urlapi)
                 .method("POST", body)
                 .addHeader("Content-Type", "application/json")
                 .build();
-        Response response = client.newCall(request).execute();
-        return response.toString();
-    }*/
 
+        // Utilizar AsyncTask para realizar la solicitud de red en un hilo secundario
+        @SuppressLint("StaticFieldLeak") AsyncTask<Void, Void, String> asyncTask = new AsyncTask<Void, Void, String>() {
+            @Override
+            protected String doInBackground(Void... voids) {
+                try (Response response = client.newCall(request).execute()) {
+                    if (response.isSuccessful()) {
+                        return response.body().string();
+                    } else {
+                        return response.message();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    return null;
+                }
+            }
+
+            @Override
+            protected void onPostExecute(String result) {
+                if (result != null) {
+                    // Manejar la respuesta aquí
+                } else {
+                    // Manejar el caso de error
+                }
+            }
+        };
+
+        asyncTask.execute();
+        return asyncTask.toString();
     }
+*/
+
+
 }
 
 

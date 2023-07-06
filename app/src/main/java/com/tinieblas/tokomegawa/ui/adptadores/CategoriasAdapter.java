@@ -1,11 +1,8 @@
-package com.tinieblas.tokomegawa.domain.models;
+package com.tinieblas.tokomegawa.ui.adptadores;
 
 import android.content.Context;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
@@ -13,9 +10,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.tinieblas.tokomegawa.R;
 import com.tinieblas.tokomegawa.databinding.ItemsFilterCardsBinding;
+import com.tinieblas.tokomegawa.domain.models.CategoriaModelo;
+import com.tinieblas.tokomegawa.domain.models.ProductosItem;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class CategoriasAdapter extends RecyclerView.Adapter<CategoriasAdapter.ViewHolder> {
 

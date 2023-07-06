@@ -7,9 +7,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.tinieblas.tokomegawa.domain.repository.UserRepository;
+import com.tinieblas.tokomegawa.domain.repository.UserRemoteRepository;
 
-public class UserRepositoryImp implements UserRepository {
+public class UserRemoteRemoteRepositoryImp implements UserRemoteRepository {
     FirebaseFirestore firebaseFirestore;
     FirebaseAuth mAuth;
     FirebaseDatabase database;

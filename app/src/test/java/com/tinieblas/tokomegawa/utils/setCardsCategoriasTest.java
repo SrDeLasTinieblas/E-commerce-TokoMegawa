@@ -76,7 +76,7 @@ public class setCardsCategoriasTest {
         assertEquals(expectedCategorias, fragmentHome.getCategorias());
     }
 
-    // TODO: Write additional test cases for getImageResourceForCategory() and createRecyclerView() methods
+    // TODO: Write additional SharedRepo cases for getImageResourceForCategory() and createRecyclerView() methods
 
 */
 }

@@ -2,12 +2,9 @@ package com.tinieblas.tokomegawa.ui.adptadores;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewSwitcher;
@@ -15,18 +12,13 @@ import android.widget.ViewSwitcher;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.AsyncListDiffer;
 import androidx.recyclerview.widget.DiffUtil;
-import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.google.common.reflect.TypeToken;
-import com.google.gson.Gson;
-import com.tinieblas.tokomegawa.R;
-import com.tinieblas.tokomegawa.databinding.ActivityMyCartBinding;
+import com.tinieblas.tokomegawa.data.local.ProductCartRepositoryImp;
 import com.tinieblas.tokomegawa.databinding.ItemsMycartBinding;
 import com.tinieblas.tokomegawa.domain.models.ProductosItem;
 
-import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
@@ -45,6 +37,8 @@ public class CarritoAdapter extends RecyclerView.Adapter<CarritoAdapter.ViewHold
     private CarritoAdapter adapter;
 
 
+    private ProductCartRepositoryImp repository;
+
     public CarritoAdapter(Context mContext, List<ProductosItem> mCarrito,
                           TextView textSubTotal, TextView textTotal,
                           RecyclerView recyclerView,
@@ -58,6 +52,8 @@ public class CarritoAdapter extends RecyclerView.Adapter<CarritoAdapter.ViewHold
         this.viewSwitcher = viewSwitcher;
         this.adapter = this; // Agrega esta línea para asignar el adaptador
         differ = new AsyncListDiffer<>(this, new CarritoDiffCallback());
+
+        this.repository = new ProductCartRepositoryImp(this.mContext);
     }
 
     public void setCarrito(List<ProductosItem> carrito) {
@@ -143,15 +139,9 @@ public class CarritoAdapter extends RecyclerView.Adapter<CarritoAdapter.ViewHold
             CarritoAdapter adapter = (CarritoAdapter) recyclerView.getAdapter();
             List<ProductosItem> carrito = adapter.differ.getCurrentList();
 
-            // Convierte la lista de productos a JSON utilizando Gson
-            Gson gson = new Gson();
-            String carritoJson = gson.toJson(carrito);
 
-            // Guarda el carrito actualizado en SharedPreferences
-            SharedPreferences sharedPreferences = itemView.getContext().getSharedPreferences("productos_carrito", Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putString("lista_productos_carrito", carritoJson);
-            editor.apply();
+            repository.insertAll(carrito);
+
 
             // Calcula el subtotal y lo muestra en el TextView
             adapter.calcularSubTotal();
@@ -217,20 +207,9 @@ public class CarritoAdapter extends RecyclerView.Adapter<CarritoAdapter.ViewHold
         }
     }
 
-    public final ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
-        @Override
-        public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
-            return false;
-        }
-
-        @Override
-        public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-            int position = viewHolder.getAdapterPosition();
-            ProductosItem producto = differ.getCurrentList().get(position);
-            borrarUnProductoDelCarrito(producto); // Llama a la función en el adaptador
-            //adapter.actualizarCarritoEnSharedPreferences(); // Utiliza la referencia al adaptador para llamar a la función
-        }
-    };
+    public List<ProductosItem> getCurrentList (){
+        return differ.getCurrentList();
+    }
 
     @SuppressLint("SetTextI18n")
     public void borrarUnProductoDelCarrito(ProductosItem producto) {
@@ -249,15 +228,9 @@ public class CarritoAdapter extends RecyclerView.Adapter<CarritoAdapter.ViewHold
             setCarrito(carrito);
         }
 
-        // Convierte la lista de productos a JSON utilizando Gson
-        Gson gson = new Gson();
-        String carritoJson = gson.toJson(carrito);
-
         // Guarda el carrito actualizado en SharedPreferences
-        SharedPreferences sharedPreferences = mContext.getSharedPreferences("productos_carrito", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("lista_productos_carrito", carritoJson);
-        editor.apply();
+        repository.insertAll(carrito);
+
 
         // Actualiza la lista y el subtotal en el adaptador
         setCarrito(carrito);

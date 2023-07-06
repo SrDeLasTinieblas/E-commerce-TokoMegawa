@@ -23,7 +23,7 @@ public class FirebaseInstrumentedTest {
 
     @Test
     public void login() throws ExecutionException, InterruptedException {
-        // Context of the app under test.
+        // Context of the app under SharedRepo.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
         Assert.assertEquals("com.tinieblas.tokomegawa", appContext.getPackageName());
 

@@ -19,10 +19,13 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.slider.RangeSlider;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserInfo;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.tinieblas.tokomegawa.R;
 import com.tinieblas.tokomegawa.data.remote.LoginRepositoryImp;
@@ -38,137 +41,146 @@ import java.util.List;
 public class SettingFragment extends Fragment {
 
     private User user;
-    private final FirebaseAuth mAuth = FirebaseAuth.getInstance();
-    SettingFragment settingFragment;
-    FragmentSettingBinding fragmentSettingBinding;
-    SharedPreferences sharedPreferences;
+    private FirebaseUser userFirebase;
+    private FirebaseAuth mAuth;
+    private SettingFragment settingFragment;
+    private FragmentSettingBinding fragmentSettingBinding;
+    private SharedPreferences sharedPreferences;
     private PopupWindow popupWindow;
     private boolean isChecked = false;
     private boolean isSessionClosed = false;
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         settingFragment = this;
         fragmentSettingBinding = FragmentSettingBinding.inflate(inflater, container, false);
 
-        fragmentSettingBinding.switchDarkMode.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    enableDarkMode();
-                    Toast.makeText(getContext(), "Modo oscuro activado", Toast.LENGTH_SHORT).show();
-                } else {
-                    disableDarkMode();
-                    Toast.makeText(getContext(), "Modo oscuro desactivado", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-        
-        fragmentSettingBinding.buttonArrowCupon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(getContext(), "Cupon", Toast.LENGTH_SHORT).show();
-            }
-        });
+        userFirebase = FirebaseAuth.getInstance().getCurrentUser();
+        mAuth = FirebaseAuth.getInstance();
 
-        fragmentSettingBinding.btnLenguaje.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Showfiltro(view);
-            }
-        });
-
-        fragmentSettingBinding.buttonArrowNombre.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                updateData();
-            }
-        });
-
-        fragmentSettingBinding.buttonCerrarSession.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                SignOut();
-                //SignOut();
-                /*Alertdialog alertdialog = new Alertdialog();
-                alertdialog.alertLoading(getContext());*/
-
-
-            }
-        });
-        LoginRepositoryImp loginRepositoryImp = new LoginRepositoryImp();
-        String uidUser = loginRepositoryImp.getUIDUser();
-        String emailUser = loginRepositoryImp.getEmailUser();
-
-        fragmentSettingBinding.inforUser.setText(uidUser);
-        fragmentSettingBinding.textNombreSettings.setText(emailUser);
-        //String uidUser = LoginRepositoryImp.getUIDUser();
-        //fragmentSettingBinding.inforUser.setText( repository.getUIDUser());
+        setUpViews();
+        setUpListeners();
+        loadData();
 
         return fragmentSettingBinding.getRoot();
     }
-    private void SignOut() {
-        // Realiza el proceso de cierre de sesión
-        Alertdialog alertdialog = new Alertdialog();
 
+    private void setUpViews() {
+        // Set up initial views and data
+        String uidUser = new LoginRepositoryImp().getUIDUser();
+        //String emailUser = new LoginRepositoryImp().getEmailUser();
+        fragmentSettingBinding.inforUser.setText(uidUser);
+        //fragmentSettingBinding.textNombreSettings.setText(emailUser);
+        getPhoto();
+    }
+
+    private void setUpListeners() {
+        // Set up listeners for button clicks and switches
+        fragmentSettingBinding.switchDarkMode.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                enableDarkMode();
+                Toast.makeText(getContext(), "Modo oscuro activado", Toast.LENGTH_SHORT).show();
+            } else {
+                disableDarkMode();
+                Toast.makeText(getContext(), "Modo oscuro desactivado", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        fragmentSettingBinding.buttonArrowCupon.setOnClickListener(view -> {
+            Toast.makeText(getContext(), "Cupon", Toast.LENGTH_SHORT).show();
+        });
+
+        fragmentSettingBinding.btnLenguaje.setOnClickListener(view -> {
+            Showfiltro(view);
+        });
+
+        fragmentSettingBinding.buttonArrowNombre.setOnClickListener(view -> {
+            updatePhoto();
+            getPhoto();
+            updateEmail("nuevoCorreo@gmail.com");
+        });
+
+        fragmentSettingBinding.buttonCerrarSession.setOnClickListener(view -> {
+            SignOut();
+        });
+
+        fragmentSettingBinding.switchNotifications.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                Toast.makeText(getContext(), "Yes", Toast.LENGTH_SHORT).show();
+                fragmentSettingBinding.textNotification.setText("Yes");
+            } else {
+                Toast.makeText(getContext(), "No", Toast.LENGTH_SHORT).show();
+                fragmentSettingBinding.textNotification.setText("No");
+            }
+        });
+    }
+
+    private void loadData() {
+        // Load initial data or perform any other necessary tasks
+    }
+
+    private void SignOut() {
+        Alertdialog alertdialog = new Alertdialog();
         alertdialog.alertLoading(getContext(), new OnSignOutListener() {
             @Override
             public void onSignOutComplete() {
-                // Aquí puedes realizar las acciones después de que el cierre de sesión se haya completado
                 mAuth.signOut();
                 Intent i = new Intent(getContext(), AuthenticationActivity.class);
                 startActivity(i);
-
-                // Finaliza la actividad actual (Main Activity)
                 requireActivity().finish();
             }
         });
     }
 
-/*
-    @Override
-    public void onSignOutComplete() {
-        // Se llama cuando el cierre de sesión se haya completado
-        mAuth.signOut();
-        Intent i = new Intent(getContext(), AuthenticationActivity.class);
-        startActivity(i);
-    }*/
+    private void getPhoto() {
+        if (userFirebase != null) {
+            for (UserInfo profile : userFirebase.getProviderData()) {
+                String email = profile.getEmail();
+                Uri photoUrl = profile.getPhotoUrl();
+                String name = profile.getDisplayName();
 
+                Glide.with(this)
+                        .load(photoUrl)
+                        .into(fragmentSettingBinding.imageView2);
 
-    public void updateData(){
-        //Alertdialog alertdialog = new Alertdialog();
-        //alertdialog.alertLoading(getContext(), );
+                fragmentSettingBinding.textNombreSettings.setText(email);
+                fragmentSettingBinding.textNombreSettings.setText(name);
+            }
+        }
+    }
 
+    public void updateEmail(String correoActualizado) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-        /*UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+        user.updateEmail(correoActualizado).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                Log.d("TAG", "User email address updated.");
+            }
+        });
+    }
+
+    public void updatePhoto() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                 .setDisplayName("Jane Q. User")
-                .setPhotoUri(Uri.parse("https://example.com/jane-q-user/profile.jpg"))
+                .setPhotoUri(Uri.parse("https://arc-anglerfish-arc2-prod-elcomercio.s3.amazonaws.com/public/7JJ3VG267NGNPCMAOXQCJLIZKA.jpg"))
                 .build();
 
-        user.updateProfile(profileUpdates)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            Log.d("error", "User profile updated.");
-                        }
-                    }
-                });*/
+        user.updateProfile(profileUpdates).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                Log.d("TAG", "User profile updated.");
+            }
+        });
     }
-    /*public void SignOut(){
-        mAuth.signOut();
-        Intent i = new Intent(getContext(), AuthenticationActivity.class);
-        startActivity(i);
-    }*/
+
     public void Showfiltro(View view) {
         if (popupWindow != null && popupWindow.isShowing()) {
             popupWindow.dismiss();
-            isChecked = false; // Reiniciar el estado al cerrar el popup
+            isChecked = false;
         } else {
             View popupView = LayoutInflater.from(requireActivity()).inflate(R.layout.popup_idiomas, null);
             popupWindow = new PopupWindow(popupView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-
             popupWindow.showAsDropDown(view, 0, 0);
         }
     }
@@ -176,20 +188,11 @@ public class SettingFragment extends Fragment {
     public void enableDarkMode() {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         ((MainActivity) requireActivity()).getDelegate().applyDayNight();
-        /*if (mode == 0){
-            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-        }else {
-            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        }*/
     }
+
     public void disableDarkMode() {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         ((MainActivity) requireActivity()).getDelegate().applyDayNight();
-        /*if (mode == 0){
-            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-        }else {
-            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        }*/
     }
 
     public void replaceFragment(Fragment fragment) {
@@ -199,8 +202,6 @@ public class SettingFragment extends Fragment {
         fragmentTransaction.commit();
         fragmentTransaction.addToBackStack(null);
     }
-
-
 }
 
 

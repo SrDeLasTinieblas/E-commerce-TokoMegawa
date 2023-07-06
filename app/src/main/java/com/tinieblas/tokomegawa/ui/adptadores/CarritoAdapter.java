@@ -42,22 +42,21 @@ public class CarritoAdapter extends RecyclerView.Adapter<CarritoAdapter.ViewHold
     private RecyclerView recyclerView;
 
     private ViewSwitcher viewSwitcher;
+    private CarritoAdapter adapter;
+
 
     public CarritoAdapter(Context mContext, List<ProductosItem> mCarrito,
                           TextView textSubTotal, TextView textTotal,
                           RecyclerView recyclerView,
-                          ViewSwitcher viewSwitcher
-
-    ) {
+                          ViewSwitcher viewSwitcher) {
         this.mContext = mContext;
         this.mCarrito = mCarrito;
         this.textSubTotal = textSubTotal;
         this.textTotal = textTotal;
-        this.recyclerView = recyclerView; // Agrega esta línea para asignar el RecyclerView
-        this.mCarrito = mCarrito != null ? mCarrito : new ArrayList<>(); // Inicializar la lista mCarrito
-
+        this.recyclerView = recyclerView;
+        this.mCarrito = mCarrito != null ? mCarrito : new ArrayList<>();
         this.viewSwitcher = viewSwitcher;
-        // Configurar el diferenciador de listas
+        this.adapter = this; // Agrega esta línea para asignar el adaptador
         differ = new AsyncListDiffer<>(this, new CarritoDiffCallback());
     }
 
@@ -68,7 +67,7 @@ public class CarritoAdapter extends RecyclerView.Adapter<CarritoAdapter.ViewHold
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         ItemsMycartBinding binding = ItemsMycartBinding.inflate(LayoutInflater.from(mContext), parent, false);
-        return new ViewHolder(binding);
+        return new ViewHolder(binding, this); // Pasa 'this' como referencia al adaptador
     }
 
 
@@ -85,10 +84,12 @@ public class CarritoAdapter extends RecyclerView.Adapter<CarritoAdapter.ViewHold
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         private ItemsMycartBinding binding;
+        private RecyclerView.Adapter adapter;
 
-        public ViewHolder(ItemsMycartBinding binding) {
+        public ViewHolder(ItemsMycartBinding binding, CarritoAdapter adapter) {
             super(binding.getRoot());
             this.binding = binding;
+            this.adapter = adapter;
         }
 
         public void bind(ProductosItem carrito) {
@@ -135,6 +136,7 @@ public class CarritoAdapter extends RecyclerView.Adapter<CarritoAdapter.ViewHold
             }
         }
 
+
         public void actualizarCarritoEnSharedPreferences() {
             // Obtén el adaptador del RecyclerView
             RecyclerView recyclerView = (RecyclerView) itemView.getParent();
@@ -154,19 +156,19 @@ public class CarritoAdapter extends RecyclerView.Adapter<CarritoAdapter.ViewHold
             // Calcula el subtotal y lo muestra en el TextView
             adapter.calcularSubTotal();
             adapter.calcularTotal();
-
-
         }
 
 
-
     }
+
+
+
     private void calcularSubTotal() {
         double subTotal = 0;
         for (ProductosItem producto : differ.getCurrentList()) {
             double precio = producto.getPrecioUnitario() * producto.getAmount();
             subTotal += precio;
-            Toast.makeText(mContext, "amount " + producto.getAmount(), Toast.LENGTH_SHORT).show();
+            //Toast.makeText(mContext, "amount " + producto.getAmount(), Toast.LENGTH_SHORT).show();
         }
 
         BigDecimal bd = new BigDecimal(subTotal).setScale(2, RoundingMode.HALF_UP);
@@ -180,7 +182,7 @@ public class CarritoAdapter extends RecyclerView.Adapter<CarritoAdapter.ViewHold
         double subTotal = 0;
         for (ProductosItem producto : differ.getCurrentList()) {
             double precio = producto.getPrecioUnitario() * producto.getAmount();
-            Toast.makeText(mContext, "amount " + producto.getAmount(), Toast.LENGTH_SHORT).show();
+            //Toast.makeText(mContext, "amount " + producto.getAmount(), Toast.LENGTH_SHORT).show();
             subTotal += precio;
         }
 
@@ -225,27 +227,26 @@ public class CarritoAdapter extends RecyclerView.Adapter<CarritoAdapter.ViewHold
         public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
             int position = viewHolder.getAdapterPosition();
             ProductosItem producto = differ.getCurrentList().get(position);
-            borrarUnProductoDelCarrito(producto);
-
+            borrarUnProductoDelCarrito(producto); // Llama a la función en el adaptador
+            //adapter.actualizarCarritoEnSharedPreferences(); // Utiliza la referencia al adaptador para llamar a la función
         }
     };
+
     @SuppressLint("SetTextI18n")
     public void borrarUnProductoDelCarrito(ProductosItem producto) {
-        CarritoAdapter adapter = (CarritoAdapter) recyclerView.getAdapter();
-
         // Obtén la lista actual de productos en el carrito
-        List<ProductosItem> carrito = new ArrayList<>(adapter.differ.getCurrentList());
+        List<ProductosItem> carrito = new ArrayList<>(differ.getCurrentList());
 
         // Elimina el producto de la lista
         carrito.remove(producto);
 
         if (carrito.isEmpty()) {
             // El carrito está vacío
-            adapter.setCarrito(new ArrayList<>());
+            setCarrito(new ArrayList<>());
             Toast.makeText(mContext, "El carrito está vacío", Toast.LENGTH_SHORT).show();
         } else {
             // El carrito todavía tiene productos
-            adapter.setCarrito(carrito);
+            setCarrito(carrito);
         }
 
         // Convierte la lista de productos a JSON utilizando Gson
@@ -259,13 +260,14 @@ public class CarritoAdapter extends RecyclerView.Adapter<CarritoAdapter.ViewHold
         editor.apply();
 
         // Actualiza la lista y el subtotal en el adaptador
-        adapter.setCarrito(carrito);
-        adapter.calcularSubTotal();
-        adapter.calcularTotal();
+        setCarrito(carrito);
+        calcularSubTotal();
+        calcularTotal();
 
         // Muestra un mensaje de confirmación
         Toast.makeText(mContext, "Producto eliminado del carrito", Toast.LENGTH_SHORT).show();
     }
+
 
 
 

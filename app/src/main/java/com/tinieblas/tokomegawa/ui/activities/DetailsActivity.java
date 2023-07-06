@@ -2,14 +2,20 @@ package com.tinieblas.tokomegawa.ui.activities;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
+import android.view.Gravity;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 import com.tinieblas.tokomegawa.R;
 import com.tinieblas.tokomegawa.databinding.ActivityDetailsBinding;
@@ -60,16 +66,18 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
 
                 if (EstaEnCarrito) {
                     // El producto está en el carrito, así que lo eliminamos
-                    Toast.makeText(context, "Eliminado del carrito", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(context, "Eliminado del carrito", Toast.LENGTH_SHORT).show();
                     borrarUnProductoDelCarrito(producto);
+                    snackbars("Quitado del carrito");
                     // Mostrar animación de eliminación
                     activityDetailsBinding.animationView.setProgress(0);
                     activityDetailsBinding.animationView.pauseAnimation();
                     EstaEnCarrito = false; // Actualizar el estado de EstaEnCarrito
                 } else {
                     // El producto no está en el carrito, así que lo añadimos
-                    Toast.makeText(context, "Agregando al carrito", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(context, "Agregando al carrito", Toast.LENGTH_SHORT).show();
                     guardarProductoCarrito(producto);
+                    snackbars("Agregado al carrito");
                     // Mostrar animación de añadir al carrito
                     activityDetailsBinding.animationView.playAnimation();
                     EstaEnCarrito = true; // Actualizar el estado de EstaEnCarrito
@@ -240,7 +248,7 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
                     }
                     //System.out.println("idProductoLista ==> "+idProductoLista + "  ==  " + "getIdProducto ==> "+producto.getIdProducto());
 
-                    Toast.makeText(context, "Quitado del carrito", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(context, "Quitado del carrito", Toast.LENGTH_SHORT).show();
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -313,6 +321,37 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
             editor.apply();
         }
     }
+
+    public void snackbars(String mensaje) {
+        // Crear el Snackbar
+        Snackbar snackbar = Snackbar.make(decorView, "", Snackbar.LENGTH_SHORT);
+
+        // Obtener la vista del Snackbar
+        View snackbarView = snackbar.getView();
+
+        // Configurar el fondo y el radio de los bordes
+        GradientDrawable background = new GradientDrawable();
+        background.setShape(GradientDrawable.RECTANGLE);
+        background.setCornerRadius(getResources().getDimensionPixelOffset(R.dimen.snackbar_corner_radius));
+        background.setColor(ContextCompat.getColor(context, R.color.white));
+        snackbarView.setBackground(background);
+
+        // Obtener el TextView del Snackbar
+        TextView textView = snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
+
+        // Configurar la imagen y el texto del TextView
+        //Drawable drawable = getResources().getDrawable(R.drawable.check1);
+        //textView.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
+        textView.setCompoundDrawablePadding(getResources().getDimensionPixelOffset(R.dimen.fab_margin));
+        textView.setGravity(Gravity.CENTER_HORIZONTAL);
+        textView.setText(mensaje);
+        textView.setTextColor(ContextCompat.getColor(context, R.color.black));
+
+        // Mostrar el Snackbar
+        snackbar.show();
+    }
+
+
 
     public void volver(View view){
         finish();

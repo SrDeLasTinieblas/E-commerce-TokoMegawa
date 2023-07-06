@@ -3,8 +3,6 @@ package com.tinieblas.tokomegawa.ui.adptadores;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.tinieblas.tokomegawa.R;
+import com.tinieblas.tokomegawa.data.local.ProductSavedRepositoryImp;
 import com.tinieblas.tokomegawa.domain.models.ProductosItem;
 import com.tinieblas.tokomegawa.ui.activities.DetailsActivity;
 
@@ -31,12 +30,13 @@ import java.util.Set;
 public class ProductosAdapter extends RecyclerView.Adapter<ProductosAdapter.ProductoViewHolder> {
     private final Context mContext;
     private List<ProductosItem> mProductos;
-    SharedPreferences sharedPreferences;
+
+    private ProductSavedRepositoryImp repository;
 
     public ProductosAdapter(Context context, List<ProductosItem> productos) {
         mContext = context;
         mProductos = productos;
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        this.repository = new ProductSavedRepositoryImp(context);
     }
 
     @NonNull
@@ -84,7 +84,8 @@ public class ProductosAdapter extends RecyclerView.Adapter<ProductosAdapter.Prod
             @Override
             public void onClick(View v) {
                 // Obtener la lista actual de productos guardados en SharedPreferences
-                Set<String> productosGuardados = sharedPreferences.getStringSet("productos_guardados", new HashSet<String>());
+                Set<String> productosGuardados = repository.getProductosGuardados();
+
                 int idProducto = producto.getIdProducto();
 
                 // Verificar si el producto ya está en la lista
@@ -99,9 +100,7 @@ public class ProductosAdapter extends RecyclerView.Adapter<ProductosAdapter.Prod
                 }
 
                 // Guardar la lista actualizada en SharedPreferences
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putStringSet("productos_guardados", productosGuardados);
-                editor.apply();
+                repository.saveProductosGuardados(productosGuardados);
 
                 // Actualizar la apariencia del botón según si el producto está en la lista o no
                 actualizarAparienciaBoton(holder.favorito, productosGuardados.contains(String.valueOf(idProducto)));

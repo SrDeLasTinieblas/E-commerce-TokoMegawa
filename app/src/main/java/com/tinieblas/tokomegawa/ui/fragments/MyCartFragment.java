@@ -1,23 +1,12 @@
 package com.tinieblas.tokomegawa.ui.fragments;
 
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-
-import com.tinieblas.tokomegawa.R;
-import com.tinieblas.tokomegawa.data.remote.UserRepositoryImp;
-import com.tinieblas.tokomegawa.databinding.FragmentMyCartBinding;
 
 public class MyCartFragment extends Fragment {
 /**
     MyCartFragment myCartFragment;
 
-    private final UserRepositoryImp repository = new UserRepositoryImp();
+    private final UserRemoteRemoteRepositoryImp repository = new UserRemoteRemoteRepositoryImp();
 
     private FragmentMyCartBinding fragmentMyCartBinding;
     String name;

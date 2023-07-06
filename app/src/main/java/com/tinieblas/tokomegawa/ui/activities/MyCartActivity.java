@@ -4,7 +4,6 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -15,7 +14,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -23,24 +21,21 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.common.reflect.TypeToken;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.gson.Gson;
+import com.tinieblas.tokomegawa.data.local.LocationRepositoryImp;
+import com.tinieblas.tokomegawa.data.local.ProductCartRepositoryImp;
+import com.tinieblas.tokomegawa.data.local.UserLocalRepositoryImp;
 import com.tinieblas.tokomegawa.databinding.ActivityMyCartBinding;
+import com.tinieblas.tokomegawa.domain.models.LocationData;
 import com.tinieblas.tokomegawa.domain.models.ProductosItem;
 import com.tinieblas.tokomegawa.ui.adptadores.CarritoAdapter;
-import com.tinieblas.tokomegawa.ui.adptadores.ProductosAdapter;
 import com.tinieblas.tokomegawa.utils.NavigationContent;
-import com.tinieblas.tokomegawa.utils.hideMenu;
 
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
@@ -56,12 +51,20 @@ public class MyCartActivity extends AppCompatActivity {
     private FirebaseFirestore mFirestore;
     private static final int CODIGO_PERMISOS_UBICACION = 1;
 
+    private ProductCartRepositoryImp productCartRepository;
+    private LocationRepositoryImp locationRepository;
+    private UserLocalRepositoryImp userLocalRepository;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activityMyCartBinding = ActivityMyCartBinding.inflate(getLayoutInflater());
         setContentView(activityMyCartBinding.getRoot());
         context = this;
+        productCartRepository = new ProductCartRepositoryImp(this);
+        locationRepository = new LocationRepositoryImp(this);
+        userLocalRepository = new UserLocalRepositoryImp(this);
+
 
         // Ocultar barra de sistema
         getWindow().getDecorView().setSystemUiVisibility(hideSystemBar());
@@ -90,11 +93,32 @@ public class MyCartActivity extends AppCompatActivity {
         mCarritoAdapter.setCarrito(obtenerProductosDelCarrito());
 
 
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(mCarritoAdapter.itemTouchHelperCallback);
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(itemTouchHelperCallback);
         itemTouchHelper.attachToRecyclerView(activityMyCartBinding.RecyclerMyCart);
 
 
     }
+
+    public final ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
+        @Override
+        public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+            return false;
+        }
+
+        @Override
+        public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+            int position = viewHolder.getAdapterPosition();
+            ProductosItem producto = mCarritoAdapter.getCurrentList().get(position);
+            mCarritoAdapter.borrarUnProductoDelCarrito(producto); // Llama a la función en el adaptador
+            if (mCarritoAdapter.getCurrentList().isEmpty()) {
+                // Update SubTotal
+                // Update Total
+                showAnimationEmpty();
+
+            }
+        }
+    };
+
 
     // Función para configurar Firebase Firestore
     private void setupFirebase() {
@@ -104,10 +128,7 @@ public class MyCartActivity extends AppCompatActivity {
 
     // Función para configurar SharedPreferences
     private void setupSharedPreferences() {
-        // Obtener la instancia del SharedPreferences
-        SharedPreferences sharedPreferences = getSharedPreferences("dataUser", Context.MODE_PRIVATE);
-        // Obtener los valores almacenados en el SharedPreferences
-        String UID = sharedPreferences.getString("userUid", "");
+        String UID = userLocalRepository.getCurrentUserId();
 
         //getNombreUser(UID);
         System.out.println("my cart UID ===>" + UID);
@@ -136,7 +157,7 @@ public class MyCartActivity extends AppCompatActivity {
         //animationView.playAnimation();
 
         // Borrar los productos del carrito y volver a cargar el adaptador
-        clearSharedPreferences("productos_carrito");
+        clearSharedPreferences();
 
 
         // Detener y ocultar la animación después de un tiempo (por ejemplo, 2 segundos)
@@ -147,13 +168,14 @@ public class MyCartActivity extends AppCompatActivity {
                 activityMyCartBinding.btnBorrarCarrito.setVisibility(View.INVISIBLE);
 
                 activityMyCartBinding.RecyclerMyCart.setVisibility(View.INVISIBLE);
-               //obtenerProductosDelCarrito(); // Volver a cargar el adaptador del carrito
+                //obtenerProductosDelCarrito(); // Volver a cargar el adaptador del carrito
 
                 mCarritoAdapter.setCarrito(obtenerProductosDelCarrito());
             }
         }, 2000);
         activityMyCartBinding.btnBorrarCarrito.setVisibility(View.VISIBLE);
     }
+
     // Función para realizar la compra
     public void Shopping(View view) {
         Toast.makeText(context, "Enviado", Toast.LENGTH_SHORT).show();
@@ -220,15 +242,8 @@ public class MyCartActivity extends AppCompatActivity {
         if (!addresses.isEmpty()) {
             String ciudad = addresses.get(0).getLocality();
             String departamento = addresses.get(0).getAdminArea();
+            locationRepository.saveLocation(ciudad, departamento);
 
-            // Obtener la instancia del SharedPreferences
-            SharedPreferences sharedPreferences = getSharedPreferences("MiUbicacion", Context.MODE_PRIVATE);
-
-            // Editar el SharedPreferences
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putString("distrito", ciudad);
-            editor.putString("departamento", departamento);
-            editor.apply();
         }
     }
 
@@ -280,9 +295,9 @@ public class MyCartActivity extends AppCompatActivity {
 
     @SuppressLint("SetTextI18n")
     private void getLocation() {
-        SharedPreferences sharedPreferences = getSharedPreferences("MiUbicacion", Context.MODE_PRIVATE);
-        String departamentoGuardada = sharedPreferences.getString("departamento", "");
-        String distritoGuardado = sharedPreferences.getString("distrito", "");
+        LocationData data = locationRepository.getLocation();
+        String departamentoGuardada = data.getDepartment();
+        String distritoGuardado = data.getDistrict();
 
         if (!TextUtils.isEmpty(departamentoGuardada) && !TextUtils.isEmpty(distritoGuardado)) {
             if (departamentoGuardada.contains("Provincia de ")) {
@@ -300,22 +315,16 @@ public class MyCartActivity extends AppCompatActivity {
         }
     }
 
-    public void clearSharedPreferences(String s) {
-        SharedPreferences preferences = context.getSharedPreferences(s, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.clear();
-        editor.apply();
+    public void clearSharedPreferences() {
+        productCartRepository.deleteAll();
+
     }
 
     public List<ProductosItem> obtenerProductosDelCarrito() {
-        // Obtén la lista de productos desde SharedPreferences
-        SharedPreferences sharedPreferences = getSharedPreferences("productos_carrito", MODE_PRIVATE);
-        String listaProductosJson = sharedPreferences.getString("lista_productos_carrito", "");
 
-        // Convierte el JSON a una lista de ProductosItem utilizando Gson
-        Gson gson = new Gson();
-        Type type = new TypeToken<List<ProductosItem>>() {}.getType();
-        List<ProductosItem> listaProductosItems = gson.fromJson(listaProductosJson, type);
+
+        List<ProductosItem> listaProductosItems = productCartRepository.getAll();
+
         mostrarCardsCarrito(listaProductosItems);
         mCarritoAdapter.setCarrito(listaProductosItems);
         //Toast.makeText(context, ""+listaProductosItems, Toast.LENGTH_SHORT).show();
@@ -337,11 +346,30 @@ public class MyCartActivity extends AppCompatActivity {
             activityMyCartBinding.animateView.setVisibility(View.GONE);
             activityMyCartBinding.btnCheckout.setEnabled(true);
         } else {
-            activityMyCartBinding.animateView.setVisibility(View.VISIBLE);
-            activityMyCartBinding.viewSwitcher.setDisplayedChild(0);
-            activityMyCartBinding.btnCheckout.setEnabled(false);
+            showAnimationEmpty();
         }
     }
+
+    public void showAnimationEmpty() {
+
+
+        activityMyCartBinding.btnCheckout.setVisibility(View.GONE);
+        activityMyCartBinding.textView7.setVisibility(View.GONE);
+        activityMyCartBinding.textView8.setVisibility(View.GONE);
+        activityMyCartBinding.textView9.setVisibility(View.GONE);
+        activityMyCartBinding.textView10.setVisibility(View.GONE);
+        activityMyCartBinding.textSubTotal.setVisibility(View.GONE);
+        activityMyCartBinding.textDelivery.setVisibility(View.GONE);
+        activityMyCartBinding.textView13.setVisibility(View.GONE);
+        activityMyCartBinding.textTotal.setVisibility(View.GONE);
+
+        activityMyCartBinding.emptyCart.setVisibility(View.VISIBLE);
+
+        activityMyCartBinding.animateView.setVisibility(View.VISIBLE);
+        activityMyCartBinding.viewSwitcher.setDisplayedChild(0);
+        activityMyCartBinding.btnCheckout.setEnabled(false);
+    }
+
 
     @SuppressLint("SetTextI18n")
     public void calcularSubTotal() {
@@ -350,12 +378,13 @@ public class MyCartActivity extends AppCompatActivity {
             for (ProductosItem item : carritoList) {
                 subTotal += item.getPrecioUnitario();
             }
-            activityMyCartBinding.textSubTotal.setText("S/ "+ String.format(Locale.getDefault(), "%.2f", subTotal));
+            activityMyCartBinding.textSubTotal.setText("S/ " + String.format(Locale.getDefault(), "%.2f", subTotal));
         } else {
             // La lista está vacía o nula, realiza alguna acción o muestra un mensaje adecuado
             activityMyCartBinding.textSubTotal.setText("S/ 0.00");
         }
     }
+
     @SuppressLint("SetTextI18n")
     public void calcularTotal() {
         if (carritoList != null && !carritoList.isEmpty()) {
@@ -387,7 +416,7 @@ public class MyCartActivity extends AppCompatActivity {
         }
     }
 
-    public void volver(View view){
+    public void volver(View view) {
         NavigationContent.cambiarActividad(this, MainActivity.class);
     }
 

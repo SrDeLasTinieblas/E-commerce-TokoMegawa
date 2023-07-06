@@ -1,10 +1,8 @@
-package com.tinieblas.tokomegawa.domain.models;
+package com.tinieblas.tokomegawa.ui.adptadores;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,23 +18,25 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.tinieblas.tokomegawa.R;
+import com.tinieblas.tokomegawa.data.local.ProductSavedRepositoryImp;
+import com.tinieblas.tokomegawa.domain.models.CategoriaModelo;
+import com.tinieblas.tokomegawa.domain.models.ProductosItem;
 import com.tinieblas.tokomegawa.ui.activities.DetailsActivity;
-import com.tinieblas.tokomegawa.ui.adptadores.ProductosAdapter;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 public class ProductosCategorias extends RecyclerView.Adapter<ProductosCategorias.ProductoViewHolder> {
     private final Context mContext;
     private List<ProductosItem> mProductos;
-    SharedPreferences sharedPreferences;
+
+    private ProductSavedRepositoryImp repository;
 
     public ProductosCategorias(Context context, List<ProductosItem> productos) {
         mContext = context;
         mProductos = productos;
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        this.repository = new ProductSavedRepositoryImp(context);
     }
 
     /*@NonNull
@@ -137,8 +137,9 @@ public class ProductosCategorias extends RecyclerView.Adapter<ProductosCategoria
             @SuppressLint("MutatingSharedPrefs")
             @Override
             public void onClick(View v) {
-                Set<String> productosGuardados = sharedPreferences.getStringSet("productos_guardados",
-                        new HashSet<>());
+
+                Set<String> productosGuardados = repository.getProductosGuardados();
+
                 int idProducto = producto.getIdProducto();
 
                 if (productosGuardados.contains(String.valueOf(idProducto))) {
@@ -148,11 +149,7 @@ public class ProductosCategorias extends RecyclerView.Adapter<ProductosCategoria
                     productosGuardados.add(String.valueOf(idProducto));
                     Toast.makeText(holder.itemView.getContext(), "Producto guardado" + producto.getIdProducto(), Toast.LENGTH_SHORT).show();
                 }
-
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putStringSet("productos_guardados", productosGuardados);
-                editor.apply();
-
+                repository.saveProductosGuardados(productosGuardados);
                 actualizarAparienciaBoton(holder.favorito, productosGuardados.contains(String.valueOf(idProducto)));
             }
         });

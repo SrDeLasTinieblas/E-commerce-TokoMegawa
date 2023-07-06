@@ -1,7 +1,6 @@
 package com.tinieblas.tokomegawa.ui.fragments;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -45,7 +44,7 @@ public class SettingFragment extends Fragment {
     private FirebaseAuth mAuth;
     private SettingFragment settingFragment;
     private FragmentSettingBinding fragmentSettingBinding;
-    private SharedPreferences sharedPreferences;
+
     private PopupWindow popupWindow;
     private boolean isChecked = false;
     private boolean isSessionClosed = false;

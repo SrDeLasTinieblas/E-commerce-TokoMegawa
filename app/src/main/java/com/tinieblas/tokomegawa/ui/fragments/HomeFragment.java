@@ -1,8 +1,5 @@
 package com.tinieblas.tokomegawa.ui.fragments;
 
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -14,7 +11,8 @@ import android.widget.Button;
 import android.widget.PopupWindow;
 import android.widget.Toast;
 
-import com.tinieblas.tokomegawa.domain.models.CategoriasAdapter;
+import com.tinieblas.tokomegawa.data.local.ProductsViewedRepositoryImp;
+import com.tinieblas.tokomegawa.ui.adptadores.CategoriasAdapter;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -31,10 +29,9 @@ import com.google.gson.JsonSyntaxException;
 import com.tinieblas.tokomegawa.R;
 import com.tinieblas.tokomegawa.databinding.FragmentHomeBinding;
 import com.tinieblas.tokomegawa.domain.models.CategoriaModelo;
-import com.tinieblas.tokomegawa.domain.models.ProductosCategorias;
+import com.tinieblas.tokomegawa.ui.adptadores.ProductosCategorias;
 import com.tinieblas.tokomegawa.domain.models.ProductosItem;
 import com.tinieblas.tokomegawa.domain.repository.respositories.ProductosCallback;
-import com.tinieblas.tokomegawa.ui.activities.AuthenticationActivity;
 import com.tinieblas.tokomegawa.ui.activities.MyCartActivity;
 import com.tinieblas.tokomegawa.ui.adptadores.ProductosAdapter;
 import com.tinieblas.tokomegawa.ui.adptadores.ProductosVistosAdapter;
@@ -69,6 +66,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
     private FragmentHomeBinding fragmentHomeBinding;
 
+    private ProductsViewedRepositoryImp repository;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         fragmentHomeBinding = FragmentHomeBinding.inflate(inflater, container, false);
@@ -76,7 +74,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         initViews();
         setListeners();
         fetchData();
-
+        this.repository = new ProductsViewedRepositoryImp(requireContext());
         return fragmentHomeBinding.getRoot();
     }
 
@@ -337,22 +335,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     }
 
     private void getListaProductoVistos() {
-        // Obtener la instancia del SharedPreferences
-        SharedPreferences sharedPreferences = getContext().getSharedPreferences("productos_vistos", Context.MODE_PRIVATE);
-        // Obtener los valores almacenados en el SharedPreferences
-        String productosVistosJson = sharedPreferences.getString("lista_productos_vistos", "");
 
-        if (productosVistosJson.isEmpty()) {
-            // No hay items en el SharedPreferences
-            Log.d("HomeFragment", "No hay items disponibles");
-            return;
-        }
-
-        Gson gson = new Gson();
-        Type listType = new TypeToken<List<ProductosItem>>() {}.getType();
-        List<ProductosItem> productosVistos = gson.fromJson(productosVistosJson, listType);
-
-        if (productosVistos == null) {
+        List<ProductosItem> productosVistos = repository.getAll();
+        if (productosVistos.isEmpty()) {
             // La lista de productos vistos es nula
             Log.d("HomeFragment", "La lista de productos vistos es nula");
             return;

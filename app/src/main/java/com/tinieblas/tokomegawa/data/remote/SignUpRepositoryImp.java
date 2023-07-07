@@ -26,7 +26,7 @@ public class SignUpRepositoryImp implements SignUpRepository {
         database = FirebaseDatabase.getInstance();
     }
 
-    @Override
+   /* @Override
     public String createUser(String email, String password) {
         definingFirebase();
         try {
@@ -39,6 +39,78 @@ public class SignUpRepositoryImp implements SignUpRepository {
             return exception.toString();
         }
 
+    }*/
+   public void createUser(String email, String password, SignUpCallback callback) {
+       definingFirebase();
+       mAuth.createUserWithEmailAndPassword(email, password)
+               .addOnCompleteListener(task -> {
+                   if (task.isSuccessful()) {
+                       String uid = task.getResult().getUser().getUid();
+                       callback.onSuccess(uid);
+                   } else {
+                       String errorMessage = task.getException().getMessage();
+                       callback.onFailure(errorMessage);
+                   }
+               });
+   }
+    public String ordenandoInformacionDelUsuario(String nombre, String apellido) {
+        String[] apellidos = apellido.split(" ");
+        StringBuilder nuevoApellido = new StringBuilder();
+
+        // Verificar si hay más de un apellido
+        if (apellidos.length > 1) {
+            // Obtener el primer apellido
+            String primerApellido = apellidos[0];
+
+            // Obtener el segundo apellido
+            String segundoApellido = apellidos[1].substring(0, 1) + ".";
+
+            nuevoApellido.append(primerApellido);
+            nuevoApellido.append(" ");
+            nuevoApellido.append(segundoApellido);
+        } else {
+            nuevoApellido.append(apellido);
+        }
+
+        // Construir el nuevo nombre con el formato: Apellido, Inicial del segundo apellido. Nombre
+        StringBuilder nuevoNombre = new StringBuilder();
+        nuevoNombre.append(nuevoApellido.toString());
+        nuevoNombre.append(" ");
+        nuevoNombre.append(nombre);
+
+        return nuevoNombre.toString();
+    }
+
+
+
+    @Override
+    public String createUserFirebase(String email, String password, SignUpCallback callback) {
+        definingFirebase();
+        mAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        String uid = task.getResult().getUser().getUid();
+                        callback.onSuccess(uid);
+                    } else {
+                        String errorMessage = task.getException().getMessage();
+                        callback.onFailure(errorMessage);
+                    }
+                });
+        return "";
+    }
+
+    @Override
+    public String createUser(String email, String password) {
+            definingFirebase();
+            try {
+                Task<AuthResult> signInTask = mAuth.createUserWithEmailAndPassword(email, password);
+                AuthResult authResult = Tasks.await(signInTask);
+
+                return authResult.getUser().getUid();
+            } catch (Exception exception) {
+                exception.printStackTrace();
+                return exception.toString();
+            }
     }
 
     @Override
@@ -67,4 +139,22 @@ public class SignUpRepositoryImp implements SignUpRepository {
 
         return false;
     }
+
+
+    public interface SignUpCallback {
+        void onSuccess(String uid);
+        void onFailure(String errorMessage);
+
+    }
+
 }
+
+
+
+
+
+
+
+
+
+

@@ -8,4 +8,6 @@ public interface UserLocalRepository extends UserRepositoryBase {
 
     @Override
     String getCurrentUserId();
+
+    void saveInfoUser(String name, String apellido);
 }

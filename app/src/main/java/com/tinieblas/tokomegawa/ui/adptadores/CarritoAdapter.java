@@ -30,7 +30,7 @@ public class CarritoAdapter extends RecyclerView.Adapter<CarritoAdapter.ViewHold
     private List<ProductosItem> mCarrito;
     private final TextView textSubTotal;
     private final TextView textTotal;
-    private final AsyncListDiffer<ProductosItem> differ;
+    public final AsyncListDiffer<ProductosItem> differ;
     private RecyclerView recyclerView;
 
     private ViewSwitcher viewSwitcher;
@@ -153,7 +153,7 @@ public class CarritoAdapter extends RecyclerView.Adapter<CarritoAdapter.ViewHold
 
 
 
-    private void calcularSubTotal() {
+    public void calcularSubTotal() {
         double subTotal = 0;
         for (ProductosItem producto : differ.getCurrentList()) {
             double precio = producto.getPrecioUnitario() * producto.getAmount();
@@ -168,7 +168,7 @@ public class CarritoAdapter extends RecyclerView.Adapter<CarritoAdapter.ViewHold
 
     }
 
-    private void calcularTotal() {
+    public void calcularTotal() {
         double subTotal = 0;
         for (ProductosItem producto : differ.getCurrentList()) {
             double precio = producto.getPrecioUnitario() * producto.getAmount();
@@ -192,8 +192,6 @@ public class CarritoAdapter extends RecyclerView.Adapter<CarritoAdapter.ViewHold
         // Actualiza el valor en el adaptador en lugar de actualizar directamente el TextView
         textTotal.setText("S/. " + roundedPrice);
     }
-
-
 
     private static class CarritoDiffCallback extends DiffUtil.ItemCallback<ProductosItem> {
         @Override

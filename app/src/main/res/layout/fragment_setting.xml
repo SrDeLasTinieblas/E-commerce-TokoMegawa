@@ -53,7 +53,7 @@
         android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4"
-        app:srcCompat="@drawable/user" />
+        app:srcCompat="@drawable/male_user" />
 
     <TextView
         android:id="@+id/textNombreSettings"
@@ -61,7 +61,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginTop="36dp"
-        android:text="Nombre"
+        android:text="Usuario"
         android:textSize="20sp"
         android:theme="@style/AppTheme.Light"
         app:layout_constraintStart_toEndOf="@+id/imageView2"

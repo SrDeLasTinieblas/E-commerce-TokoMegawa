@@ -51,19 +51,21 @@ public class LoginFragment extends Fragment {
             return true;
         });
 
-        validateLogin();
+
 
         fragmentLoginBinding.buttonLogin.setOnClickListener(view -> startSession());
         onClickIniciarSesionMasTarde();
         onClickRegistrarse();
 
-
-
         fragmentLoginBinding.recovery.setText("");
 
         return fragmentLoginBinding.getRoot();
     }
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        validateLogin();
+    }
     private void validateLogin() {
         boolean isLogged = repository.getCurrentUser();
         if (isLogged) {

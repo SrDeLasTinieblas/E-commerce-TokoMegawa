@@ -24,6 +24,10 @@ public class SignUpRepositoryImpTest {
 
     SignUpRepositoryImp repository;
 
+    String nombre = "Angelo";
+    String apellido = "Herrera Cardozo";
+
+
     @Before
     public void setup(){
         repository = new SignUpRepositoryImp();
@@ -33,6 +37,11 @@ public class SignUpRepositoryImpTest {
         String result = repository.createUser(email, password);
         boolean isSuccess = result != null && !result.isEmpty();
         assertTrue(isSuccess);
+    }
+    @Test
+    public void ordenandoInformacionDelUsuario() {
+        String result = repository.ordenandoInformacionDelUsuario(nombre, apellido);
+        assertEquals("Herrera C. Angelo", result);
     }
 
     @Test

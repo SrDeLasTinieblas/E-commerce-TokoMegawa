@@ -6,16 +6,27 @@
     android:background="#E9E7F1"
     tools:context=".ui.fragments.RegistrarseFragment">
 
+
+    <Button
+        android:id="@+id/toBack"
+        android:layout_width="58dp"
+        android:layout_height="47dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/arrow_back_fill"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/textView18"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="12dp"
         android:text="Registrate"
         android:textSize="25sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/toBack" />
 
     <TextView
         android:id="@+id/textView19"

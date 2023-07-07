@@ -14,6 +14,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.tinieblas.tokomegawa.R;
+import com.tinieblas.tokomegawa.data.remote.LoginRepositoryImp;
 import com.tinieblas.tokomegawa.domain.models.FireBaseModel;
 import com.tinieblas.tokomegawa.ui.fragments.HomeFragment;
 import com.tinieblas.tokomegawa.ui.fragments.HotSalesFragment;
@@ -26,11 +27,14 @@ import com.tinieblas.tokomegawa.utils.hideMenu;
 
 public class MainActivity extends AppCompatActivity implements /*RecyclerViewInterface, */View.OnClickListener {
     private View decorView;
+    private LoginRepositoryImp repository;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        repository = new LoginRepositoryImp();
         // Ocultar barra de navegación y barra de estado
         decorView = getWindow().getDecorView();
         getWindow().getDecorView().setSystemUiVisibility(hideMenu.hideSystemBar(decorView));
@@ -101,9 +105,19 @@ public class MainActivity extends AppCompatActivity implements /*RecyclerViewInt
 
     public void irSettings(View view){
         System.out.println("irSettings");
-        NavigationContent.changeFragment(getSupportFragmentManager(), new SettingFragment(), R.id.frameLayoutHome);
-    }
+        validateLogin();
 
+    }
+    private void validateLogin() {
+        boolean isLogged = repository.getCurrentUser();
+        if (isLogged) {
+            NavigationContent.changeFragment(getSupportFragmentManager(), new SettingFragment(), R.id.frameLayoutHome);
+
+        }
+        else {
+            Toast.makeText(this, "Debe iniciar sesion primero", Toast.LENGTH_SHORT).show();
+        }
+    }
     @Override
     public void onClick(View view) {
     }

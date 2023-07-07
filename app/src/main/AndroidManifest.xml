@@ -30,7 +30,6 @@
             android:name=".ui.activities.MainActivity"
             android:exported="false"
             android:label="@string/title_activity_authentication"
-
             />
         <activity
             android:name=".ui.activities.AuthenticationActivity"

@@ -3,6 +3,8 @@ package com.tinieblas.tokomegawa.utils;
 import android.content.Context;
 import android.graphics.Color;
 
+import org.checkerframework.checker.units.qual.C;
+
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class Alertdialog {
@@ -35,7 +37,12 @@ public class Alertdialog {
         pDialog.setCancelable(false);
         pDialog.show();
     }
-
+    public void alertError(Context context, String errorMessage){
+        new SweetAlertDialog(context, SweetAlertDialog.ERROR_TYPE)
+                .setTitleText("Oops...")
+                .setContentText(errorMessage)
+                .show();
+    }
 
 }
 

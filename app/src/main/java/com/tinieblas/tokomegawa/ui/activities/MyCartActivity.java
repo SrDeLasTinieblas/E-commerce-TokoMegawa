@@ -2,6 +2,7 @@ package com.tinieblas.tokomegawa.ui.activities;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -17,23 +18,35 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.AsyncListDiffer;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.stripe.android.PaymentConfiguration;
+import com.stripe.android.paymentsheet.PaymentSheet;
+import com.stripe.android.paymentsheet.PaymentSheetResult;
+import com.tinieblas.tokomegawa.data.APIs;
 import com.tinieblas.tokomegawa.data.local.LocationRepositoryImp;
+import com.tinieblas.tokomegawa.data.local.PaymentRepositoryImp;
 import com.tinieblas.tokomegawa.data.local.ProductCartRepositoryImp;
 import com.tinieblas.tokomegawa.data.local.UserLocalRepositoryImp;
 import com.tinieblas.tokomegawa.databinding.ActivityMyCartBinding;
 import com.tinieblas.tokomegawa.domain.models.LocationData;
 import com.tinieblas.tokomegawa.domain.models.ProductosItem;
+import com.tinieblas.tokomegawa.domain.repository.PaymentRepository;
 import com.tinieblas.tokomegawa.ui.adptadores.CarritoAdapter;
 import com.tinieblas.tokomegawa.utils.NavigationContent;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -41,6 +54,10 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 
 public class MyCartActivity extends AppCompatActivity {
     private View decorView;
@@ -50,11 +67,11 @@ public class MyCartActivity extends AppCompatActivity {
     private List<ProductosItem> carritoList = new ArrayList<>();
     private FirebaseFirestore mFirestore;
     private static final int CODIGO_PERMISOS_UBICACION = 1;
-
     private ProductCartRepositoryImp productCartRepository;
     private LocationRepositoryImp locationRepository;
     private UserLocalRepositoryImp userLocalRepository;
-
+    private PaymentRepository paymentRepository;
+    private PaymentSheet paymentSheet;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,7 +81,6 @@ public class MyCartActivity extends AppCompatActivity {
         productCartRepository = new ProductCartRepositoryImp(this);
         locationRepository = new LocationRepositoryImp(this);
         userLocalRepository = new UserLocalRepositoryImp(this);
-
 
         // Ocultar barra de sistema
         getWindow().getDecorView().setSystemUiVisibility(hideSystemBar());
@@ -77,6 +93,141 @@ public class MyCartActivity extends AppCompatActivity {
 
         //obtenerProductosDelCarrito(); // Llamar a la función para mostrar las tarjetas del carrito
         initViews(); // Configurar el RecyclerView
+
+        // Registrar el resultado de la actividad antes de utilizar PaymentSheet
+        //registerPaymentSheetResult();
+
+        // Inicializar PaymentConfiguration
+        PaymentConfiguration.init(this, APIs.apiKeyStripePublica);
+
+        // Crear la instancia de PaymentSheet después de registrar el resultado de la actividad
+        paymentSheet = new PaymentSheet(MyCartActivity.this, paymentSheetResult -> {});
+    }
+
+
+  /*  private void registerPaymentSheetResult() {
+        ActivityResultLauncher<Intent> launcher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        Intent data = result.getData();
+                        if (data != null) {
+                            boolean paymentSuccessful = data.getBooleanExtra(PaymentSheet.EXTRA_PAYMENT_SUCCESSFUL, false);
+                            // Aquí puedes manejar el resultado del pago
+                            if (paymentSuccessful) {
+                                // El pago fue exitoso
+                            } else {
+                                // El pago falló
+                            }
+                        }
+                    }
+                }
+        );
+
+        paymentSheet.setPaymentResultLauncher(launcher);
+    }
+
+*/
+
+    // Función para realizar la compra
+    public void Shopping(View view) {
+        Toast.makeText(context, "Enviado", Toast.LENGTH_SHORT).show();
+
+        paymentRepository = new PaymentRepositoryImp();
+        createCustomer(APIs.apiKeyStripeSecreta);
+        // Inicializar PaymentConfiguration
+        PaymentConfiguration.init(this, APIs.apiKeyStripePublica);
+
+    }
+
+    private void createCustomer(String apiKeySecreta) {
+        paymentRepository.createCustomer(apiKeySecreta, new Callback() {
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull okhttp3.Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    try {
+                        JSONObject jsonObject = new JSONObject(response.body().string());
+                        String customerID = jsonObject.getString("id");
+                        getEphericalKey(apiKeySecreta, customerID);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    // Error en la solicitud
+                }
+            }
+
+            @Override
+            public void onFailure(Call call, IOException e) {
+                // Error en la comunicación
+            }
+        });
+    }
+
+    private void getEphericalKey(String apiKeySecreta, String customerID) {
+        paymentRepository.getEphericalKey(apiKeySecreta, customerID, new Callback() {
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull okhttp3.Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    try {
+                        JSONObject jsonObject = new JSONObject(response.body().string());
+                        String ephericalKey = jsonObject.getString("id");
+                        getClientSecret(apiKeySecreta, customerID, ephericalKey);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    // Error en la solicitud
+                }
+            }
+            @Override
+            public void onFailure(Call call, IOException e) {
+                // Error en la comunicación
+            }
+        });
+    }
+
+    private void getClientSecret(String apiKeySecreta, String customerID, String ephericalKey) {
+        paymentRepository.getClientSecret(apiKeySecreta, customerID, new Callback() {
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    try {
+                        JSONObject jsonObject = new JSONObject(response.body().string());
+                        String clientSecret = jsonObject.getString("client_secret");
+                        PaymentFlow(clientSecret, customerID, ephericalKey);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    // Error en la solicitud
+                }
+            }
+
+            @Override
+            public void onFailure(Call call, IOException e) {
+                // Error en la comunicación
+            }
+        });
+    }
+    private void PaymentFlow(String clientSecret, String customerID, String ephericalKey) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                // Crea una instancia de PaymentSheet
+
+
+                paymentSheet.presentWithPaymentIntent(
+                        clientSecret,
+                        new PaymentSheet.Configuration("ABC Company",
+                                new PaymentSheet.CustomerConfiguration(
+                                        customerID,
+                                        ephericalKey
+                                ))
+                );
+            }
+        });
     }
 
     private void initViews() {
@@ -96,7 +247,21 @@ public class MyCartActivity extends AppCompatActivity {
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(itemTouchHelperCallback);
         itemTouchHelper.attachToRecyclerView(activityMyCartBinding.RecyclerMyCart);
 
-
+        mCarritoAdapter.differ.addListListener(new AsyncListDiffer.ListListener<ProductosItem>() {
+            @Override
+            public void onCurrentListChanged(@NonNull List<ProductosItem> previousList, @NonNull List<ProductosItem> currentList) {
+                mCarritoAdapter.differ.addListListener(new AsyncListDiffer.ListListener<ProductosItem>() {
+                    @Override
+                    public void onCurrentListChanged(@NonNull List<ProductosItem> previousList, @NonNull List<ProductosItem> currentList) {
+                        mCarritoAdapter.calcularSubTotal();
+                        mCarritoAdapter.calcularTotal();
+                        if (currentList.isEmpty()) {
+                            showAnimationEmpty();
+                        }
+                    }}
+                );
+            }
+        });
     }
 
     public final ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
@@ -111,18 +276,13 @@ public class MyCartActivity extends AppCompatActivity {
             ProductosItem producto = mCarritoAdapter.getCurrentList().get(position);
             mCarritoAdapter.borrarUnProductoDelCarrito(producto); // Llama a la función en el adaptador
             if (mCarritoAdapter.getCurrentList().isEmpty()) {
-                // Update SubTotal
-                // Update Total
                 showAnimationEmpty();
-
             }
         }
     };
 
-
     // Función para configurar Firebase Firestore
     private void setupFirebase() {
-        //FirebaseAuth mAuth = FirebaseAuth.getInstance();
         mFirestore = FirebaseFirestore.getInstance();
     }
 
@@ -176,10 +336,7 @@ public class MyCartActivity extends AppCompatActivity {
         activityMyCartBinding.btnBorrarCarrito.setVisibility(View.VISIBLE);
     }
 
-    // Función para realizar la compra
-    public void Shopping(View view) {
-        Toast.makeText(context, "Enviado", Toast.LENGTH_SHORT).show();
-    }
+
 
     // Función para solicitar permisos de ubicación
     public void getPermission() {
@@ -306,10 +463,6 @@ public class MyCartActivity extends AppCompatActivity {
 
             activityMyCartBinding.Departamento.setText(departamentoGuardada + ",");
             activityMyCartBinding.Distrito.setText(distritoGuardado);
-            //Log.d("Departamento: ", departamentoGuardada);
-            //Log.d("Distrito: ", distritoGuardado);
-            //Toast.makeText(context, "Departamento" + departamentoGuardada, Toast.LENGTH_LONG).show();
-            //Toast.makeText(context, "Distrito" + distritoGuardado, Toast.LENGTH_LONG).show();
         } else {
             // Los valores están vacíos, puedes mostrar un mensaje o realizar otras acciones
         }
@@ -351,8 +504,6 @@ public class MyCartActivity extends AppCompatActivity {
     }
 
     public void showAnimationEmpty() {
-
-
         activityMyCartBinding.btnCheckout.setVisibility(View.GONE);
         activityMyCartBinding.textView7.setVisibility(View.GONE);
         activityMyCartBinding.textView8.setVisibility(View.GONE);
@@ -422,3 +573,12 @@ public class MyCartActivity extends AppCompatActivity {
 
 
 }
+
+
+
+
+
+
+
+
+

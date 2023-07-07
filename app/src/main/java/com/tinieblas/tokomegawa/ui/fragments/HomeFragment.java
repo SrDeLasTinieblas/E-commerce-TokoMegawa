@@ -91,11 +91,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     }
 
     private void setListeners() {
-        /*fragmentHomeBinding.buttonSalida.setOnClickListener(v -> {
-            mAuth.signOut();
-            Intent i = new Intent(getContext(), AuthenticationActivity.class);
-            startActivity(i);
-        });*/
 
         fragmentHomeBinding.fab.setOnClickListener(view -> NavigationContent.cambiarActividad(getContext(), MyCartActivity.class));
 
@@ -145,8 +140,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             }
         }
 
-        Log.e("Lista de categorias ",productosList.toString());
-        Log.e("categorias",categorias.toString());
+        //Log.e("Lista de categorias ",productosList.toString());
+        //Log.e("categorias",categorias.toString());
         requireActivity().runOnUiThread(() -> createRecyclerView(productosList, categorias));
     }
     private int getImageResourceForCategory(String categoria, Integer[] langLogo) {
@@ -178,15 +173,15 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                     if (isCategoriaSeleccionada && categoria.equals(categoria.langName)) {
                         // Restablecer el estado para mostrar todos los productos
                         productosAdapter.setProductosList(todosLosProductos);
-                        Toast.makeText(getContext(), "Mostrando todos los productos", Toast.LENGTH_SHORT).show();
-                        //Log.e("todos los productos", todosLosProductos.toString());
                         isCategoriaSeleccionada = false;
+                        productosAdapter.setProductosList(todosLosProductos);
+                        //Toast.makeText(requireActivity(), "Categorias ==> " + categoria, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "if" + isCategoriaSeleccionada, Toast.LENGTH_SHORT).show();
                     } else {
                         // Filtrar los productos por la categoría seleccionada
                         filterProductosByCategoria(categoria);
-                        Toast.makeText(getContext(), categoria.getLangName(), Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getContext(), categoria.getLangName(), Toast.LENGTH_SHORT).show();
                         isCategoriaSeleccionada = true;
-                        //Log.e("categoria", categoria.getLangName());
                     }
                 });
 
@@ -214,35 +209,54 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         if (popupWindow != null && popupWindow.isShowing()) {
             popupWindow.dismiss();
             isChecked = false; // Reiniciar el estado al cerrar el popup
+
         } else {
             View popupView = LayoutInflater.from(requireActivity()).inflate(R.layout.popup, null);
             //View popupView = getLayoutInflater().inflate(R.layout.popup, null);
             popupWindow = new PopupWindow(popupView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
-            // Obtener una referencia al botón button2
-            Button Check = popupView.findViewById(R.id.buttonCheck);
+            // Obtener una referencia al botón button
+            Button CheckMasPopulares = popupView.findViewById(R.id.buttonCheck);
+            Button CheckFavoritos = popupView.findViewById(R.id.buttonCheck2);
 
             // Actualizar el fondo del botón según el estado actual
             if (isChecked) {
-                Check.setBackgroundResource(R.drawable.check1);
+                CheckMasPopulares.setBackgroundResource(R.drawable.check1);
             }
 
             // Agregar el evento onClick al botón button2
-            Check.setOnClickListener(new View.OnClickListener() {
+            CheckMasPopulares.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     isChecked = !isChecked; // Alternar el estado al hacer clic
 
                     if (isChecked) {
-                        Check.setBackgroundResource(R.drawable.check1);
+                        CheckMasPopulares.setBackgroundResource(R.drawable.check1);
                     } else {
                         // Aquí puedes establecer el fondo deseado cuando no está marcado
-                        Check.setBackgroundResource(R.drawable.check);
+                        CheckMasPopulares.setBackgroundResource(R.drawable.check);
                     }
 
                     // Aquí puedes realizar otras acciones según el estado
                 }
             });
+
+            CheckFavoritos.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    isChecked = !isChecked; // Alternar el estado al hacer clic
+
+                    if (isChecked) {
+                        CheckFavoritos.setBackgroundResource(R.drawable.check1);
+                    } else {
+                        // Aquí puedes establecer el fondo deseado cuando no está marcado
+                        CheckFavoritos.setBackgroundResource(R.drawable.check);
+                    }
+
+                    // Aquí puedes realizar otras acciones según el estado
+                }
+            });
+
 
             RangeSlider rangeSlider = popupView.findViewById(R.id.rangeSlider);
             rangeSlider.addOnSliderTouchListener(new RangeSlider.OnSliderTouchListener() {

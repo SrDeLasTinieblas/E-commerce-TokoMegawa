@@ -1,8 +1,8 @@
 package com.tinieblas.tokomegawa.ui.fragments;
 
-import static com.google.common.collect.ComparisonChain.start;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
@@ -15,18 +15,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
-
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.tinieblas.tokomegawa.data.FetchRequest;
 import com.tinieblas.tokomegawa.data.remote.LoginRepositoryImp;
+
 import com.tinieblas.tokomegawa.data.remote.SignUpRepositoryImp;
 import com.tinieblas.tokomegawa.databinding.FragmentRegistrarseBinding;
 import com.tinieblas.tokomegawa.domain.models.RegistroDataModelo;
 import com.tinieblas.tokomegawa.ui.activities.MainActivity;
 import com.tinieblas.tokomegawa.utils.Alertdialog;
 import com.tinieblas.tokomegawa.utils.NavigationContent;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,40 +43,80 @@ public class RegistrarseFragment extends Fragment {
         setupViews();
         setupListeners();
         validateFields();
+
         btnRegistro();
+        btnRegresarLogin();
 
         return binding.getRoot();
     }
 
-    private void btnRegistro(){
+    private void btnRegistro() {
         binding.buttonRegistro.setOnClickListener(view -> {
             RegistroDataModelo registroData = getRegistroData();
 
             repository = new SignUpRepositoryImp();
             repositoryLogin = new LoginRepositoryImp();
 
-            String result = repository.createUser(registroData.getCorreoElectronico(), registroData.getContrasena());
-
-            boolean isSuccess = result != null && !result.isEmpty();
-
-            //String uid = repositoryLogin.getUIDUser();
-            //registroData.setIUD(uid);
+            // Mostrar el diálogo de carga
+            ProgressDialog progressDialog = ProgressDialog.show(getContext(), "", "Creando cuenta...", true);
 
 
-            if (isSuccess) {
-                //Alertdialog alertDialog = new Alertdialog();
-                //alertDialog.alertSuccess(getContext(), "Cuenta creada exitosamente");
-                guardarRegistro(registroData);
-                repositoryLogin.login(registroData.getCorreoElectronico(), registroData.getContrasena());
-                NavigationContent.cambiarActividad(getActivity(), MainActivity.class);
+            repository.createUserFirebase(registroData.getCorreoElectronico(), registroData.getContrasena(),
+                    new SignUpRepositoryImp.SignUpCallback() {
+                @Override
+                public void onSuccess(String uid) {
+                    // Cuenta creada exitosamente
 
-                //Boolean isLogged = repositoryLogin.login(registroData.getCorreoElectronico(), registroData.getContrasena());
+                    // Asignar el UID al modelo de registro
+                    registroData.setIUD(uid);
 
-                //
-            }
+                    // Guardar el registro
+                    guardarRegistro();
 
+                    // Cerrar el diálogo de carga
+                    progressDialog.dismiss();
+
+                    // Mostrar un mensaje de éxito
+                    Alertdialog alertDialog = new Alertdialog();
+                    alertDialog.alertSuccess(getContext(), "Cuenta creada exitosamente");
+
+                    // Iniciar sesión con la cuenta recién creada
+                    repositoryLogin.login(registroData.getCorreoElectronico(), registroData.getContrasena());
+                    guardarDatosEnShared(registroData.getNombre(), registroData.getApellidos());
+                    // Navegar a la actividad principal
+                    NavigationContent.cambiarActividad(getActivity(), MainActivity.class);
+                }
+
+                @Override
+                public void onFailure(String errorMessage) {
+                    // Error al crear la cuenta
+
+                    // Cerrar el diálogo de carga
+                    progressDialog.dismiss();
+                    Alertdialog alertdialog = new Alertdialog();
+                    alertdialog.alertError(getContext(), errorMessage);
+                }
+            });
         });
     }
+
+    private void btnRegresarLogin(){
+        binding.toBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavigationContent.replaceFragment(getContext(),
+                        new LoginFragment());
+            }
+        });
+    }
+
+    private void guardarDatosEnShared(String nombre, String apellido){
+        String result = repository.ordenandoInformacionDelUsuario(nombre, apellido);
+        Toast.makeText(getContext(), "Dato guardado: " + result, Toast.LENGTH_SHORT).show();
+    }
+
+
+
     /*private void guardarRegistro(RegistroDataModelo registroData) {
 
 
@@ -91,7 +128,10 @@ public class RegistrarseFragment extends Fragment {
         Log.e("Resultado ==> ", result);
     }*/
 
-    private void guardarRegistro(final RegistroDataModelo registroData) {
+
+
+
+    private void guardarRegistro(/*final RegistroDataModelo registroData*/) {
         @SuppressLint("StaticFieldLeak") AsyncTask<Void, Void, String> asyncTask =
                 new AsyncTask<Void, Void, String>() {
             @Override
@@ -99,6 +139,19 @@ public class RegistrarseFragment extends Fragment {
                 try {
                     FetchRequest fetchRequest = new FetchRequest();
                     String url = "http://tokomegawa.somee.com/Registrarse";
+                    //RegistroDataModelo registroData = new RegistroDataModelo();
+/*
+                    registroData.setApellidos("Apellidos de ejemplo");
+                    registroData.setTelefono("123456789");
+                    registroData.setTipoDocumento("DNI");
+                    registroData.setNumDocumento("12345678");
+                    registroData.setContrasena("codsena123");
+                    registroData.setIUD("Iuuuuuudo");
+                    registroData.setCorreoElectronico("1111111@example.com");
+                    registroData.setDepartamento("Lima");
+                    registroData.setProvincia("Lima");
+                    registroData.setDistrito("SMPwsfcdwfcdwcorres");
+*/
                     return fetchRequest.fetchRegistro(url, registroData);
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -121,28 +174,28 @@ public class RegistrarseFragment extends Fragment {
     }
 
 
-    private void SubirToDB() throws IOException {
+    /*private void SubirToDB() throws IOException {
         FetchRequest fetchRequest = new FetchRequest();
         String url = "http://tokomegawa.somee.com/Registrarse";
 
         // Crear una instancia de RegistroDataModelo con los datos del registro
         //RegistroDataModelo registroData = new RegistroDataModelo();
 
-        /*registroData.setApellidos("Apellidos de ejemplo");
+        registroData.setApellidos("Apellidos de ejemplo");
         registroData.setTelefono("123456789");
         registroData.setTipoDocumento("DNI");
         registroData.setNumDocumento("12345678");
-        registroData.setContrasena("contrasena123");
-        registroData.setIUD("IUD de ejemplo");
-        registroData.setCorreoElectronico("ejfewfemplo111@example.com");
+        registroData.setContrasena("codsena123");
+        registroData.setIUD("Iddddddo");
+        registroData.setCorreoElectronico("eaaaaaaa@example.com");
         registroData.setDepartamento("Lima");
         registroData.setProvincia("Lima");
-        registroData.setDistrito("SMPorres");*/
+        registroData.setDistrito("SMPwsfcdwfcdwcorres");
 
         // Realizar la solicitud de registro y obtener la respuesta
         String response = fetchRequest.fetchRegistro(url, registroData);
         Log.e("response ==> ", response);
-    }
+    }*/
 
 
     private RegistroDataModelo getRegistroData() {
@@ -157,7 +210,6 @@ public class RegistrarseFragment extends Fragment {
         registroData.setSwitchValue(binding.switch1.isChecked());
         return registroData;
     }
-
     private void setupViews() {
         List<String> opciones = new ArrayList<>();
         opciones.add("DNI");

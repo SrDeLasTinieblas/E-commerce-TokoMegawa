@@ -1,8 +1,10 @@
 package com.tinieblas.tokomegawa.ui.fragments;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +15,7 @@ import android.widget.PopupWindow;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -44,6 +47,7 @@ public class SettingFragment extends Fragment {
     private FirebaseAuth mAuth;
     private SettingFragment settingFragment;
     private FragmentSettingBinding fragmentSettingBinding;
+    private static final int REQUEST_CODE_GALLERY = 1;
 
     private PopupWindow popupWindow;
     private boolean isChecked = false;
@@ -66,11 +70,8 @@ public class SettingFragment extends Fragment {
 
     private void setUpViews() {
         // Set up initial views and data
-        String uidUser = new LoginRepositoryImp().getUIDUser();
-        //String emailUser = new LoginRepositoryImp().getEmailUser();
-        fragmentSettingBinding.inforUser.setText(uidUser);
-        //fragmentSettingBinding.textNombreSettings.setText(emailUser);
-        getPhoto();
+        fragmentSettingBinding.inforUser.setText(new LoginRepositoryImp().getEmailUser());
+        getDataInfoUser();
     }
 
     private void setUpListeners() {
@@ -94,9 +95,15 @@ public class SettingFragment extends Fragment {
         });
 
         fragmentSettingBinding.buttonArrowNombre.setOnClickListener(view -> {
-            updatePhoto();
-            getPhoto();
-            updateEmail("nuevoCorreo@gmail.com");
+            //updatePhoto();
+
+            //updateEmail("nuevoCorreo@gmail.com");
+        });
+        fragmentSettingBinding.imageView2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openGallery();
+            }
         });
 
         fragmentSettingBinding.buttonCerrarSession.setOnClickListener(view -> {
@@ -112,6 +119,18 @@ public class SettingFragment extends Fragment {
                 fragmentSettingBinding.textNotification.setText("No");
             }
         });
+
+
+
+
+        getDataInfoUser();
+    }
+
+    @Override
+    public void onResume() {
+
+        getDataInfoUser();
+        super.onResume();
     }
 
     private void loadData() {
@@ -131,7 +150,7 @@ public class SettingFragment extends Fragment {
         });
     }
 
-    private void getPhoto() {
+    private void getDataInfoUser() {
         if (userFirebase != null) {
             for (UserInfo profile : userFirebase.getProviderData()) {
                 String email = profile.getEmail();
@@ -140,11 +159,35 @@ public class SettingFragment extends Fragment {
 
                 Glide.with(this)
                         .load(photoUrl)
+                        .placeholder(R.drawable.male_user)
                         .into(fragmentSettingBinding.imageView2);
 
                 fragmentSettingBinding.textNombreSettings.setText(email);
                 fragmentSettingBinding.textNombreSettings.setText(name);
             }
+        }
+    }
+
+
+
+
+    // Método para abrir la galería
+    private void openGallery() {
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(intent, REQUEST_CODE_GALLERY);
+    }
+
+    // Escucha el resultado de la selección de la imagen de la galería
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQUEST_CODE_GALLERY && resultCode == Activity.RESULT_OK && data != null) {
+            // Obtiene la URI de la imagen seleccionada de la galería
+            Uri imageUri = data.getData();
+
+            // Llama a la función de actualización de la foto con la URI de la imagen seleccionada
+            updatePhoto(imageUri);
         }
     }
 
@@ -157,18 +200,17 @@ public class SettingFragment extends Fragment {
             }
         });
     }
-
-    public void updatePhoto() {
+    public void updatePhoto(Uri imageUri) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                .setDisplayName("Jane Q. User")
-                .setPhotoUri(Uri.parse("https://arc-anglerfish-arc2-prod-elcomercio.s3.amazonaws.com/public/7JJ3VG267NGNPCMAOXQCJLIZKA.jpg"))
+                .setPhotoUri(imageUri)
                 .build();
 
         user.updateProfile(profileUpdates).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
-                Log.d("TAG", "User profile updated.");
+                Toast.makeText(getContext(), "User profile updated.", Toast.LENGTH_SHORT).show();
+                getDataInfoUser();
             }
         });
     }

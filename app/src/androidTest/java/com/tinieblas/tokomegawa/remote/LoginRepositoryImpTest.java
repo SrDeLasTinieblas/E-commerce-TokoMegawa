@@ -3,6 +3,8 @@ package com.tinieblas.tokomegawa.remote;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import android.util.Log;
+
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.google.android.gms.tasks.Task;
@@ -23,12 +25,12 @@ import org.junit.runner.RunWith;
 @RunWith(AndroidJUnit4.class)
 public class LoginRepositoryImpTest {
 
-    String email = "axopotamre@gmail.com";
-    String password = "1234567890";
+    String email = "correoactualizado@gmail.com";
+    String password = "darkangelo";
+    String uid = "gXstERrHIzZzYBPdgPBRTtUuAda2";
     LoginRepositoryImp repository;
-    //SignUpRepositoryImp repositoryRegistro;
-    //String emailRegistro = "axopotamre@gmail.com";
-    //String passwordContraseña = "123456789";
+    String correoActualizado = "correoActualizado@gmail.com";
+
     @Before
     public void setup(){
         //Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
@@ -44,13 +46,19 @@ public class LoginRepositoryImpTest {
     @Test
     public void getUIDUser() {
         String uidUser = repository.getUIDUser();
-        assertEquals("oMomAiwuy4hszwiNaUXf5Fwebml2", uidUser);
+        assertEquals(uid, uidUser);
     }
 
     @Test
     public void login(){
         Boolean isLogged = repository.login(email, password);
         assertTrue(isLogged);
+    }
+
+    @Test
+    public void updateEmail() {
+        String updateEmail = repository.updateEmail(correoActualizado);
+        assertEquals("User email address updated.", updateEmail);
     }
 
 

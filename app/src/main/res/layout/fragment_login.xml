@@ -52,7 +52,7 @@
             android:drawablePadding="7dp"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="angelo22@gmail.com" />
+            android:text="nuevocorreo@gmail.com" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -179,7 +179,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="64dp"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="16dp"
         android:text="¿No tienes cuenta?"
         app:layout_constraintStart_toStartOf="@+id/buttonLoginGogle"
         app:layout_constraintTop_toBottomOf="@+id/buttonLoginGogle" />
@@ -188,7 +188,7 @@
         android:id="@+id/textRegistrarse"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="80dp"
         android:nestedScrollingEnabled="false"
         android:outlineProvider="none"

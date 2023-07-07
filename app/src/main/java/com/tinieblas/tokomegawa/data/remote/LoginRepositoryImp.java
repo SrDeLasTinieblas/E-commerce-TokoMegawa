@@ -1,8 +1,12 @@
 package com.tinieblas.tokomegawa.data.remote;
 
+import android.util.Log;
+
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
+import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
@@ -11,7 +15,7 @@ import com.tinieblas.tokomegawa.domain.repository.LoginRepository;
 
 public class LoginRepositoryImp implements LoginRepository {
 
-
+    FirebaseUser user;
     FirebaseFirestore firebaseFirestore;
     FirebaseAuth mAuth;
     FirebaseDatabase database;
@@ -20,8 +24,20 @@ public class LoginRepositoryImp implements LoginRepository {
         mAuth = FirebaseAuth.getInstance();
         firebaseFirestore = FirebaseFirestore.getInstance();
         database = FirebaseDatabase.getInstance();
-
+        user = mAuth.getCurrentUser();
     }
+
+
+
+    /*private void definingFirebase() {
+        mAuth = FirebaseAuth.getInstance();
+        firebaseFirestore = FirebaseFirestore.getInstance();
+        database = FirebaseDatabase.getInstance();
+
+        user = mAuth.getCurrentUser(); // Asignar el valor actual de mAuth.getCurrentUser() a 'user'
+    }
+*/
+
     @Override
     public Boolean getCurrentUser() {
         definingFirebase();
@@ -73,6 +89,35 @@ public class LoginRepositoryImp implements LoginRepository {
             System.out.println(e);
         }
         return "";
+    }
+
+
+    public String updateEmail(String correoActualizado) {
+        String error = "";
+        try {
+            definingFirebase();
+
+            // Reautenticar al usuario
+            AuthCredential credential = EmailAuthProvider.getCredential("nuevocorreo@gmail.com", "darkangelo");
+            Task<Void> reauthenticateTask = user.reauthenticate(credential);
+            Tasks.await(reauthenticateTask); // Esperar a que se complete la tarea de reautenticación
+
+            if (reauthenticateTask.isSuccessful()) {
+                // El usuario ha sido reautenticado exitosamente, ahora podemos actualizar el correo electrónico
+                Task<Void> updateEmailTask = user.updateEmail(correoActualizado);
+                Tasks.await(updateEmailTask); // Esperar a que se complete la tarea de actualización de correo electrónico
+
+                if (updateEmailTask.isSuccessful()) {
+                    Log.d("TAG", "User email address updated.");
+                    return "User email address updated.";
+                }
+            }
+        } catch (Exception e) {
+            error = e.getMessage();
+            return "Error updating user email address: " + e.getMessage();
+        }
+
+        return "Error updating user email address" + error;
     }
 
 

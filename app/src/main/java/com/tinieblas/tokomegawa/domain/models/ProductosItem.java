@@ -26,7 +26,6 @@ public class ProductosItem implements Serializable {
 	private String categoria;
 	@SerializedName("delivery")
 	private String delivery;
-
 	private int amount;
 
 	public ProductosItem(int idProducto, String nombreProducto, String descripcionProducto, String imagen1, String imagen2, String imagen3, double precioUnitario, int cantidadDisponible, String categoria, String delivery, int amount) {

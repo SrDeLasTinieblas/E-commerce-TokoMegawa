@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+
 public class ProductosCategorias extends RecyclerView.Adapter<ProductosCategorias.ProductoViewHolder> {
     private final Context mContext;
     private List<ProductosItem> mProductos;

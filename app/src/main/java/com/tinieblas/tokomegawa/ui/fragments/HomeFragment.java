@@ -11,6 +11,8 @@ import android.widget.Button;
 import android.widget.PopupWindow;
 import android.widget.Toast;
 
+import com.airbnb.lottie.LottieAnimationView;
+import com.tinieblas.tokomegawa.data.local.ProductSavedRepositoryImp;
 import com.tinieblas.tokomegawa.data.local.ProductsViewedRepositoryImp;
 import com.tinieblas.tokomegawa.ui.adptadores.CategoriasAdapter;
 
@@ -42,6 +44,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -59,12 +62,14 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private ProductosCategorias productosCategorias;
     private final ArrayList<ProductosItem> todosLosProductos = new ArrayList<>();
     private boolean isCategoriaSeleccionada = false;
-    private boolean isChecked = false;
+    private boolean isCheckedMasPopulares = false;
+    private boolean isCheckedFavoritos = false;
     private final List<ProductosItem> productosListOriginal = new ArrayList<>();
     private final Integer[] langLogo = new Integer[]{R.drawable.earphones, R.drawable.alexa, R.drawable.audifonos,
             R.drawable.camaras, R.drawable.sillas_gamer, R.drawable.tablets, R.drawable.celurales};
-
+    private ProductSavedRepositoryImp repositoryFavoritos;
     private FragmentHomeBinding fragmentHomeBinding;
+    boolean EstaEnFavoritos = false;
 
     private ProductsViewedRepositoryImp repository;
     @Override
@@ -74,7 +79,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         initViews();
         setListeners();
         fetchData();
+
         this.repository = new ProductsViewedRepositoryImp(requireContext());
+        this.repositoryFavoritos = new ProductSavedRepositoryImp(requireContext());
+
+
+
         return fragmentHomeBinding.getRoot();
     }
 
@@ -83,11 +93,14 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         fragmentHomeBinding.cardFilterRecyclerView.setLayoutManager(linearLayoutManager2);
         fragmentHomeBinding.cardFilterRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        productosAdapter = new ProductosAdapter(getContext(), productosListOriginal);
+        productosAdapter = new ProductosAdapter(getContext(), productosListOriginal,
+                fragmentHomeBinding.cardFilterRecyclerView);
         fragmentHomeBinding.reciclerViewHotSales.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         fragmentHomeBinding.reciclerViewHotSales.setItemAnimator(new DefaultItemAnimator());
         fragmentHomeBinding.reciclerViewHotSales.setAdapter(productosAdapter);
+
         fragmentHomeBinding.reciclerViewRecently.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+
     }
 
     private void setListeners() {
@@ -119,11 +132,31 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             requireActivity().runOnUiThread(() -> {
                 addCards(productos);
                 setCardsFilter(productos);
+                buttonLike(productos);
             });
             productosListOriginal.addAll(productos);
         });
     }
+    private void buttonLike(List<ProductosItem> productos){
+        //ProductosAdapter adapter = new ProductosAdapter(getContext(), productos, fragmentHomeBinding.reciclerViewHotSales);
+        productosAdapter = new ProductosAdapter(getContext(), productos, fragmentHomeBinding.reciclerViewHotSales);
 
+        productosAdapter.setOnFavoritoClickListener(new ProductosAdapter.OnFavoritoClickListener() {
+            @Override
+            public void onFavoritoClick(ProductosItem producto) {
+                // Realiza las acciones necesarias cuando se hace clic en el botón de Favoritos
+                verificarProductoFavoritos(producto);
+            }
+        });
+        //fragmentHomeBinding.reciclerViewHotSales.setAdapter(adapter);
+
+        // Obtener la lista actual de productos guardados en SharedPreferences
+        Set<String> productosGuardados = repositoryFavoritos.getProductosGuardados();
+
+        // Actualizar la apariencia de los botones de Favoritos en el adaptador
+        //productosAdapter.actualizarAparienciaBotonesFavoritos(productosGuardados, );
+
+    }
     private void setCardsFilter(List<ProductosItem> productos) {
         ArrayList<CategoriaModelo> productosList = new ArrayList<>();
         ArrayList<String> categorias = new ArrayList<>();
@@ -208,7 +241,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     public void Showfiltro(View view) {
         if (popupWindow != null && popupWindow.isShowing()) {
             popupWindow.dismiss();
-            isChecked = false; // Reiniciar el estado al cerrar el popup
+            isCheckedMasPopulares = false; // Reiniciar el estado al cerrar el popup
 
         } else {
             View popupView = LayoutInflater.from(requireActivity()).inflate(R.layout.popup, null);
@@ -220,7 +253,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             Button CheckFavoritos = popupView.findViewById(R.id.buttonCheck2);
 
             // Actualizar el fondo del botón según el estado actual
-            if (isChecked) {
+            if (isCheckedMasPopulares) {
                 CheckMasPopulares.setBackgroundResource(R.drawable.check1);
             }
 
@@ -228,10 +261,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             CheckMasPopulares.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    isChecked = !isChecked; // Alternar el estado al hacer clic
+                    isCheckedMasPopulares = !isCheckedMasPopulares; // Alternar el estado al hacer clic
 
-                    if (isChecked) {
+                    if (isCheckedMasPopulares) {
                         CheckMasPopulares.setBackgroundResource(R.drawable.check1);
+                        Toast.makeText(getContext(), "Populares check", Toast.LENGTH_SHORT).show();
                     } else {
                         // Aquí puedes establecer el fondo deseado cuando no está marcado
                         CheckMasPopulares.setBackgroundResource(R.drawable.check);
@@ -244,10 +278,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             CheckFavoritos.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    isChecked = !isChecked; // Alternar el estado al hacer clic
+                    isCheckedFavoritos = !isCheckedFavoritos; // Alternar el estado al hacer clic
 
-                    if (isChecked) {
+                    if (isCheckedFavoritos) {
                         CheckFavoritos.setBackgroundResource(R.drawable.check1);
+                        Toast.makeText(getContext(), "favoritos check", Toast.LENGTH_SHORT).show();
+
                     } else {
                         // Aquí puedes establecer el fondo deseado cuando no está marcado
                         CheckFavoritos.setBackgroundResource(R.drawable.check);
@@ -256,7 +292,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                     // Aquí puedes realizar otras acciones según el estado
                 }
             });
-
 
             RangeSlider rangeSlider = popupView.findViewById(R.id.rangeSlider);
             rangeSlider.addOnSliderTouchListener(new RangeSlider.OnSliderTouchListener() {
@@ -276,6 +311,60 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             popupWindow.showAsDropDown(view, 0, 0);
         }
     }
+
+    public void verificarProductoFavoritos(ProductosItem producto) {
+        // Obtener la lista actual de productos guardados en SharedPreferences
+        Set<String> productosGuardados = repositoryFavoritos.getProductosGuardados();
+
+        int idProducto = producto.getIdProducto();
+
+        // Verificar si el producto ya está en la lista
+        if (productosGuardados.contains(String.valueOf(idProducto))) {
+            // Si el producto ya está en la lista, eliminarlo
+            productosGuardados.remove(String.valueOf(idProducto));
+
+            //actualizarAparienciaBotonFavorito(fragmentHomeBinding.animationView, EstaEnFavoritos);
+
+            EstaEnFavoritos = true;
+        } else {
+            // Si el producto no está en la lista, agregarlo
+            productosGuardados.add(String.valueOf(idProducto));
+            //actualizarAparienciaBotonFavorito(activityDetailsBinding.animationView, EstaEnFavoritos);
+            EstaEnFavoritos = false;
+        }
+
+        // Guardar la lista actualizada en SharedPreferences
+        repositoryFavoritos.saveProductosGuardados(productosGuardados);
+        Log.e("repositoryFavoritos: ", productosGuardados.toString());
+
+    }
+    private void actualizarAparienciaBotonFavorito(LottieAnimationView button,
+                                                   boolean productoGuardado) {
+        if (productoGuardado) {
+            // Producto guardado: establecer apariencia deseada
+            button.setBackgroundResource(R.drawable.vector_ilike1);
+            Toast.makeText(getContext(), "id ==> " + productoGuardado + "Esta en favoritos.", Toast.LENGTH_SHORT).show();
+
+        } else {
+            // Producto no guardado: establecer apariencia deseada
+            button.setBackgroundResource(R.drawable.vector_ilike);
+            Toast.makeText(getContext(), "id ==> " + productoGuardado + "No esta en favoritos.", Toast.LENGTH_SHORT).show();
+
+        }
+    }
+    private void filtrarPorFavoritos() {
+        /*List<ProductosItem> favoritosList = repositoryCart.getAll(); // Obtener la lista de favoritos desde el repositorio
+
+        List<ProductosItem> filtrarLista = new ArrayList<>();
+        for (ProductosItem item : productosListOriginal) {
+            if (favoritosList.contains(item)) {
+                filtrarLista.add(item);
+            }
+        }
+        productosAdapter.setProductosList(filtrarLista);*/
+    }
+
+
     private void filtrarTitulo(String texto){
         List<ProductosItem> listaFiltrar = new ArrayList<>();
         for (ProductosItem item: productosListOriginal){

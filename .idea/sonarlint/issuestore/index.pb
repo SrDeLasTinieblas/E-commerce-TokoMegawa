@@ -1,6 +1,4 @@
 
-l
-<app/src/main/java/com/tinieblas/tokomegawa/utils/Shared.java,9\7\978be54c6d896a72f7e909e193a3b434e45a343b
 ~
 Napp/src/androidTest/java/com/tinieblas/tokomegawa/ExampleInstrumentedTest.java,c\0\c0c5bb1ae5427677c23601646a973d1c1d03ac4d
 A
@@ -47,8 +45,6 @@ q
 Aapp/src/main/java/com/tinieblas/tokomegawa/utils/SearchUtils.java,e\c\ec400157b2688ca58585b2b73d416d07ea7a8009
 j
 :app/src/main/java/com/tinieblas/tokomegawa/utils/Suma.java,3\a\3aa886f3e2e37b0a34d657dde8243581d364b158
-„
-Tapp/src/main/java/com/tinieblas/tokomegawa/ui/adptadores/ProductosVistosAdapter.java,1\9\1935aabddc451b066945539c049e4ee13b8abeba
 ‹
 [app/src/main/java/com/tinieblas/tokomegawa/ui/adptadores/RecentlyViewedAdapterRecycler.java,8\a\8a2f923dd3306cf85945e5699cd5ee224144bb87
 w
@@ -112,18 +108,12 @@ p
 @app/src/main/java/com/tinieblas/tokomegawa/utils/hideSystem.java,4\d\4ddbeebe0cc4847801ae89eec10992d1e10956f5
 s
 Capp/src/main/java/com/tinieblas/tokomegawa/utils/SnackbarUtils.java,b\8\b83d83e56cde31df3fec01a2608039ee8de66d3f
-|
-Lapp/src/main/java/com/tinieblas/tokomegawa/ui/adptadores/CarritoAdapter.java,1\c\1cf762b30a39a011e7f0f940fdc1fcd52ea0a4de
 z
 Japp/src/main/java/com/tinieblas/tokomegawa/ui/activities/MainActivity.java,8\b\8ba9ba5e90a063c42843ed78784755325304a678
 ~
 Napp/src/main/java/com/tinieblas/tokomegawa/ui/adptadores/CategoriaAdapter.java,b\1\b1de9d1df2c32db1dac123682b9e266dd74892a2
-
-Qapp/src/main/java/com/tinieblas/tokomegawa/ui/adptadores/ProductosCategorias.java,c\3\c39c6e7f517eccae2d294656f93aba88825b7717
 
 Oapp/src/main/java/com/tinieblas/tokomegawa/ui/adptadores/CategoriasAdapter.java,1\5\15667eef28a93dd0cbd43db4f3e8f9889531e1d1
-~
-Napp/src/main/java/com/tinieblas/tokomegawa/ui/adptadores/ProductosAdapter.java,3\2\32e75307acd0efbb887101f32726bd21d203a5d9
 {
 Kapp/src/main/java/com/tinieblas/tokomegawa/domain/models/ProductosItem.java,9\4\94aa5ad0973b0a2419010891b7739d4f2c15fb35
 €
@@ -132,8 +122,6 @@ Papp/src/main/java/com/tinieblas/tokomegawa/domain/repository/SignUpCallback.jav
 Papp/src/main/java/com/tinieblas/tokomegawa/domain/models/RegistroDataModelo.java,2\4\2401cd3882f494164df8a0a2e5e3164876234940
 q
 Aapp/src/main/java/com/tinieblas/tokomegawa/utils/Alertdialog.java,b\8\b87c294574e674c9e300abb521e1a18d91ffd56b
-}
-Mapp/src/main/java/com/tinieblas/tokomegawa/ui/activities/DetailsActivity.java,d\b\db84a5601574ccef831425a76437bd31277f7b1c
 „
 Tapp/src/androidTest/java/com/tinieblas/tokomegawa/remote/LoginRepositoryImpTest.java,d\1\d1be3167db3b7738d96c90a8f2f5b3451e62fceb
 ~
@@ -144,8 +132,6 @@ Japp/src/main/java/com/tinieblas/tokomegawa/ui/fragments/LoginFragment.java,1\8
 Qapp/src/main/java/com/tinieblas/tokomegawa/domain/repository/LoginRepository.java,b\4\b46258e022e7c26283a9b5d8e6a35d43cb911e26
 P
  app/src/main/AndroidManifest.xml,8\c\8c55c3ccc257e5907959013f99656e4c8ec3903e
-y
-Iapp/src/main/java/com/tinieblas/tokomegawa/ui/fragments/HomeFragment.java,3\5\355013dfbe705154d9a9196c0b4cbfd7d48e2ec9
 |
 Lapp/src/main/java/com/tinieblas/tokomegawa/ui/fragments/SettingFragment.java,b\7\b79a4fd2e0bb52d6eee536a9bc364ca8c0edd408
 z
@@ -162,3 +148,15 @@ Oapp/src/main/java/com/tinieblas/tokomegawa/data/remote/SignUpRepositoryImp.java
 Papp/src/main/java/com/tinieblas/tokomegawa/ui/fragments/RegistrarseFragment.java,a\f\af17235bc92ceecf96586ba06434cdbb7a0060b6
 ‰
 Yapp/src/main/java/com/tinieblas/tokomegawa/data/remote/UserRemoteRemoteRepositoryImp.java,4\2\4200ead3c6736eb23b5954b83797f33a3e839e95
+†
+Vapp/src/androidTest/java/com/tinieblas/tokomegawa/remote/PaymentRepositoryImpTest.java,2\8\28b4317cf3c7c152d43683c9a8d3b37bb5ae1713
+†
+Vapp/src/androidTest/java/com/tinieblas/tokomegawa/remote/FirebaseInstrumentedTest.java,2\4\2408b3c3ffe4575e3b0dfb9067859a410a99924b
+…
+Uapp/src/androidTest/java/com/tinieblas/tokomegawa/remote/SignUpRepositoryImpTest.java,e\f\efba76a513771a081a00363f711aae8711ddee29
+@
+app/build.gradle,f\4\f4a01d6a4fcb971362ec00a83903fd3902f52164
+
+Oapp/src/main/java/com/tinieblas/tokomegawa/data/local/PaymentRepositoryImp.java,0\1\01748374a76395534f812ec5947f8e727b198f1c
+i
+9app/src/main/java/com/tinieblas/tokomegawa/data/APIs.java,d\5\d514a6f010c53a614f38673d01fe97c0ac33645b

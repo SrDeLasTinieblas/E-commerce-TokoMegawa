@@ -52,7 +52,7 @@
             android:drawablePadding="7dp"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="nuevocorreo@gmail.com" />
+            android:text="correoactualizado@gmail.com" />
 
     </com.google.android.material.textfield.TextInputLayout>
 

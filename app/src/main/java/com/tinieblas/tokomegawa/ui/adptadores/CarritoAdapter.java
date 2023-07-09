@@ -30,6 +30,7 @@ public class CarritoAdapter extends RecyclerView.Adapter<CarritoAdapter.ViewHold
     private List<ProductosItem> mCarrito;
     private final TextView textSubTotal;
     private final TextView textTotal;
+    private final TextView textDescuento;
     public final AsyncListDiffer<ProductosItem> differ;
     private RecyclerView recyclerView;
 
@@ -40,12 +41,13 @@ public class CarritoAdapter extends RecyclerView.Adapter<CarritoAdapter.ViewHold
     private ProductCartRepositoryImp repository;
 
     public CarritoAdapter(Context mContext, List<ProductosItem> mCarrito,
-                          TextView textSubTotal, TextView textTotal,
+                          TextView textSubTotal, TextView textDescuento, TextView textTotal,
                           RecyclerView recyclerView,
                           ViewSwitcher viewSwitcher) {
         this.mContext = mContext;
         this.mCarrito = mCarrito;
         this.textSubTotal = textSubTotal;
+        this.textDescuento = textDescuento;
         this.textTotal = textTotal;
         this.recyclerView = recyclerView;
         this.mCarrito = mCarrito != null ? mCarrito : new ArrayList<>();
@@ -146,11 +148,16 @@ public class CarritoAdapter extends RecyclerView.Adapter<CarritoAdapter.ViewHold
             // Calcula el subtotal y lo muestra en el TextView
             adapter.calcularSubTotal();
             adapter.calcularTotal();
+            adapter.calcularDescuento();
         }
 
 
     }
 
+    private void calcularDescuento() {
+
+        textDescuento.setText("5%");
+    }
 
 
     public void calcularSubTotal() {
@@ -191,6 +198,7 @@ public class CarritoAdapter extends RecyclerView.Adapter<CarritoAdapter.ViewHold
         double roundedPrice = bd.doubleValue();
         // Actualiza el valor en el adaptador en lugar de actualizar directamente el TextView
         textTotal.setText("S/. " + roundedPrice);
+
     }
 
     private static class CarritoDiffCallback extends DiffUtil.ItemCallback<ProductosItem> {
@@ -234,13 +242,11 @@ public class CarritoAdapter extends RecyclerView.Adapter<CarritoAdapter.ViewHold
         setCarrito(carrito);
         calcularSubTotal();
         calcularTotal();
+        calcularDescuento();
 
         // Muestra un mensaje de confirmación
         Toast.makeText(mContext, "Producto eliminado del carrito", Toast.LENGTH_SHORT).show();
     }
-
-
-
 
 
 

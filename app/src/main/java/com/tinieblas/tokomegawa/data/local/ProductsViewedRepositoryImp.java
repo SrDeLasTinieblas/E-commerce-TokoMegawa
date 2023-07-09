@@ -21,7 +21,6 @@ public class ProductsViewedRepositoryImp extends SharedRepo implements ProductsV
         super(context, NAME);
     }
 
-
     @Override
     public List<ProductosItem> getAll() {
         String listaProductosJson = getString(KEY_LIST);

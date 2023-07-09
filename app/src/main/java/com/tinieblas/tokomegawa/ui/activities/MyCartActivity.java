@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -30,7 +31,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.stripe.android.GooglePayJsonFactory;
 import com.stripe.android.PaymentConfiguration;
+import com.stripe.android.model.PaymentMethod;
 import com.stripe.android.paymentsheet.PaymentSheet;
 import com.stripe.android.paymentsheet.PaymentSheetResult;
 import com.tinieblas.tokomegawa.data.APIs;
@@ -52,8 +55,11 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -72,6 +78,7 @@ public class MyCartActivity extends AppCompatActivity {
     private UserLocalRepositoryImp userLocalRepository;
     private PaymentRepository paymentRepository;
     private PaymentSheet paymentSheet;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,45 +101,22 @@ public class MyCartActivity extends AppCompatActivity {
         //obtenerProductosDelCarrito(); // Llamar a la función para mostrar las tarjetas del carrito
         initViews(); // Configurar el RecyclerView
 
-        // Registrar el resultado de la actividad antes de utilizar PaymentSheet
-        //registerPaymentSheetResult();
 
         // Inicializar PaymentConfiguration
         PaymentConfiguration.init(this, APIs.apiKeyStripePublica);
 
         // Crear la instancia de PaymentSheet después de registrar el resultado de la actividad
-        paymentSheet = new PaymentSheet(MyCartActivity.this, paymentSheetResult -> {});
+        paymentSheet = new PaymentSheet(MyCartActivity.this, this::onPaymentResult);
     }
 
-
-  /*  private void registerPaymentSheetResult() {
-        ActivityResultLauncher<Intent> launcher = registerForActivityResult(
-                new ActivityResultContracts.StartActivityForResult(),
-                result -> {
-                    if (result.getResultCode() == Activity.RESULT_OK) {
-                        Intent data = result.getData();
-                        if (data != null) {
-                            boolean paymentSuccessful = data.getBooleanExtra(PaymentSheet.EXTRA_PAYMENT_SUCCESSFUL, false);
-                            // Aquí puedes manejar el resultado del pago
-                            if (paymentSuccessful) {
-                                // El pago fue exitoso
-                            } else {
-                                // El pago falló
-                            }
-                        }
-                    }
-                }
-        );
-
-        paymentSheet.setPaymentResultLauncher(launcher);
+    private void onPaymentResult(PaymentSheetResult paymentSheetResult) {
+        if(paymentSheetResult instanceof PaymentSheetResult.Completed){
+            Log.e("==> ", "payment success");
+            Toast.makeText(context, "Enviado", Toast.LENGTH_SHORT).show();
+        }
     }
-
-*/
-
     // Función para realizar la compra
     public void Shopping(View view) {
-        Toast.makeText(context, "Enviado", Toast.LENGTH_SHORT).show();
-
         paymentRepository = new PaymentRepositoryImp();
         createCustomer(APIs.apiKeyStripeSecreta);
         // Inicializar PaymentConfiguration
@@ -200,9 +184,8 @@ public class MyCartActivity extends AppCompatActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                } else {
-                    // Error en la solicitud
-                }
+                }  // Error en la solicitud
+
             }
 
             @Override
@@ -211,16 +194,33 @@ public class MyCartActivity extends AppCompatActivity {
             }
         });
     }
+
+    /**private void PaymentFlow(String clientSecret, String customerID, String ephericalKey) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                // Resto del código...
+
+                paymentSheet.presentWithPaymentIntent(
+                        clientSecret,
+                        new PaymentSheet.Configuration("TokoMegawa INC",
+                                new PaymentSheet.CustomerConfiguration(
+                                        customerID,
+                                        ephericalKey
+                                ))
+                );
+            }
+        });
+    }*/
     private void PaymentFlow(String clientSecret, String customerID, String ephericalKey) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                // Crea una instancia de PaymentSheet
-
+                // Resto del código...
 
                 paymentSheet.presentWithPaymentIntent(
                         clientSecret,
-                        new PaymentSheet.Configuration("ABC Company",
+                        new PaymentSheet.Configuration("TokoMegawa INC",
                                 new PaymentSheet.CustomerConfiguration(
                                         customerID,
                                         ephericalKey
@@ -232,7 +232,9 @@ public class MyCartActivity extends AppCompatActivity {
 
     private void initViews() {
         mCarritoAdapter = new CarritoAdapter(MyCartActivity.this, carritoList,
-                activityMyCartBinding.textSubTotal, activityMyCartBinding.textTotal,
+                activityMyCartBinding.textSubTotal,
+                activityMyCartBinding.textDescuento,
+                activityMyCartBinding.textTotal,
                 activityMyCartBinding.RecyclerMyCart,
                 activityMyCartBinding.viewSwitcher
         );
@@ -281,12 +283,10 @@ public class MyCartActivity extends AppCompatActivity {
         }
     };
 
-    // Función para configurar Firebase Firestore
     private void setupFirebase() {
         mFirestore = FirebaseFirestore.getInstance();
     }
 
-    // Función para configurar SharedPreferences
     private void setupSharedPreferences() {
         String UID = userLocalRepository.getCurrentUserId();
 
@@ -294,7 +294,6 @@ public class MyCartActivity extends AppCompatActivity {
         System.out.println("my cart UID ===>" + UID);
     }
 
-    // Función para ocultar la barra de sistema
     private int hideSystemBar() {
         decorView = getWindow().getDecorView();
         decorView.setOnSystemUiVisibilityChangeListener(i -> {
@@ -309,8 +308,6 @@ public class MyCartActivity extends AppCompatActivity {
                 | View.SYSTEM_UI_FLAG_FULLSCREEN
                 | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
     }
-
-    // Función para borrar todos los productos del carrito
     public void BorrarTodosLosProductosDelCarrito(View view) {
         // Configurar la animación de Lottie y ejecutarla
         //animationView.setAnimation(R.raw.loading_animation);
@@ -336,8 +333,6 @@ public class MyCartActivity extends AppCompatActivity {
         activityMyCartBinding.btnBorrarCarrito.setVisibility(View.VISIBLE);
     }
 
-
-
     // Función para solicitar permisos de ubicación
     public void getPermission() {
         // Verificar si ya se han otorgado los permisos de ubicación
@@ -353,7 +348,6 @@ public class MyCartActivity extends AppCompatActivity {
         }
     }
 
-    // Función para obtener la ubicación del usuario
     public void obtenerUbicacion() {
         // Crear una instancia de LocationManager
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -410,6 +404,11 @@ public class MyCartActivity extends AppCompatActivity {
         if (requestCode == CODIGO_PERMISOS_UBICACION) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // Permiso de ubicación otorgado
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
                 obtenerUbicacion();
             } else {
                 Toast.makeText(context, "Es necesario su ubicación para poder enviarle el producto", Toast.LENGTH_SHORT).show();
@@ -460,11 +459,8 @@ public class MyCartActivity extends AppCompatActivity {
             if (departamentoGuardada.contains("Provincia de ")) {
                 departamentoGuardada = departamentoGuardada.replaceAll("Provincia de ", "");
             }
-
             activityMyCartBinding.Departamento.setText(departamentoGuardada + ",");
             activityMyCartBinding.Distrito.setText(distritoGuardado);
-        } else {
-            // Los valores están vacíos, puedes mostrar un mensaje o realizar otras acciones
         }
     }
 
@@ -472,7 +468,6 @@ public class MyCartActivity extends AppCompatActivity {
         productCartRepository.deleteAll();
 
     }
-
     public List<ProductosItem> obtenerProductosDelCarrito() {
 
 
@@ -484,6 +479,7 @@ public class MyCartActivity extends AppCompatActivity {
 
         calcularSubTotal();
         calcularTotal();
+        calcularDescuento();
         return listaProductosItems;
     }
 
@@ -511,7 +507,7 @@ public class MyCartActivity extends AppCompatActivity {
         activityMyCartBinding.textView10.setVisibility(View.GONE);
         activityMyCartBinding.textSubTotal.setVisibility(View.GONE);
         activityMyCartBinding.textDelivery.setVisibility(View.GONE);
-        activityMyCartBinding.textView13.setVisibility(View.GONE);
+        activityMyCartBinding.textDescuento.setVisibility(View.GONE);
         activityMyCartBinding.textTotal.setVisibility(View.GONE);
 
         activityMyCartBinding.emptyCart.setVisibility(View.VISIBLE);
@@ -520,7 +516,6 @@ public class MyCartActivity extends AppCompatActivity {
         activityMyCartBinding.viewSwitcher.setDisplayedChild(0);
         activityMyCartBinding.btnCheckout.setEnabled(false);
     }
-
 
     @SuppressLint("SetTextI18n")
     public void calcularSubTotal() {
@@ -565,6 +560,10 @@ public class MyCartActivity extends AppCompatActivity {
             // La lista está vacía o nula, realiza alguna acción o muestra un mensaje adecuado
             activityMyCartBinding.textTotal.setText("S/ 0.00");
         }
+    }
+
+    public void calcularDescuento(){
+        activityMyCartBinding.textDescuento.setText("5%");
     }
 
     public void volver(View view) {

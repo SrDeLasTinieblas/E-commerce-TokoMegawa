@@ -1,28 +1,39 @@
 package com.tinieblas.tokomegawa.ui.activities;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import com.airbnb.lottie.L;
+import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.Glide;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.gson.Gson;
 import com.tinieblas.tokomegawa.R;
 import com.tinieblas.tokomegawa.data.local.ProductCartRepositoryImp;
+import com.tinieblas.tokomegawa.data.local.ProductSavedRepositoryImp;
 import com.tinieblas.tokomegawa.data.local.ProductsViewedRepositoryImp;
 import com.tinieblas.tokomegawa.databinding.ActivityDetailsBinding;
 import com.tinieblas.tokomegawa.domain.models.ProductosItem;
 import com.tinieblas.tokomegawa.utils.hideMenu;
 
+import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.List;
+import java.util.Set;
 
 public class DetailsActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -30,7 +41,8 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
     ActivityDetailsBinding activityDetailsBinding;
     private View decorView;
     boolean EstaEnCarrito = false;
-
+    boolean EstaEnFavoritos = false;
+    private ProductSavedRepositoryImp repositoryFavoritos;
 
     private ProductCartRepositoryImp repositoryCart;
     private ProductsViewedRepositoryImp repositoryViewed;
@@ -47,51 +59,204 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
         context = this;
         repositoryCart = new ProductCartRepositoryImp(this);
         repositoryViewed = new ProductsViewedRepositoryImp(this);
-
+        repositoryFavoritos = new ProductSavedRepositoryImp(this);
 
         ProductosItem producto = (ProductosItem) getIntent().getSerializableExtra("producto");
         mostrarProducto(producto);
         btnImages(producto);
+        verificarProductoFavoritos(producto);
 
         try {
             guardarProductosVistos(producto);
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
+        verificarProductoCarrito(producto);
+        activityDetailsBinding.buttonNextDetailsProducts.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
-        btnCarrito(producto);
+                btnCarrito(producto);
+            }
+        });
+
+        activityDetailsBinding.animationView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                actualizarAparienciaBotonFavorito(activityDetailsBinding.animationView, EstaEnFavoritos);
+            }
+        });
+
     }
 
 
     public void btnCarrito(ProductosItem producto) {
         verificarProductoCarrito(producto);
+
+        if (EstaEnCarrito) {
+            // El producto está en el carrito, así que lo eliminamos
+            //Toast.makeText(context, "Eliminado del carrito", Toast.LENGTH_SHORT).show();
+            borrarUnProductoDelCarrito(producto);
+
+            // Mostrar animación de eliminación
+            //activityDetailsBinding.animationView.setProgress(0);
+            //activityDetailsBinding.animationView.pauseAnimation();
+            EstaEnCarrito = false; // Actualizar el estado de EstaEnCarrito
+        } else {
+            // El producto no está en el carrito, así que lo añadimos
+            //Toast.makeText(context, "Agregando al carrito", Toast.LENGTH_SHORT).show();
+            guardarProductoCarrito(producto);
+
+            // Mostrar animación de añadir al carrito
+            //activityDetailsBinding.animationView.playAnimation();
+            EstaEnCarrito = true; // Actualizar el estado de EstaEnCarrito
+        }
+
         activityDetailsBinding.animationView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                verificarProductoCarrito(producto);
+                verificarProductoFavoritos(producto);
 
                 if (EstaEnCarrito) {
                     // El producto está en el carrito, así que lo eliminamos
                     //Toast.makeText(context, "Eliminado del carrito", Toast.LENGTH_SHORT).show();
                     borrarUnProductoDelCarrito(producto);
-                    snackbars("Quitado del carrito");
+
                     // Mostrar animación de eliminación
-                    activityDetailsBinding.animationView.setProgress(0);
-                    activityDetailsBinding.animationView.pauseAnimation();
+                    //activityDetailsBinding.animationView.setProgress(0);
+                    //activityDetailsBinding.animationView.pauseAnimation();
                     EstaEnCarrito = false; // Actualizar el estado de EstaEnCarrito
                 } else {
                     // El producto no está en el carrito, así que lo añadimos
                     //Toast.makeText(context, "Agregando al carrito", Toast.LENGTH_SHORT).show();
                     guardarProductoCarrito(producto);
-                    snackbars("Agregado al carrito");
+
                     // Mostrar animación de añadir al carrito
-                    activityDetailsBinding.animationView.playAnimation();
+                    //activityDetailsBinding.animationView.playAnimation();
                     EstaEnCarrito = true; // Actualizar el estado de EstaEnCarrito
                 }
             }
         });
     }
+    public void guardarProductoCarrito(ProductosItem producto) {
+        // Obtiene el valor de textCantidad y establece ese valor en la propiedad amount del producto
+        int cantidad = Integer.parseInt(activityDetailsBinding.textCantidad.getText().toString());
+        producto.setAmount(cantidad);
 
+        List<ProductosItem> lista = repositoryCart.getAll();
+        lista.add(producto);
+        repositoryCart.insertAll(lista);
+        snackbars("Agregado al carrito");
+        //activityDetailsBinding.animationView.playAnimation();
+    }
+
+    public void borrarUnProductoDelCarrito(ProductosItem producto) {
+        //repositoryCart.delete(producto.getIdProducto());
+// Crea una instancia de SharedPreferences en la actividad de detalles:
+        SharedPreferences sharedPreferences = getSharedPreferences("productos_carrito", MODE_PRIVATE);
+
+        // Obtiene una instancia del objeto Editor de SharedPreferences para editar el archivo:
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        // Convierte el objeto producto a JSON utilizando Gson:
+        Gson gson = new Gson();
+        String productoJson = gson.toJson(producto);
+
+        String listaProductosCarrito = sharedPreferences.getString("lista_productos_carrito", "");
+
+        if (!listaProductosCarrito.isEmpty()) {
+            try {
+                JSONArray lista = new JSONArray(listaProductosCarrito);
+
+                // Buscar el producto por su ID en la lista
+                for (int i = 0; i < lista.length(); i++) {
+                    JSONObject productoLista = lista.getJSONObject(i);
+                    int idProductoLista = productoLista.getInt("idProducto");
+
+                    //System.out.println("idProductoLista ==> "+idProductoLista + "  ==  " + "getIdProducto ==> "+producto.getIdProducto());
+
+                    // Comparar el ID del producto actual con el ID del producto en la lista
+                    if (producto.getIdProducto() == idProductoLista) {
+
+                        // Remover el producto de la lista
+                        lista.remove(i);
+                        editor.putString("lista_productos_carrito", lista.toString());
+                        editor.apply();
+                        snackbars("Quitado del carrito");
+                        break;
+                    }
+                    //System.out.println("idProductoLista ==> "+idProductoLista + "  ==  " + "getIdProducto ==> "+producto.getIdProducto());
+
+                    //Toast.makeText(context, "Quitado del carrito", Toast.LENGTH_SHORT).show();
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        //Log.e("carrito: ", "id => "+ producto.getIdProducto() + " :: " + producto);
+
+
+        //activityDetailsBinding.animationView.setProgress(0);
+        //activityDetailsBinding.animationView.pauseAnimation();
+    }
+
+    /*private void toggleFavorito(ProductosItem producto) {
+        // Obtener la lista actual de productos guardados en SharedPreferences
+        Set<String> productosGuardados = repositoryFavoritos.getProductosGuardados();
+
+        int idProducto = producto.getIdProducto();
+
+        // Verificar si el producto ya está en la lista
+        if (productosGuardados.contains(String.valueOf(idProducto))) {
+            // Si el producto ya está en la lista, eliminarlo
+            productosGuardados.remove(String.valueOf(idProducto));
+            Toast.makeText(context, "Producto eliminado" + producto.getIdProducto(), Toast.LENGTH_SHORT).show();
+        } else {
+            // Si el producto no está en la lista, agregarlo
+            productosGuardados.add(String.valueOf(idProducto));
+            Toast.makeText(context, "Producto guardado" + producto.getIdProducto(), Toast.LENGTH_SHORT).show();
+        }
+
+        // Guardar la lista actualizada en SharedPreferences
+        //repositoryFavoritos.saveProductosGuardados(productosGuardados);
+
+        // Actualizar la apariencia del botón según si el producto está en la lista o no
+        //actualizarAparienciaBoton(activityDetailsBinding.animationView, productosGuardados.contains(String.valueOf(idProducto)));
+    }*/
+
+    private void actualizarAparienciaBotonFavorito(LottieAnimationView button,
+                                                   boolean productoGuardado) {
+        if (productoGuardado) {
+            // Producto guardado: establecer apariencia deseada
+            //button.setBackgroundResource(activityDetailsBinding.animationView.);
+            activityDetailsBinding.animationView.playAnimation();
+            Toast.makeText(context, "id ==> " + productoGuardado + "Esta en favoritos.", Toast.LENGTH_SHORT).show();
+
+        } else {
+            // Producto no guardado: establecer apariencia deseada
+            //activityDetailsBinding.animationView.setProgress(0);
+            //activityDetailsBinding.animationView.pauseAnimation();
+            Toast.makeText(context, "id ==> " + productoGuardado + "No esta en favoritos.", Toast.LENGTH_SHORT).show();
+
+        }
+    }
+    public void verificarProductoFavoritos(ProductosItem producto) {
+        // Obtener la lista actual de productos guardados en SharedPreferences
+        Set<String> productosGuardados = repositoryFavoritos.getProductosGuardados();
+
+        int idProducto = producto.getIdProducto();
+
+        // Verificar si el producto ya está en la lista
+        if (productosGuardados.contains(String.valueOf(idProducto))) {
+            // El producto está en los favoritos
+            activityDetailsBinding.animationView.playAnimation();
+        } else {
+            // El producto no está en los favoritos
+            //activityDetailsBinding.animationView.setProgress(0);
+            //activityDetailsBinding.animationView.pauseAnimation();
+        }
+    }
 
     private void mostrarProducto(ProductosItem producto) {
         activityDetailsBinding.textTituloProduct.setText(producto.getNombreProducto());
@@ -186,30 +351,12 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
-    public void guardarProductoCarrito(ProductosItem producto) {
-
-        // Obtiene el valor de textCantidad y establece ese valor en la propiedad amount del producto
-        int cantidad = Integer.parseInt(activityDetailsBinding.textCantidad.getText().toString());
-        producto.setAmount(cantidad);
-
-        List<ProductosItem> lista = repositoryCart.getAll();
-        lista.add(producto);
-        repositoryCart.insertAll(lista);
-
-        activityDetailsBinding.animationView.playAnimation();
-
-    }
-
-    public void borrarUnProductoDelCarrito(ProductosItem producto) {
-        repositoryCart.delete(producto.getIdProducto());
-
-    }
-
     public void verificarProductoCarrito(ProductosItem producto) {
         ProductosItem productosItemOfRepo = repositoryCart.get(producto.getIdProducto());
 
         if(productosItemOfRepo != null){
-            activityDetailsBinding.animationView.playAnimation();
+            //activityDetailsBinding.animationView.playAnimation();
+            //Toast.makeText(context, "Esta en carrito", Toast.LENGTH_SHORT).show();
             EstaEnCarrito = true;
         }
     }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -36,16 +37,6 @@
             android:textColor="@color/white"
             android:textSize="13sp" />
 
-        <!--<Button
-            android:id="@+id/buttonShipping2"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginStart="280dp"
-            android:layout_marginTop="320dp"
-            android:background="@drawable/group_like"
-            android:text="Free shipping"
-            android:textColor="@color/white"
-            android:textSize="13sp" />-->
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/animationView"
             android:layout_width="110dp"

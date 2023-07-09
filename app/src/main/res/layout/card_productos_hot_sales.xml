@@ -51,13 +51,12 @@
         <Button
             android:id="@+id/akar_icons_"
             android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_height="20dp"
             android:layout_alignParentLeft="true"
-            android:layout_marginLeft="100dp"
             android:layout_alignParentTop="true"
+            android:layout_marginLeft="100dp"
             android:layout_marginTop="87dp"
-            android:background="@drawable/vector_ilike"
-            />
+            android:background="@drawable/vector_ilike" />
 
 
 

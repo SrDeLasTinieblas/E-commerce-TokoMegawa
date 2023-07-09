@@ -3,6 +3,7 @@ package com.tinieblas.tokomegawa.ui.adptadores;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,13 +31,26 @@ import java.util.Set;
 public class ProductosAdapter extends RecyclerView.Adapter<ProductosAdapter.ProductoViewHolder> {
     private final Context mContext;
     private List<ProductosItem> mProductos;
+    private final ProductSavedRepositoryImp repository;
+    private final RecyclerView recyclerView;
+    private OnFavoritoClickListener onFavoritoClickListener;
 
-    private ProductSavedRepositoryImp repository;
+    private OnFavoritoClickListener favoritoClickListener;
+    Set<String> productosGuardados;
+    public interface OnFavoritoClickListener {
+        void onFavoritoClick(ProductosItem producto);
+    }
 
-    public ProductosAdapter(Context context, List<ProductosItem> productos) {
+    public ProductosAdapter(Context context, List<ProductosItem> productos, RecyclerView recyclerView) {
         mContext = context;
         mProductos = productos;
         this.repository = new ProductSavedRepositoryImp(context);
+        this.recyclerView = recyclerView;
+
+        productosGuardados = repository.getProductosGuardados();
+    }
+    public void setOnFavoritoClickListener(OnFavoritoClickListener listener) {
+        this.onFavoritoClickListener = listener;
     }
 
     @NonNull
@@ -77,6 +91,16 @@ public class ProductosAdapter extends RecyclerView.Adapter<ProductosAdapter.Prod
         } else {
             holder.buttonShipping.setVisibility(View.INVISIBLE);
         }
+        /*holder.favorito.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (favoritoClickListener != null) {
+                    favoritoClickListener.onFavoritoClick(producto);
+                    actualizarAparienciaBoton(holder.favorito, productosGuardados.contains(String.valueOf(producto.getIdProducto())));
+
+                }
+            }
+        });*/
 
         // Configurar el OnClickListener para el botón
         holder.favorito.setOnClickListener(new View.OnClickListener() {
@@ -84,7 +108,6 @@ public class ProductosAdapter extends RecyclerView.Adapter<ProductosAdapter.Prod
             @Override
             public void onClick(View v) {
                 // Obtener la lista actual de productos guardados en SharedPreferences
-                Set<String> productosGuardados = repository.getProductosGuardados();
 
                 int idProducto = producto.getIdProducto();
 
@@ -92,20 +115,26 @@ public class ProductosAdapter extends RecyclerView.Adapter<ProductosAdapter.Prod
                 if (productosGuardados.contains(String.valueOf(idProducto))) {
                     // Si el producto ya está en la lista, eliminarlo
                     productosGuardados.remove(String.valueOf(idProducto));
-                    Toast.makeText(holder.itemView.getContext(), "Producto eliminado" + producto.getIdProducto(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(holder.itemView.getContext(), "Producto eliminado " + producto.getIdProducto(), Toast.LENGTH_SHORT).show();
+                    Log.e("productosEliminado: ", productosGuardados.toString());
+
                 } else {
                     // Si el producto no está en la lista, agregarlo
                     productosGuardados.add(String.valueOf(idProducto));
-                    Toast.makeText(holder.itemView.getContext(), "Producto guardado" + producto.getIdProducto(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(holder.itemView.getContext(), "Producto guardado " + producto.getIdProducto(), Toast.LENGTH_SHORT).show();
+                    Log.e("productosGuardados: ", productosGuardados.toString());
                 }
 
                 // Guardar la lista actualizada en SharedPreferences
                 repository.saveProductosGuardados(productosGuardados);
+                //actualizarAparienciaBotonesFavoritos(productosGuardados);
+                actualizarAparienciaBotonesFavoritos(productosGuardados, holder);
 
                 // Actualizar la apariencia del botón según si el producto está en la lista o no
                 actualizarAparienciaBoton(holder.favorito, productosGuardados.contains(String.valueOf(idProducto)));
             }
         });
+        actualizarAparienciaBoton(holder.favorito, productosGuardados.contains(String.valueOf(producto.getIdProducto())));
 
         // Configurar el clic en el elemento del RecyclerView
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -136,7 +165,8 @@ public class ProductosAdapter extends RecyclerView.Adapter<ProductosAdapter.Prod
         public TextView textViewTitulo;
         public TextView textViewPrecio;
         public TextView textViewDescripcion;
-        public Button buttonShipping, favorito;
+        public Button buttonShipping;
+        public Button favorito;
 
 
         public ProductoViewHolder(@NonNull View itemView) {
@@ -149,7 +179,8 @@ public class ProductosAdapter extends RecyclerView.Adapter<ProductosAdapter.Prod
             favorito = itemView.findViewById(R.id.akar_icons_);
         }
     }
-    private void actualizarAparienciaBoton(Button button, boolean productoGuardado) {
+
+    public void actualizarAparienciaBoton(Button button, boolean productoGuardado) {
         if (productoGuardado) {
             // Producto guardado: establecer apariencia deseada
             button.setBackgroundResource(R.drawable.vector_ilike1);
@@ -161,7 +192,16 @@ public class ProductosAdapter extends RecyclerView.Adapter<ProductosAdapter.Prod
         }
     }
 
-    private final DiffUtil.ItemCallback<ProductosItem> differCallback = new DiffUtil.ItemCallback<ProductosItem>() {
+    public void actualizarAparienciaBotonesFavoritos(Set<String> productosGuardados, ProductoViewHolder holder) {
+        for (int i = 0; i < differ.getCurrentList().size(); i++) {
+            //ProductoViewHolder holder = (ProductoViewHolder) recyclerView.findViewHolderForAdapterPosition(i);
+            if (holder != null) {
+                ProductosItem producto = differ.getCurrentList().get(i);
+                actualizarAparienciaBoton(holder.favorito, productosGuardados.contains(String.valueOf(producto.getIdProducto())));
+            }
+        }
+    }
+            private final DiffUtil.ItemCallback<ProductosItem> differCallback = new DiffUtil.ItemCallback<ProductosItem>() {
         @Override
         public boolean areItemsTheSame(ProductosItem oldItem, ProductosItem newItem) {
             return oldItem.getIdProducto() == newItem.getIdProducto();

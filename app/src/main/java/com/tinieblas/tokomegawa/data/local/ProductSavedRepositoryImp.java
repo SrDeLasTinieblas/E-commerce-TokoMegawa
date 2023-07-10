@@ -53,6 +53,13 @@ public class ProductSavedRepositoryImp extends SharedRepo implements ProductsSav
 
     public Boolean ifContainsItem(String idProducto){
         Set<String> productosGuardados = getProductosGuardados();
+
+        return productosGuardados.contains(idProducto);
+    }
+
+    public Boolean ifContainsItem(Integer idProducto){
+        Set<String> productosGuardados = getProductosGuardados();
+
         return productosGuardados.contains(String.valueOf(idProducto));
     }
 

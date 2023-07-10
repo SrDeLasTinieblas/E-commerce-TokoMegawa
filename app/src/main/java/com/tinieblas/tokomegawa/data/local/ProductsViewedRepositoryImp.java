@@ -10,7 +10,9 @@ import com.tinieblas.tokomegawa.domain.repository.ProductsViewedRepository;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ProductsViewedRepositoryImp extends SharedRepo implements ProductsViewedRepository {
 
@@ -32,7 +34,16 @@ public class ProductsViewedRepositoryImp extends SharedRepo implements ProductsV
         }.getType();
 
         List<ProductosItem> listaProductosItems = gson.fromJson(listaProductosJson, type);
-        return listaProductosItems;
+        Map<Integer, ProductosItem> productosMap = new HashMap<>();
+        for (ProductosItem item : listaProductosItems) {
+            productosMap.put(item.getIdProducto(), item);
+        }
+
+        // Obtener la lista única de elementos del mapa
+        List<ProductosItem> listaUnica = new ArrayList<>(productosMap.values());
+
+        return listaUnica;
+        //return listaProductosItems;
     }
 
     @Override
@@ -49,7 +60,7 @@ public class ProductsViewedRepositoryImp extends SharedRepo implements ProductsV
 
     @Override
     public void delete(Integer id) {
-        List<ProductosItem> list = getAll();
+        List<ProductosItem> list = new ArrayList<>(getAll());
 
         Integer deleteId = -1;
 

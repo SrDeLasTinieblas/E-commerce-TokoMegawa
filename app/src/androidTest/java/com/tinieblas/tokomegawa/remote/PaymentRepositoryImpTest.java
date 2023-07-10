@@ -1,15 +1,12 @@
 package com.tinieblas.tokomegawa.remote;
 
-import com.tinieblas.tokomegawa.data.local.PaymentRepositoryImp;
-import com.tinieblas.tokomegawa.data.local.Response;
+import com.tinieblas.tokomegawa.data.remote.PaymentRepositoryImp;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
 import okhttp3.Callback;
-import okhttp3.Request;
-import okhttp3.ResponseBody;
 
 public class PaymentRepositoryImpTest {
 

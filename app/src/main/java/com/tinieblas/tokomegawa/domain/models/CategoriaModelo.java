@@ -1,5 +1,8 @@
 package com.tinieblas.tokomegawa.domain.models;
 
+import androidx.annotation.NonNull;
+
+import com.google.gson.Gson;
 import com.tinieblas.tokomegawa.domain.models.ProductosItem;
 
 import java.util.List;
@@ -37,13 +40,18 @@ public class CategoriaModelo {
         return langName;
     }
 
+//    @Override
+//    public String toString() {
+//        return "Modelo{" +
+//                "langLogo=" + langLogo +
+//                ", langName='" + langName + '\'' +
+//                '}';
+//    }
+
+
+    @NonNull
     @Override
     public String toString() {
-        return "Modelo{" +
-                "langLogo=" + langLogo +
-                ", langName='" + langName + '\'' +
-                '}';
+        return new Gson().toJson(this);
     }
-
-
 }

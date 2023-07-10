@@ -19,8 +19,8 @@ import org.junit.Test;
 import org.junit.runner.manipulation.Ordering;
 
 public class SignUpRepositoryImpTest {
-    String email = "vaeaaaaa@gmail.com";
-    String password = "1234567890";
+    String email = "ucv@gmail.com";
+    String password = "1234ee567890";
 
     SignUpRepositoryImp repository;
 
@@ -38,6 +38,7 @@ public class SignUpRepositoryImpTest {
         boolean isSuccess = result != null && !result.isEmpty();
         assertTrue(isSuccess);
     }
+
     @Test
     public void ordenandoInformacionDelUsuario() {
         String result = repository.ordenandoInformacionDelUsuario(nombre, apellido);

@@ -43,7 +43,6 @@ public class Keys {
                     }
                 }
             } catch (IOException e) {
-                e.printStackTrace();
             }
             return null;
         }

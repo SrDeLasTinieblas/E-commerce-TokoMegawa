@@ -91,7 +91,6 @@ public class SignUpRepositoryImp implements SignUpRepository {
 
                 return authResult.getUser().getUid();
             } catch (Exception exception) {
-                exception.printStackTrace();
                 return exception.toString();
             }
     }
@@ -120,9 +119,7 @@ public class SignUpRepositoryImp implements SignUpRepository {
 
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
-            e.printStackTrace();
         } catch (ExecutionException e) {
-            throw new RuntimeException(e);
         }
 
 

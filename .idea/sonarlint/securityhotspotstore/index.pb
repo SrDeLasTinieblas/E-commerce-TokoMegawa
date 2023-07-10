@@ -94,8 +94,6 @@ P
 Lapp/src/main/java/com/tinieblas/tokomegawa/ui/fragments/SettingFragment.java,b\7\b79a4fd2e0bb52d6eee536a9bc364ca8c0edd408
 z
 Japp/src/main/java/com/tinieblas/tokomegawa/data/local/base/SharedRepo.java,4\7\478457ffcc41bfab0f656cc2a16d67b1c785b9ed
-Ä
-Papp/src/main/java/com/tinieblas/tokomegawa/ui/fragments/RegistrarseFragment.java,a\f\af17235bc92ceecf96586ba06434cdbb7a0060b6
 Ñ
 Tapp/src/main/java/com/tinieblas/tokomegawa/domain/repository/LocationRepository.java,7\9\79f799256655a2382295b013f74b46decf80e7e6
 Å
@@ -114,8 +112,6 @@ Tapp/src/main/java/com/tinieblas/tokomegawa/data/local/ProductSavedRepositoryImp
 Napp/src/androidTest/java/com/tinieblas/tokomegawa/remote/FetchRequestTest.java,b\4\b4e32f15e996bd796c998e2d9eeb4f96e00b84d5
 Ü
 Vapp/src/androidTest/java/com/tinieblas/tokomegawa/remote/FirebaseInstrumentedTest.java,2\4\2408b3c3ffe4575e3b0dfb9067859a410a99924b
-Ñ
-Tapp/src/androidTest/java/com/tinieblas/tokomegawa/remote/LoginRepositoryImpTest.java,d\1\d1be3167db3b7738d96c90a8f2f5b3451e62fceb
 ä
 Zapp/src/main/java/com/tinieblas/tokomegawa/domain/repository/ProductsViewedRepository.java,b\4\b4ad62cbe3555535b157e6f01f5b73d81c9f61d7
 ~
@@ -156,8 +152,6 @@ Lapp/src/main/java/com/tinieblas/tokomegawa/domain/models/ModelohotSales.java,5
 Kapp/src/main/java/com/tinieblas/tokomegawa/domain/models/ModeloUsuario.java,5\8\58fa88f7bfe6aa4396cc4210344e33637cf51eac
 Ç
 Rapp/src/main/java/com/tinieblas/tokomegawa/domain/repository/SignUpRepository.java,3\3\3341e7a04994a220f4d54e02abae81177fdb38e6
-Ö
-Uapp/src/androidTest/java/com/tinieblas/tokomegawa/remote/SignUpRepositoryImpTest.java,e\f\efba76a513771a081a00363f711aae8711ddee29
 å
 \app/src/main/java/com/tinieblas/tokomegawa/domain/repository/respositories/FirebaseData.java,5\8\587ce3916997c4826c8874848cc98a4baddd948b
 Ñ

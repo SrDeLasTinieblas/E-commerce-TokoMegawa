@@ -139,22 +139,9 @@ public class RegistrarseFragment extends Fragment {
                 try {
                     FetchRequest fetchRequest = new FetchRequest();
                     String url = "http://tokomegawa.somee.com/Registrarse";
-                    //RegistroDataModelo registroData = new RegistroDataModelo();
-/*
-                    registroData.setApellidos("Apellidos de ejemplo");
-                    registroData.setTelefono("123456789");
-                    registroData.setTipoDocumento("DNI");
-                    registroData.setNumDocumento("12345678");
-                    registroData.setContrasena("codsena123");
-                    registroData.setIUD("Iuuuuuudo");
-                    registroData.setCorreoElectronico("1111111@example.com");
-                    registroData.setDepartamento("Lima");
-                    registroData.setProvincia("Lima");
-                    registroData.setDistrito("SMPwsfcdwfcdwcorres");
-*/
+
                     return fetchRequest.fetchRegistro(url, registroData);
                 } catch (IOException e) {
-                    e.printStackTrace();
                     return null;
                 }
             }

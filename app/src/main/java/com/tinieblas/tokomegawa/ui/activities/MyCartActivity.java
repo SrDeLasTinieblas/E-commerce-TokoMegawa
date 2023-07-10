@@ -32,7 +32,6 @@ import com.stripe.android.PaymentConfiguration;
 import com.stripe.android.paymentsheet.PaymentSheet;
 import com.stripe.android.paymentsheet.PaymentSheetResult;
 import com.tinieblas.tokomegawa.Constants;
-import com.tinieblas.tokomegawa.data.APIs;
 import com.tinieblas.tokomegawa.data.local.LocationRepositoryImp;
 import com.tinieblas.tokomegawa.data.local.ProductCartRepositoryImp;
 import com.tinieblas.tokomegawa.data.local.UserLocalRepositoryImp;
@@ -104,7 +103,6 @@ public class MyCartActivity extends AppCompatActivity {
             // Inicializar PaymentConfiguration
             PaymentConfiguration.init(this, apiKey);
         } catch (IOException e) {
-            e.printStackTrace();
         }
 
         // Crear la instancia de PaymentSheet después de registrar el resultado de la actividad
@@ -144,23 +142,6 @@ public class MyCartActivity extends AppCompatActivity {
             }
         });
 
-
-        /**Properties properties = new Properties();
-        try (InputStream inputStream = context.getAssets().open("api.properties")) {
-            properties.load(inputStream);
-            String apiKeyPublica = properties.getProperty("apikey.stripe_publica");
-            String apiKeySecreta = properties.getProperty("apikey.stripe_secreta");
-            Log.e("apiKeySecreta", apiKeySecreta);
-            Log.e("apiKeyPublica", apiKeyPublica);
-            createCustomer(apiKeySecreta);
-            PaymentConfiguration.init(this, apiKeyPublica);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
-
-
-        //
-
     }
 
     private void createCustomer(String secreta) {
@@ -171,12 +152,9 @@ public class MyCartActivity extends AppCompatActivity {
                     try {
                         JSONObject jsonObject = new JSONObject(response.body().string());
                         String customerID = jsonObject.getString("id");
-                        getEphericalKey(customerID);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                        getEphericalKey(customerID, secreta);
+                    } catch (JSONException ignored) {
                     }
-                } else {
-                    // Error en la solicitud
                 }
             }
 
@@ -188,17 +166,17 @@ public class MyCartActivity extends AppCompatActivity {
 
     }
 
-    private void getEphericalKey(String customerID) {
-        paymentRepository.getEphericalKey(APIs.API_KEY_STRIPE_SECRETA, customerID, new Callback() {
+    private void getEphericalKey(String customerID, String secreta) {
+
+        paymentRepository.getEphericalKey(secreta, customerID, new Callback() {
             @Override
             public void onResponse(@NonNull Call call, @NonNull okhttp3.Response response) throws IOException {
                 if (response.isSuccessful()) {
                     try {
                         JSONObject jsonObject = new JSONObject(response.body().string());
                         String ephericalKey = jsonObject.getString("id");
-                        getClientSecret(customerID, ephericalKey);
+                        getClientSecret(customerID, ephericalKey, secreta);
                     } catch (JSONException e) {
-                        e.printStackTrace();
                     }
                 } else {
                     // Error en la solicitud
@@ -222,8 +200,8 @@ public class MyCartActivity extends AppCompatActivity {
         return  parteEntera.replace("S/ ", "") + "" + centavos;
     }
 
-    private void getClientSecret(String customerID, String ephericalKey) {
-        paymentRepository.getClientSecret(partirPrecio(), APIs.API_KEY_STRIPE_SECRETA, customerID,
+    private void getClientSecret(String customerID, String ephericalKey, String secreta) {
+        paymentRepository.getClientSecret(partirPrecio(), secreta, customerID,
                 new Callback() {
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
@@ -233,7 +211,6 @@ public class MyCartActivity extends AppCompatActivity {
                         String clientSecret = jsonObject.getString("client_secret");
                         PaymentFlow(clientSecret, customerID, ephericalKey);
                     } catch (JSONException e) {
-                        e.printStackTrace();
                     }
                 }
 
@@ -410,7 +387,6 @@ public class MyCartActivity extends AppCompatActivity {
         try {
             addresses = geocoder.getFromLocation(latitud, longitud, 1);
         } catch (IOException e) {
-            e.printStackTrace();
             return;
         }
 

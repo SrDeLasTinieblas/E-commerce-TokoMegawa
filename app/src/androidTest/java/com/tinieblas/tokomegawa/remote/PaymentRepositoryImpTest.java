@@ -1,6 +1,5 @@
 package com.tinieblas.tokomegawa.remote;
 
-import com.tinieblas.tokomegawa.data.remote.PaymentRepositoryImp;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -10,12 +9,12 @@ import okhttp3.Callback;
 
 public class PaymentRepositoryImpTest {
 
-    private PaymentRepositoryImp paymentRepository;
+    private PaymentRepositoryImpTest paymentRepository;
     private Callback mockCallback;
 
     @Before
     public void setup() {
-        paymentRepository = new PaymentRepositoryImp();
+        paymentRepository = new PaymentRepositoryImpTest();
         //mockCallback = Mockito.mock(Callback.class);
     }
 

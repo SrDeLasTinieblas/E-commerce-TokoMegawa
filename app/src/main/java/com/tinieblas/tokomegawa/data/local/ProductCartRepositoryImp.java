@@ -1,7 +1,6 @@
 package com.tinieblas.tokomegawa.data.local;
 
 import android.content.Context;
-import android.widget.Toast;
 
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
@@ -62,12 +61,12 @@ public class ProductCartRepositoryImp extends SharedRepo implements ProductCartR
             }
 
         }
+        int delete = Integer.parseInt(String.valueOf(deleteId));
 
-        if (deleteId != -1) {
-            list.remove(deleteId);
+        if (deleteId >= 0 && deleteId < list.size()) {
+            list.remove(delete);
         }
         insertAll(list);
-
     }
 
     @Override

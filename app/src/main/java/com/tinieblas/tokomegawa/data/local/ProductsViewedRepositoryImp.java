@@ -69,9 +69,10 @@ public class ProductsViewedRepositoryImp extends SharedRepo implements ProductsV
             }
 
         }
+        int delete = Integer.parseInt(String.valueOf(deleteId));
 
         if (deleteId != -1) {
-            list.remove(deleteId);
+            list.remove(delete);
         }
         insertAll(list);
 

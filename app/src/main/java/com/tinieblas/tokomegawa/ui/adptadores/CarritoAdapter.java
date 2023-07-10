@@ -159,6 +159,7 @@ public class CarritoAdapter extends RecyclerView.Adapter<CarritoAdapter.ViewHold
     }
 
 
+    @SuppressLint("SetTextI18n")
     public void calcularSubTotal() {
         double subTotal = 0;
         for (ProductosItem producto : differ.getCurrentList()) {
@@ -173,6 +174,7 @@ public class CarritoAdapter extends RecyclerView.Adapter<CarritoAdapter.ViewHold
 
     }
 
+    @SuppressLint("SetTextI18n")
     public void calcularTotal() {
         double subTotal = 0;
         for (ProductosItem producto : differ.getCurrentList()) {
@@ -191,7 +193,7 @@ public class CarritoAdapter extends RecyclerView.Adapter<CarritoAdapter.ViewHold
         // Calcula el total sumando el subtotal con descuento y el monto de entrega
         double total = subtotalConDescuento + delivery;
 
-        BigDecimal bd = new BigDecimal(total).setScale(2, RoundingMode.HALF_UP);
+        BigDecimal bd = BigDecimal.valueOf(total).setScale(2, RoundingMode.HALF_UP);
         double roundedPrice = bd.doubleValue();
         // Actualiza el valor en el adaptador en lugar de actualizar directamente el TextView
         textTotal.setText("S/. " + roundedPrice);

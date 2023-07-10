@@ -11,6 +11,9 @@ public class PaymentRepositoryImp implements PaymentRepository {
     private final OkHttpClient client;
     private final String name = "Authorization";
     private final String value = "Bearer";
+
+
+
     public PaymentRepositoryImp() {
         client = new OkHttpClient();
     }
@@ -21,7 +24,7 @@ public class PaymentRepositoryImp implements PaymentRepository {
 
         Request request = new Request.Builder()
                 .url("https://api.stripe.com/v1/customers")
-                .addHeader(name, value + apiKeySecreta)
+                .addHeader(name, value + " "+ apiKeySecreta)
                 .post(requestBody)
                 .build();
 
@@ -36,7 +39,7 @@ public class PaymentRepositoryImp implements PaymentRepository {
 
         Request request = new Request.Builder()
                 .url("https://api.stripe.com/v1/ephemeral_keys")
-                .addHeader(name, value + apiKeySecreta)
+                .addHeader(name, value + " "+ apiKeySecreta)
                 .addHeader("Stripe-Version", "2020-08-27")
                 .post(requestBody)
                 .build();
@@ -55,7 +58,7 @@ public class PaymentRepositoryImp implements PaymentRepository {
 
         Request request = new Request.Builder()
                 .url("https://api.stripe.com/v1/payment_intents")
-                .addHeader(name, value + apiKeySecreta)
+                .addHeader(name, value + " "+ apiKeySecreta)
                 .post(requestBody)
                 .build();
 

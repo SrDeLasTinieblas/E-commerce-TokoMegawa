@@ -34,25 +34,29 @@ import com.stripe.android.paymentsheet.PaymentSheetResult;
 import com.tinieblas.tokomegawa.Constants;
 import com.tinieblas.tokomegawa.data.APIs;
 import com.tinieblas.tokomegawa.data.local.LocationRepositoryImp;
-import com.tinieblas.tokomegawa.data.remote.PaymentRepositoryImp;
 import com.tinieblas.tokomegawa.data.local.ProductCartRepositoryImp;
 import com.tinieblas.tokomegawa.data.local.UserLocalRepositoryImp;
+import com.tinieblas.tokomegawa.data.remote.PaymentRepositoryImp;
 import com.tinieblas.tokomegawa.databinding.ActivityMyCartBinding;
 import com.tinieblas.tokomegawa.domain.models.LocationData;
 import com.tinieblas.tokomegawa.domain.models.ProductosItem;
 import com.tinieblas.tokomegawa.domain.repository.PaymentRepository;
 import com.tinieblas.tokomegawa.ui.adptadores.CarritoAdapter;
+import com.tinieblas.tokomegawa.utils.Keys;
 import com.tinieblas.tokomegawa.utils.NavigationContent;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+import java.util.Properties;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -93,9 +97,15 @@ public class MyCartActivity extends AppCompatActivity {
         //obtenerProductosDelCarrito(); // Llamar a la función para mostrar las tarjetas del carrito
         initViews(); // Configurar el RecyclerView
 
-
-        // Inicializar PaymentConfiguration
-        PaymentConfiguration.init(this, APIs.API_KEY_STRIPE_PUBLICA);
+        Properties properties = new Properties();
+        try (InputStream inputStream = context.getAssets().open("api.properties")) {
+            properties.load(inputStream);
+            String apiKey = properties.getProperty("apikey.stripe_publica");
+            // Inicializar PaymentConfiguration
+            PaymentConfiguration.init(this, apiKey);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         // Crear la instancia de PaymentSheet después de registrar el resultado de la actividad
         paymentSheet = new PaymentSheet(MyCartActivity.this, this::onPaymentResult);
@@ -110,14 +120,51 @@ public class MyCartActivity extends AppCompatActivity {
     // Función para realizar la compra
     public void Shopping(View view) {
         paymentRepository = new PaymentRepositoryImp();
-        createCustomer();
-        // Inicializar PaymentConfiguration
-        PaymentConfiguration.init(this, APIs.API_KEY_STRIPE_PUBLICA);
+
+        Keys keys = new Keys();
+        List<String> llaves = Arrays.asList("apikey.stripe_publica", "apikey.stripe_secreta");
+        keys.loadKeysAsync(context, llaves, new Keys.KeysLoadListener() {
+            @Override
+            public void onPublicKeyLoaded(String publicKey) {
+                // Aquí puedes realizar las operaciones que requieren la clave pública cargada
+                // Ejemplo: Inicializar la configuración de Stripe con la clave pública cargada
+                PaymentConfiguration.init(context, publicKey);
+            }
+
+            @Override
+            public void onSecretKeyLoaded(String secretKey) {
+                // Aquí puedes realizar las operaciones que requieren la clave secreta cargada
+                // Ejemplo: Utilizar la clave secreta para operaciones seguras
+                createCustomer(secretKey);
+            }
+
+            @Override
+            public void onKeysLoadFailed() {
+                // Aquí puedes manejar el caso de falla en la carga de las claves
+            }
+        });
+
+
+        /**Properties properties = new Properties();
+        try (InputStream inputStream = context.getAssets().open("api.properties")) {
+            properties.load(inputStream);
+            String apiKeyPublica = properties.getProperty("apikey.stripe_publica");
+            String apiKeySecreta = properties.getProperty("apikey.stripe_secreta");
+            Log.e("apiKeySecreta", apiKeySecreta);
+            Log.e("apiKeyPublica", apiKeyPublica);
+            createCustomer(apiKeySecreta);
+            PaymentConfiguration.init(this, apiKeyPublica);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }*/
+
+
+        //
 
     }
 
-    private void createCustomer() {
-        paymentRepository.createCustomer(APIs.API_KEY_STRIPE_SECRETA, new Callback() {
+    private void createCustomer(String secreta) {
+        paymentRepository.createCustomer(secreta, new Callback() {
             @Override
             public void onResponse(@NonNull Call call, @NonNull okhttp3.Response response) throws IOException {
                 if (response.isSuccessful()) {
@@ -138,6 +185,7 @@ public class MyCartActivity extends AppCompatActivity {
                 // Error en la comunicación
             }
         });
+
     }
 
     private void getEphericalKey(String customerID) {

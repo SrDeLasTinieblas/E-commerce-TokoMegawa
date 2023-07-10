@@ -27,7 +27,6 @@ public class UserRemoteRemoteRepositoryImp implements UserRemoteRepository {
     // Creamos la funcion para guardar los datos
     @Override
     public String getUser() {
-        //final String[] apellidos = new String[1];
         try {
             // Llamamos a la funcion para definir firebase
             definingFirebase();
@@ -71,12 +70,6 @@ public class UserRemoteRemoteRepositoryImp implements UserRemoteRepository {
     public String getCurrentUserId() {
         return mAuth.getCurrentUser().getUid();
     }
-
-
-
-
-
-
 
 
 }

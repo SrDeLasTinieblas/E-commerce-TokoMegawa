@@ -40,15 +40,6 @@ public class CategoriaModelo {
         return langName;
     }
 
-//    @Override
-//    public String toString() {
-//        return "Modelo{" +
-//                "langLogo=" + langLogo +
-//                ", langName='" + langName + '\'' +
-//                '}';
-//    }
-
-
     @NonNull
     @Override
     public String toString() {

@@ -21,7 +21,6 @@ public class AuthenticationActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //getWindow().getDecorView().setSystemUiVisibility(hideSystemBar());
         decorView = getWindow().getDecorView();
         getWindow().getDecorView().setSystemUiVisibility(hideMenu.hideSystemBar(decorView));
 
@@ -41,6 +40,5 @@ public class AuthenticationActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         finish();
-        //super.onBackPressed();
     }
 }

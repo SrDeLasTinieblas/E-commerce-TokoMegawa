@@ -16,9 +16,9 @@ import java.util.Map;
 
 public class ProductsViewedRepositoryImp extends SharedRepo implements ProductsViewedRepository {
 
-    private final static String NAME = "productos_vistos";
+    private static final String NAME = "productos_vistos";
 
-    private String KEY_LIST = "lista_productos_vistos";
+    private final String KEY_LIST = "lista_productos_vistos";
     public ProductsViewedRepositoryImp(Context context) {
         super(context, NAME);
     }
@@ -39,11 +39,7 @@ public class ProductsViewedRepositoryImp extends SharedRepo implements ProductsV
             productosMap.put(item.getIdProducto(), item);
         }
 
-        // Obtener la lista única de elementos del mapa
-        List<ProductosItem> listaUnica = new ArrayList<>(productosMap.values());
-
-        return listaUnica;
-        //return listaProductosItems;
+        return new ArrayList<>(productosMap.values());
     }
 
     @Override

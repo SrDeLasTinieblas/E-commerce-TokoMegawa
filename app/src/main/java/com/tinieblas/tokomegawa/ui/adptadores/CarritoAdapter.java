@@ -92,7 +92,7 @@ public class CarritoAdapter extends RecyclerView.Adapter<CarritoAdapter.ViewHold
 
         public void bind(ProductosItem carrito) {
             double totalPrice = carrito.getPrecioUnitario() * carrito.getAmount();
-            BigDecimal bd = new BigDecimal(totalPrice).setScale(2, RoundingMode.HALF_UP);
+            BigDecimal bd = BigDecimal.valueOf(totalPrice).setScale(2, RoundingMode.HALF_UP);
             double roundedPrice = bd.doubleValue();
 
             binding.textTituloCarrito.setText(carrito.getNombreProducto());
@@ -155,7 +155,6 @@ public class CarritoAdapter extends RecyclerView.Adapter<CarritoAdapter.ViewHold
     }
 
     private void calcularDescuento() {
-
         textDescuento.setText("5%");
     }
 
@@ -165,10 +164,9 @@ public class CarritoAdapter extends RecyclerView.Adapter<CarritoAdapter.ViewHold
         for (ProductosItem producto : differ.getCurrentList()) {
             double precio = producto.getPrecioUnitario() * producto.getAmount();
             subTotal += precio;
-            //Toast.makeText(mContext, "amount " + producto.getAmount(), Toast.LENGTH_SHORT).show();
         }
 
-        BigDecimal bd = new BigDecimal(subTotal).setScale(2, RoundingMode.HALF_UP);
+        BigDecimal bd = BigDecimal.valueOf(subTotal).setScale(2, RoundingMode.HALF_UP);
         double roundedPrice = bd.doubleValue();
         // Actualiza el valor en el adaptador en lugar de actualizar directamente el TextView
         textSubTotal.setText("S/. " + roundedPrice);
@@ -179,7 +177,6 @@ public class CarritoAdapter extends RecyclerView.Adapter<CarritoAdapter.ViewHold
         double subTotal = 0;
         for (ProductosItem producto : differ.getCurrentList()) {
             double precio = producto.getPrecioUnitario() * producto.getAmount();
-            //Toast.makeText(mContext, "amount " + producto.getAmount(), Toast.LENGTH_SHORT).show();
             subTotal += precio;
         }
 
@@ -219,32 +216,24 @@ public class CarritoAdapter extends RecyclerView.Adapter<CarritoAdapter.ViewHold
 
     @SuppressLint("SetTextI18n")
     public void borrarUnProductoDelCarrito(ProductosItem producto) {
-        // Obtén la lista actual de productos en el carrito
         List<ProductosItem> carrito = new ArrayList<>(differ.getCurrentList());
 
-        // Elimina el producto de la lista
         carrito.remove(producto);
 
         if (carrito.isEmpty()) {
-            // El carrito está vacío
             setCarrito(new ArrayList<>());
             Toast.makeText(mContext, "El carrito está vacío", Toast.LENGTH_SHORT).show();
         } else {
-            // El carrito todavía tiene productos
             setCarrito(carrito);
         }
 
-        // Guarda el carrito actualizado en SharedPreferences
         repository.insertAll(carrito);
 
-
-        // Actualiza la lista y el subtotal en el adaptador
         setCarrito(carrito);
         calcularSubTotal();
         calcularTotal();
         calcularDescuento();
 
-        // Muestra un mensaje de confirmación
         Toast.makeText(mContext, "Producto eliminado del carrito", Toast.LENGTH_SHORT).show();
     }
 

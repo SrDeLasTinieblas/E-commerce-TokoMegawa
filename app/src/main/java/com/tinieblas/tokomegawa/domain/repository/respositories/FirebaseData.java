@@ -16,8 +16,6 @@ public class FirebaseData {
     FirebaseAuth mAuth;
     FirebaseDatabase database;
     String name;
-    String apellidos;
-    //private final FirebaseData firebaseData = new FirebaseData();
 
     // Creamos la funcion para guardar los datos
     public void getDataUser(EventListener<DocumentSnapshot> listener) {
@@ -33,15 +31,12 @@ public class FirebaseData {
         }
     }
 
-    public void uploadDataFireBase(Context context) {
+    public void uploadDataFireBase() {
         FirebaseData firebaseData = new FirebaseData();
-        firebaseData.getDataUser( new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(DocumentSnapshot value, FirebaseFirestoreException error) {
-                firebaseFirestore = FirebaseFirestore.getInstance();
-                // Recuperamos nombre
-                name = value.getString("nombres");
-            }
+        firebaseData.getDataUser((value, error) -> {
+            firebaseFirestore = FirebaseFirestore.getInstance();
+
+            name = value.getString("nombres");
         });
     }
 

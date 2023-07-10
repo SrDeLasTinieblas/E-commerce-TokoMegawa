@@ -28,11 +28,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.stripe.android.GooglePayJsonFactory;
 import com.stripe.android.PaymentConfiguration;
-import com.stripe.android.model.PaymentMethod;
 import com.stripe.android.paymentsheet.PaymentSheet;
 import com.stripe.android.paymentsheet.PaymentSheetResult;
+import com.tinieblas.tokomegawa.Constants;
 import com.tinieblas.tokomegawa.data.APIs;
 import com.tinieblas.tokomegawa.data.local.LocationRepositoryImp;
 import com.tinieblas.tokomegawa.data.remote.PaymentRepositoryImp;
@@ -65,14 +64,13 @@ public class MyCartActivity extends AppCompatActivity {
     private ActivityMyCartBinding activityMyCartBinding;
     private CarritoAdapter mCarritoAdapter;
     private List<ProductosItem> carritoList = new ArrayList<>();
-    private FirebaseFirestore mFirestore;
-    private static final int CODIGO_PERMISOS_UBICACION = 1;
+
     private ProductCartRepositoryImp productCartRepository;
     private LocationRepositoryImp locationRepository;
     private UserLocalRepositoryImp userLocalRepository;
     private PaymentRepository paymentRepository;
     private PaymentSheet paymentSheet;
-
+    FirebaseFirestore mFirestore;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,7 +95,7 @@ public class MyCartActivity extends AppCompatActivity {
 
 
         // Inicializar PaymentConfiguration
-        PaymentConfiguration.init(this, APIs.apiKeyStripePublica);
+        PaymentConfiguration.init(this, APIs.API_KEY_STRIPE_PUBLICA);
 
         // Crear la instancia de PaymentSheet después de registrar el resultado de la actividad
         paymentSheet = new PaymentSheet(MyCartActivity.this, this::onPaymentResult);
@@ -112,21 +110,21 @@ public class MyCartActivity extends AppCompatActivity {
     // Función para realizar la compra
     public void Shopping(View view) {
         paymentRepository = new PaymentRepositoryImp();
-        createCustomer(APIs.apiKeyStripeSecreta);
+        createCustomer();
         // Inicializar PaymentConfiguration
-        PaymentConfiguration.init(this, APIs.apiKeyStripePublica);
+        PaymentConfiguration.init(this, APIs.API_KEY_STRIPE_PUBLICA);
 
     }
 
-    private void createCustomer(String apiKeySecreta) {
-        paymentRepository.createCustomer(apiKeySecreta, new Callback() {
+    private void createCustomer() {
+        paymentRepository.createCustomer(APIs.API_KEY_STRIPE_SECRETA, new Callback() {
             @Override
             public void onResponse(@NonNull Call call, @NonNull okhttp3.Response response) throws IOException {
                 if (response.isSuccessful()) {
                     try {
                         JSONObject jsonObject = new JSONObject(response.body().string());
                         String customerID = jsonObject.getString("id");
-                        getEphericalKey(apiKeySecreta, customerID);
+                        getEphericalKey(customerID);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -142,15 +140,15 @@ public class MyCartActivity extends AppCompatActivity {
         });
     }
 
-    private void getEphericalKey(String apiKeySecreta, String customerID) {
-        paymentRepository.getEphericalKey(apiKeySecreta, customerID, new Callback() {
+    private void getEphericalKey(String customerID) {
+        paymentRepository.getEphericalKey(APIs.API_KEY_STRIPE_SECRETA, customerID, new Callback() {
             @Override
             public void onResponse(@NonNull Call call, @NonNull okhttp3.Response response) throws IOException {
                 if (response.isSuccessful()) {
                     try {
                         JSONObject jsonObject = new JSONObject(response.body().string());
                         String ephericalKey = jsonObject.getString("id");
-                        getClientSecret(apiKeySecreta, customerID, ephericalKey);
+                        getClientSecret(customerID, ephericalKey);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -165,9 +163,20 @@ public class MyCartActivity extends AppCompatActivity {
         });
     }
 
-    private void getClientSecret(String apiKeySecreta, String customerID, String ephericalKey) {
-        paymentRepository.getClientSecret(apiKeySecreta, customerID, new Callback() {
+    private String partirPrecio() {
+        String textoTotal = activityMyCartBinding.textTotal.getText().toString();
+        String[] partes = textoTotal.split("\\.");
+        String parteEntera = partes[0];
+        String centavos = partes[1];
 
+        Log.e("precioClientSecret: ", textoTotal);
+
+        return  parteEntera.replace("S/ ", "") + "" + centavos;
+    }
+
+    private void getClientSecret(String customerID, String ephericalKey) {
+        paymentRepository.getClientSecret(partirPrecio(), APIs.API_KEY_STRIPE_SECRETA, customerID,
+                new Callback() {
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 if (response.isSuccessful()) {
@@ -178,7 +187,7 @@ public class MyCartActivity extends AppCompatActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                }  // Error en la solicitud
+                }
 
             }
 
@@ -189,29 +198,10 @@ public class MyCartActivity extends AppCompatActivity {
         });
     }
 
-    /**private void PaymentFlow(String clientSecret, String customerID, String ephericalKey) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                // Resto del código...
-
-                paymentSheet.presentWithPaymentIntent(
-                        clientSecret,
-                        new PaymentSheet.Configuration("TokoMegawa INC",
-                                new PaymentSheet.CustomerConfiguration(
-                                        customerID,
-                                        ephericalKey
-                                ))
-                );
-            }
-        });
-    }*/
     private void PaymentFlow(String clientSecret, String customerID, String ephericalKey) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                // Resto del código...
-
                 paymentSheet.presentWithPaymentIntent(
                         clientSecret,
                         new PaymentSheet.Configuration("TokoMegawa INC",
@@ -284,7 +274,6 @@ public class MyCartActivity extends AppCompatActivity {
     private void setupSharedPreferences() {
         String UID = userLocalRepository.getCurrentUserId();
 
-        //getNombreUser(UID);
         System.out.println("my cart UID ===>" + UID);
     }
 
@@ -303,15 +292,8 @@ public class MyCartActivity extends AppCompatActivity {
                 | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
     }
     public void BorrarTodosLosProductosDelCarrito(View view) {
-        // Configurar la animación de Lottie y ejecutarla
-        //animationView.setAnimation(R.raw.loading_animation);
-        //animationView.playAnimation();
-
-        // Borrar los productos del carrito y volver a cargar el adaptador
         clearSharedPreferences();
 
-
-        // Detener y ocultar la animación después de un tiempo (por ejemplo, 2 segundos)
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -338,7 +320,7 @@ public class MyCartActivity extends AppCompatActivity {
             // Si no se han otorgado los permisos, solicitarlos al usuario
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                    CODIGO_PERMISOS_UBICACION);
+                    Constants.CODIGO_PERMISOS_UBICACION);
         }
     }
 
@@ -351,8 +333,8 @@ public class MyCartActivity extends AppCompatActivity {
                 locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
 
             // Obtener la última ubicación conocida del usuario
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
-                    ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
+                    ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
 
                 Location lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
@@ -395,19 +377,14 @@ public class MyCartActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == CODIGO_PERMISOS_UBICACION) {
+        if (requestCode == Constants.CODIGO_PERMISOS_UBICACION) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // Permiso de ubicación otorgado
-                try {
-                    Thread.sleep(2000);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
                 obtenerUbicacion();
             } else {
-                Toast.makeText(context, "Es necesario su ubicación para poder enviarle el producto", Toast.LENGTH_SHORT).show();
                 // Permiso de ubicación denegado
-                // Realizar acciones adicionales o mostrar un mensaje al usuario
+                Toast.makeText(context, "Es necesario su ubicación para poder enviarle el producto", Toast.LENGTH_SHORT).show();
+
             }
         }
     }
@@ -439,8 +416,8 @@ public class MyCartActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
-        getLocation();
         super.onResume();
+        getLocation();
     }
 
     @SuppressLint("SetTextI18n")
@@ -451,7 +428,7 @@ public class MyCartActivity extends AppCompatActivity {
 
         if (!TextUtils.isEmpty(departamentoGuardada) && !TextUtils.isEmpty(distritoGuardado)) {
             if (departamentoGuardada.contains("Provincia de ")) {
-                departamentoGuardada = departamentoGuardada.replaceAll("Provincia de ", "");
+                departamentoGuardada = departamentoGuardada.replace("Provincia de ", "");
             }
             activityMyCartBinding.Departamento.setText(departamentoGuardada + ",");
             activityMyCartBinding.Distrito.setText(distritoGuardado);
@@ -469,7 +446,6 @@ public class MyCartActivity extends AppCompatActivity {
 
         mostrarCardsCarrito(listaProductosItems);
         mCarritoAdapter.setCarrito(listaProductosItems);
-        //Toast.makeText(context, ""+listaProductosItems, Toast.LENGTH_SHORT).show();
 
         calcularSubTotal();
         calcularTotal();
@@ -534,9 +510,8 @@ public class MyCartActivity extends AppCompatActivity {
                 subTotal += precio;
             }
 
-            // Calcula el descuento y el monto de entrega
-            double descuento = 10.0; // Ejemplo: 10% de descuento
-            double delivery = 5.0; // Ejemplo: S/. 5 de entrega
+            double descuento = 10.0;
+            double delivery = 5.0;
 
             // Aplica el descuento al subtotal
             double descuentoAmount = subTotal * (descuento / 100);
@@ -545,11 +520,10 @@ public class MyCartActivity extends AppCompatActivity {
             // Calcula el total sumando el subtotal con descuento y el monto de entrega
             double total = subtotalConDescuento + delivery;
 
-            BigDecimal bd = new BigDecimal(total).setScale(2, RoundingMode.HALF_UP);
+            BigDecimal bd = BigDecimal.valueOf(total).setScale(2, RoundingMode.HALF_UP);
             double roundedPrice = bd.doubleValue();
             activityMyCartBinding.textTotal.setText("S/ " + String.format(Locale.getDefault(), "%.2f", roundedPrice));
-            //Log.d("cantidad: ", carritoList.toString());
-            //Toast.makeText(context, "==> "+ carritoList.toString(), Toast.LENGTH_SHORT).show();
+
         } else {
             // La lista está vacía o nula, realiza alguna acción o muestra un mensaje adecuado
             activityMyCartBinding.textTotal.setText("S/ 0.00");

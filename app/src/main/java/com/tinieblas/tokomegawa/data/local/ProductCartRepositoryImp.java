@@ -15,11 +15,8 @@ import java.util.List;
 
 
 public class ProductCartRepositoryImp extends SharedRepo implements ProductCartRepository {
-
-
-    private final static String NAME = "productos_carrito";
-    private String KEY_LIST = "lista_productos_carrito";
-
+    private static final String NAME = "productos_carrito";
+    private static final String KEY_LIST = "lista_productos_carrito";
 
     public ProductCartRepositoryImp(Context context) {
         super(context, NAME);
@@ -35,14 +32,12 @@ public class ProductCartRepositoryImp extends SharedRepo implements ProductCartR
         Type type = new TypeToken<List<ProductosItem>>() {
         }.getType();
 
-        List<ProductosItem> listaProductosItems = gson.fromJson(listaProductosJson, type);
-        return listaProductosItems;
+        return gson.fromJson(listaProductosJson, type);
     }
 
     @Override
     public void insertAll(List<ProductosItem> list) {
-        Gson gson = new Gson();
-        String carritoJson = gson.toJson(list);
+        String carritoJson = new Gson().toJson(list);
         putString(KEY_LIST, carritoJson);
     }
 

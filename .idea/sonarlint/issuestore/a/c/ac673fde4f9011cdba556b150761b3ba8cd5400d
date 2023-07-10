@@ -1,25 +1,0 @@
-
-C
-java:S16040"(Make this anonymous inner class a lambda(·­íüÿÿÿÿ
-q	java:S116"WRename this field "ListProducts" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(½°Õ˜şÿÿÿÿ
-Q	java:S125"<This block of commented-out lines of code should be removed.(µ‡±À
-V	java:S125"<This block of commented-out lines of code should be removed.(¹­­Úúÿÿÿÿ
-W
-java:S1854%"<Remove this useless assignment to local variable "rootView".(µ××ùÿÿÿÿ
-V	java:S125"<This block of commented-out lines of code should be removed.(²¼ãÇúÿÿÿÿ
-H
-java:S1481%"-Remove this unused "rootView" local variable.(µ××ùÿÿÿÿ
-Q
-java:S2209*"5Change this instance-reference to a static reference.(…Úí8¢ Ôİ1
-V	java:S125,"<This block of commented-out lines of code should be removed.(ş»¿çøÿÿÿÿ
-V	java:S1254"<This block of commented-out lines of code should be removed.(ˆÕ“´ÿÿÿÿÿ
-P	java:S1259"<This block of commented-out lines of code should be removed.(ÜÂÆ)
-Q	java:S125="<This block of commented-out lines of code should be removed.(³²©­
-V	java:S125?"<This block of commented-out lines of code should be removed.(êİ Âıÿÿÿÿ
-Q	java:S125J"<This block of commented-out lines of code should be removed.(š¹ü‚
-V	java:S125N"<This block of commented-out lines of code should be removed.(ĞÓ¼äüÿÿÿÿ
-Q	java:S125S"<This block of commented-out lines of code should be removed.(¤åñ¼
-Q	java:S125Z"<This block of commented-out lines of code should be removed.( Âà›
-W	java:S125ˆ"<This block of commented-out lines of code should be removed.(ÚÇ‘³ıÿÿÿÿ
-Q	java:S125Š"<This block of commented-out lines of code should be removed.(ÕŒÉP
-R	java:S125"<This block of commented-out lines of code should be removed.(úÎüâ

@@ -6,16 +6,11 @@ import com.tinieblas.tokomegawa.data.local.base.SharedRepo;
 import com.tinieblas.tokomegawa.domain.repository.UserLocalRepository;
 
 public class UserLocalRepositoryImp extends SharedRepo implements UserLocalRepository {
-
-
     private static final String NAME = "dataUser";
-    private String KEY_USER_ID = "userUid";
-    private String KEY_NOMBRE = "name";
-    private String KEY_APELLIDO = "apellido";
+    private static final String KEY_USER_ID = "userUid";
+    private static final String KEY_NOMBRE = "name";
+    private static final String KEY_APELLIDO = "apellido";
 
-/**    private final static String NAME = "MiUbicacion";
-
-*/
     public UserLocalRepositoryImp(Context context) {
         super(context, NAME);
     }
@@ -27,8 +22,7 @@ public class UserLocalRepositoryImp extends SharedRepo implements UserLocalRepos
 
     @Override
     public String getCurrentUserId() {
-        String UID = getString(KEY_USER_ID);
-        return UID;
+        return getString(KEY_USER_ID);
     }
     @Override
     public void saveInfoUser(String name, String apellido) {

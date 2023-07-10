@@ -8,11 +8,9 @@ import com.tinieblas.tokomegawa.domain.repository.LocationRepository;
 
 public class LocationRepositoryImp extends SharedRepo implements LocationRepository {
 
-
-    private final static String NAME = "MiUbicacion";
-
-    private String KEY_DISTRICT = "distrito";
-    private String KEY_DEPARTMENT = "departamento";
+    private static final String NAME = "MiUbicacion";
+    private static final String KEY_DISTRICT = "distrito";
+    private static final String KEY_DEPARTMENT = "departamento";
 
     public LocationRepositoryImp(Context context) {
         super(context, NAME);

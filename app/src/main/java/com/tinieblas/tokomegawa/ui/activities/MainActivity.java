@@ -18,17 +18,14 @@ import com.tinieblas.tokomegawa.data.remote.LoginRepositoryImp;
 import com.tinieblas.tokomegawa.domain.models.FireBaseModel;
 import com.tinieblas.tokomegawa.ui.fragments.HomeFragment;
 import com.tinieblas.tokomegawa.ui.fragments.HotSalesFragment;
-import com.tinieblas.tokomegawa.ui.fragments.MyCartFragment;
 import com.tinieblas.tokomegawa.ui.fragments.SettingFragment;
-import com.tinieblas.tokomegawa.ui.fragments.iLoveFragment;
 import com.tinieblas.tokomegawa.utils.BottomSheetDialog;
 import com.tinieblas.tokomegawa.utils.NavigationContent;
 import com.tinieblas.tokomegawa.utils.hideMenu;
 
 public class MainActivity extends AppCompatActivity implements /*RecyclerViewInterface, */View.OnClickListener {
-    private View decorView;
-    private LoginRepositoryImp repository;
 
+    private LoginRepositoryImp repository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,17 +33,10 @@ public class MainActivity extends AppCompatActivity implements /*RecyclerViewInt
         setContentView(R.layout.activity_main);
         repository = new LoginRepositoryImp();
         // Ocultar barra de navegación y barra de estado
+        View decorView;
         decorView = getWindow().getDecorView();
         getWindow().getDecorView().setSystemUiVisibility(hideMenu.hideSystemBar(decorView));
-
-        try {
-            getDataFireBase();
-        } catch (Exception e) {
-            Log.e("Error", e.toString());
-        }
-
     }
-
 
     private void replaceFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -56,16 +46,8 @@ public class MainActivity extends AppCompatActivity implements /*RecyclerViewInt
         fragmentTransaction.addToBackStack(null);
     }
 
-    public void buttonFlotante(View view) {
-        replaceFragment(new MyCartFragment());
-    }
-
     public void buttonBack(View view) {
         replaceFragment(new HomeFragment());
-    }
-
-    public void buttonBackHotSales(View view) {
-        replaceFragment(new HotSalesFragment());
     }
 
     public void seeModalLower(View view) {
@@ -94,19 +76,11 @@ public class MainActivity extends AppCompatActivity implements /*RecyclerViewInt
     }
 
     public void irHome(View view){
-        System.out.println("irHome");
         NavigationContent.changeFragment(getSupportFragmentManager(), new HomeFragment(), R.id.frameLayoutHome);
     }
 
-    public void irFavoritos(View view){
-        System.out.println("irFavoritos");
-        NavigationContent.changeFragment(getSupportFragmentManager(), new iLoveFragment(), R.id.frameLayoutHome);
-    }
-
     public void irSettings(View view){
-        System.out.println("irSettings");
         validateLogin();
-
     }
     private void validateLogin() {
         boolean isLogged = repository.getCurrentUser();
@@ -122,39 +96,10 @@ public class MainActivity extends AppCompatActivity implements /*RecyclerViewInt
     public void onClick(View view) {
     }
 
-    public void butonRegistrarse(View view){
-        //replaceFragment(new RegistroFragment());
-    }
-
 
     @Override
     public void onBackPressed() {
-        //Toast.makeText(this, "Back", Toast.LENGTH_SHORT).show();
-
-        /*if (getFragmentManager().getBackStackEntryCount() > 0) {
-            getFragmentManager().popBackStack();
-        } else {
-            super.onBackPressed();
-        }*/
-        /*int count = getSupportFragmentManager().getBackStackEntryCount();
-
-        if (count == 0) {
-            super.onBackPressed();
-            //additional code
-        } else {
-            getSupportFragmentManager().popBackStack();
-        }
-        super.onBackPressed();*/
     }
-
-    private void getDataFireBase(){
-        FireBaseModel fireBaseModel = new FireBaseModel();
-        //fireBaseModel.setApellidos("hola");
-
-        //Toast.makeText(this,fireBaseModel.getApellidos() , Toast.LENGTH_SHORT).show();
-
-    }
-
 
 }
 

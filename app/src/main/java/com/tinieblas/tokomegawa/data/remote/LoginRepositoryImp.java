@@ -10,11 +10,11 @@ import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Logger;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.tinieblas.tokomegawa.domain.repository.LoginRepository;
 
 public class LoginRepositoryImp implements LoginRepository {
-
     FirebaseUser user;
     FirebaseFirestore firebaseFirestore;
     FirebaseAuth mAuth;
@@ -27,24 +27,12 @@ public class LoginRepositoryImp implements LoginRepository {
         user = mAuth.getCurrentUser();
     }
 
-
-
-    /*private void definingFirebase() {
-        mAuth = FirebaseAuth.getInstance();
-        firebaseFirestore = FirebaseFirestore.getInstance();
-        database = FirebaseDatabase.getInstance();
-
-        user = mAuth.getCurrentUser(); // Asignar el valor actual de mAuth.getCurrentUser() a 'user'
-    }
-*/
-
     @Override
     public Boolean getCurrentUser() {
         definingFirebase();
-        FirebaseUser user = mAuth.getCurrentUser();
-        return user != null;
+        FirebaseUser firebaseUser = mAuth.getCurrentUser();
+        return firebaseUser != null;
     }
-
 
     @Override
     public Boolean login(String email, String password) {
@@ -59,12 +47,13 @@ public class LoginRepositoryImp implements LoginRepository {
             if (authResult != null) {
                 return true;
             }
+
         } catch (Exception e) {
-            System.err.println(e);
+            Log.e("Error", e.getMessage());
         }
+
         return false;
     }
-
     @Override
     public String getUIDUser() {
         definingFirebase();
@@ -74,20 +63,25 @@ public class LoginRepositoryImp implements LoginRepository {
     @Override
     public String getEmailUser() {
         definingFirebase();
-        FirebaseUser user = mAuth.getCurrentUser();
-        return user.getEmail();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+
+        if (currentUser != null) {
+            return currentUser.getEmail();
+        }
+        return null;
     }
 
 
-    public String CreateAcount(String email, String password){
+    public String createAccount(String email, String password) {
         try {
             definingFirebase();
             Task<AuthResult> signInTask = mAuth.createUserWithEmailAndPassword(email, password);
             AuthResult authResult = Tasks.await(signInTask);
             return authResult.toString();
-        }catch (Exception e){
-            System.out.println(e);
+        } catch (Exception e) {
+            System.err.println(e);
         }
+
         return "";
     }
 

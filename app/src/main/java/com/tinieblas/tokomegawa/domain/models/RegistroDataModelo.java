@@ -9,16 +9,11 @@ public class RegistroDataModelo {
     private String numDocumento;
     private String contrasena;
     private boolean switchValue;
-    private String IUD;
+    private String uid;
     private String tipoDeDocumento;
     private String departamento;
     private String distrito;
     private String provincia;
-
-
-
-    // Constructor y getters/setters
-
 
     public String getDepartamento() {
         return departamento;
@@ -45,11 +40,11 @@ public class RegistroDataModelo {
     }
 
     public String getIUD() {
-        return IUD;
+        return uid;
     }
 
-    public void setIUD(String IUD) {
-        this.IUD = IUD;
+    public void setIUD(String uid) {
+        this.uid = uid;
     }
     public String getNombre() {
         return nombre;

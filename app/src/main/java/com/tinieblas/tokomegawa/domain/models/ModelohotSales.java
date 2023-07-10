@@ -8,11 +8,6 @@ import com.google.gson.annotations.SerializedName;
 
 public class ModelohotSales implements Parcelable {
 
-    /**
-     * Aqui serializamos el response que nos llega del main activity
-     */
-
-    //public static final String Parcel = "my_modelo";
     @SerializedName("id")
     @Expose
     private Integer id;
@@ -23,7 +18,6 @@ public class ModelohotSales implements Parcelable {
     @SerializedName("descripcion")
     @Expose
     private String descripcion;
-
 
     /** Add */
     @SerializedName("cantidad")
@@ -175,12 +169,6 @@ public class ModelohotSales implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        /*if (id == null) {
-            parcel.writeByte((byte) 0);
-        } else {
-            parcel.writeByte((byte) 1);
-            parcel.writeInt(id);
-        }*/
         parcel.writeValue(id);
         parcel.writeString(titulo);
         parcel.writeString(descripcion);
@@ -199,12 +187,6 @@ public class ModelohotSales implements Parcelable {
 
 
     public ModelohotSales(Parcel in) {
-        /*if (in.readByte() == 0) {
-            id = null;
-        } else {
-            id = in.readInt();
-        }*/
-        //id = in.readInt();
         this.id = (Integer) in.readValue(Integer.class.getClassLoader());
         this.titulo = in.readString();
         this.descripcion = in.readString();

@@ -31,7 +31,12 @@ public class ProductosItem implements Serializable {
     private String delivery;
     private int amount;
 
-    public ProductosItem(int idProducto, String nombreProducto, String descripcionProducto, String imagen1, String imagen2, String imagen3, double precioUnitario, int cantidadDisponible, String categoria, String delivery, int amount) {
+    public ProductosItem(int idProducto, String nombreProducto,
+                         String descripcionProducto, String imagen1,
+                         String imagen2, String imagen3, double precioUnitario,
+                         int cantidadDisponible, String categoria,
+                         String delivery, int amount) {
+
         this.idProducto = idProducto;
         this.nombreProducto = nombreProducto;
         this.descripcionProducto = descripcionProducto;

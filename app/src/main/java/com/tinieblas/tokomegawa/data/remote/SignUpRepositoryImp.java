@@ -7,17 +7,17 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.tinieblas.tokomegawa.domain.models.ModeloUsuario;
 import com.tinieblas.tokomegawa.domain.repository.SignUpRepository;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 public class SignUpRepositoryImp implements SignUpRepository {
-
     FirebaseFirestore firebaseFirestore;
     FirebaseAuth mAuth;
     FirebaseDatabase database;
-
     String collectionUser = "Usuarios";
 
     private void definingFirebase() {
@@ -26,20 +26,6 @@ public class SignUpRepositoryImp implements SignUpRepository {
         database = FirebaseDatabase.getInstance();
     }
 
-   /* @Override
-    public String createUser(String email, String password) {
-        definingFirebase();
-        try {
-            Task<AuthResult> signInTask = mAuth.createUserWithEmailAndPassword(email, password);
-            AuthResult authResult = Tasks.await(signInTask);
-
-            return authResult.getUser().getUid();
-        } catch (Exception exception) {
-            exception.printStackTrace();
-            return exception.toString();
-        }
-
-    }*/
    public void createUser(String email, String password, SignUpCallback callback) {
        definingFirebase();
        mAuth.createUserWithEmailAndPassword(email, password)
@@ -81,10 +67,8 @@ public class SignUpRepositoryImp implements SignUpRepository {
         return nuevoNombre.toString();
     }
 
-
-
     @Override
-    public String createUserFirebase(String email, String password, SignUpCallback callback) {
+    public void createUserFirebase(String email, String password, SignUpCallback callback) {
         definingFirebase();
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(task -> {
@@ -96,7 +80,6 @@ public class SignUpRepositoryImp implements SignUpRepository {
                         callback.onFailure(errorMessage);
                     }
                 });
-        return "";
     }
 
     @Override
@@ -114,28 +97,34 @@ public class SignUpRepositoryImp implements SignUpRepository {
     }
 
     @Override
-    public Boolean addUser(String userId, String name, String lasName, String direction, Integer age, String email, String password, String username) {
+    public Boolean addUser(ModeloUsuario modeloUsuario /*String userId, String name, String lasName,
+                           String direction, Integer age, String email,
+                           String password, String username */) {
         try {
             Map<String, Object> map = new HashMap<>();
-            map.put("id", userId);
-            map.put("nombres", name);
-            map.put("apellidos", lasName);
-            map.put("direccion", direction);
-            map.put("edad", age);
-            map.put("mail", email);
-            map.put("password", password);
-            map.put("username", username);
+            map.put("id", modeloUsuario.getUserId());
+            map.put("nombres", modeloUsuario.getName());
+            map.put("apellidos", modeloUsuario.getLastName());
+            map.put("direccion", modeloUsuario.getDirection());
+            map.put("edad", modeloUsuario.getAge());
+            map.put("mail", modeloUsuario.getEmail());
+            map.put("password", modeloUsuario.getPassword());
+            map.put("username", modeloUsuario.getUsername());
 
-            DocumentReference documentRef = firebaseFirestore.collection(collectionUser).document(userId);
+            DocumentReference documentRef = firebaseFirestore.collection(collectionUser).document(modeloUsuario.getUserId());
 
             // Realiza la operación de escritura de forma asíncrona
             Task<Void> setTask = documentRef.set(map);
             Tasks.await(setTask);
             return true;
 
-        } catch (Exception e) {
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
             e.printStackTrace();
+        } catch (ExecutionException e) {
+            throw new RuntimeException(e);
         }
+
 
         return false;
     }

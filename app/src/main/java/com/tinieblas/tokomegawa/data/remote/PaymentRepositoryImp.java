@@ -1,7 +1,6 @@
 package com.tinieblas.tokomegawa.data.remote;
 
 import com.tinieblas.tokomegawa.domain.repository.PaymentRepository;
-
 import okhttp3.Callback;
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
@@ -9,9 +8,9 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 
 public class PaymentRepositoryImp implements PaymentRepository {
-
-    private OkHttpClient client;
-
+    private final OkHttpClient client;
+    private final String name = "Authorization";
+    private final String value = "Bearer";
     public PaymentRepositoryImp() {
         client = new OkHttpClient();
     }
@@ -22,7 +21,7 @@ public class PaymentRepositoryImp implements PaymentRepository {
 
         Request request = new Request.Builder()
                 .url("https://api.stripe.com/v1/customers")
-                .addHeader("Authorization", "Bearer " + apiKeySecreta)
+                .addHeader(name, value + apiKeySecreta)
                 .post(requestBody)
                 .build();
 
@@ -37,7 +36,7 @@ public class PaymentRepositoryImp implements PaymentRepository {
 
         Request request = new Request.Builder()
                 .url("https://api.stripe.com/v1/ephemeral_keys")
-                .addHeader("Authorization", "Bearer " + apiKeySecreta)
+                .addHeader(name, value + apiKeySecreta)
                 .addHeader("Stripe-Version", "2020-08-27")
                 .post(requestBody)
                 .build();
@@ -46,20 +45,21 @@ public class PaymentRepositoryImp implements PaymentRepository {
     }
 
     @Override
-    public void getClientSecret(String apiKeySecreta, String customerID, Callback callback) {
+    public void getClientSecret(String precio, String apiKeySecreta, String customerID, Callback callback) {
         RequestBody requestBody = new FormBody.Builder()
                 .add("customer", customerID)
-                .add("amount", "1000" + 00)
-                .add("currency", "usd")
+                .add("amount", precio)
+                .add("currency", "pen")  // Cambiar de "usd" a "sol"
                 .add("automatic_payment_methods[enabled]", "true")
                 .build();
 
         Request request = new Request.Builder()
                 .url("https://api.stripe.com/v1/payment_intents")
-                .addHeader("Authorization", "Bearer " + apiKeySecreta)
+                .addHeader(name, value + apiKeySecreta)
                 .post(requestBody)
                 .build();
 
         client.newCall(request).enqueue(callback);
     }
+
 }

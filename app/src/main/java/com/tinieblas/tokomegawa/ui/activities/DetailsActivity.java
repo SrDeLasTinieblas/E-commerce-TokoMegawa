@@ -1,5 +1,6 @@
 package com.tinieblas.tokomegawa.ui.activities;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.drawable.GradientDrawable;
@@ -74,7 +75,6 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
         activityDetailsBinding.buttonNextDetailsProducts.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 btnCarrito(producto);
             }
         });
@@ -93,21 +93,10 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
         verificarProductoCarrito(producto);
 
         if (EstaEnCarrito) {
-            // El producto está en el carrito, así que lo eliminamos
-            //Toast.makeText(context, "Eliminado del carrito", Toast.LENGTH_SHORT).show();
             borrarUnProductoDelCarrito(producto);
-
-            // Mostrar animación de eliminación
-            //activityDetailsBinding.animationView.setProgress(0);
-            //activityDetailsBinding.animationView.pauseAnimation();
             EstaEnCarrito = false; // Actualizar el estado de EstaEnCarrito
         } else {
-            // El producto no está en el carrito, así que lo añadimos
-            //Toast.makeText(context, "Agregando al carrito", Toast.LENGTH_SHORT).show();
             guardarProductoCarrito(producto);
-
-            // Mostrar animación de añadir al carrito
-            //activityDetailsBinding.animationView.playAnimation();
             EstaEnCarrito = true; // Actualizar el estado de EstaEnCarrito
         }
 
@@ -117,21 +106,12 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
                 verificarProductoFavoritos(producto);
 
                 if (EstaEnCarrito) {
-                    // El producto está en el carrito, así que lo eliminamos
-                    //Toast.makeText(context, "Eliminado del carrito", Toast.LENGTH_SHORT).show();
                     borrarUnProductoDelCarrito(producto);
 
-                    // Mostrar animación de eliminación
-                    //activityDetailsBinding.animationView.setProgress(0);
-                    //activityDetailsBinding.animationView.pauseAnimation();
                     EstaEnCarrito = false; // Actualizar el estado de EstaEnCarrito
                 } else {
-                    // El producto no está en el carrito, así que lo añadimos
-                    //Toast.makeText(context, "Agregando al carrito", Toast.LENGTH_SHORT).show();
                     guardarProductoCarrito(producto);
 
-                    // Mostrar animación de añadir al carrito
-                    //activityDetailsBinding.animationView.playAnimation();
                     EstaEnCarrito = true; // Actualizar el estado de EstaEnCarrito
                 }
             }
@@ -252,11 +232,12 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private void mostrarProducto(ProductosItem producto) {
         activityDetailsBinding.textTituloProduct.setText(producto.getNombreProducto());
         activityDetailsBinding.textViewDescripcionDetailsProducts.setText(producto.getDescripcionProducto());
         activityDetailsBinding.textViewDescripcionDetailsProducts.setMovementMethod(new ScrollingMovementMethod());
-        activityDetailsBinding.textPrecioDestailsProductos.setText(String.valueOf(producto.getPrecioUnitario()));
+        activityDetailsBinding.textPrecioDestailsProductos.setText("S/ "+ producto.getPrecioUnitario());
 
         Glide.with(this).
                 load(producto.getImagen1()).
@@ -311,23 +292,24 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
         cantidad++;
 
         // Obtener precio unitario
-        double precioUnitario = Double.parseDouble(activityDetailsBinding.textPrecioDestailsProductos.getText().toString());
+        double precioUnitario = Double.parseDouble(activityDetailsBinding.textPrecioDestailsProductos.getText().toString().replaceAll("S/ ", ""));
 
         // Calcular precio total
         double precioTotal = cantidad * precioUnitario;
 
         // Actualizar los valores en la vista
         activityDetailsBinding.textCantidad.setText(String.valueOf(cantidad));
-        activityDetailsBinding.textPrecioDestailsProductos.setText(String.format("%.2f", precioTotal));
-
+        activityDetailsBinding.textPrecioDestailsProductos.setText(String.format("S/ %.2f", precioTotal));
     }
 
+
+    @SuppressLint("DefaultLocale")
     public void btnDisminuyendo(View view) {
         ProductosItem producto = (ProductosItem) getIntent().getSerializableExtra("producto");
 
         if (activityDetailsBinding != null) {
             // Obtener valor actual de cantidad
-            double cantidad = Double.parseDouble(activityDetailsBinding.textCantidad.getText().toString().replaceAll("S/", ""));
+            int cantidad = (int) Double.parseDouble(activityDetailsBinding.textCantidad.getText().toString().replace("S/", ""));
 
             // Disminuir en uno la cantidad si es mayor o igual a 1
             if (cantidad >= 2) {
@@ -338,12 +320,13 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
 
                 // Actualizar los valores en la vista
                 activityDetailsBinding.textCantidad.setText(String.valueOf(cantidad));
-                activityDetailsBinding.textPrecioDestailsProductos.setText(String.format("%.2f", precioTotal));
+                activityDetailsBinding.textPrecioDestailsProductos.setText(String.format("S/ %.2f", precioTotal));
             } else {
                 activityDetailsBinding.textCantidad.setText(String.valueOf(1));
             }
         }
     }
+
 
     public void verificarProductoCarrito(ProductosItem producto) {
         ProductosItem productosItemOfRepo = repositoryCart.get(producto.getIdProducto());

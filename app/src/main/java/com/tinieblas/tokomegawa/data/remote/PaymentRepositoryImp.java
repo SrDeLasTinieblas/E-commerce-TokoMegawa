@@ -1,4 +1,4 @@
-package com.tinieblas.tokomegawa.data.local;
+package com.tinieblas.tokomegawa.data.remote;
 
 import com.tinieblas.tokomegawa.domain.repository.PaymentRepository;
 

@@ -32,23 +32,20 @@ public class ProductosAdapter extends RecyclerView.Adapter<ProductosAdapter.Prod
     private final Context mContext;
     private List<ProductosItem> mProductos;
     private final ProductSavedRepositoryImp repository;
-    private final RecyclerView recyclerView;
     private OnFavoritoClickListener onFavoritoClickListener;
 
     private OnFavoritoClickListener favoritoClickListener;
-    Set<String> productosGuardados;
+
     public interface OnFavoritoClickListener {
         void onFavoritoClick(ProductosItem producto);
     }
 
-    public ProductosAdapter(Context context, List<ProductosItem> productos, RecyclerView recyclerView) {
+    public ProductosAdapter(Context context, List<ProductosItem> productos) {
         mContext = context;
         mProductos = productos;
         this.repository = new ProductSavedRepositoryImp(context);
-        this.recyclerView = recyclerView;
-
-        productosGuardados = repository.getProductosGuardados();
     }
+
     public void setOnFavoritoClickListener(OnFavoritoClickListener listener) {
         this.onFavoritoClickListener = listener;
     }
@@ -112,29 +109,24 @@ public class ProductosAdapter extends RecyclerView.Adapter<ProductosAdapter.Prod
                 int idProducto = producto.getIdProducto();
 
                 // Verificar si el producto ya está en la lista
-                if (productosGuardados.contains(String.valueOf(idProducto))) {
-                    // Si el producto ya está en la lista, eliminarlo
-                    productosGuardados.remove(String.valueOf(idProducto));
+                // TODO Si retorna true entonces se ah eliminado, si retorna false entonces se ah añadido
+
+                if (repository.removeItemOrAdd(String.valueOf(idProducto))) {
                     Toast.makeText(holder.itemView.getContext(), "Producto eliminado " + producto.getIdProducto(), Toast.LENGTH_SHORT).show();
-                    Log.e("productosEliminado: ", productosGuardados.toString());
 
                 } else {
-                    // Si el producto no está en la lista, agregarlo
-                    productosGuardados.add(String.valueOf(idProducto));
                     Toast.makeText(holder.itemView.getContext(), "Producto guardado " + producto.getIdProducto(), Toast.LENGTH_SHORT).show();
-                    Log.e("productosGuardados: ", productosGuardados.toString());
                 }
 
-                // Guardar la lista actualizada en SharedPreferences
-                repository.saveProductosGuardados(productosGuardados);
                 //actualizarAparienciaBotonesFavoritos(productosGuardados);
-                actualizarAparienciaBotonesFavoritos(productosGuardados, holder);
+                actualizarAparienciaBotonesFavoritos(repository.getProductosGuardados(), holder);
 
                 // Actualizar la apariencia del botón según si el producto está en la lista o no
-                actualizarAparienciaBoton(holder.favorito, productosGuardados.contains(String.valueOf(idProducto)));
+                actualizarAparienciaBoton(holder.favorito, repository.ifContainsItem(String.valueOf(idProducto)));
             }
         });
-        actualizarAparienciaBoton(holder.favorito, productosGuardados.contains(String.valueOf(producto.getIdProducto())));
+
+        actualizarAparienciaBoton(holder.favorito, repository.ifContainsItem(String.valueOf(producto.getIdProducto())));
 
         // Configurar el clic en el elemento del RecyclerView
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -201,7 +193,8 @@ public class ProductosAdapter extends RecyclerView.Adapter<ProductosAdapter.Prod
             }
         }
     }
-            private final DiffUtil.ItemCallback<ProductosItem> differCallback = new DiffUtil.ItemCallback<ProductosItem>() {
+
+    private final DiffUtil.ItemCallback<ProductosItem> differCallback = new DiffUtil.ItemCallback<ProductosItem>() {
         @Override
         public boolean areItemsTheSame(ProductosItem oldItem, ProductosItem newItem) {
             return oldItem.getIdProducto() == newItem.getIdProducto();

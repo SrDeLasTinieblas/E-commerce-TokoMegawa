@@ -1,5 +1,6 @@
 package com.tinieblas.tokomegawa.ui.fragments;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 import com.airbnb.lottie.LottieAnimationView;
 import com.tinieblas.tokomegawa.data.local.ProductSavedRepositoryImp;
 import com.tinieblas.tokomegawa.data.local.ProductsViewedRepositoryImp;
+import com.tinieblas.tokomegawa.data.remote.ApiRepositoryImp;
 import com.tinieblas.tokomegawa.ui.adptadores.CategoriasAdapter;
 
 import androidx.annotation.NonNull;
@@ -24,33 +26,22 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.google.android.material.slider.RangeSlider;
-import com.google.common.reflect.TypeToken;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
 import com.tinieblas.tokomegawa.R;
 import com.tinieblas.tokomegawa.databinding.FragmentHomeBinding;
 import com.tinieblas.tokomegawa.domain.models.CategoriaModelo;
 import com.tinieblas.tokomegawa.ui.adptadores.ProductosCategorias;
 import com.tinieblas.tokomegawa.domain.models.ProductosItem;
-import com.tinieblas.tokomegawa.domain.repository.respositories.ProductosCallback;
 import com.tinieblas.tokomegawa.ui.activities.MyCartActivity;
 import com.tinieblas.tokomegawa.ui.adptadores.ProductosAdapter;
 import com.tinieblas.tokomegawa.ui.adptadores.ProductosVistosAdapter;
+import com.tinieblas.tokomegawa.utils.AppExecutors;
 import com.tinieblas.tokomegawa.utils.NavigationContent;
 
-import java.io.IOException;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
-
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 
 public class HomeFragment extends Fragment implements View.OnClickListener {
 
@@ -60,7 +51,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private ProductosAdapter productosAdapter;
 
     private ProductosCategorias productosCategorias;
-    private final ArrayList<ProductosItem> todosLosProductos = new ArrayList<>();
     private boolean isCategoriaSeleccionada = false;
     private boolean isCheckedMasPopulares = false;
     private boolean isCheckedFavoritos = false;
@@ -71,17 +61,21 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private FragmentHomeBinding fragmentHomeBinding;
     boolean EstaEnFavoritos = false;
 
-    private ProductsViewedRepositoryImp repository;
+    private ProductsViewedRepositoryImp viewedRepositoryImp;
+    private ApiRepositoryImp apiRepositoryImp;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         fragmentHomeBinding = FragmentHomeBinding.inflate(inflater, container, false);
+
+        this.viewedRepositoryImp = new ProductsViewedRepositoryImp(requireContext());
+        this.repositoryFavoritos = new ProductSavedRepositoryImp(requireContext());
+        this.apiRepositoryImp = new ApiRepositoryImp(requireContext());
 
         initViews();
         setListeners();
         fetchData();
 
-        this.repository = new ProductsViewedRepositoryImp(requireContext());
-        this.repositoryFavoritos = new ProductSavedRepositoryImp(requireContext());
 
 
 
@@ -93,12 +87,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         fragmentHomeBinding.cardFilterRecyclerView.setLayoutManager(linearLayoutManager2);
         fragmentHomeBinding.cardFilterRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        productosAdapter = new ProductosAdapter(getContext(), productosListOriginal,
-                fragmentHomeBinding.cardFilterRecyclerView);
+
+        productosAdapter = new ProductosAdapter(getContext(), productosListOriginal);
         fragmentHomeBinding.reciclerViewHotSales.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         fragmentHomeBinding.reciclerViewHotSales.setItemAnimator(new DefaultItemAnimator());
         fragmentHomeBinding.reciclerViewHotSales.setAdapter(productosAdapter);
-
         fragmentHomeBinding.reciclerViewRecently.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
 
     }
@@ -112,10 +105,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
         fragmentHomeBinding.editTextSearch.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
 
             @Override
             public void afterTextChanged(Editable editable) {
@@ -128,18 +123,26 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     }
 
     private void fetchData() {
-        fetchProductos(productos -> {
-            requireActivity().runOnUiThread(() -> {
-                addCards(productos);
-                setCardsFilter(productos);
-                buttonLike(productos);
-            });
-            productosListOriginal.addAll(productos);
+
+        new AppExecutors().networkIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                List<ProductosItem> productosItemsFromRepo = apiRepositoryImp.fetchProductos();
+                productosListOriginal.addAll(productosItemsFromRepo);
+
+                requireActivity().runOnUiThread(() -> {
+                    addCards(productosItemsFromRepo);
+                    setCardsFilter(productosItemsFromRepo);
+                    //buttonLike(productos);
+                });
+            }
         });
+
     }
-    private void buttonLike(List<ProductosItem> productos){
+
+    private void buttonLike(List<ProductosItem> productos) {
         //ProductosAdapter adapter = new ProductosAdapter(getContext(), productos, fragmentHomeBinding.reciclerViewHotSales);
-        productosAdapter = new ProductosAdapter(getContext(), productos, fragmentHomeBinding.reciclerViewHotSales);
+        productosAdapter = new ProductosAdapter(getContext(), productos);
 
         productosAdapter.setOnFavoritoClickListener(new ProductosAdapter.OnFavoritoClickListener() {
             @Override
@@ -157,6 +160,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         //productosAdapter.actualizarAparienciaBotonesFavoritos(productosGuardados, );
 
     }
+
     private void setCardsFilter(List<ProductosItem> productos) {
         ArrayList<CategoriaModelo> productosList = new ArrayList<>();
         ArrayList<String> categorias = new ArrayList<>();
@@ -175,8 +179,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
         //Log.e("Lista de categorias ",productosList.toString());
         //Log.e("categorias",categorias.toString());
-        requireActivity().runOnUiThread(() -> createRecyclerView(productosList, categorias));
+        createRecyclerView(productosList, categorias);
     }
+
     private int getImageResourceForCategory(String categoria, Integer[] langLogo) {
         String categoriaMinuscula = categoria.toLowerCase().replace(" ", "_");
 
@@ -190,38 +195,62 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         return R.drawable.place_holder;
     }
 
+
+    private CategoriaModelo categoriaModeloSeleccionada = null;
     private void createRecyclerView(ArrayList<CategoriaModelo> productosList,
                                     ArrayList<String> categorias) {
         LinearLayoutManager linearLayoutManager2 = new LinearLayoutManager
                 (requireActivity(),
-                LinearLayoutManager.HORIZONTAL,
-                false);
+                        LinearLayoutManager.HORIZONTAL,
+                        false);
 
         fragmentHomeBinding.cardFilterRecyclerView.setLayoutManager(linearLayoutManager2);
         fragmentHomeBinding.cardFilterRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
         categoriaAdapter = new CategoriasAdapter(requireContext(),
                 categorias,
-                productosList, categoria -> {
-                    if (isCategoriaSeleccionada && categoria.equals(categoria.langName)) {
-                        // Restablecer el estado para mostrar todos los productos
-                        productosAdapter.setProductosList(todosLosProductos);
-                        isCategoriaSeleccionada = false;
-                        productosAdapter.setProductosList(todosLosProductos);
-                        //Toast.makeText(requireActivity(), "Categorias ==> " + categoria, Toast.LENGTH_SHORT).show();
-                        Toast.makeText(getContext(), "if" + isCategoriaSeleccionada, Toast.LENGTH_SHORT).show();
-                    } else {
-                        // Filtrar los productos por la categoría seleccionada
+                productosList,
+                categoria -> {
+
+                    if(categoriaModeloSeleccionada == null){
+                        this.categoriaModeloSeleccionada = categoria;
                         filterProductosByCategoria(categoria);
-                        //Toast.makeText(getContext(), categoria.getLangName(), Toast.LENGTH_SHORT).show();
-                        isCategoriaSeleccionada = true;
+                    } else if(categoriaModeloSeleccionada.langName == categoria.langName) {
+                        // Eso esta demas porque ya esta filtrado
+                        this.categoriaModeloSeleccionada = null;
+                        productosAdapter.setProductosList(productosListOriginal);
+                    } else {
+                        this.categoriaModeloSeleccionada = categoria;
+                        filterProductosByCategoria(categoria);
                     }
+
+//                    if (isCategoriaSeleccionada) {
+//                        this.categoriaModeloSeleccionada = categoria;
+//                        // Restablecer el estado para mostrar todos los productos
+//
+//                        isCategoriaSeleccionada = false;
+//                        productosAdapter.setProductosList(todosLosProductos);
+//                        //Toast.makeText(requireActivity(), "Categorias ==> " + categoria, Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getContext(), "if" + isCategoriaSeleccionada, Toast.LENGTH_SHORT).show();
+//                    } else {
+//                        // Filtrar los productos por la categoría seleccionada
+//                        filterProductosByCategoria(categoria);
+//                        //Toast.makeText(getContext(), categoria.getLangName(), Toast.LENGTH_SHORT).show();
+//                        isCategoriaSeleccionada = true;
+//                    }
+
                 });
 
 
         fragmentHomeBinding.cardFilterRecyclerView.setAdapter(categoriaAdapter);
     }
+
     private void filterProductosByCategoria(CategoriaModelo categoria) {
+
+
+        String tag = "FILTER_BY_CATEGORY";
+        Log.e(tag, "Categoria \n"+categoria.toString());
+
         // Obtener la categoría seleccionada
         String categoriaSeleccionada = categoria.getLangName();
 
@@ -233,7 +262,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             }
         }
 
-        Log.e("productosfiltrados", productosFiltrados.toString());
+        Log.e(tag, productosFiltrados.toString());
         // Actualizar el adaptador del RecyclerView de productos con la lista filtrada
         productosAdapter.setProductosList(productosFiltrados);
     }
@@ -338,6 +367,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         Log.e("repositoryFavoritos: ", productosGuardados.toString());
 
     }
+
     private void actualizarAparienciaBotonFavorito(LottieAnimationView button,
                                                    boolean productoGuardado) {
         if (productoGuardado) {
@@ -352,6 +382,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
         }
     }
+
     private void filtrarPorFavoritos() {
         /*List<ProductosItem> favoritosList = repositoryCart.getAll(); // Obtener la lista de favoritos desde el repositorio
 
@@ -365,23 +396,24 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     }
 
 
-    private void filtrarTitulo(String texto){
+    private void filtrarTitulo(String texto) {
         List<ProductosItem> listaFiltrar = new ArrayList<>();
-        for (ProductosItem item: productosListOriginal){
-            if (item.getNombreProducto().toLowerCase().contains(texto.toLowerCase())){
+        for (ProductosItem item : productosListOriginal) {
+            if (item.getNombreProducto().toLowerCase().contains(texto.toLowerCase())) {
                 listaFiltrar.add(item);
             }
 
         }
         //productosAdapter.differ.submitList(new ArrayList<>(listaFiltrar));
         productosAdapter.setProductosList(listaFiltrar);
-        Log.e("listaFiltrar",listaFiltrar.toString());
-        Log.e("productosListOriginal",productosListOriginal.toString());
+        Log.e("listaFiltrar", listaFiltrar.toString());
+        Log.e("productosListOriginal", productosListOriginal.toString());
     }
-    private void filtrarPrecio(float desde, float hasta){
+
+    private void filtrarPrecio(float desde, float hasta) {
         List<ProductosItem> filtrarLista = new ArrayList<>();
-        for (ProductosItem item: productosListOriginal){
-            if ( desde <= item.getPrecioUnitario() && item.getPrecioUnitario() <= hasta ){
+        for (ProductosItem item : productosListOriginal) {
+            if (desde <= item.getPrecioUnitario() && item.getPrecioUnitario() <= hasta) {
                 filtrarLista.add(item);
             }
         }
@@ -394,43 +426,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         getListaProductoVistos();
     }
 
-    private void fetchProductos(ProductosCallback callback) {
-        OkHttpClient client = new OkHttpClient.Builder().build();
-        Request request = new Request.Builder()
-                .url("http://tokomegawa.somee.com/getProductos")
-                //.url(APIs.ApiUrlBase + APIs.ApiProductos)
-                .build();
-
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                if (response.isSuccessful()) {
-                    String responseData = response.body().string();
-                    try {
-                        Gson gson = new Gson();
-                        com.tinieblas.tokomegawa.data.local.Response responseObject = gson.fromJson(responseData, com.tinieblas.tokomegawa.data.local.Response.class);
-                        List<ProductosItem> productos = responseObject.getProductos();
-                        callback.onProductosFetched(productos);
-                    } catch (JsonSyntaxException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                e.printStackTrace();
-            }
-        });
-    }
-
-    /*private void fetchGet() {
-        FetchRequest fetcher = new FetchRequest();
-        //String apiUrl = APIs.ApiUrlBase + APIs.ApiProductos;
-
-        String apiUrl = APIs.ApiUrlBase + "/getCategorias";
-        fetcher.fetchCategorias(apiUrl, categoriasResponses -> Log.e("productos fetch ==> ", categoriasResponses.toString()));
-    }*/
 
     private void addCards(List<ProductosItem> productosItemList) {
         // Actualizar la lista de productos destacados
@@ -439,7 +434,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
     private void getListaProductoVistos() {
 
-        List<ProductosItem> productosVistos = repository.getAll();
+        List<ProductosItem> productosVistos = viewedRepositoryImp.getAll();
         if (productosVistos.isEmpty()) {
             // La lista de productos vistos es nula
             Log.d("HomeFragment", "La lista de productos vistos es nula");
@@ -466,10 +461,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         super.onDestroyView();
         fragmentHomeBinding = null;
     }
-    public void SignOut(View view){
+
+    public void SignOut(View view) {
         mAuth.signOut(); // Cerrar sesión
         System.out.println("SignOut");
     }
+
     @Override
     public void onClick(View view) {
         // Aquí puedes manejar los eventos de clic si es necesario

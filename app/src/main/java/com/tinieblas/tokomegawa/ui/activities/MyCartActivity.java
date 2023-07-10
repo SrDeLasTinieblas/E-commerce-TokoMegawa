@@ -2,7 +2,6 @@ package com.tinieblas.tokomegawa.ui.activities;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -19,8 +18,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -38,7 +35,7 @@ import com.stripe.android.paymentsheet.PaymentSheet;
 import com.stripe.android.paymentsheet.PaymentSheetResult;
 import com.tinieblas.tokomegawa.data.APIs;
 import com.tinieblas.tokomegawa.data.local.LocationRepositoryImp;
-import com.tinieblas.tokomegawa.data.local.PaymentRepositoryImp;
+import com.tinieblas.tokomegawa.data.remote.PaymentRepositoryImp;
 import com.tinieblas.tokomegawa.data.local.ProductCartRepositoryImp;
 import com.tinieblas.tokomegawa.data.local.UserLocalRepositoryImp;
 import com.tinieblas.tokomegawa.databinding.ActivityMyCartBinding;
@@ -55,11 +52,8 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 import okhttp3.Call;
 import okhttp3.Callback;

@@ -36,6 +36,6 @@ public abstract class SharedRepo {
 
     protected void clear(){
         editor.clear();
-        editor.apply();
+        editor.commit();
     }
 }

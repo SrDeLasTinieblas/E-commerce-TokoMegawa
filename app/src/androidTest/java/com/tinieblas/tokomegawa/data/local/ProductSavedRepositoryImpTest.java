@@ -17,7 +17,11 @@ public class ProductSavedRepositoryImpTest {
     @Before
     public void setup(){
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
+
         repositoryImp = new ProductSavedRepositoryImp(appContext);
+
+        repositoryImp = new ProductSavedRepositoryImp(appContext, NAME);
+
     }
 
     @Test
@@ -45,7 +49,6 @@ public class ProductSavedRepositoryImpTest {
         repositoryImp.removeItem(productId);
         assertEquals(repositoryImp.getProductosGuardados().size(), 0);
     }
-
 
 
     @Test

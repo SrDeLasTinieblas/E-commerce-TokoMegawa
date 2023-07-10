@@ -138,6 +138,29 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
     }
 
+    private void buttonLike(List<ProductosItem> productos) {
+        //ProductosAdapter adapter = new ProductosAdapter(getContext(), productos, fragmentHomeBinding.reciclerViewHotSales);
+        productosAdapter = new ProductosAdapter(getContext(), productos);
+
+        new AppExecutors().networkIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                List<ProductosItem> productosItemsFromRepo = apiRepositoryImp.fetchProductos();
+                productosListOriginal.addAll(productosItemsFromRepo);
+
+                requireActivity().runOnUiThread(() -> {
+                    addCards(productosItemsFromRepo);
+                    setCardsFilter(productosItemsFromRepo);
+                    //buttonLike(productos);
+                });
+            }
+        });
+
+    }
+
+
+
+    }
 
     private void setCardsFilter(List<ProductosItem> productos) {
         ArrayList<CategoriaModelo> productosList = new ArrayList<>();
@@ -191,10 +214,17 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 productosList,
                 categoria -> {
 
+
                     if (categoriaModeloSeleccionada == null) {
                         this.categoriaModeloSeleccionada = categoria;
                         filterProductosByCategoria(categoria);
                     } else if (categoriaModeloSeleccionada.langName == categoria.langName) {
+
+                    if(categoriaModeloSeleccionada == null){
+                        this.categoriaModeloSeleccionada = categoria;
+                        filterProductosByCategoria(categoria);
+                    } else if(categoriaModeloSeleccionada.langName == categoria.langName) {
+
                         // Eso esta demas porque ya esta filtrado
                         this.categoriaModeloSeleccionada = null;
                         productosAdapter.setProductosList(productosListOriginal);
@@ -228,7 +258,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
 
         String tag = "FILTER_BY_CATEGORY";
+
         Log.e(tag, "Categoria \n" + categoria.toString());
+
+        Log.e(tag, "Categoria \n"+categoria.toString());
+
 
         // Obtener la categoría seleccionada
         String categoriaSeleccionada = categoria.getLangName();

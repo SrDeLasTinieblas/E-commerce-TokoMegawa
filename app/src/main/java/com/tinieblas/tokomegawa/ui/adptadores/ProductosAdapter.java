@@ -117,7 +117,6 @@ public class ProductosAdapter extends RecyclerView.Adapter<ProductosAdapter.Prod
                     Toast.makeText(holder.itemView.getContext(), "Producto guardado " + producto.getIdProducto(), Toast.LENGTH_SHORT).show();
                 }
 
-
                 //actualizarAparienciaBotonesFavoritos(productosGuardados);
                 actualizarAparienciaBotonesFavoritos(repository.getProductosGuardados(), holder);
 

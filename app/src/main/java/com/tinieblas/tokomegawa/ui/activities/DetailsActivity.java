@@ -41,7 +41,6 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
     ActivityDetailsBinding activityDetailsBinding;
     private View decorView;
     boolean EstaEnCarrito = false;
-    boolean EstaEnFavoritos = false;
     private ProductSavedRepositoryImp repositoryFavoritos;
 
     private ProductCartRepositoryImp repositoryCart;
@@ -83,7 +82,7 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
         activityDetailsBinding.animationView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                actualizarAparienciaBotonFavorito(activityDetailsBinding.animationView, EstaEnFavoritos);
+                actualizarAparienciaBotonFavorito(String.valueOf(producto.getIdProducto()), repositoryFavoritos.ifContainsItem(producto.getIdProducto()));
             }
         });
 
@@ -225,30 +224,25 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
         //actualizarAparienciaBoton(activityDetailsBinding.animationView, productosGuardados.contains(String.valueOf(idProducto)));
     }*/
 
-    private void actualizarAparienciaBotonFavorito(LottieAnimationView button,
+    private void actualizarAparienciaBotonFavorito(String productId,
                                                    boolean productoGuardado) {
         if (productoGuardado) {
-            // Producto guardado: establecer apariencia deseada
-            //button.setBackgroundResource(activityDetailsBinding.animationView.);
-            activityDetailsBinding.animationView.playAnimation();
-            Toast.makeText(context, "id ==> " + productoGuardado + "Esta en favoritos.", Toast.LENGTH_SHORT).show();
-
+            activityDetailsBinding.animationView.setProgress(0f);
+            repositoryFavoritos.removeItem(productId);
         } else {
-            // Producto no guardado: establecer apariencia deseada
-            //activityDetailsBinding.animationView.setProgress(0);
-            //activityDetailsBinding.animationView.pauseAnimation();
-            Toast.makeText(context, "id ==> " + productoGuardado + "No esta en favoritos.", Toast.LENGTH_SHORT).show();
+            activityDetailsBinding.animationView.playAnimation();
+            repositoryFavoritos.addItem(productId);
+
 
         }
     }
     public void verificarProductoFavoritos(ProductosItem producto) {
         // Obtener la lista actual de productos guardados en SharedPreferences
-        Set<String> productosGuardados = repositoryFavoritos.getProductosGuardados();
 
         int idProducto = producto.getIdProducto();
 
         // Verificar si el producto ya está en la lista
-        if (productosGuardados.contains(String.valueOf(idProducto))) {
+        if (repositoryFavoritos.ifContainsItem(idProducto)) {
             // El producto está en los favoritos
             activityDetailsBinding.animationView.playAnimation();
         } else {

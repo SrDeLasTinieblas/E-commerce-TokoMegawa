@@ -77,8 +77,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         fetchData();
 
 
-
-
         return fragmentHomeBinding.getRoot();
     }
 
@@ -115,8 +113,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             @Override
             public void afterTextChanged(Editable editable) {
                 filtrarTitulo(editable.toString());
-                fragmentHomeBinding.editTextSearch.setCursorVisible(false);
-                fragmentHomeBinding.editTextSearch.setFocusable(false);
+                //fragmentHomeBinding.editTextSearch.setCursorVisible(false);
+                //fragmentHomeBinding.editTextSearch.setFocusable(false);
 
             }
         });
@@ -140,26 +138,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
     }
 
-    private void buttonLike(List<ProductosItem> productos) {
-        //ProductosAdapter adapter = new ProductosAdapter(getContext(), productos, fragmentHomeBinding.reciclerViewHotSales);
-        productosAdapter = new ProductosAdapter(getContext(), productos);
-
-        productosAdapter.setOnFavoritoClickListener(new ProductosAdapter.OnFavoritoClickListener() {
-            @Override
-            public void onFavoritoClick(ProductosItem producto) {
-                // Realiza las acciones necesarias cuando se hace clic en el botón de Favoritos
-                verificarProductoFavoritos(producto);
-            }
-        });
-        //fragmentHomeBinding.reciclerViewHotSales.setAdapter(adapter);
-
-        // Obtener la lista actual de productos guardados en SharedPreferences
-        Set<String> productosGuardados = repositoryFavoritos.getProductosGuardados();
-
-        // Actualizar la apariencia de los botones de Favoritos en el adaptador
-        //productosAdapter.actualizarAparienciaBotonesFavoritos(productosGuardados, );
-
-    }
 
     private void setCardsFilter(List<ProductosItem> productos) {
         ArrayList<CategoriaModelo> productosList = new ArrayList<>();
@@ -197,6 +175,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
 
     private CategoriaModelo categoriaModeloSeleccionada = null;
+
     private void createRecyclerView(ArrayList<CategoriaModelo> productosList,
                                     ArrayList<String> categorias) {
         LinearLayoutManager linearLayoutManager2 = new LinearLayoutManager
@@ -212,10 +191,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 productosList,
                 categoria -> {
 
-                    if(categoriaModeloSeleccionada == null){
+                    if (categoriaModeloSeleccionada == null) {
                         this.categoriaModeloSeleccionada = categoria;
                         filterProductosByCategoria(categoria);
-                    } else if(categoriaModeloSeleccionada.langName == categoria.langName) {
+                    } else if (categoriaModeloSeleccionada.langName == categoria.langName) {
                         // Eso esta demas porque ya esta filtrado
                         this.categoriaModeloSeleccionada = null;
                         productosAdapter.setProductosList(productosListOriginal);
@@ -249,7 +228,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
 
         String tag = "FILTER_BY_CATEGORY";
-        Log.e(tag, "Categoria \n"+categoria.toString());
+        Log.e(tag, "Categoria \n" + categoria.toString());
 
         // Obtener la categoría seleccionada
         String categoriaSeleccionada = categoria.getLangName();
@@ -423,6 +402,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onResume() {
         super.onResume();
+        productosAdapter.notifyDataSetChanged();
         getListaProductoVistos();
     }
 
@@ -440,7 +420,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             Log.d("HomeFragment", "La lista de productos vistos es nula");
             return;
         }
-
+        Log.d("HomeFragment", "Vistos\n" + productosVistos.toString());
         Collections.reverse(productosVistos);
 
         // Actualizar el adaptador de productos vistos recientemente

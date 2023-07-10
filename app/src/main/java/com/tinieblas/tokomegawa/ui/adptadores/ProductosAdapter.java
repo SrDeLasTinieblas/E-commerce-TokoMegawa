@@ -107,7 +107,6 @@ public class ProductosAdapter extends RecyclerView.Adapter<ProductosAdapter.Prod
                 // Obtener la lista actual de productos guardados en SharedPreferences
 
                 int idProducto = producto.getIdProducto();
-
                 // Verificar si el producto ya está en la lista
                 // TODO Si retorna true entonces se ah eliminado, si retorna false entonces se ah añadido
 
@@ -117,6 +116,7 @@ public class ProductosAdapter extends RecyclerView.Adapter<ProductosAdapter.Prod
                 } else {
                     Toast.makeText(holder.itemView.getContext(), "Producto guardado " + producto.getIdProducto(), Toast.LENGTH_SHORT).show();
                 }
+
 
                 //actualizarAparienciaBotonesFavoritos(productosGuardados);
                 actualizarAparienciaBotonesFavoritos(repository.getProductosGuardados(), holder);

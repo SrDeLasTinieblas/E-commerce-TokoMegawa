@@ -64,8 +64,6 @@ Eapp/src/main/java/com/tinieblas/tokomegawa/utils/TestFirebaseApp.java,2\7\2797
 Lapp/src/test/java/com/tinieblas/tokomegawa/utils/setCardsCategoriasTest.java,9\3\933ac60484a53c8d87c7fe2f874388849ae4f56f
 x
 Happ/src/main/java/com/tinieblas/tokomegawa/utils/setCardsCategorias.java,b\4\b465c254d7004e212573bbd744f425dab794afa5
-{
-Kapp/src/main/java/com/tinieblas/tokomegawa/ui/fragments/MyCartFragment.java,4\b\4b99b65a0e31740348634653c35667082d46aac3
 L
 .github/workflows/gradle.yml,c\3\c36c878e4a824e41b1b476ece36b9a80ca94ffec
 J
@@ -100,8 +98,6 @@ Capp/src/main/java/com/tinieblas/tokomegawa/data/local/Response.java,1\c\1cbd50
 bapp/src/main/java/com/tinieblas/tokomegawa/domain/repository/respositories/CategoriasCallback.java,b\c\bc0f893f6df554e6141738f5cb74e2a6b604d41b
 ê
 `app/src/main/java/com/tinieblas/tokomegawa/domain/repository/respositories/RegistroCallback.java,a\1\a14aa6f9f2b9f8d913f0ca8a5ff78136fa5e76d1
-~
-Napp/src/androidTest/java/com/tinieblas/tokomegawa/remote/FetchRequestTest.java,b\4\b4e32f15e996bd796c998e2d9eeb4f96e00b84d5
 q
 Aapp/src/main/java/com/tinieblas/tokomegawa/data/FetchRequest.java,2\2\2232f12c1892fcd632467da37513c2c80b97f3bf
 p
@@ -122,8 +118,6 @@ Papp/src/main/java/com/tinieblas/tokomegawa/domain/repository/SignUpCallback.jav
 Papp/src/main/java/com/tinieblas/tokomegawa/domain/models/RegistroDataModelo.java,2\4\2401cd3882f494164df8a0a2e5e3164876234940
 q
 Aapp/src/main/java/com/tinieblas/tokomegawa/utils/Alertdialog.java,b\8\b87c294574e674c9e300abb521e1a18d91ffd56b
-Ñ
-Tapp/src/androidTest/java/com/tinieblas/tokomegawa/remote/LoginRepositoryImpTest.java,d\1\d1be3167db3b7738d96c90a8f2f5b3451e62fceb
 ~
 Napp/src/main/java/com/tinieblas/tokomegawa/data/remote/LoginRepositoryImp.java,e\7\e7e3f5c4fb70c7e10ba8f1a2fd6e781015365caa
 z
@@ -150,10 +144,6 @@ Papp/src/main/java/com/tinieblas/tokomegawa/ui/fragments/RegistrarseFragment.jav
 Yapp/src/main/java/com/tinieblas/tokomegawa/data/remote/UserRemoteRemoteRepositoryImp.java,4\2\4200ead3c6736eb23b5954b83797f33a3e839e95
 Ü
 Vapp/src/androidTest/java/com/tinieblas/tokomegawa/remote/PaymentRepositoryImpTest.java,2\8\28b4317cf3c7c152d43683c9a8d3b37bb5ae1713
-Ü
-Vapp/src/androidTest/java/com/tinieblas/tokomegawa/remote/FirebaseInstrumentedTest.java,2\4\2408b3c3ffe4575e3b0dfb9067859a410a99924b
-Ö
-Uapp/src/androidTest/java/com/tinieblas/tokomegawa/remote/SignUpRepositoryImpTest.java,e\f\efba76a513771a081a00363f711aae8711ddee29
 @
 app/build.gradle,f\4\f4a01d6a4fcb971362ec00a83903fd3902f52164
 

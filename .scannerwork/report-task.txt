@@ -2,5 +2,5 @@ projectKey=TokoMegawa
 serverUrl=http://localhost:9000
 serverVersion=10.0.0.68432
 dashboardUrl=http://localhost:9000/dashboard?id=TokoMegawa
-ceTaskId=AYjMLS8PfQT2BzAmIYWT
-ceTaskUrl=http://localhost:9000/api/ce/task?id=AYjMLS8PfQT2BzAmIYWT
+ceTaskId=AYk9rz7BzYBfaLTV24A6
+ceTaskUrl=http://localhost:9000/api/ce/task?id=AYk9rz7BzYBfaLTV24A6
